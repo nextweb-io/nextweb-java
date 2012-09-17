@@ -1,6 +1,8 @@
 package io.nextweb;
 
-public interface Node {
+import io.nextweb.plugins.HasPlugins;
+
+public interface Node extends HasPlugins {
 	
 	
 	
