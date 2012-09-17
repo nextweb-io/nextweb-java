@@ -1,11 +1,13 @@
-package com.ononedb.nextweb;
+package com.ononedb.nextweb.jre;
+
+import com.ononedb.nextweb.OnedbSession;
 
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
-public class OnedbNextwebEngine implements NextwebEngine {
+public class OnedbNextwebJreEngine implements NextwebEngine {
 
 	private CoreDsl dsl;
 
