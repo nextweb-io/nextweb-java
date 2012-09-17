@@ -1,9 +1,7 @@
 package io.nextweb.fn;
 
-public interface Result<ResultType> {
+public interface Result<ResultType> extends AsyncResult<ResultType> {
 
 	public ResultType get();
-
-	public void get(ResultCallback<ResultType> callback);
 
 }
