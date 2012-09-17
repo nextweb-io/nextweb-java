@@ -16,7 +16,12 @@ public class OnedbNextwebEngine implements NextwebEngine {
 			dsl = OneJre.init();
 		}
 
-		return null;
+		return new OnedbSession(dsl.createClient());
+	}
+
+	@Override
+	public void unhandledException(Object context, Throwable t) {
+		throw new RuntimeException(t);
 	}
 
 }
