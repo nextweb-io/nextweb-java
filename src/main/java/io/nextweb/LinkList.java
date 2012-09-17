@@ -1,5 +1,8 @@
 package io.nextweb;
 
-public class LinkList {
+import io.nextweb.operations.EntityOperations;
+import io.nextweb.plugins.HasPlugins;
+
+public interface LinkList extends HasPlugins, EntityOperations {
 
 }

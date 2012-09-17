@@ -1,5 +1,8 @@
 package io.nextweb;
 
-public interface Query {
+import io.nextweb.operations.EntityOperations;
+import io.nextweb.plugins.HasPlugins;
+
+public interface Query extends HasPlugins, EntityOperations {
 
 }
