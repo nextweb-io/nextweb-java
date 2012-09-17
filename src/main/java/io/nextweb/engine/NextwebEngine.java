@@ -6,4 +6,6 @@ public interface NextwebEngine {
 
 	public Session createSession();
 
+	public void unhandledException(Object context, Throwable t);
+
 }

@@ -14,4 +14,8 @@ public class Nextweb {
 		return definedEngine.createSession();
 	}
 
+	public static void unhandledException(Object context, Throwable t) {
+		definedEngine.unhandledException(context, t);
+	}
+
 }
