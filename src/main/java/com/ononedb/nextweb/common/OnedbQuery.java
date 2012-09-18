@@ -9,6 +9,7 @@ import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -29,11 +30,11 @@ public class OnedbQuery implements Query, OnedbObject {
 	@Override
 	public Query select(final Link propertyType) {
 		final CoreDsl dsl = H.dsl(OnedbQuery.this);
-		return new OnedbQuery(session, session.getEngine().createResult(
+		Result<Node> selectResult = session.getEngine().createResult(
 				new AsyncResult<Node>() {
 
 					@Override
-					public void get(ResultCallback<Node> callback) {
+					public void get(final ResultCallback<Node> callback) {
 
 						result.get(new ResultCallback<Node>() {
 
@@ -50,6 +51,16 @@ public class OnedbQuery implements Query, OnedbObject {
 											@Override
 											public void thenDo(
 													WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
+
+												if (sr.children().size() == 0) {
+													exceptionManager
+															.onUndefined(this);
+													return;
+												}
+
+												callback.onSuccess(new OnedbNode(
+														getOnedbSession(), sr
+																.nodes().get(0)));
 
 											}
 
@@ -69,11 +80,19 @@ public class OnedbQuery implements Query, OnedbObject {
 
 										});
 							}
+
+							@Override
+							public void onFailure(Throwable t) {
+								exceptionManager.onFailure(this, t);
+							}
+
 						});
 
 					}
 
-				}));
+				});
+
+		return session.getFactory().createQuery(exceptionManager, selectResult);
 	}
 
 	@Override
@@ -82,12 +101,13 @@ public class OnedbQuery implements Query, OnedbObject {
 		return Plugins.plugin(this, factory);
 	}
 
-	public OnedbQuery(OnedbSession session, Result<Node> result) {
+	public OnedbQuery(OnedbSession session,
+			ExceptionManager fallbackExceptionManager, Result<Node> result) {
 		super();
 		this.result = result;
 		this.session = session;
 
-		this.exceptionManager = new ExceptionManager();
+		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
 	}
 
 	@Override
@@ -105,6 +125,12 @@ public class OnedbQuery implements Query, OnedbObject {
 	@Override
 	public void catchExceptions(ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
+	}
+
+	@Override
+	public void catchUndefinedExceptions(UndefinedExceptionListener listener) {
+		this.exceptionManager.catchUndefinedExceptions(listener);
+
 	}
 
 }

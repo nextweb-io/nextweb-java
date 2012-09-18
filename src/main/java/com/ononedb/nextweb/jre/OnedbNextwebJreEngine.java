@@ -1,7 +1,6 @@
 package com.ononedb.nextweb.jre;
 
 import io.nextweb.Session;
-import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
@@ -17,9 +16,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
+import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.OnedbSession;
+import com.ononedb.nextweb.common.OnedbFactory;
 
-public class OnedbNextwebJreEngine implements NextwebEngine {
+public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 	private CoreDsl dsl;
 
@@ -139,5 +140,11 @@ public class OnedbNextwebJreEngine implements NextwebEngine {
 			}
 
 		};
+	}
+
+	@Override
+	public OnedbFactory getFactory() {
+
+		return new OnedbFactory();
 	}
 }

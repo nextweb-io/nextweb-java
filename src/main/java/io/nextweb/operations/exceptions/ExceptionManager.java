@@ -6,10 +6,14 @@ import io.nextweb.fn.ExceptionListener;
 
 public class ExceptionManager implements ExceptionInterceptor,
 		AuthorizationExceptionInterceptor, ExceptionListener,
-		AuthorizationExceptionListener {
+		AuthorizationExceptionListener, UndefinedExceptionListener,
+		UndefinedExceptionInterceptor {
+
+	private final ExceptionManager fallback;
 
 	private AuthorizationExceptionListener authExceptionListener;
 	private ExceptionListener exceptionListener;
+	private UndefinedExceptionListener undefinedExceptionListener;
 
 	@Override
 	public void catchAuthorizationExceptions(
@@ -28,6 +32,12 @@ public class ExceptionManager implements ExceptionInterceptor,
 			this.exceptionListener.onFailure(origin, t);
 			return;
 		}
+
+		if (fallback != null) {
+			fallback.onFailure(origin, t);
+			return;
+		}
+
 		Nextweb.unhandledException(origin, t);
 	}
 
@@ -37,9 +47,42 @@ public class ExceptionManager implements ExceptionInterceptor,
 			this.authExceptionListener.onUnauthorized(origin, r);
 			return;
 		}
+
+		if (fallback != null) {
+			fallback.onUnauthorized(origin, r);
+			return;
+		}
+
 		onFailure(origin,
 				new Exception("Invalid authorization: " + r.getMessage()
 						+ " type " + r.getType()));
+	}
+
+	@Override
+	public void catchUndefinedExceptions(
+			UndefinedExceptionListener undefinedExceptionListener) {
+		this.undefinedExceptionListener = undefinedExceptionListener;
+	}
+
+	@Override
+	public void onUndefined(Object origin) {
+		if (this.undefinedExceptionListener != null) {
+			this.undefinedExceptionListener.onUndefined(origin);
+			return;
+		}
+
+		if (fallback != null) {
+			fallback.onUndefined(origin);
+			return;
+		}
+
+		onFailure(origin, new Exception(
+				"No node matching the specified criteria was defined."));
+	}
+
+	public ExceptionManager(ExceptionManager fallback) {
+		super();
+		this.fallback = fallback;
 	}
 
 }
