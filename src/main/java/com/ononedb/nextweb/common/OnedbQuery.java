@@ -30,72 +30,65 @@ public class OnedbQuery implements Query, OnedbObject {
 	@Override
 	public Query select(final Link propertyType) {
 		final CoreDsl dsl = H.dsl(OnedbQuery.this);
-		Result<Node> selectResult = session.getEngine().createResult(
-				new AsyncResult<Node>() {
+		AsyncResult<Node> selectResult = new AsyncResult<Node>() {
+
+			@Override
+			public void get(final ResultCallback<Node> callback) {
+
+				result.get(new ResultCallback<Node>() {
 
 					@Override
-					public void get(final ResultCallback<Node> callback) {
+					public void onSuccess(Node result) {
+						dsl.selectFrom(dsl.reference(result.getUri()))
+								.theChildren()
+								.linkingTo(dsl.reference(propertyType.getUri()))
+								.in(session.getClient())
+								.and(new WhenChildrenSelected<OneTypedReference<Object>>() {
 
-						result.get(new ResultCallback<Node>() {
+									@Override
+									public void thenDo(
+											WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
-							@Override
-							public void onSuccess(Node result) {
-								dsl.selectFrom(dsl.reference(result.getUri()))
-										.theChildren()
-										.linkingTo(
-												dsl.reference(propertyType
-														.getUri()))
-										.in(session.getClient())
-										.and(new WhenChildrenSelected<OneTypedReference<Object>>() {
+										if (sr.children().size() == 0) {
+											exceptionManager.onUndefined(this);
+											return;
+										}
 
-											@Override
-											public void thenDo(
-													WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
+										callback.onSuccess(session
+												.getOnedbEngine()
+												.getFactory()
+												.createNode(getOnedbSession(),
+														exceptionManager,
+														sr.nodes().get(0)));
 
-												if (sr.children().size() == 0) {
-													exceptionManager
-															.onUndefined(this);
-													return;
-												}
+									}
 
-												callback.onSuccess(session
-														.getOnedbEngine()
-														.getFactory()
-														.createNode(
-																getOnedbSession(),
-																exceptionManager,
-																sr.nodes().get(
-																		0)));
+									@Override
+									public void onUnauthorized(
+											WithUnauthorizedContext context) {
+										exceptionManager.onUnauthorized(
+												this,
+												H.fromUnauthorizedContext(context));
+									}
 
-											}
+									@Override
+									public void onFailure(Throwable t) {
+										exceptionManager.onFailure(this, t);
+									}
 
-											@Override
-											public void onUnauthorized(
-													WithUnauthorizedContext context) {
-												exceptionManager.onUnauthorized(
-														this,
-														H.fromUnauthorizedContext(context));
-											}
+								});
+					}
 
-											@Override
-											public void onFailure(Throwable t) {
-												exceptionManager.onFailure(
-														this, t);
-											}
-
-										});
-							}
-
-							@Override
-							public void onFailure(Throwable t) {
-								exceptionManager.onFailure(this, t);
-							}
-
-						});
-
+					@Override
+					public void onFailure(Throwable t) {
+						exceptionManager.onFailure(this, t);
 					}
 
 				});
+
+			}
+
+		};
 
 		return session.getFactory().createQuery(session, exceptionManager,
 				selectResult);

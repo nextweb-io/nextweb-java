@@ -1,6 +1,8 @@
 package com.ononedb.nextweb.jre;
 
+import io.nextweb.Nextweb;
 import io.nextweb.Session;
+import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
@@ -25,6 +27,12 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 	private CoreDsl dsl;
 
 	private final ExceptionManager exceptionManager;
+
+	public static NextwebEngine init() {
+		NextwebEngine engine = new OnedbNextwebJreEngine();
+		Nextweb.injectEngine(engine);
+		return engine;
+	}
 
 	@Override
 	public Session createSession() {
