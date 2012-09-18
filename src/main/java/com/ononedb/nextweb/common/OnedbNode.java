@@ -3,6 +3,7 @@ package com.ononedb.nextweb.common;
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
+import io.nextweb.Session;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -14,7 +15,7 @@ import one.core.nodes.OneValue;
 
 import com.ononedb.nextweb.OnedbSession;
 
-public class OnedbNode implements Node, OnedbObject {
+public class OnedbNode implements Node, OnedbEntity {
 
 	private final OnedbSession session;
 	private final OneTypedReference<?> node;
@@ -95,6 +96,12 @@ public class OnedbNode implements Node, OnedbObject {
 	@Override
 	public void catchExceptions(ExceptionListener listener) {
 		exceptionManager.catchExceptions(listener);
+	}
+
+	@Override
+	public Session getSession() {
+
+		return session;
 	}
 
 }

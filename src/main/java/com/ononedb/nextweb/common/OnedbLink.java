@@ -3,6 +3,7 @@ package com.ononedb.nextweb.common;
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
+import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
@@ -20,7 +21,7 @@ import one.core.dsl.callbacks.results.WithUndefinedContext;
 
 import com.ononedb.nextweb.OnedbSession;
 
-public class OnedbLink implements Link, OnedbObject {
+public class OnedbLink implements Link, OnedbEntity {
 
 	private final OnedbSession session;
 	private final String uri;
@@ -126,6 +127,18 @@ public class OnedbLink implements Link, OnedbObject {
 	@Override
 	public void catchUndefinedExceptions(UndefinedExceptionListener listener) {
 		exceptionManager.catchUndefinedExceptions(listener);
+	}
+
+	@Override
+	public Session getSession() {
+
+		return session;
+	}
+
+	@Override
+	public ExceptionManager getExceptionManager() {
+
+		return this.exceptionManager;
 	}
 
 }
