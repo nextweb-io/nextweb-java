@@ -7,9 +7,11 @@
 	
 	<inherits name="org.timepedia.exporter.Exporter" />
 	
-	 <inherits name="one.client.gwt.OneClientGwt" /> 
+	<inherits name="one.client.gwt.OneClientGwt" /> 
 	<inherits name="one.common.OneCommon" />
 	<inherits name="one.renderer.OneRenderer" />
+	
+	<inherits name="io.nextweb.Nextweb" />
 	
 	<entry-point class='com.ononedb.nextweb.internal.DummyEntryPoint'/>
 	
