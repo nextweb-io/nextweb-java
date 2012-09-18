@@ -2,7 +2,6 @@ package com.ononedb.nextweb.jre;
 
 import io.nextweb.Nextweb;
 import io.nextweb.Session;
-import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
@@ -19,21 +18,27 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
+import org.timepedia.exporter.client.Export;
+import org.timepedia.exporter.client.NoExport;
+
 import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.internal.OnedbFactory;
 
+@Export
 public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 	private CoreDsl dsl;
 
 	private final ExceptionManager exceptionManager;
 
-	public static NextwebEngine init() {
-		NextwebEngine engine = new OnedbNextwebJreEngine();
+	@Export
+	public static OnedbNextwebJreEngine init() {
+		OnedbNextwebJreEngine engine = new OnedbNextwebJreEngine();
 		Nextweb.injectEngine(engine);
 		return engine;
 	}
 
+	@NoExport
 	@Override
 	public Session createSession() {
 
@@ -45,11 +50,13 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 				dsl.createClient());
 	}
 
+	@NoExport
 	@Override
 	public ExceptionManager getExceptionManager() {
 		return exceptionManager;
 	}
 
+	@NoExport
 	@Override
 	public <ResultType> Result<ResultType> createResult(
 			final AsyncResult<ResultType> asyncResult) {
@@ -153,6 +160,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 		};
 	}
 
+	@NoExport
 	@Override
 	public OnedbFactory getFactory() {
 

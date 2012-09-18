@@ -1,38 +1,86 @@
 package com.ononedb.nextweb.js;
 
+import io.nextweb.Nextweb;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import nx.client.gwt.services.GwtRemoteService;
+import nx.client.gwt.services.GwtRemoteServiceAsync;
+import one.client.gwt.OneGwt;
+import one.core.dsl.CoreDsl;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.internal.OnedbFactory;
 
 public class OnedbNextwebJsEngine implements OnedbNextwebEngine {
 
+	private CoreDsl dsl;
+	private final ExceptionManager exceptionManager;
+
+	public static OnedbNextwebJsEngine init() {
+		OnedbNextwebJsEngine engine = new OnedbNextwebJsEngine();
+		Nextweb.injectEngine(engine);
+		return engine;
+	}
+
+	private CoreDsl assertDsl() {
+		if (dsl != null) {
+			return dsl;
+		}
+
+		final GwtRemoteServiceAsync gwtService = GWT
+				.create(GwtRemoteService.class);
+
+		((ServiceDefTarget) gwtService)
+				.setServiceEntryPoint("/servlets/v01/gwtrpc");
+
+		dsl = OneGwt.init(gwtService, "");
+
+		return dsl;
+	}
+
 	@Override
 	public Session createSession() {
-		// TODO Auto-generated method stub
-		return null;
+
+		CoreDsl dsl = assertDsl();
+
+		return getFactory().createSession(this, exceptionManager,
+				dsl.createClient());
 	}
 
 	@Override
 	public <ResultType> Result<ResultType> createResult(
 			AsyncResult<ResultType> asyncResult) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ExceptionManager getExceptionManager() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return exceptionManager;
 	}
 
 	@Override
 	public OnedbFactory getFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return new OnedbFactory();
+	}
+
+	public OnedbNextwebJsEngine() {
+		super();
+		this.exceptionManager = new ExceptionManager(null);
+		this.exceptionManager.catchExceptions(new ExceptionListener() {
+
+			@Override
+			public void onFailure(Object origin, Throwable t) {
+				throw new RuntimeException("Unhandled exception: "
+						+ t.getMessage() + " from object " + origin + " ("
+						+ origin.getClass() + ")");
+			}
+		});
 	}
 
 }
