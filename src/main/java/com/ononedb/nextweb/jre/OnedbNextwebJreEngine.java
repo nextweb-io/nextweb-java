@@ -18,7 +18,6 @@ import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
 import com.ononedb.nextweb.OnedbNextwebEngine;
-import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.common.OnedbFactory;
 
 public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
@@ -34,7 +33,8 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 			dsl = OneJre.init();
 		}
 
-		return new OnedbSession(this, dsl.createClient());
+		return getFactory().createSession(this, exceptionManager,
+				dsl.createClient());
 	}
 
 	@Override

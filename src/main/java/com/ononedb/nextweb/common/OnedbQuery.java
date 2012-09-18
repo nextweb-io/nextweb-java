@@ -58,9 +58,14 @@ public class OnedbQuery implements Query, OnedbObject {
 													return;
 												}
 
-												callback.onSuccess(new OnedbNode(
-														getOnedbSession(), sr
-																.nodes().get(0)));
+												callback.onSuccess(session
+														.getOnedbEngine()
+														.getFactory()
+														.createNode(
+																getOnedbSession(),
+																exceptionManager,
+																sr.nodes().get(
+																		0)));
 
 											}
 

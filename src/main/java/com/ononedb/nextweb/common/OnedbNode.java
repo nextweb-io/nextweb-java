@@ -3,6 +3,7 @@ package com.ononedb.nextweb.common;
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
+import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -15,6 +16,7 @@ public class OnedbNode implements Node, OnedbObject {
 
 	private final OnedbSession session;
 	private final OneTypedReference<?> node;
+	private final ExceptionManager exceptionManager;
 
 	@Override
 	public Query select(Link propertyType) {
@@ -70,10 +72,12 @@ public class OnedbNode implements Node, OnedbObject {
 		return session;
 	}
 
-	public OnedbNode(OnedbSession session, OneTypedReference<?> node) {
+	public OnedbNode(OnedbSession session,
+			ExceptionManager fallbackExceptionManager, OneTypedReference<?> node) {
 		super();
 		this.session = session;
 		this.node = node;
+		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
 	}
 
 }
