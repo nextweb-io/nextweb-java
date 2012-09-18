@@ -1,4 +1,10 @@
-package com.ononedb.nextweb;
+package com.ononedb.nextweb.internal;
+
+import com.ononedb.nextweb.OnedbLink;
+import com.ononedb.nextweb.OnedbNextwebEngine;
+import com.ononedb.nextweb.OnedbNode;
+import com.ononedb.nextweb.OnedbQuery;
+import com.ononedb.nextweb.OnedbSession;
 
 import io.nextweb.Node;
 import io.nextweb.fn.AsyncResult;

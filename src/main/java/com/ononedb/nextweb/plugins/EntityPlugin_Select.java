@@ -37,7 +37,7 @@ public class EntityPlugin_Select implements EntityPlugin {
 						dsl.selectFrom(dsl.reference(result.getUri()))
 								.theChildren()
 								.linkingTo(dsl.reference(propertyType.getUri()))
-								.in(entity.getOnedbSession().getClient())
+								.in(H.client(entity))
 								.and(new WhenChildrenSelected<OneTypedReference<Object>>() {
 
 									@Override
@@ -49,10 +49,8 @@ public class EntityPlugin_Select implements EntityPlugin {
 											return;
 										}
 
-										callback.onSuccess(entity
-												.getOnedbSession()
-												.getOnedbEngine()
-												.getFactory()
+										callback.onSuccess(H
+												.factory(entity)
 												.createNode(
 														entity.getOnedbSession(),
 														exceptionManager,

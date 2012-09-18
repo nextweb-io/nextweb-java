@@ -1,5 +1,7 @@
 package com.ononedb.nextweb;
 
+import com.ononedb.nextweb.internal.OnedbFactory;
+
 import io.nextweb.Link;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
