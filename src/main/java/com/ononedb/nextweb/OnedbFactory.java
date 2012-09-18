@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.common;
+package com.ononedb.nextweb;
 
 import io.nextweb.Node;
 import io.nextweb.fn.AsyncResult;
@@ -6,8 +6,6 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 import one.core.domain.OneClient;
 import one.core.nodes.OneTypedReference;
 
-import com.ononedb.nextweb.OnedbNextwebEngine;
-import com.ononedb.nextweb.OnedbSession;
 
 public class OnedbFactory {
 

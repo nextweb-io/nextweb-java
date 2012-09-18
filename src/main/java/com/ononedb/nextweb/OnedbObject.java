@@ -1,6 +1,5 @@
-package com.ononedb.nextweb.common;
+package com.ononedb.nextweb;
 
-import com.ononedb.nextweb.OnedbSession;
 
 public interface OnedbObject {
 

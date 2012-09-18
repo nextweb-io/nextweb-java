@@ -15,7 +15,6 @@ import one.async.joiner.CallbackLatch;
 import one.core.domain.OneClient;
 import one.core.dsl.callbacks.WhenShutdown;
 
-import com.ononedb.nextweb.common.OnedbFactory;
 
 public class OnedbSession implements Session {
 
@@ -57,28 +56,34 @@ public class OnedbSession implements Session {
 	@Override
 	public Result<SuccessFail> close() {
 
-		return this.engine.createResult(new AsyncResult<SuccessFail>() {
-
-			@Override
-			public void get(final ResultCallback<SuccessFail> callback) {
-
-				client.one().shutdown(client).and(new WhenShutdown() {
+		Result<SuccessFail> closeResult = this.engine
+				.createResult(new AsyncResult<SuccessFail>() {
 
 					@Override
-					public void thenDo() {
-						callback.onSuccess(SuccessFail.success());
-					}
+					public void get(final ResultCallback<SuccessFail> callback) {
 
-					@Override
-					public void onFailure(Throwable t) {
-						callback.onSuccess(SuccessFail.fail(t));
+						client.one().shutdown(client).and(new WhenShutdown() {
+
+							@Override
+							public void thenDo() {
+								callback.onSuccess(SuccessFail.success());
+							}
+
+							@Override
+							public void onFailure(Throwable t) {
+								callback.onSuccess(SuccessFail.fail(t));
+							}
+
+						});
+
 					}
 
 				});
 
-			}
+		ResultCallback<SuccessFail> clbk = ResultCallback.doNothing();
+		closeResult.get(clbk);
 
-		});
+		return closeResult;
 	}
 
 	@Override

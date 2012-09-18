@@ -6,6 +6,11 @@ import io.nextweb.fn.SuccessFail;
 
 public interface SessionOperations {
 
+	/**
+	 * Will be executed eagerly.
+	 * 
+	 * @return
+	 */
 	public Result<SuccessFail> close();
 
 	public Link node(String uri);

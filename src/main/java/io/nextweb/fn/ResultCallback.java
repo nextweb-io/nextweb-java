@@ -10,4 +10,16 @@ public abstract class ResultCallback<ResultType> {
 		Nextweb.getEngine().getExceptionManager().onFailure(this, t);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static <Callback extends ResultCallback<?>> Callback doNothing() {
+		return (Callback) new ResultCallback() {
+
+			@Override
+			public void onSuccess(Object result) {
+
+			}
+
+		};
+	}
+
 }

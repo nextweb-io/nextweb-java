@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.common;
+package com.ononedb.nextweb;
 
 import io.nextweb.Link;
 import io.nextweb.Node;
@@ -14,7 +14,6 @@ import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
 
-import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.plugins.EntityPlugin_Select;
 
 public class OnedbQuery implements Query, OnedbEntity {

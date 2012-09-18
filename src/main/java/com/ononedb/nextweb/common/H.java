@@ -1,5 +1,7 @@
 package com.ononedb.nextweb.common;
 
+import com.ononedb.nextweb.OnedbObject;
+
 import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;

@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.common;
+package com.ononedb.nextweb;
 
 import io.nextweb.Entity;
 

@@ -19,8 +19,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
+import com.ononedb.nextweb.OnedbFactory;
 import com.ononedb.nextweb.OnedbNextwebEngine;
-import com.ononedb.nextweb.common.OnedbFactory;
 
 public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
