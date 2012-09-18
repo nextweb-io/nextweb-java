@@ -35,4 +35,11 @@ public class JsLink implements Exportable {
 		super();
 	}
 
+	@NoExport
+	public static JsLink wrap(Link link) {
+		JsLink jsLink = new JsLink();
+		jsLink.setLink(link);
+		return jsLink;
+	}
+
 }
