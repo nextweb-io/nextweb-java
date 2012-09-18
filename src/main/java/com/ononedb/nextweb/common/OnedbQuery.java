@@ -8,6 +8,7 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
+import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -23,6 +24,7 @@ public class OnedbQuery implements Query, OnedbObject {
 
 	private final Result<Node> result;
 	private final OnedbSession session;
+	private final ExceptionManager exceptionManager;
 
 	@Override
 	public Query select(final Link propertyType) {
@@ -54,16 +56,15 @@ public class OnedbQuery implements Query, OnedbObject {
 											@Override
 											public void onUnauthorized(
 													WithUnauthorizedContext context) {
-												// TODO Auto-generated method
-												// stub
-												super.onUnauthorized(context);
+												exceptionManager.onUnauthorized(
+														this,
+														H.fromUnauthorizedContext(context));
 											}
 
 											@Override
 											public void onFailure(Throwable t) {
-												// TODO Auto-generated method
-												// stub
-												super.onFailure(t);
+												exceptionManager.onFailure(
+														this, t);
 											}
 
 										});
@@ -85,6 +86,8 @@ public class OnedbQuery implements Query, OnedbObject {
 		super();
 		this.result = result;
 		this.session = session;
+
+		this.exceptionManager = new ExceptionManager();
 	}
 
 	@Override
@@ -96,12 +99,12 @@ public class OnedbQuery implements Query, OnedbObject {
 	@Override
 	public void catchAuthorizationExceptions(
 			AuthorizationExceptionListener listener) {
-
+		this.exceptionManager.catchAuthorizationExceptions(listener);
 	}
 
 	@Override
 	public void catchExceptions(ExceptionListener listener) {
-
+		this.exceptionManager.catchExceptions(listener);
 	}
 
 }
