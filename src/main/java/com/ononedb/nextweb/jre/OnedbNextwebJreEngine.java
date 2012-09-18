@@ -7,8 +7,11 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import one.client.jre.OneJre;
@@ -92,7 +95,42 @@ public class OnedbNextwebJreEngine implements NextwebEngine {
 			@Override
 			public ResultType get() {
 
-				return null;
+				final CountDownLatch latch = new CountDownLatch(2);
+
+				final List<Throwable> exceptionList = Collections
+						.synchronizedList(new ArrayList<Throwable>(1));
+
+				get(new ResultCallback<ResultType>() {
+
+					@Override
+					public void onSuccess(ResultType result) {
+						latch.countDown();
+					}
+
+					@Override
+					public void onFailure(Throwable t) {
+						exceptionList.add(t);
+						latch.countDown();
+					}
+
+				});
+
+				latch.countDown();
+				try {
+					latch.await();
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+
+				if (exceptionList.size() > 0) {
+					throw new RuntimeException(
+							"Get call could not be completed successfully. An exception was thrown.",
+							exceptionList.get(0));
+				}
+
+				assert cached != null;
+
+				return cached;
 			}
 
 			@Override

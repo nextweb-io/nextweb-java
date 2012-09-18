@@ -18,6 +18,10 @@ public class OnedbSession implements Session {
 
 	}
 
+	public OneClient getClient() {
+		return client;
+	}
+
 	@Override
 	public <PluginType extends Plugin> PluginType plugin(
 			PluginFactory<PluginType> factory) {
