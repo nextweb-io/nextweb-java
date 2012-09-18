@@ -1,6 +1,5 @@
 package io.nextweb.operations.exceptions;
 
-import io.nextweb.Nextweb;
 import io.nextweb.fn.ExceptionInterceptor;
 import io.nextweb.fn.ExceptionListener;
 
@@ -38,7 +37,9 @@ public class ExceptionManager implements ExceptionInterceptor,
 			return;
 		}
 
-		Nextweb.unhandledException(origin, t);
+		throw new RuntimeException("Unhandled exception in ExceptionManager: "
+				+ t.getMessage() + " from class: " + origin.getClass(), t);
+		// Nextweb.unhandledException(origin, t);
 	}
 
 	@Override

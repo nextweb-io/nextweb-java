@@ -5,6 +5,7 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
+import io.nextweb.operations.exceptions.ExceptionManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,8 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 	private CoreDsl dsl;
 
+	private final ExceptionManager exceptionManager;
+
 	@Override
 	public Session createSession() {
 
@@ -31,12 +34,12 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 			dsl = OneJre.init();
 		}
 
-		return new OnedbSession(dsl.createClient());
+		return new OnedbSession(this, dsl.createClient());
 	}
 
 	@Override
-	public void unhandledException(Object context, Throwable t) {
-		throw new RuntimeException(t);
+	public ExceptionManager getExceptionManager() {
+		return exceptionManager;
 	}
 
 	@Override
@@ -87,7 +90,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 							}
 							return;
 						}
-						exceptionListener.onFailure(t);
+						exceptionListener.onFailure(this, t);
 					}
 
 				});
@@ -147,4 +150,19 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 		return new OnedbFactory();
 	}
+
+	public OnedbNextwebJreEngine() {
+		super();
+		this.exceptionManager = new ExceptionManager(null);
+		this.exceptionManager.catchExceptions(new ExceptionListener() {
+
+			@Override
+			public void onFailure(Object origin, Throwable t) {
+				throw new RuntimeException("Uncaught background exception: "
+						+ t.getMessage() + " from class: " + origin.getClass(),
+						t);
+			}
+		});
+	}
+
 }
