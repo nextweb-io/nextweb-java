@@ -15,6 +15,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.internal.OnedbFactory;
+import com.ononedb.nextweb.js.fn.JsResultImplementation;
 
 public class OnedbNextwebJsEngine implements OnedbNextwebEngine {
 
@@ -55,7 +56,8 @@ public class OnedbNextwebJsEngine implements OnedbNextwebEngine {
 	@Override
 	public <ResultType> Result<ResultType> createResult(
 			AsyncResult<ResultType> asyncResult) {
-		return null;
+		return new JsResultImplementation<ResultType>(exceptionManager,
+				asyncResult);
 	}
 
 	@Override
