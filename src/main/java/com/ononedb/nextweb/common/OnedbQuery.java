@@ -92,7 +92,8 @@ public class OnedbQuery implements Query, OnedbObject {
 
 				});
 
-		return session.getFactory().createQuery(exceptionManager, selectResult);
+		return session.getFactory().createQuery(session, exceptionManager,
+				selectResult);
 	}
 
 	@Override
