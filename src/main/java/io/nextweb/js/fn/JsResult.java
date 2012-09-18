@@ -7,6 +7,7 @@ import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
+@Export
 public class JsResult implements Exportable {
 
 	Result<?> result;

@@ -6,7 +6,7 @@ import io.nextweb.js.engine.JsNextwebEngine;
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 
-@Export(value = "Nextweb")
+@Export("Nextweb")
 public class Nextweb implements Exportable {
 
 	private static NextwebEngine injectedEngine;
