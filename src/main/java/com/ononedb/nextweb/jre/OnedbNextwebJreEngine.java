@@ -57,7 +57,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 		return new Result<ResultType>() {
 
 			ResultType cached = null;
-			AtomicBoolean requesting;
+			AtomicBoolean requesting = new AtomicBoolean();
 			List<ResultCallback<ResultType>> deferredCalls = new LinkedList<ResultCallback<ResultType>>();
 			ExceptionListener exceptionListener;
 

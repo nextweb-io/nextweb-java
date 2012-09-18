@@ -18,6 +18,12 @@ public class OnedbFactory {
 				.getEngine().createResult(asyncResult));
 	}
 
+	public OnedbLink createLink(OnedbSession session,
+			ExceptionManager fallbackExceptionManager, String uri) {
+		return new OnedbLink(session, fallbackExceptionManager, uri);
+
+	}
+
 	public OnedbNode createNode(OnedbSession session,
 			ExceptionManager fallbackExceptionManager, OneTypedReference<?> node) {
 		return new OnedbNode(session, fallbackExceptionManager, node);

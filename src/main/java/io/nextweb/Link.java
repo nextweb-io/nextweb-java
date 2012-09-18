@@ -1,9 +1,8 @@
 package io.nextweb;
 
-import io.nextweb.operations.EntityOperations;
-import io.nextweb.plugins.HasPlugins;
+import io.nextweb.operations.EntityRequestOperations;
 
-public interface Link extends HasPlugins, EntityOperations {
+public interface Link extends Entity, EntityRequestOperations {
 
 	public String getUri();
 

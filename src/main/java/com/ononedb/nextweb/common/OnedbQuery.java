@@ -132,4 +132,14 @@ public class OnedbQuery implements Query, OnedbObject {
 
 	}
 
+	@Override
+	public Node get() {
+		return result.get();
+	}
+
+	@Override
+	public void get(ResultCallback<Node> callback) {
+		result.get(callback);
+	}
+
 }

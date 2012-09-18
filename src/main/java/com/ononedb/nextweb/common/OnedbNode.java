@@ -3,6 +3,8 @@ package com.ononedb.nextweb.common;
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
+import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
@@ -78,6 +80,21 @@ public class OnedbNode implements Node, OnedbObject {
 		this.session = session;
 		this.node = node;
 		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
+	}
+
+	@Override
+	public Node get() {
+		return this;
+	}
+
+	@Override
+	public void get(ResultCallback<Node> callback) {
+		callback.onSuccess(this);
+	}
+
+	@Override
+	public void catchExceptions(ExceptionListener listener) {
+		exceptionManager.catchExceptions(listener);
 	}
 
 }
