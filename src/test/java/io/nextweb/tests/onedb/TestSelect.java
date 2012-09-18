@@ -39,6 +39,26 @@ public class TestSelect {
 	@Test
 	public void testParallelSelect() {
 
+		NextwebEngine engine = OnedbNextwebJreEngine.init();
+
+		Session session = engine.createSession();
+
+		Link questionBagRepository = session
+				.node("http://slicnet.com/seed1/seed1/9/1/h/sd");
+
+		Link aQuestionBag = session
+				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Question_Bag");
+
+		Query questionBagQuery = questionBagRepository.select(aQuestionBag);
+
+		session.getAll(questionBagRepository, aQuestionBag, questionBagQuery);
+
+		Node questionBag = questionBagQuery.get();
+
+		Assert.assertTrue(questionBag.getValue() != null);
+
+		session.close().get();
+
 	}
 
 }
