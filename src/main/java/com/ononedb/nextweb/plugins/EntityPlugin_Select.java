@@ -5,6 +5,7 @@ import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ResultCallback;
+import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.EntityPlugin;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.WhenChildrenSelected;
@@ -17,11 +18,13 @@ import com.ononedb.nextweb.common.OnedbEntity;
 
 public class EntityPlugin_Select implements EntityPlugin {
 
-	OnedbEntity entity;
+	private final OnedbEntity entity;
 
 	public Query select(final Link propertyType) {
 
 		final CoreDsl dsl = H.dsl(entity);
+		final ExceptionManager exceptionManager = entity.getExceptionManager();
+
 		AsyncResult<Node> selectResult = new AsyncResult<Node>() {
 
 			@Override
@@ -42,8 +45,7 @@ public class EntityPlugin_Select implements EntityPlugin {
 											WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
 										if (sr.children().size() == 0) {
-											entity.getExceptionManager()
-													.onUndefined(this);
+											exceptionManager.onUndefined(this);
 											return;
 										}
 
@@ -53,7 +55,7 @@ public class EntityPlugin_Select implements EntityPlugin {
 												.getFactory()
 												.createNode(
 														entity.getOnedbSession(),
-														entity.getExceptionManager(),
+														exceptionManager,
 														sr.nodes().get(0)));
 
 									}
@@ -61,16 +63,14 @@ public class EntityPlugin_Select implements EntityPlugin {
 									@Override
 									public void onUnauthorized(
 											WithUnauthorizedContext context) {
-										entity.getExceptionManager()
-												.onUnauthorized(
-														this,
-														H.fromUnauthorizedContext(context));
+										exceptionManager.onUnauthorized(
+												this,
+												H.fromUnauthorizedContext(context));
 									}
 
 									@Override
 									public void onFailure(Throwable t) {
-										entity.getExceptionManager().onFailure(
-												this, t);
+										exceptionManager.onFailure(this, t);
 									}
 
 								});
@@ -78,7 +78,7 @@ public class EntityPlugin_Select implements EntityPlugin {
 
 					@Override
 					public void onFailure(Throwable t) {
-						entity.getExceptionManager().onFailure(this, t);
+						exceptionManager.onFailure(this, t);
 					}
 
 				});
@@ -90,8 +90,13 @@ public class EntityPlugin_Select implements EntityPlugin {
 		return entity
 				.getOnedbSession()
 				.getFactory()
-				.createQuery(entity.getOnedbSession(),
-						entity.getExceptionManager(), selectResult);
+				.createQuery(entity.getOnedbSession(), exceptionManager,
+						selectResult);
+	}
+
+	public EntityPlugin_Select(OnedbEntity entity) {
+		super();
+		this.entity = entity;
 	}
 
 }

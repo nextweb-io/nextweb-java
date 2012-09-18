@@ -14,6 +14,7 @@ import one.core.nodes.OneTypedReference;
 import one.core.nodes.OneValue;
 
 import com.ononedb.nextweb.OnedbSession;
+import com.ononedb.nextweb.plugins.EntityPlugin_Select;
 
 public class OnedbNode implements Node, OnedbEntity {
 
@@ -23,8 +24,7 @@ public class OnedbNode implements Node, OnedbEntity {
 
 	@Override
 	public Query select(Link propertyType) {
-		// TODO Auto-generated method stub
-		return null;
+		return new EntityPlugin_Select(this).select(propertyType);
 	}
 
 	@Override
@@ -57,10 +57,20 @@ public class OnedbNode implements Node, OnedbEntity {
 		return dereferenced;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <ValueType> ValueType value(Class<ValueType> type) {
+		Object value = getValue();
 
-		return null;
+		if (type.equals(String.class)) {
+			return (ValueType) value.toString();
+		}
+
+		if (value instanceof String && type.equals(Integer.class)) {
+			return (ValueType) Integer.valueOf((String) value);
+		}
+
+		return (ValueType) value;
 	}
 
 	@Override
@@ -100,8 +110,12 @@ public class OnedbNode implements Node, OnedbEntity {
 
 	@Override
 	public Session getSession() {
-
 		return session;
+	}
+
+	@Override
+	public ExceptionManager getExceptionManager() {
+		return this.exceptionManager;
 	}
 
 }

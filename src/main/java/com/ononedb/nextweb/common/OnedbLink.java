@@ -20,6 +20,7 @@ import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 import one.core.dsl.callbacks.results.WithUndefinedContext;
 
 import com.ononedb.nextweb.OnedbSession;
+import com.ononedb.nextweb.plugins.EntityPlugin_Select;
 
 public class OnedbLink implements Link, OnedbEntity {
 
@@ -37,8 +38,7 @@ public class OnedbLink implements Link, OnedbEntity {
 
 	@Override
 	public Query select(Link propertyType) {
-
-		return null;
+		return new EntityPlugin_Select(this).select(propertyType);
 	}
 
 	@Override
