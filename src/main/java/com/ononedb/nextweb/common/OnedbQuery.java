@@ -7,7 +7,7 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
-import io.nextweb.operations.AuthorizationExceptionListener;
+import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
