@@ -7,6 +7,7 @@ import io.nextweb.js.fn.JsObjectCallback;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
+import org.timepedia.exporter.client.ExporterUtil;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
@@ -23,7 +24,7 @@ public class JsLink implements Exportable {
 
 			@Override
 			public void onSuccess(Node result) {
-				callback.run(result);
+				callback.run(ExporterUtil.wrap(JsNode.wrap(result)));
 			}
 		});
 	}

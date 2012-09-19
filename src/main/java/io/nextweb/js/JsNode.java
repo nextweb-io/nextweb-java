@@ -43,6 +43,13 @@ public class JsNode implements Exportable {
 		this.node = node;
 	}
 
+	@NoExport
+	public static JsNode wrap(Node node) {
+		JsNode jsNode = new JsNode();
+		jsNode.setNode(node);
+		return jsNode;
+	}
+
 	public JsNode() {
 		super();
 	}
