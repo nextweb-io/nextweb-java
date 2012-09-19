@@ -17,6 +17,7 @@ public class JsLink implements Exportable {
 	@Export
 	public void get(final JsObjectCallback callback) {
 		assert link != null;
+		assert callback != null;
 
 		link.get(new ResultCallback<Node>() {
 

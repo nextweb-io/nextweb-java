@@ -9,6 +9,8 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+
 public class JsResultImplementation<ResultType> implements Result<ResultType> {
 
 	private final AsyncResult<ResultType> asyncResult;
@@ -22,6 +24,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 	private final List<ResultCallback<ResultType>> deferredCalls;
 
 	private void requestResult(final ResultCallback<ResultType> callback) {
+
 		if (resultCache != null) {
 			callback.onSuccess(resultCache);
 			return;
@@ -31,7 +34,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 			deferredCalls.add(callback);
 			return;
 		}
-
+		GWT.log("Request result: get async");
 		asyncResult.get(new ResultCallback<ResultType>() {
 
 			@Override
@@ -97,6 +100,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 	public JsResultImplementation(ExceptionManager fallbackExceptionManager,
 			AsyncResult<ResultType> asyncResult) {
 		super();
+		assert asyncResult != null;
 		this.asyncResult = asyncResult;
 		this.resultCache = null;
 		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);

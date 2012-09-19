@@ -9,12 +9,14 @@
 
 	<script>
 	
-	window.onload = function() {
+	window.onNextweb = function() {
 		var session = Nextweb.createSession();
 		
 		var link = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd");
 		
-		
+		link.get(function(node) {
+			alert(node);
+		});
 		
 	};
 	</script>

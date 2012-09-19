@@ -19,6 +19,7 @@ import one.core.dsl.callbacks.results.WithLoadResult;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 import one.core.dsl.callbacks.results.WithUndefinedContext;
 
+import com.google.gwt.core.client.GWT;
 import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.plugins.EntityPlugin_Select;
 
@@ -61,6 +62,9 @@ public class OnedbLink implements Link, OnedbEntity {
 	public OnedbLink(final OnedbSession session,
 			final ExceptionManager fallbackExceptionManager, final String uri) {
 		super();
+		assert session != null;
+		assert uri != null;
+
 		this.session = session;
 		this.uri = uri;
 		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
@@ -68,6 +72,7 @@ public class OnedbLink implements Link, OnedbEntity {
 
 			@Override
 			public void get(final ResultCallback<Node> callback) {
+
 				session.getClient().one().load(uri).in(session.getClient())
 						.and(new WhenLoaded() {
 
@@ -100,6 +105,7 @@ public class OnedbLink implements Link, OnedbEntity {
 						});
 			}
 		});
+		assert this.result != null;
 	}
 
 	@Override
@@ -110,6 +116,8 @@ public class OnedbLink implements Link, OnedbEntity {
 
 	@Override
 	public void get(ResultCallback<Node> callback) {
+		assert this.result != null;
+		GWT.log("Get from result impl");
 		this.result.get(callback);
 	}
 
