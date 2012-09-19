@@ -2,6 +2,7 @@ package io.nextweb.js;
 
 import io.nextweb.Session;
 import io.nextweb.js.engine.JsNextwebEngine;
+import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsResult;
 
 import org.timepedia.exporter.client.Export;
@@ -15,7 +16,7 @@ public class JsSession implements Exportable {
 
 	@Export
 	public JsNextwebEngine getEngine() {
-		return JsNextwebEngine.wrap(session.getEngine());
+		return JsNextwebEngine.wrap((NextwebEngineJs) session.getEngine());
 	}
 
 	@Export

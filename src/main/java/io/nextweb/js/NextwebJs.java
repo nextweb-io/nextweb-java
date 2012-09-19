@@ -2,6 +2,7 @@ package io.nextweb.js;
 
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.js.engine.JsNextwebEngine;
+import io.nextweb.js.engine.NextwebEngineJs;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportPackage;
@@ -25,7 +26,7 @@ public class NextwebJs implements Exportable {
 
 	@Export
 	public static JsNextwebEngine getEngine() {
-		return JsNextwebEngine.wrap(injectedEngine);
+		return JsNextwebEngine.wrap((NextwebEngineJs) injectedEngine);
 	}
 
 	public NextwebJs() {

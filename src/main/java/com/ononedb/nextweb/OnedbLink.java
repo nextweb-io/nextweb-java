@@ -19,7 +19,6 @@ import one.core.dsl.callbacks.results.WithLoadResult;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 import one.core.dsl.callbacks.results.WithUndefinedContext;
 
-import com.google.gwt.core.client.GWT;
 import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.plugins.EntityPlugin_Select;
 
@@ -117,7 +116,7 @@ public class OnedbLink implements Link, OnedbEntity {
 	@Override
 	public void get(ResultCallback<Node> callback) {
 		assert this.result != null;
-		GWT.log("Get from result impl");
+
 		this.result.get(callback);
 	}
 

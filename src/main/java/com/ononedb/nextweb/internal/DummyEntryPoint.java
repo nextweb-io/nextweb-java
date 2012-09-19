@@ -2,13 +2,13 @@ package com.ononedb.nextweb.internal;
 
 import org.timepedia.exporter.client.ExporterUtil;
 
-import com.ononedb.nextweb.js.OnedbNextwebJsEngine;
+import com.ononedb.nextweb.js.OnedbNextwebJsEngineImpl;
 
 public class DummyEntryPoint {
 	public void onModuleLoad() {
 		ExporterUtil.exportAll();
 		// GWT.log("all exported");
-		OnedbNextwebJsEngine.init();
+		OnedbNextwebJsEngineImpl.init();
 
 		onLoadImpl();
 	}

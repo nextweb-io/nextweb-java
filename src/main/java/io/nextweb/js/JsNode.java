@@ -1,6 +1,7 @@
 package io.nextweb.js;
 
 import io.nextweb.Node;
+import io.nextweb.js.engine.NextwebEngineJs;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -18,7 +19,18 @@ public class JsNode implements Exportable {
 
 	@Export
 	public String uri() {
-		return node.uri();
+		return getUri();
+	}
+
+	@Export
+	public Object getValue() {
+		return ((NextwebEngineJs) node.getSession().getEngine()).wrapForJs(node
+				.getValue());
+	}
+
+	@Export
+	public Object value() {
+		return getValue();
 	}
 
 	@NoExport

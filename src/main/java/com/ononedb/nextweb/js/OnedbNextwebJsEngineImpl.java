@@ -6,6 +6,7 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.js.NextwebJs;
 import io.nextweb.js.engine.JsNextwebEngine;
+import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import nx.client.gwt.services.GwtRemoteService;
 import nx.client.gwt.services.GwtRemoteServiceAsync;
@@ -14,17 +15,19 @@ import one.core.dsl.CoreDsl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.internal.OnedbFactory;
 import com.ononedb.nextweb.js.fn.JsResultImplementation;
+import com.ononedb.nextweb.js.utils.OnedbWrapper;
 
-public class OnedbNextwebJsEngine implements OnedbNextwebEngine {
+public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 
 	private CoreDsl dsl;
 	private final ExceptionManager exceptionManager;
 
-	public static OnedbNextwebJsEngine init() {
-		OnedbNextwebJsEngine engine = new OnedbNextwebJsEngine();
+	private final WrapperCollection wrapperCollection;
+
+	public static OnedbNextwebJsEngineImpl init() {
+		OnedbNextwebJsEngineImpl engine = new OnedbNextwebJsEngineImpl();
 		NextwebJs.injectEngine(JsNextwebEngine.wrap(engine));
 		return engine;
 	}
@@ -72,7 +75,7 @@ public class OnedbNextwebJsEngine implements OnedbNextwebEngine {
 		return new OnedbFactory();
 	}
 
-	public OnedbNextwebJsEngine() {
+	public OnedbNextwebJsEngineImpl() {
 		super();
 		this.exceptionManager = new ExceptionManager(null);
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
@@ -84,6 +87,14 @@ public class OnedbNextwebJsEngine implements OnedbNextwebEngine {
 						+ origin.getClass() + ")");
 			}
 		});
+		this.wrapperCollection = new WrapperCollection();
+		this.wrapperCollection.addWrapper(OnedbWrapper.ONEJSON);
+	}
+
+	@Override
+	public Object wrapForJs(Object in) {
+
+		return null;
 	}
 
 }
