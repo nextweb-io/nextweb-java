@@ -1,6 +1,7 @@
 package com.ononedb.nextweb;
 
 import io.nextweb.Link;
+import io.nextweb.LinkList;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
@@ -146,6 +147,12 @@ public class OnedbLink implements Link, OnedbEntity {
 	public ExceptionManager getExceptionManager() {
 
 		return this.exceptionManager;
+	}
+
+	@Override
+	public LinkList node(Link link) {
+
+		throw new RuntimeException("Not implemented yet");
 	}
 
 }
