@@ -1,10 +1,11 @@
 package com.ononedb.nextweb.js;
 
-import io.nextweb.Nextweb;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
+import io.nextweb.js.NextwebJs;
+import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import nx.client.gwt.services.GwtRemoteService;
 import nx.client.gwt.services.GwtRemoteServiceAsync;
@@ -24,7 +25,7 @@ public class OnedbNextwebJsEngine implements OnedbNextwebEngine {
 
 	public static OnedbNextwebJsEngine init() {
 		OnedbNextwebJsEngine engine = new OnedbNextwebJsEngine();
-		Nextweb.injectEngine(engine);
+		NextwebJs.injectEngine(JsNextwebEngine.wrap(engine));
 		return engine;
 	}
 

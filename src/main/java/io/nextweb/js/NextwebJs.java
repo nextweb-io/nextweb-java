@@ -4,10 +4,12 @@ import io.nextweb.engine.NextwebEngine;
 import io.nextweb.js.engine.JsNextwebEngine;
 
 import org.timepedia.exporter.client.Export;
+import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
+@ExportPackage("")
 @Export("Nextweb")
-public class Nextweb implements Exportable {
+public class NextwebJs implements Exportable {
 
 	private static NextwebEngine injectedEngine;
 
@@ -26,7 +28,7 @@ public class Nextweb implements Exportable {
 		return JsNextwebEngine.wrap(injectedEngine);
 	}
 
-	public Nextweb() {
+	public NextwebJs() {
 		super();
 	}
 

@@ -1,6 +1,9 @@
 package io.nextweb.js;
 
 import io.nextweb.Link;
+import io.nextweb.Node;
+import io.nextweb.fn.ResultCallback;
+import io.nextweb.js.fn.JsObjectCallback;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -10,6 +13,19 @@ import org.timepedia.exporter.client.NoExport;
 public class JsLink implements Exportable {
 
 	private Link link;
+
+	@Export
+	public void get(final JsObjectCallback callback) {
+		assert link != null;
+
+		link.get(new ResultCallback<Node>() {
+
+			@Override
+			public void onSuccess(Node result) {
+				callback.run(result);
+			}
+		});
+	}
 
 	@Export
 	public String getUri() {
