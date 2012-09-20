@@ -1,5 +1,6 @@
 package com.ononedb.nextweb;
 
+import io.nextweb.Entity;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
@@ -16,18 +17,12 @@ import one.core.nodes.OneTypedReference;
 import one.core.nodes.OneValue;
 
 import com.ononedb.nextweb.common.H;
-import com.ononedb.nextweb.plugins.EntityPlugin_Select;
 
 public class OnedbNode implements Node, OnedbEntity {
 
 	private final OnedbSession session;
 	private final OneTypedReference<?> node;
 	private final ExceptionManager exceptionManager;
-
-	@Override
-	public Query select(Link propertyType) {
-		return new EntityPlugin_Select(this).select(propertyType);
-	}
 
 	@Override
 	public String getUri() {
@@ -76,13 +71,6 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public <PluginType extends Plugin> PluginType plugin(
-			PluginFactory<PluginType> factory) {
-
-		return Plugins.plugin(this, factory);
-	}
-
-	@Override
 	public OnedbSession getOnedbSession() {
 		return session;
 	}
@@ -121,18 +109,29 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
+	public Query select(Link propertyType) {
+		return plugin(H.plugins(session).select()).select(propertyType);
+	}
+
+	@Override
 	public NodeListQuery selectAll(Link propertyType) {
-		return new EntityPlugin_Select(this).selectAll(propertyType);
+		return plugin(H.plugins(session).select()).selectAll(propertyType);
 	}
 
 	@Override
 	public LinkListQuery selectAllLinks() {
-		return new EntityPlugin_Select(this).selectAllLinks();
+		return plugin(H.plugins(session).select()).selectAllLinks();
 	}
 
 	@Override
 	public NodeListQuery selectAll() {
-		return new EntityPlugin_Select(this).selectAll();
+		return plugin(H.plugins(session).select()).selectAll();
+	}
+
+	@Override
+	public <PluginType extends Plugin<Entity>> PluginType plugin(
+			PluginFactory<Entity, PluginType> factory) {
+		return Plugins.plugin(this, factory);
 	}
 
 }

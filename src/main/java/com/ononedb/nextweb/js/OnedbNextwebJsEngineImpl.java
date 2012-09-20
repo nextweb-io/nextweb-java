@@ -8,6 +8,7 @@ import io.nextweb.js.NextwebJs;
 import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.plugins.DefaultPluginFactory;
 import nx.client.gwt.services.GwtRemoteService;
 import nx.client.gwt.services.GwtRemoteServiceAsync;
 import one.client.gwt.OneGwt;
@@ -15,6 +16,7 @@ import one.core.dsl.CoreDsl;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.OnedbFactory;
 import com.ononedb.nextweb.js.fn.JsResultImplementation;
 import com.ononedb.nextweb.js.utils.OnedbWrapper;
@@ -100,6 +102,11 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 	@Override
 	public WrapperCollection getWrappers() {
 		return wrapperCollection;
+	}
+
+	@Override
+	public DefaultPluginFactory plugin() {
+		return H.onedbDefaultPluginFactory();
 	}
 
 }

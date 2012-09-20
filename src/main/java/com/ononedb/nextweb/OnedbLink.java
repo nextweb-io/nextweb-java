@@ -23,7 +23,6 @@ import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 import one.core.dsl.callbacks.results.WithUndefinedContext;
 
 import com.ononedb.nextweb.common.H;
-import com.ononedb.nextweb.plugins.EntityPlugin_Select;
 
 public class OnedbLink implements Link, OnedbEntity {
 
@@ -40,22 +39,22 @@ public class OnedbLink implements Link, OnedbEntity {
 
 	@Override
 	public Query select(Link propertyType) {
-		return new EntityPlugin_Select(this).select(propertyType);
+		return plugin(H.plugins(session).select()).select(propertyType);
 	}
 
 	@Override
 	public NodeListQuery selectAll(Link propertyType) {
-		return new EntityPlugin_Select(this).selectAll(propertyType);
+		return plugin(H.plugins(session).select()).selectAll(propertyType);
 	}
 
 	@Override
 	public LinkListQuery selectAllLinks() {
-		return new EntityPlugin_Select(this).selectAllLinks();
+		return plugin(H.plugins(session).select()).selectAllLinks();
 	}
 
 	@Override
 	public NodeListQuery selectAll() {
-		return new EntityPlugin_Select(this).selectAll();
+		return plugin(H.plugins(session).select()).selectAll();
 	}
 
 	@Override

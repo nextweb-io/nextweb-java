@@ -1,5 +1,6 @@
 package com.ononedb.nextweb;
 
+import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.NodeList;
@@ -48,12 +49,6 @@ public class OnedbNodeListQuery implements NodeListQuery, OnedbEntityList {
 	}
 
 	@Override
-	public <PluginType extends Plugin> PluginType plugin(
-			PluginFactory<PluginType> factory) {
-		return Plugins.plugin(this, factory);
-	}
-
-	@Override
 	public Query select(Link propertyType) {
 		throw new RuntimeException("Not implemented yet!");
 	}
@@ -71,6 +66,13 @@ public class OnedbNodeListQuery implements NodeListQuery, OnedbEntityList {
 	@Override
 	public NodeListQuery selectAll() {
 		throw new RuntimeException("Not implemented yet!");
+	}
+
+	@Override
+	public <PluginType extends Plugin<EntityList>> PluginType plugin(
+			PluginFactory<EntityList, PluginType> factory) {
+
+		return Plugins.plugin(this, factory);
 	}
 
 }

@@ -38,6 +38,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 		};
 
+		return null;
 	}
 
 	@Override

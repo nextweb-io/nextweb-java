@@ -1,7 +1,5 @@
 package com.ononedb.nextweb;
 
-import com.ononedb.nextweb.internal.OnedbFactory;
-
 import io.nextweb.Link;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
@@ -17,6 +15,7 @@ import one.async.joiner.CallbackLatch;
 import one.core.domain.OneClient;
 import one.core.dsl.callbacks.WhenShutdown;
 
+import com.ononedb.nextweb.internal.OnedbFactory;
 
 public class OnedbSession implements Session {
 
@@ -26,12 +25,6 @@ public class OnedbSession implements Session {
 
 	public OneClient getClient() {
 		return client;
-	}
-
-	@Override
-	public <PluginType extends Plugin> PluginType plugin(
-			PluginFactory<PluginType> factory) {
-		return Plugins.plugin(this, factory);
 	}
 
 	public OnedbFactory getFactory() {
@@ -126,6 +119,12 @@ public class OnedbSession implements Session {
 
 			}
 		});
+	}
+
+	@Override
+	public <PluginType extends Plugin<Session>> PluginType plugin(
+			PluginFactory<Session, PluginType> factory) {
+		return Plugins.plugin(this, factory);
 	}
 
 }

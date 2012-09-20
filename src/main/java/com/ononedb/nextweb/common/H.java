@@ -1,9 +1,10 @@
 package com.ononedb.nextweb.common;
 
 import io.nextweb.Entity;
+import io.nextweb.Session;
 import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.plugins.DefaultPluginFactory;
-import io.nextweb.plugins.EntityPlugin;
+import io.nextweb.plugins.Entity_SelectPlugin;
 import io.nextweb.plugins.PluginFactory;
 import one.core.domain.OneClient;
 import one.core.dsl.CoreDsl;
@@ -33,6 +34,10 @@ public class H {
 		return fromObj.getOnedbSession().getFactory();
 	}
 
+	public static DefaultPluginFactory plugins(Session session) {
+		return session.getEngine().plugin();
+	}
+
 	public static AuthorizationExceptionResult fromUnauthorizedContext(
 			final WithUnauthorizedContext context) {
 		return new AuthorizationExceptionResult() {
@@ -54,10 +59,12 @@ public class H {
 	public static DefaultPluginFactory onedbDefaultPluginFactory() {
 		return new DefaultPluginFactory() {
 
+			@SuppressWarnings("unchecked")
 			@Override
-			public PluginFactory<? extends Entity, ? extends EntityPlugin<?>> select() {
-				return EntityPlugin_Select_Factory.FACTORY;
+			public <GEntity extends Entity, GPlugin extends Entity_SelectPlugin<GEntity>> PluginFactory<GEntity, GPlugin> select() {
+				return (PluginFactory<GEntity, GPlugin>) EntityPlugin_Select_Factory.FACTORY;
 			}
+
 		};
 
 	}

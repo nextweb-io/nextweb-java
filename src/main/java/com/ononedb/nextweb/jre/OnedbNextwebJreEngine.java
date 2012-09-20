@@ -6,8 +6,7 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.ExceptionManager;
-
-
+import io.nextweb.plugins.DefaultPluginFactory;
 import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
@@ -15,6 +14,7 @@ import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.NoExport;
 
 import com.ononedb.nextweb.OnedbNextwebEngine;
+import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.OnedbFactory;
 
 @Export
@@ -76,6 +76,12 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 						t);
 			}
 		});
+	}
+
+	@Override
+	public DefaultPluginFactory plugin() {
+
+		return H.onedbDefaultPluginFactory();
 	}
 
 }

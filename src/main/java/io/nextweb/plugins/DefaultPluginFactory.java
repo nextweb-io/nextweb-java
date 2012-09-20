@@ -4,6 +4,6 @@ import io.nextweb.Entity;
 
 public interface DefaultPluginFactory {
 
-	public PluginFactory<? extends Entity, ? extends Entity_SelectPlugin<?>> select();
+	public <GEntity extends Entity, GPlugin extends Entity_SelectPlugin<GEntity>> PluginFactory<GEntity, GPlugin> select();
 
 }
