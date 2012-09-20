@@ -1,12 +1,17 @@
 package com.ononedb.nextweb.common;
 
+import io.nextweb.Entity;
 import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
+import io.nextweb.plugins.DefaultPluginFactory;
+import io.nextweb.plugins.EntityPlugin;
+import io.nextweb.plugins.PluginFactory;
 import one.core.domain.OneClient;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 
 import com.ononedb.nextweb.OnedbObject;
 import com.ononedb.nextweb.internal.OnedbFactory;
+import com.ononedb.nextweb.plugins.EntityPlugin_Select_Factory;
 
 /**
  * Helper methods.
@@ -44,6 +49,17 @@ public class H {
 				return context.message();
 			}
 		};
+	}
+
+	public static DefaultPluginFactory onedbDefaultPluginFactory() {
+		return new DefaultPluginFactory() {
+
+			@Override
+			public PluginFactory<? extends Entity, ? extends EntityPlugin<?>> select() {
+				return EntityPlugin_Select_Factory.FACTORY;
+			}
+		};
+
 	}
 
 }

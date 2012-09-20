@@ -1,8 +1,8 @@
 package io.nextweb.plugins;
 
-public interface HasPlugins {
+public interface HasPlugins<ForType> {
 
-	public <ForType, PluginType extends Plugin<ForType>> PluginType plugin(
+	public <PluginType extends Plugin<ForType>> PluginType plugin(
 			PluginFactory<ForType, PluginType> factory);
 
 }

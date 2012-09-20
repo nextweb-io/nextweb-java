@@ -5,7 +5,8 @@ import io.nextweb.operations.EntityOperations;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.HasPlugins;
 
-public interface Entity extends HasPlugins, EntityOperations, Result<Node> {
+public interface Entity extends HasPlugins<Entity>, EntityOperations,
+		Result<Node> {
 
 	public Session getSession();
 

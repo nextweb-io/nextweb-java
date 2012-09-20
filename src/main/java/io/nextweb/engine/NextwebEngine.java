@@ -4,6 +4,7 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.plugins.DefaultPluginFactory;
 
 public interface NextwebEngine {
 
@@ -13,5 +14,7 @@ public interface NextwebEngine {
 			AsyncResult<ResultType> asyncResult);
 
 	public ExceptionManager getExceptionManager();
+
+	public DefaultPluginFactory plugin();
 
 }

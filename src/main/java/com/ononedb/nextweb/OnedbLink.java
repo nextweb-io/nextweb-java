@@ -1,5 +1,6 @@
 package com.ononedb.nextweb;
 
+import io.nextweb.Entity;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
@@ -16,7 +17,6 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
-import io.nextweb.plugins.Plugins;
 import one.core.dsl.callbacks.WhenLoaded;
 import one.core.dsl.callbacks.results.WithLoadResult;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
@@ -33,10 +33,9 @@ public class OnedbLink implements Link, OnedbEntity {
 	private final ExceptionManager exceptionManager;
 
 	@Override
-	public <PluginType extends Plugin> PluginType plugin(
-			PluginFactory<PluginType> factory) {
-
-		return Plugins.plugin(this, factory);
+	public <PluginType extends Plugin<Entity>> PluginType plugin(
+			PluginFactory<Entity, PluginType> factory) {
+		return factory.create(this);
 	}
 
 	@Override
