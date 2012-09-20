@@ -8,9 +8,8 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ResultCallback;
-import io.nextweb.operations.EntitySelectOperations;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.plugins.EntityPlugin;
+import io.nextweb.plugins.Entity_SelectPlugin;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.WhenChildrenSelected;
 import one.core.dsl.callbacks.results.WithChildrenSelectedResult;
@@ -20,8 +19,7 @@ import one.core.nodes.OneTypedReference;
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.common.H;
 
-public class EntityPlugin_Select implements EntityPlugin<OnedbEntity>,
-		EntitySelectOperations {
+public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 	private OnedbEntity entity;
 

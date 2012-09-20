@@ -2,6 +2,6 @@ package io.nextweb.plugins;
 
 public interface PluginFactory<ForType, PluginType extends Plugin<ForType>> {
 
-	public PluginType create(Object forObject);
+	public PluginType create(ForType forObject);
 
 }
