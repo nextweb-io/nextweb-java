@@ -5,8 +5,8 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.js.NextwebJs;
+import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.JsNextwebEngine;
-import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.core.DefaultPluginFactory;
 import nx.client.gwt.services.GwtRemoteService;
@@ -25,8 +25,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 
 	private CoreDsl dsl;
 	private final ExceptionManager exceptionManager;
-
-	private final WrapperCollection wrapperCollection;
+	private final JsFactory jsFactory;
 
 	public static OnedbNextwebJsEngineImpl init() {
 		OnedbNextwebJsEngineImpl engine = new OnedbNextwebJsEngineImpl();
@@ -89,24 +88,18 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 						+ origin.getClass() + ")");
 			}
 		});
-		this.wrapperCollection = new WrapperCollection();
-		this.wrapperCollection.addWrapper(OnedbWrapper.ONEJSON);
-	}
-
-	@Override
-	public Object wrapForJs(Object in) {
-
-		return wrapperCollection.wrapForJs(in);
-	}
-
-	@Override
-	public WrapperCollection getWrappers() {
-		return wrapperCollection;
+		this.jsFactory = new JsFactory();
+		jsFactory.getWrappers().addWrapper(OnedbWrapper.ONEJSON);
 	}
 
 	@Override
 	public DefaultPluginFactory plugin() {
 		return H.onedbDefaultPluginFactory();
+	}
+
+	@Override
+	public JsFactory jsFactory() {
+		return new JsFactory();
 	}
 
 }

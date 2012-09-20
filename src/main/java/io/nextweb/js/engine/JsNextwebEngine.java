@@ -10,10 +10,16 @@ import org.timepedia.exporter.client.NoExport;
 public class JsNextwebEngine implements Exportable {
 
 	private NextwebEngineJs engine;
+	private final JsFactory factory;
 
 	@Export
 	public JsSession createSession() {
 		return JsSession.wrap(engine.createSession());
+	}
+
+	@Export
+	public JsFactory plugins() {
+		return factory;
 	}
 
 	@NoExport
@@ -35,6 +41,7 @@ public class JsNextwebEngine implements Exportable {
 
 	public JsNextwebEngine() {
 		super();
+		this.factory = new JsFactory();
 	}
 
 }
