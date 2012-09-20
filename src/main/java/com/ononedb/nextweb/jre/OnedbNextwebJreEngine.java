@@ -6,7 +6,7 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.plugins.DefaultPluginFactory;
+import io.nextweb.plugins.core.DefaultPluginFactory;
 import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 

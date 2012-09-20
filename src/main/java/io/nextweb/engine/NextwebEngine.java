@@ -4,7 +4,7 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.plugins.DefaultPluginFactory;
+import io.nextweb.plugins.core.DefaultPluginFactory;
 
 public interface NextwebEngine {
 

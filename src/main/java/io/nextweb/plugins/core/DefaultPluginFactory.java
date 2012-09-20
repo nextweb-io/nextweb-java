@@ -1,6 +1,7 @@
-package io.nextweb.plugins;
+package io.nextweb.plugins.core;
 
 import io.nextweb.Entity;
+import io.nextweb.plugins.PluginFactory;
 
 public interface DefaultPluginFactory {
 

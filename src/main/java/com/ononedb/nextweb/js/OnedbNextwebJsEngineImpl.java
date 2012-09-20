@@ -8,7 +8,7 @@ import io.nextweb.js.NextwebJs;
 import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.plugins.DefaultPluginFactory;
+import io.nextweb.plugins.core.DefaultPluginFactory;
 import nx.client.gwt.services.GwtRemoteService;
 import nx.client.gwt.services.GwtRemoteServiceAsync;
 import one.client.gwt.OneGwt;

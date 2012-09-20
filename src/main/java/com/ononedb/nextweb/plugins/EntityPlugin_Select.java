@@ -9,7 +9,7 @@ import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.plugins.Entity_SelectPlugin;
+import io.nextweb.plugins.core.Entity_SelectPlugin;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.WhenChildrenSelected;
 import one.core.dsl.callbacks.results.WithChildrenSelectedResult;
