@@ -1,5 +1,8 @@
 package io.nextweb.plugins;
 
-public interface EntityPlugin extends Plugin {
+import io.nextweb.Entity;
+
+public interface EntityPlugin<EntityType extends Entity> extends
+		Plugin<EntityType> {
 
 }

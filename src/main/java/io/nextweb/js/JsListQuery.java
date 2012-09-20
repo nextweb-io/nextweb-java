@@ -1,31 +1,31 @@
 package io.nextweb.js;
 
-import io.nextweb.ListQuery;
+import io.nextweb.LinkListQuery;
 
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
-public class JsListQuery implements Exportable, JsWrapper<ListQuery> {
+public class JsListQuery implements Exportable, JsWrapper<LinkListQuery> {
 
-	private ListQuery listQuery;
+	private LinkListQuery listQuery;
 
 	@NoExport
 	@Override
-	public ListQuery getOriginal() {
+	public LinkListQuery getOriginal() {
 		return listQuery;
 	}
 
 	@NoExport
 	@Override
-	public void setOriginal(ListQuery original) {
+	public void setOriginal(LinkListQuery original) {
 		this.listQuery = original;
 	}
 
 	@NoExport
-	public static JsListQuery wrap(ListQuery listQuery) {
+	public static JsListQuery wrap(LinkListQuery listQuery) {
 		JsListQuery jsListQuery = new JsListQuery();
 		jsListQuery.setOriginal(listQuery);
-		return jsListQuery;.
+		return jsListQuery;
 	}
 
 	public JsListQuery() {

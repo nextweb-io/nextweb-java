@@ -1,7 +1,9 @@
 package com.ononedb.nextweb;
 
 import io.nextweb.Link;
+import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
+import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.ExceptionListener;
@@ -85,6 +87,21 @@ public class OnedbQuery implements Query, OnedbEntity {
 	public Query select(Link propertyType) {
 
 		return new EntityPlugin_Select(this).select(propertyType);
+	}
+
+	@Override
+	public NodeListQuery selectAll(Link propertyType) {
+		return new EntityPlugin_Select(this).selectAll(propertyType);
+	}
+
+	@Override
+	public LinkListQuery selectAllLinks() {
+		return new EntityPlugin_Select(this).selectAllLinks();
+	}
+
+	@Override
+	public NodeListQuery selectAll() {
+		return new EntityPlugin_Select(this).selectAll();
 	}
 
 }

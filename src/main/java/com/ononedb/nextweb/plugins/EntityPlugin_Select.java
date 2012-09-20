@@ -1,10 +1,14 @@
 package com.ononedb.nextweb.plugins;
 
 import io.nextweb.Link;
+import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
+import io.nextweb.NodeList;
+import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ResultCallback;
+import io.nextweb.operations.EntitySelectOperations;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.EntityPlugin;
 import one.core.dsl.CoreDsl;
@@ -16,10 +20,29 @@ import one.core.nodes.OneTypedReference;
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.common.H;
 
-public class EntityPlugin_Select implements EntityPlugin {
+public class EntityPlugin_Select implements EntityPlugin<OnedbEntity>,
+		EntitySelectOperations {
 
-	private final OnedbEntity entity;
+	private OnedbEntity entity;
 
+	@Override
+	public NodeListQuery selectAll(final Link propertyType) {
+		final CoreDsl dsl = H.dsl(entity);
+
+		final ExceptionManager exceptionManager = entity.getExceptionManager();
+
+		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
+
+			@Override
+			public void get(ResultCallback<NodeList> callback) {
+
+			}
+
+		};
+
+	}
+
+	@Override
 	public Query select(final Link propertyType) {
 
 		final CoreDsl dsl = H.dsl(entity);
@@ -92,9 +115,24 @@ public class EntityPlugin_Select implements EntityPlugin {
 						selectResult);
 	}
 
-	public EntityPlugin_Select(OnedbEntity entity) {
+	public EntityPlugin_Select() {
 		super();
-		this.entity = entity;
+	}
+
+	@Override
+	public LinkListQuery selectAllLinks() {
+		throw new RuntimeException("Not implemented!");
+	}
+
+	@Override
+	public NodeListQuery selectAll() {
+		throw new RuntimeException("Not implemented!");
+	}
+
+	@Override
+	public void injectObject(OnedbEntity obj) {
+		this.entity = obj;
+
 	}
 
 }
