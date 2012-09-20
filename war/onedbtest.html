@@ -14,8 +14,12 @@
 		
 		var link = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd");
 		
-		link.get(function(node) {
-			window.N = node;
+		var aQuestionBag = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Question_Bag");
+		
+		var questionBag = link.select(aQuestionBag);
+		
+		session.getAll(link, questionBag, function(link, questionBag) {
+			alert(questionBag.value());
 		});
 		
 	};

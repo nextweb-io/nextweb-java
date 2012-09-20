@@ -8,7 +8,7 @@ import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsNode implements Exportable {
+public class JsNode implements Exportable, JsWrapper<Node> {
 
 	private Node node;
 
@@ -33,20 +33,22 @@ public class JsNode implements Exportable {
 		return getValue();
 	}
 
+	@Override
 	@NoExport
-	public Node getNode() {
+	public Node getOriginal() {
 		return node;
 	}
 
+	@Override
 	@NoExport
-	public void setNode(Node node) {
+	public void setOriginal(Node node) {
 		this.node = node;
 	}
 
 	@NoExport
 	public static JsNode wrap(Node node) {
 		JsNode jsNode = new JsNode();
-		jsNode.setNode(node);
+		jsNode.setOriginal(node);
 		return jsNode;
 	}
 

@@ -9,7 +9,7 @@ import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsQuery implements Exportable {
+public class JsQuery implements Exportable, JsWrapper<Query> {
 
 	private Query query;
 
@@ -23,20 +23,22 @@ public class JsQuery implements Exportable {
 		return JH.get(query);
 	}
 
+	@Override
 	@NoExport
-	public Query getQuery() {
+	public Query getOriginal() {
 		return query;
 	}
 
+	@Override
 	@NoExport
-	public void setQuery(Query query) {
+	public void setOriginal(Query query) {
 		this.query = query;
 	}
 
 	@NoExport
 	public static JsQuery wrap(Query query) {
 		JsQuery jsQuery = new JsQuery();
-		jsQuery.setQuery(query);
+		jsQuery.setOriginal(query);
 		return jsQuery;
 	}
 

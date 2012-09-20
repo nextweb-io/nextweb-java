@@ -97,4 +97,9 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 		return wrapperCollection.wrapForJs(in);
 	}
 
+	@Override
+	public WrapperCollection getWrappers() {
+		return wrapperCollection;
+	}
+
 }

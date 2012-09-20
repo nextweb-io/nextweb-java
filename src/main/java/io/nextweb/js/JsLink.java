@@ -9,7 +9,7 @@ import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsLink implements Exportable {
+public class JsLink implements Exportable, JsWrapper<Link> {
 
 	private Link link;
 
@@ -25,7 +25,7 @@ public class JsLink implements Exportable {
 
 	@Export
 	public JsQuery select(JsLink propertyType) {
-		return JsQuery.wrap(link.select(propertyType.getLink()));
+		return JsQuery.wrap(link.select(propertyType.getOriginal()));
 	}
 
 	@Export
@@ -38,13 +38,15 @@ public class JsLink implements Exportable {
 		return link.uri();
 	}
 
+	@Override
 	@NoExport
-	public void setLink(Link link) {
+	public void setOriginal(Link link) {
 		this.link = link;
 	}
 
+	@Override
 	@NoExport
-	public Link getLink() {
+	public Link getOriginal() {
 		return this.link;
 	}
 
@@ -55,7 +57,7 @@ public class JsLink implements Exportable {
 	@NoExport
 	public static JsLink wrap(Link link) {
 		JsLink jsLink = new JsLink();
-		jsLink.setLink(link);
+		jsLink.setOriginal(link);
 		return jsLink;
 	}
 
