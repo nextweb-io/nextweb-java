@@ -1,7 +1,17 @@
 package io.nextweb.js.engine;
 
 import io.nextweb.Link;
+import io.nextweb.LinkListQuery;
+import io.nextweb.Node;
+import io.nextweb.NodeList;
+import io.nextweb.Query;
+import io.nextweb.Session;
 import io.nextweb.js.JsLink;
+import io.nextweb.js.JsLinkListQuery;
+import io.nextweb.js.JsNode;
+import io.nextweb.js.JsNodeList;
+import io.nextweb.js.JsQuery;
+import io.nextweb.js.JsSession;
 import io.nextweb.js.plugins.JsPluginUtils;
 import io.nextweb.js.utils.WrapperCollection;
 
@@ -36,10 +46,45 @@ public class JsFactory implements Exportable {
 	}
 
 	@NoExport
+	public JsQuery createQuery(Query query) {
+		final JsQuery jsQuery = JsQuery.wrap(query);
+		applyAllPlugins(entityPlugins, jsQuery);
+		return jsQuery;
+	}
+
+	@NoExport
 	public JsLink createLink(Link link) {
-		JsLink jsLink = JsLink.wrap(link);
+		final JsLink jsLink = JsLink.wrap(link);
 		applyAllPlugins(entityPlugins, jsLink);
 		return jsLink;
+	}
+
+	@NoExport
+	public JsNode createNode(Node node) {
+		final JsNode jsNode = JsNode.wrap(node);
+		applyAllPlugins(entityPlugins, jsNode);
+		return jsNode;
+	}
+
+	@NoExport
+	public JsSession createSession(Session session) {
+		final JsSession jsSession = JsSession.wrap(session);
+
+		return jsSession;
+	}
+
+	@NoExport
+	public JsNodeList createNodeList(NodeList nodeList) {
+		final JsNodeList jsNodeList = JsNodeList.wrap(nodeList);
+
+		return jsNodeList;
+	}
+
+	@NoExport
+	public JsLinkListQuery createLinkListQuery(LinkListQuery listQuery) {
+		final JsLinkListQuery jsListQuery = JsLinkListQuery.wrap(listQuery);
+
+		return jsListQuery;
 	}
 
 	@NoExport

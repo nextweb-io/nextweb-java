@@ -25,7 +25,9 @@ public class JsLink implements Exportable, JsWrapper<Link> {
 
 	@Export
 	public JsQuery select(JsLink propertyType) {
-		return JsQuery.wrap(link.select(propertyType.getOriginal()));
+		return JH.jsFactory(propertyType.getOriginal()).createQuery(
+				link.select(propertyType.getOriginal()));
+
 	}
 
 	@Export

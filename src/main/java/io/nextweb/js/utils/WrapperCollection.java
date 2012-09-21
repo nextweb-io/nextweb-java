@@ -4,9 +4,6 @@ import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
-import io.nextweb.js.JsNode;
-import io.nextweb.js.JsQuery;
-import io.nextweb.js.JsSession;
 import io.nextweb.js.engine.JsFactory;
 
 import java.util.Date;
@@ -27,7 +24,7 @@ public class WrapperCollection {
 	public Object createJsEngineWrapper(Object engineNode) {
 
 		if (engineNode instanceof Query) {
-			return JsQuery.wrap((Query) engineNode);
+			return factory.createQuery((Query) engineNode);
 		}
 
 		if (engineNode instanceof Link) {
@@ -35,11 +32,11 @@ public class WrapperCollection {
 		}
 
 		if (engineNode instanceof Node) {
-			return JsNode.wrap((Node) engineNode);
+			return factory.createNode((Node) engineNode);
 		}
 
 		if (engineNode instanceof Session) {
-			return JsSession.wrap((Session) engineNode);
+			return factory.createSession((Session) engineNode);
 		}
 
 		return engineNode;

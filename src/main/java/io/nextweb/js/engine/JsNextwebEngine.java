@@ -13,7 +13,7 @@ public class JsNextwebEngine implements Exportable {
 
 	@Export
 	public JsSession createSession() {
-		return JsSession.wrap(engine.createSession());
+		return engine.jsFactory().createSession(engine.createSession());
 	}
 
 	@Export
