@@ -62,7 +62,7 @@ public class WrapperCollection {
 		return engineNode;
 	}
 
-	public Object wrapForJs(Object gwtNode) {
+	public Object wrapValueObjectForJs(Object gwtNode) {
 
 		if (gwtNode instanceof String) {
 			return gwtNode;

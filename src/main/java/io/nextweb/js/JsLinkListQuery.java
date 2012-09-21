@@ -2,13 +2,15 @@ package io.nextweb.js;
 
 import io.nextweb.LinkListQuery;
 import io.nextweb.js.common.JH;
+import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
-public class JsLinkListQuery implements Exportable, JsWrapper<LinkListQuery> {
+public class JsLinkListQuery implements Exportable, JsWrapper<LinkListQuery>,
+		JsEntityList {
 
 	private LinkListQuery listQuery;
 
@@ -44,6 +46,21 @@ public class JsLinkListQuery implements Exportable, JsWrapper<LinkListQuery> {
 	public JsLinkListQuery() {
 		super();
 
+	}
+
+	@Export
+	@Override
+	public JsSession getSession() {
+
+		return JH.jsFactory(listQuery).createSession(listQuery.getSession());
+	}
+
+	@Export
+	@Override
+	public JsExceptionManager getExceptionManager() {
+
+		return JH.jsFactory(listQuery).createExceptionManager(
+				listQuery.getExceptionManager());
 	}
 
 }

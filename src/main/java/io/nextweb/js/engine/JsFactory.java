@@ -116,8 +116,8 @@ public class JsFactory implements Exportable {
 	}
 
 	@NoExport
-	public Object wrapForJs(Object in) {
-		return this.wrapperCollection.wrapForJs(in);
+	public Object wrapValueObjectForJs(Object in) {
+		return this.wrapperCollection.wrapValueObjectForJs(in);
 	}
 
 	@NoExport

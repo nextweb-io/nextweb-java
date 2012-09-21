@@ -29,7 +29,7 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 	@Export
 	public Object getValue() {
 		return ((NextwebEngineJs) node.getSession().getEngine()).jsFactory()
-				.wrapForJs(node.getValue());
+				.wrapValueObjectForJs(node.getValue());
 	}
 
 	@Export

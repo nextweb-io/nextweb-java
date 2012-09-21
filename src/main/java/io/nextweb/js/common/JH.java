@@ -109,7 +109,7 @@ public class JH {
 			WrapperCollection wrappers) {
 		JavaScriptObject[] result = new JavaScriptObject[array.length];
 		for (int i = 0; i <= array.length - 1; i++) {
-			Object rawWrapped = wrappers.wrapForJs(wrappers
+			Object rawWrapped = wrappers.wrapValueObjectForJs(wrappers
 					.createJsEngineWrapper(array[i]));
 			if (rawWrapped instanceof JavaScriptObject) {
 				result[i] = (JavaScriptObject) rawWrapped;

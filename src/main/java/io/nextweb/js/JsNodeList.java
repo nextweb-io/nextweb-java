@@ -4,6 +4,7 @@ import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.fn.Closure;
 import io.nextweb.js.common.JH;
+import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
@@ -15,18 +16,31 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.ononedb.nextweb.common.H;
 
 @Export
-public class JsNodeList implements Exportable, JsWrapper<NodeList> {
+public class JsNodeList implements Exportable, JsWrapper<NodeList>,
+		JsEntityList {
 
 	private NodeList list;
 
 	@Export
-	public JavaScriptObject nodes() {
-
+	public JavaScriptObject[] nodes() {
+		JavaScriptObject[] result = new JavaScriptObject[list.size()];
+		int count = 0;
+		for (Node n : list) {
+			result[count] = ExporterUtil.wrap(JH.jsFactory(list).createNode(n));
+		}
+		return result;
 	}
 
 	@Export
-	public JavaScriptObject values() {
-		also test catch exceptions for JavaScript?!?!
+	public JavaScriptObject[] values() {
+		JavaScriptObject[] result = new JavaScriptObject[list.size()];
+		int count = 0;
+		for (Node n : list) {
+			result[count] = ExporterUtil.wrap(JH.jsFactory(list)
+					.wrapValueObjectForJs(n.getValue()));
+			count++;
+		}
+		return result;
 	}
 
 	@Export
@@ -69,6 +83,21 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList> {
 	public JsNodeList() {
 		super();
 
+	}
+
+	@Export
+	@Override
+	public JsSession getSession() {
+
+		return JH.jsFactory(list).createSession(list.getSession());
+	}
+
+	@Export
+	@Override
+	public JsExceptionManager getExceptionManager() {
+
+		return JH.jsFactory(list).createExceptionManager(
+				list.getExceptionManager());
 	}
 
 }

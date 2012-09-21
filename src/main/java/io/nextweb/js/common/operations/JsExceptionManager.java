@@ -6,11 +6,18 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 @Export
 public class JsExceptionManager implements Exportable,
 		JsWrapper<ExceptionManager> {
 
 	private ExceptionManager em;
+
+	@Export
+	public void onFailure(JavaScriptObject origin, String errorMessage) {
+		em.onFailure(origin, new Exception(errorMessage));
+	}
 
 	public JsExceptionManager() {
 		super();
