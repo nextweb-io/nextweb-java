@@ -1,14 +1,18 @@
 package io.nextweb.js;
 
 import io.nextweb.Node;
+import io.nextweb.fn.ExceptionListener;
+import io.nextweb.js.common.JH;
+import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.engine.NextwebEngineJs;
+import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsNode implements Exportable, JsWrapper<Node> {
+public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 
 	private Node node;
 
@@ -54,6 +58,30 @@ public class JsNode implements Exportable, JsWrapper<Node> {
 
 	public JsNode() {
 		super();
+	}
+
+	@Export
+	@Override
+	public JsSession getSession() {
+		return JH.jsFactory(node).createSession(node.getSession());
+	}
+
+	@Export
+	@Override
+	public JsExceptionManager getExceptionManager() {
+		return JH.jsFactory(node).createExceptionManager(
+				node.getExceptionManager());
+	}
+
+	@Override
+	public void catchExceptions(final JsClosure listener) {
+		node.getExceptionManager().catchExceptions(new ExceptionListener() {
+
+			@Override
+			public void onFailure(Object origin, Throwable t) {
+				listener.apply(t);
+			}
+		});
 	}
 
 }

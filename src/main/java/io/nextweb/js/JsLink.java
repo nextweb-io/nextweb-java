@@ -1,7 +1,9 @@
 package io.nextweb.js;
 
 import io.nextweb.Link;
+import io.nextweb.fn.ExceptionListener;
 import io.nextweb.js.common.JH;
+import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
@@ -9,13 +11,25 @@ import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsLink implements Exportable, JsWrapper<Link> {
+public class JsLink implements Exportable, JsEntity, JsWrapper<Link> {
 
 	private Link link;
 
 	@Export
 	public JsNodeListQuery selectAll() {
 		return JH.jsFactory(link).createNodeListQuery(link.selectAll());
+	}
+
+	@Override
+	@Export
+	public void catchExceptions(final JsClosure listener) {
+		link.catchExceptions(new ExceptionListener() {
+
+			@Override
+			public void onFailure(Object origin, Throwable t) {
+				listener.apply(t);
+			}
+		});
 	}
 
 	@Export
@@ -66,6 +80,19 @@ public class JsLink implements Exportable, JsWrapper<Link> {
 		JsLink jsLink = new JsLink();
 		jsLink.setOriginal(link);
 		return jsLink;
+	}
+
+	@Export
+	@Override
+	public JsSession getSession() {
+		return JH.jsFactory(link).createSession(link.getSession());
+	}
+
+	@Export
+	@Override
+	public JsExceptionManager getExceptionManager() {
+		return JH.jsFactory(link).createExceptionManager(
+				link.getExceptionManager());
 	}
 
 }

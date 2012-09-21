@@ -32,6 +32,19 @@
 		
 	};
 	
+	var testSelectListChain = function(session) {
+		var questionBag = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
+		-=012-3
+		var brands = questionBag.selectAll(aQuestion).select(aBrand);
+		
+		session.getAll(brands, function(brands) {
+			questions.each(function(node) {
+				$("#output").append($("<p>"+node.value()+"</p>"));
+			});
+		});
+		
+	};
+	
 	var testSelect = function(session) {
 		var link = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd");
 		

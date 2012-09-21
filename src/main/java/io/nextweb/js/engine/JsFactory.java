@@ -16,8 +16,10 @@ import io.nextweb.js.JsNodeList;
 import io.nextweb.js.JsNodeListQuery;
 import io.nextweb.js.JsQuery;
 import io.nextweb.js.JsSession;
+import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.plugins.JsPluginUtils;
 import io.nextweb.js.utils.WrapperCollection;
+import io.nextweb.operations.exceptions.ExceptionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,14 @@ public class JsFactory implements Exportable {
 		final JsSession jsSession = JsSession.wrap(session);
 
 		return jsSession;
+	}
+
+	@NoExport
+	public JsExceptionManager createExceptionManager(
+			ExceptionManager exceptionManager) {
+		final JsExceptionManager ex = JsExceptionManager.wrap(exceptionManager);
+
+		return ex;
 	}
 
 	@NoExport
