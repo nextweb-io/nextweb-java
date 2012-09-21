@@ -25,6 +25,9 @@
 		var questions = questionBag.selectAll();
 		
 		session.getAll(questions, function(questions) {
+			V = questions.values();
+			$("#output").append("<p>"+questions.values()+"</p>");
+			$("#output").append("<p>"+questions.values()[1]+"</p>");
 			questions.each(function(node) {
 				$("#output").append($("<p>"+node.getUri()+"</p>"));
 			});
@@ -34,7 +37,7 @@
 	
 	var testSelectListChain = function(session) {
 		var questionBag = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
-		-=012-3
+		
 		var brands = questionBag.selectAll(aQuestion).select(aBrand);
 		
 		session.getAll(brands, function(brands) {

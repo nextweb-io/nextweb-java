@@ -100,6 +100,10 @@ public class WrapperCollection {
 			return gwtNode;
 		}
 
+		if (gwtNode instanceof Boolean) {
+			return gwtNode;
+		}
+
 		for (Wrapper wrapper : registeredWrappers) {
 			if (wrapper.accepts(gwtNode)) {
 				return wrapper.wrap(gwtNode);

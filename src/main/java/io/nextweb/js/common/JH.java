@@ -12,6 +12,8 @@ import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.utils.WrapperCollection;
 
+import java.util.Date;
+
 import org.timepedia.exporter.client.ExporterUtil;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -62,6 +64,72 @@ public class JH {
 						.createNodeList(result)));
 			}
 		});
+	}
+
+	public static final boolean isJsString(Object value) {
+		return value instanceof String;
+	}
+
+	public static final boolean isJsInteger(Object value) {
+		return value instanceof Integer || value instanceof Short
+				|| value instanceof Long || value instanceof Byte;
+	}
+
+	public static final boolean isJsDouble(Object value) {
+		return value instanceof Float || value instanceof Double;
+	}
+
+	public static final boolean isJsBoolean(Object value) {
+		return value instanceof Boolean;
+	}
+
+	public static final boolean isBasicJsType(Object node) {
+		return isJsString(node) || isJsInteger(node) || isJsDouble(node)
+				|| isJsBoolean(node);
+	}
+
+	/**
+	 * Will wrap all objects including Strings, Integers etc into
+	 * JavaScriptObjects. Basic JS types (such as String) will be placed in a
+	 * special wrapper Object JsBasicType.
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public static final JavaScriptObject forceWrapIntoJavaScriptObject(
+			Object node) {
+
+		if (isBasicJsType(node)) {
+			return ExporterUtil.wrap(JsBasicType.wrap(node));
+		}
+
+		return ExporterUtil.wrap(wrapNonBasicNode(node));
+
+	}
+
+	/**
+	 * Wraps this object into a JavaScriptObject, if its not an atomic JS type
+	 * such as 'string', 'number', ...
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public static final Object wrapNonBasicNode(Object node) {
+
+		if (isBasicJsType(node)) {
+			return node;
+		}
+
+		if (node instanceof Character) {
+			return node;
+		}
+
+		if (node instanceof Date) {
+			return node;
+		}
+
+		return ExporterUtil.wrap(node);
+
 	}
 
 	public static final Object getNodeList(Result<NodeList> entityResult) {
