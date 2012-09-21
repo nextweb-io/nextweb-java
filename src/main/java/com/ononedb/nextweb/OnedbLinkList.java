@@ -6,6 +6,9 @@ import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
+import io.nextweb.Session;
+import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
@@ -85,6 +88,34 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 		this.session = session;
 		this.list = list;
 		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
+	}
+
+	@Override
+	public Session getSession() {
+
+		return this.session;
+	}
+
+	@Override
+	public ExceptionManager getExceptionManager() {
+
+		return this.exceptionManager;
+	}
+
+	@Override
+	public LinkList get() {
+
+		return this;
+	}
+
+	@Override
+	public void get(ResultCallback<LinkList> callback) {
+		callback.onSuccess(this);
+	}
+
+	@Override
+	public void catchExceptions(ExceptionListener listener) {
+		this.exceptionManager.catchExceptions(listener);
 	}
 
 }

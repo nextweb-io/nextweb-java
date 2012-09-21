@@ -6,6 +6,7 @@ import io.nextweb.LinkListQuery;
 import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
+import io.nextweb.Session;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
@@ -73,6 +74,18 @@ public class OnedbNodeListQuery implements NodeListQuery, OnedbEntityList {
 			PluginFactory<EntityList, PluginType> factory) {
 
 		return Plugins.plugin(this, factory);
+	}
+
+	@Override
+	public Session getSession() {
+
+		return this.session;
+	}
+
+	@Override
+	public ExceptionManager getExceptionManager() {
+
+		return this.exceptionManager;
 	}
 
 }

@@ -7,7 +7,10 @@ import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
+import io.nextweb.Session;
 import io.nextweb.fn.Closure;
+import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
@@ -100,6 +103,33 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	public NodeList each(Closure<Node> f) {
 		H.each(list, f);
 		return this;
+	}
+
+	@Override
+	public Session getSession() {
+		return this.session;
+	}
+
+	@Override
+	public ExceptionManager getExceptionManager() {
+
+		return this.exceptionManager;
+	}
+
+	@Override
+	public NodeList get() {
+
+		return this;
+	}
+
+	@Override
+	public void get(ResultCallback<NodeList> callback) {
+		callback.onSuccess(this);
+	}
+
+	@Override
+	public void catchExceptions(ExceptionListener listener) {
+		this.exceptionManager.catchExceptions(listener);
 	}
 
 }
