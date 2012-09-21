@@ -12,7 +12,20 @@
 	window.onNextweb = function() {
 		var session = Nextweb.createSession();
 		
+		Nextweb.getEngine().plugins().registerEntityPlugin(
+			 function(forEntity) {
+			
+				return {
+					alert: function() {
+						
+					}
+				};
+			}
+		);
+		
 		var link = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd");
+		
+		link.alert();
 		
 		var aQuestionBag = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Question_Bag");
 		
@@ -20,6 +33,9 @@
 		
 		session.getAll(link, questionBag, function(link, questionBag) {
 			alert(questionBag.value());
+		}, function(ex) {
+			window.E =ex;
+			alert("Unexpected exception: "+ex);
 		});
 		
 	};

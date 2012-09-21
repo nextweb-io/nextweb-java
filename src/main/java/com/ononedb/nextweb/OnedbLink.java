@@ -170,4 +170,9 @@ public class OnedbLink implements Link, OnedbEntity {
 		throw new RuntimeException("Not implemented yet");
 	}
 
+	@Override
+	public String toString() {
+		return "link(\"" + this.getUri() + "\")";
+	}
+
 }

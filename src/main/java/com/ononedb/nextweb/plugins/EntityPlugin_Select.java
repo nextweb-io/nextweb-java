@@ -10,6 +10,12 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.core.Entity_SelectPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import one.core.domain.OneClass;
+import one.core.domain.OneTypedMatcher;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.WhenChildrenSelected;
 import one.core.dsl.callbacks.results.WithChildrenSelectedResult;
@@ -25,20 +31,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 	@Override
 	public NodeListQuery selectAll(final Link propertyType) {
-		final CoreDsl dsl = H.dsl(entity);
-
-		final ExceptionManager exceptionManager = entity.getExceptionManager();
-
-		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
-
-			@Override
-			public void get(ResultCallback<NodeList> callback) {
-
-			}
-
-		};
-
-		return null;
+		throw new RuntimeException("Not supported yet.");
 	}
 
 	@Override
@@ -107,11 +100,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 		};
 
-		return entity
-				.getOnedbSession()
-				.getFactory()
-				.createQuery(entity.getOnedbSession(), exceptionManager,
-						selectResult);
+		return H.factory(entity).createQuery(entity.getOnedbSession(),
+				exceptionManager, selectResult);
 	}
 
 	public EntityPlugin_Select() {
@@ -125,7 +115,102 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 	@Override
 	public NodeListQuery selectAll() {
-		throw new RuntimeException("Not implemented!");
+		final CoreDsl dsl = H.dsl(entity);
+
+		final ExceptionManager exceptionManager = entity.getExceptionManager();
+
+		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
+
+			@Override
+			public void get(final ResultCallback<NodeList> callback) {
+				entity.get(new ResultCallback<Node>() {
+
+					@Override
+					public void onSuccess(Node result) {
+						dsl.selectFrom(H.node(dsl, result))
+								.theChildren()
+								.satisfying(new OneTypedMatcher<Object>() {
+
+									@Override
+									public OneClass<Object> getValueType() {
+										return new OneClass<Object>() {
+
+											@Override
+											public Class<Object> getType() {
+
+												return Object.class;
+											}
+
+											@Override
+											public boolean test(Object arg0) {
+												return arg0 instanceof Object;
+											}
+
+										};
+									}
+
+									@Override
+									public boolean matches(Object arg0) {
+										return true;
+									}
+								})
+								.in(H.client(entity))
+								.and(new WhenChildrenSelected<OneTypedReference<Object>>() {
+
+									@Override
+									public void thenDo(
+											WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
+
+										List<Node> nodes = new ArrayList<Node>(
+												sr.children().size());
+
+										for (OneTypedReference<?> child : sr
+												.children()) {
+
+											nodes.add(H.factory(entity)
+													.createNode(
+															H.session(entity),
+															exceptionManager,
+															child));
+
+										}
+
+										callback.onSuccess(H
+												.factory(entity)
+												.createNodeList(
+														H.session(entity),
+														exceptionManager, nodes));
+									}
+
+									@Override
+									public void onUnauthorized(
+											WithUnauthorizedContext context) {
+										exceptionManager.onUnauthorized(
+												this,
+												H.fromUnauthorizedContext(context));
+									}
+
+									@Override
+									public void onFailure(Throwable t) {
+										exceptionManager.onFailure(this, t);
+									}
+
+								});
+
+					}
+
+					@Override
+					public void onFailure(Throwable t) {
+						exceptionManager.onFailure(this, t);
+					}
+
+				});
+			}
+
+		};
+
+		return H.factory(entity).createNodeListQuery(H.session(entity),
+				exceptionManager, selectAllResult);
 	}
 
 	@Override

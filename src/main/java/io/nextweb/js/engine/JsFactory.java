@@ -22,12 +22,14 @@ public class JsFactory implements Exportable {
 
 	@Export
 	public void registerEntityPlugin(JavaScriptObject plugin) {
+
 		this.entityPlugins.add(plugin);
 	}
 
 	@NoExport
 	private final void applyAllPlugins(List<JavaScriptObject> pluginFactories,
 			Exportable dest) {
+
 		for (JavaScriptObject pluginFactory : pluginFactories) {
 			JsPluginUtils.plugin(ExporterUtil.wrap(dest), pluginFactory);
 		}
@@ -53,7 +55,7 @@ public class JsFactory implements Exportable {
 	public JsFactory() {
 		super();
 		this.entityPlugins = new ArrayList<JavaScriptObject>();
-		this.wrapperCollection = new WrapperCollection();
+		this.wrapperCollection = new WrapperCollection(this);
 	}
 
 }

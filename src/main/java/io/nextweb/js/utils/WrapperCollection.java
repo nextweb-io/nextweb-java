@@ -4,10 +4,10 @@ import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
-import io.nextweb.js.JsLink;
 import io.nextweb.js.JsNode;
 import io.nextweb.js.JsQuery;
 import io.nextweb.js.JsSession;
+import io.nextweb.js.engine.JsFactory;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -18,6 +18,7 @@ import org.timepedia.exporter.client.ExporterUtil;
 public class WrapperCollection {
 
 	private final List<Wrapper> registeredWrappers;
+	private final JsFactory factory;
 
 	public void addWrapper(Wrapper wrapper) {
 		registeredWrappers.add(wrapper);
@@ -30,7 +31,7 @@ public class WrapperCollection {
 		}
 
 		if (engineNode instanceof Link) {
-			return JsLink.wrap((Link) engineNode);
+			return factory.createLink((Link) engineNode);
 		}
 
 		if (engineNode instanceof Node) {
@@ -91,9 +92,10 @@ public class WrapperCollection {
 		return ExporterUtil.wrap(gwtNode);
 	}
 
-	public WrapperCollection() {
+	public WrapperCollection(JsFactory factory) {
 		super();
 		this.registeredWrappers = new LinkedList<Wrapper>();
+		this.factory = factory;
 	}
 
 }

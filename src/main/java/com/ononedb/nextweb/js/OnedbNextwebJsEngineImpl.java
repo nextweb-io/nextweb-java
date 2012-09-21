@@ -99,7 +99,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 
 	@Override
 	public JsFactory jsFactory() {
-		return new JsFactory();
+		return jsFactory;
 	}
 
 }

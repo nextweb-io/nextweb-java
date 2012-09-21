@@ -11,11 +11,11 @@ public class JsPluginUtils implements Exportable {
 	public final static native void plugin(JavaScriptObject dest,
 			JavaScriptObject pluginFactory)/*-{
 
-		if (!pluginFactory.create) {
-			throw "PluginFactory must implement function create";
+		if (!typeof pluginFactory === 'function') {
+			throw "PluginFactory must be a function.";
 		}
 
-		var plugin = pluginFactory.create(dest);
+		var plugin = pluginFactory(dest);
 
 		for (obj in plugin) {
 			if (typeof plugin[obj] != "function") {

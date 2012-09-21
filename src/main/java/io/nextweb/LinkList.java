@@ -1,7 +1,7 @@
 package io.nextweb;
 
-import java.util.Collection;
+import io.nextweb.fn.ReadOnlyList;
 
-public interface LinkList extends EntityList, Collection<Link> {
+public interface LinkList extends ReadOnlyList<Link> {
 
 }

@@ -134,4 +134,10 @@ public class OnedbNode implements Node, OnedbEntity {
 		return Plugins.plugin(this, factory);
 	}
 
+	@Override
+	public String toString() {
+		return "node(\"" + this.getUri() + "\", " + this.getValue().getClass()
+				+ ")";
+	}
+
 }
