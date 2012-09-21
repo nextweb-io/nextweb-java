@@ -1,7 +1,11 @@
 package io.nextweb.js.utils;
 
 import io.nextweb.Link;
+import io.nextweb.LinkList;
+import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
+import io.nextweb.NodeList;
+import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.js.engine.JsFactory;
@@ -37,6 +41,22 @@ public class WrapperCollection {
 
 		if (engineNode instanceof Session) {
 			return factory.createSession((Session) engineNode);
+		}
+
+		if (engineNode instanceof NodeListQuery) {
+			return factory.createNodeListQuery((NodeListQuery) engineNode);
+		}
+
+		if (engineNode instanceof NodeList) {
+			return factory.createNodeList((NodeList) engineNode);
+		}
+
+		if (engineNode instanceof LinkList) {
+			return factory.createLinkList((LinkList) engineNode);
+		}
+
+		if (engineNode instanceof LinkListQuery) {
+			return factory.createLinkListQuery((LinkListQuery) engineNode);
 		}
 
 		return engineNode;

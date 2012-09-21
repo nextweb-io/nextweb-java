@@ -23,6 +23,7 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList> {
 		this.list = original;
 	}
 
+	@NoExport
 	public static JsNodeList wrap(NodeList list) {
 		JsNodeList jsList = new JsNodeList();
 		jsList.setOriginal(list);

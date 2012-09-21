@@ -14,12 +14,12 @@ public class JsLinkListQuery implements Exportable, JsWrapper<LinkListQuery> {
 
 	@Export
 	public void get(final JsObjectCallback callback) {
-		JH.get(listQuery, callback);
+		JH.getLinkList(listQuery, callback);
 	}
 
 	@Export
 	public Object get() {
-		return JH.get(listQuery);
+		return JH.getLinkList(listQuery);
 	}
 
 	@NoExport
