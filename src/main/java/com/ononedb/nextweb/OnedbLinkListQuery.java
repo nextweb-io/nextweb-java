@@ -11,7 +11,9 @@ import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
+import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -54,8 +56,9 @@ public class OnedbLinkListQuery implements LinkListQuery,
 	}
 
 	@Override
-	public void catchExceptions(ExceptionListener listener) {
+	public LinkListQuery catchExceptions(ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
+		return this;
 	}
 
 	@Override
@@ -103,6 +106,20 @@ public class OnedbLinkListQuery implements LinkListQuery,
 			}
 		});
 
+		return this;
+	}
+
+	@Override
+	public LinkListQuery catchAuthorizationExceptions(
+			AuthorizationExceptionListener listener) {
+		exceptionManager.catchAuthorizationExceptions(listener);
+		return this;
+	}
+
+	@Override
+	public LinkListQuery catchUndefinedExceptions(
+			UndefinedExceptionListener listener) {
+		exceptionManager.catchUndefinedExceptions(listener);
 		return this;
 	}
 

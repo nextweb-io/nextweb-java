@@ -1,8 +1,8 @@
 package io.nextweb.operations.exceptions;
 
-public interface AuthorizationExceptionInterceptor {
+public interface AuthorizationExceptionInterceptor<ForType> {
 
-	public void catchAuthorizationExceptions(
+	public ForType catchAuthorizationExceptions(
 			AuthorizationExceptionListener listener);
 
 }

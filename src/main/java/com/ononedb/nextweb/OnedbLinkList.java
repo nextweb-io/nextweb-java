@@ -10,7 +10,9 @@ import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ResultCallback;
+import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -117,13 +119,27 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 	}
 
 	@Override
-	public void catchExceptions(ExceptionListener listener) {
+	public LinkList catchExceptions(ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
+		return this;
 	}
 
 	@Override
 	public LinkList each(Closure<Node> f) {
 		H.each(list, f);
+		return this;
+	}
+
+	@Override
+	public LinkList catchUndefinedExceptions(UndefinedExceptionListener listener) {
+		exceptionManager.catchUndefinedExceptions(listener);
+		return this;
+	}
+
+	@Override
+	public LinkList catchAuthorizationExceptions(
+			AuthorizationExceptionListener listener) {
+		exceptionManager.catchAuthorizationExceptions(listener);
 		return this;
 	}
 

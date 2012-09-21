@@ -1,7 +1,7 @@
 package io.nextweb.fn;
 
-public interface ExceptionInterceptor {
+public interface ExceptionInterceptor<ForType> {
 
-	public void catchExceptions(ExceptionListener listener);
+	public ForType catchExceptions(ExceptionListener listener);
 
 }

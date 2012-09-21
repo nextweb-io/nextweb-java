@@ -107,8 +107,4 @@ final class ResultImplementation<ResultType> implements Result<ResultType> {
 		return cached;
 	}
 
-	@Override
-	public void catchExceptions(ExceptionListener listener) {
-		exceptionListener = listener;
-	}
 }

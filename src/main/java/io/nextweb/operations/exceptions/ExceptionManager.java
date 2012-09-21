@@ -3,7 +3,8 @@ package io.nextweb.operations.exceptions;
 import io.nextweb.fn.ExceptionInterceptor;
 import io.nextweb.fn.ExceptionListener;
 
-public class ExceptionManager implements ExceptionInterceptor,
+public class ExceptionManager implements
+		ExceptionInterceptor<ExceptionManager>,
 		AuthorizationExceptionInterceptor, ExceptionListener,
 		AuthorizationExceptionListener, UndefinedExceptionListener,
 		UndefinedExceptionInterceptor {
@@ -15,14 +16,16 @@ public class ExceptionManager implements ExceptionInterceptor,
 	private UndefinedExceptionListener undefinedExceptionListener;
 
 	@Override
-	public void catchAuthorizationExceptions(
+	public ExceptionManager catchAuthorizationExceptions(
 			AuthorizationExceptionListener authExceptionListener) {
 		this.authExceptionListener = authExceptionListener;
+		return this;
 	}
 
 	@Override
-	public void catchExceptions(ExceptionListener exceptionListener) {
+	public ExceptionManager catchExceptions(ExceptionListener exceptionListener) {
 		this.exceptionListener = exceptionListener;
+		return this;
 	}
 
 	@Override
@@ -60,9 +63,10 @@ public class ExceptionManager implements ExceptionInterceptor,
 	}
 
 	@Override
-	public void catchUndefinedExceptions(
+	public ExceptionManager catchUndefinedExceptions(
 			UndefinedExceptionListener undefinedExceptionListener) {
 		this.undefinedExceptionListener = undefinedExceptionListener;
+		return this;
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.ononedb.nextweb.js.fn;
 
 import io.nextweb.fn.AsyncResult;
-import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -65,11 +64,6 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 	@Override
 	public void get(final ResultCallback<ResultType> callback) {
 		requestResult(callback);
-	}
-
-	@Override
-	public void catchExceptions(ExceptionListener listener) {
-		exceptionManager.catchExceptions(listener);
 	}
 
 	/**

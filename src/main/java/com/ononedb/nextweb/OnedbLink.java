@@ -137,19 +137,22 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
-	public void catchExceptions(ExceptionListener listener) {
+	public Link catchExceptions(ExceptionListener listener) {
 		exceptionManager.catchExceptions(listener);
+		return this;
 	}
 
 	@Override
-	public void catchAuthorizationExceptions(
+	public Link catchAuthorizationExceptions(
 			AuthorizationExceptionListener listener) {
 		exceptionManager.catchAuthorizationExceptions(listener);
+		return this;
 	}
 
 	@Override
-	public void catchUndefinedExceptions(UndefinedExceptionListener listener) {
+	public Link catchUndefinedExceptions(UndefinedExceptionListener listener) {
 		exceptionManager.catchUndefinedExceptions(listener);
+		return this;
 	}
 
 	@Override

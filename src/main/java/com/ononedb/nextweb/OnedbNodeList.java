@@ -7,16 +7,23 @@ import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Session;
+import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ResultCallback;
+import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
 
 import java.util.Iterator;
 import java.util.List;
+
+import one.async.joiner.ListCallback;
+import one.async.joiner.ListCallbackJoiner;
+import one.async.joiner.LocalCallback;
 
 import com.ononedb.nextweb.common.H;
 
@@ -33,8 +40,54 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 	}
 
 	@Override
-	public NodeListQuery select(Link propertyType) {
-		throw new RuntimeException("Not yet implemented");
+	public NodeListQuery select(final Link propertyType) {
+
+		AsyncResult<NodeList> selectResult = new AsyncResult<NodeList>() {
+
+			@Override
+			public void get(final ResultCallback<NodeList> callback) {
+
+				ListCallbackJoiner<Node, Node> joiner = new ListCallbackJoiner<Node, Node>(
+						list, new ListCallback<Node>() {
+
+							@Override
+							public void onFailure(Throwable arg0) {
+								exceptionManager.onFailure(this, arg0);
+							}
+
+							@Override
+							public void onSuccess(List<Node> nodes) {
+								callback.onSuccess(H
+										.factory(OnedbNodeList.this)
+										.createNodeList(getOnedbSession(),
+												getExceptionManager(), nodes));
+							}
+						});
+
+				for (Node child : list) {
+
+					LocalCallback<Node> localCallback = joiner
+							.createCallback(child);
+
+					child.select(propertyType)
+							.catchExceptions(exceptionManager)
+							.get(new ResultCallback<Node>() {
+
+								@Override
+								public void onSuccess(Node result) {
+									// TODO Auto-generated method stub
+
+								}
+							});
+
+				}
+
+			}
+		};
+
+		return H.factory(this).createNodeListQuery(getOnedbSession(),
+				exceptionManager, selectResult);
+
 	}
 
 	@Override
@@ -127,8 +180,22 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 	}
 
 	@Override
-	public void catchExceptions(ExceptionListener listener) {
+	public NodeList catchExceptions(ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
+		return this;
+	}
+
+	@Override
+	public NodeList catchAuthorizationExceptions(
+			AuthorizationExceptionListener listener) {
+		exceptionManager.catchAuthorizationExceptions(listener);
+		return this;
+	}
+
+	@Override
+	public NodeList catchUndefinedExceptions(UndefinedExceptionListener listener) {
+		exceptionManager.catchUndefinedExceptions(listener);
+		return this;
 	}
 
 }

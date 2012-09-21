@@ -1,7 +1,7 @@
 package io.nextweb.operations.exceptions;
 
-public interface UndefinedExceptionInterceptor {
+public interface UndefinedExceptionInterceptor<ForType> {
 
-	public void catchUndefinedExceptions(UndefinedExceptionListener listener);
+	public ForType catchUndefinedExceptions(UndefinedExceptionListener listener);
 
 }

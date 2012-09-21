@@ -74,13 +74,11 @@ public class H {
 
 			@Override
 			public Object getType() {
-
 				return context.cause();
 			}
 
 			@Override
 			public String getMessage() {
-
 				return context.message();
 			}
 		};

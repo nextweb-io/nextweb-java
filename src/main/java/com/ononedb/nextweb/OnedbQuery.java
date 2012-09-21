@@ -41,19 +41,22 @@ public class OnedbQuery implements Query, OnedbEntity {
 	}
 
 	@Override
-	public void catchAuthorizationExceptions(
+	public Query catchAuthorizationExceptions(
 			AuthorizationExceptionListener listener) {
 		this.exceptionManager.catchAuthorizationExceptions(listener);
+		return this;
 	}
 
 	@Override
-	public void catchExceptions(ExceptionListener listener) {
+	public Query catchExceptions(ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
+		return this;
 	}
 
 	@Override
-	public void catchUndefinedExceptions(UndefinedExceptionListener listener) {
+	public Query catchUndefinedExceptions(UndefinedExceptionListener listener) {
 		this.exceptionManager.catchUndefinedExceptions(listener);
+		return this;
 
 	}
 
