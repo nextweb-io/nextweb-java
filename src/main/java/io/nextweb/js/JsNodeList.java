@@ -1,15 +1,31 @@
 package io.nextweb.js;
 
+import io.nextweb.Node;
 import io.nextweb.NodeList;
+import io.nextweb.fn.Closure;
+import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
+import com.ononedb.nextweb.common.H;
+
 @Export
 public class JsNodeList implements Exportable, JsWrapper<NodeList> {
 
 	private NodeList list;
+
+	@Export
+	public void each(final JsClosure closure) {
+		H.each(list, new Closure<Node>() {
+
+			@Override
+			public void apply(Node o) {
+				closure.apply(o);
+			}
+		});
+	}
 
 	@NoExport
 	@Override

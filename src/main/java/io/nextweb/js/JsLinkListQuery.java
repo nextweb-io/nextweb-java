@@ -2,7 +2,7 @@ package io.nextweb.js;
 
 import io.nextweb.LinkListQuery;
 import io.nextweb.js.common.JH;
-import io.nextweb.js.fn.JsObjectCallback;
+import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -13,7 +13,7 @@ public class JsLinkListQuery implements Exportable, JsWrapper<LinkListQuery> {
 	private LinkListQuery listQuery;
 
 	@Export
-	public void get(final JsObjectCallback callback) {
+	public void get(final JsClosure callback) {
 		JH.getLinkList(listQuery, callback);
 	}
 

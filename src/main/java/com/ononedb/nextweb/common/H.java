@@ -8,9 +8,6 @@ import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.core.DefaultPluginFactory;
 import io.nextweb.plugins.core.Entity_SelectPlugin;
-
-import java.util.List;
-
 import one.core.domain.OneClient;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
@@ -33,7 +30,7 @@ public class H {
 		return client(fromObj).one();
 	}
 
-	public static <E> void each(List<E> list, Closure<E> f) {
+	public static <E> void each(Iterable<E> list, Closure<E> f) {
 		for (E e : list) {
 			f.apply(e);
 		}

@@ -2,7 +2,7 @@ package io.nextweb.js;
 
 import io.nextweb.Query;
 import io.nextweb.js.common.JH;
-import io.nextweb.js.fn.JsObjectCallback;
+import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -14,7 +14,7 @@ public class JsQuery implements Exportable, JsWrapper<Query> {
 	private Query query;
 
 	@Export
-	public void get(final JsObjectCallback callback) {
+	public void get(final JsClosure callback) {
 		JH.get(query, callback);
 	}
 

@@ -9,7 +9,7 @@ import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
-import io.nextweb.js.fn.JsObjectCallback;
+import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.utils.WrapperCollection;
 
 import org.timepedia.exporter.client.ExporterUtil;
@@ -25,7 +25,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class JH {
 
 	public static final void get(Result<Node> entityResult,
-			final JsObjectCallback callback) {
+			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
 
@@ -33,7 +33,7 @@ public class JH {
 
 			@Override
 			public void onSuccess(Node result) {
-				callback.run(ExporterUtil.wrap(jsFactory(result).createNode(
+				callback.apply(ExporterUtil.wrap(jsFactory(result).createNode(
 						result)));
 			}
 		});
@@ -50,7 +50,7 @@ public class JH {
 	}
 
 	public static final void getNodeList(Result<NodeList> entityResult,
-			final JsObjectCallback callback) {
+			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
 
@@ -58,7 +58,7 @@ public class JH {
 
 			@Override
 			public void onSuccess(NodeList result) {
-				callback.run(ExporterUtil.wrap(jsFactory(result)
+				callback.apply(ExporterUtil.wrap(jsFactory(result)
 						.createNodeList(result)));
 			}
 		});
@@ -75,7 +75,7 @@ public class JH {
 	}
 
 	public static final void getLinkList(Result<LinkList> entityResult,
-			final JsObjectCallback callback) {
+			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
 
@@ -83,7 +83,7 @@ public class JH {
 
 			@Override
 			public void onSuccess(LinkList result) {
-				callback.run(ExporterUtil.wrap(jsFactory(result)
+				callback.apply(ExporterUtil.wrap(jsFactory(result)
 						.createLinkList(result)));
 			}
 		});

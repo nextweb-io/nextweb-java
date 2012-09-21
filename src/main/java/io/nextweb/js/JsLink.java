@@ -2,7 +2,7 @@ package io.nextweb.js;
 
 import io.nextweb.Link;
 import io.nextweb.js.common.JH;
-import io.nextweb.js.fn.JsObjectCallback;
+import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -14,7 +14,7 @@ public class JsLink implements Exportable, JsWrapper<Link> {
 	private Link link;
 
 	@Export
-	public void get(final JsObjectCallback callback) {
+	public void get(final JsClosure callback) {
 		JH.get(link, callback);
 	}
 

@@ -19,18 +19,18 @@ public class JsResult implements Exportable {
 
 	@Export
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void get(final JsObjectCallback onSuccess,
-			final JsObjectCallback onFailure) {
+	public void get(final JsClosure onSuccess,
+			final JsClosure onFailure) {
 		result.get(new ResultCallback() {
 
 			@Override
 			public void onSuccess(Object result) {
-				onSuccess.run(result);
+				onSuccess.apply(result);
 			}
 
 			@Override
 			public void onFailure(Throwable t) {
-				onFailure.run(t);
+				onFailure.apply(t);
 			}
 
 		});
