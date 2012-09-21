@@ -14,6 +14,11 @@ public class JsLink implements Exportable, JsWrapper<Link> {
 	private Link link;
 
 	@Export
+	public JsNodeListQuery selectAll() {
+		return JH.jsFactory(link).createNodeListQuery(link.selectAll());
+	}
+
+	@Export
 	public void get(final JsClosure callback) {
 		JH.get(link, callback);
 	}

@@ -20,13 +20,13 @@
 	};
 	
 	var testSelectAll = function(session) {
-		var questionBag= session.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
+		var questionBag = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
 		
 		var questions = questionBag.selectAll();
 		
 		session.getAll(questions, function(questions) {
 			questions.each(function(node) {
-				$(body).append(node.getUri());
+				$("#output").append($("<p>"+node.getUri()+"</p>"));
 			});
 		});
 		
@@ -54,6 +54,6 @@
 <body>
 	<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1'
 		style="position: absolute; width: 0; height: 0; border: 0"></iframe>
-
+	<div id="output"></div>
 </body>
 </html>
