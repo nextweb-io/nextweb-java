@@ -4,9 +4,10 @@ import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
+import io.nextweb.Node;
 import io.nextweb.NodeListQuery;
-import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -17,7 +18,9 @@ import io.nextweb.plugins.Plugins;
 import java.util.Iterator;
 import java.util.List;
 
-public class OnedbLinkList implements LinkList, OnedbEntityList {
+import com.ononedb.nextweb.common.H;
+
+public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 
 	private final List<Link> list;
 	private final OnedbSession session;
@@ -51,13 +54,13 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	}
 
 	@Override
-	public <PluginType extends Plugin<EntityList>> PluginType plugin(
-			PluginFactory<EntityList, PluginType> factory) {
+	public <PluginType extends Plugin<EntityList<LinkList>>> PluginType plugin(
+			PluginFactory<EntityList<LinkList>, PluginType> factory) {
 		return Plugins.plugin(this, factory);
 	}
 
 	@Override
-	public Query select(Link propertyType) {
+	public NodeListQuery select(Link propertyType) {
 		throw new RuntimeException("Not implemented yet!");
 	}
 
@@ -116,6 +119,12 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	@Override
 	public void catchExceptions(ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
+	}
+
+	@Override
+	public LinkList each(Closure<Node> f) {
+		H.each(list, f);
+		return this;
 	}
 
 }

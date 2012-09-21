@@ -1,9 +1,10 @@
 package io.nextweb;
 
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.ReadOnlyList;
-import io.nextweb.fn.Result;
 
-public interface LinkList extends EntityList, ReadOnlyList<Link>,
-		Result<LinkList> {
+public interface LinkList extends EntityList<LinkList>, ReadOnlyList<Link> {
+
+	public LinkList each(Closure<Node> f);
 
 }

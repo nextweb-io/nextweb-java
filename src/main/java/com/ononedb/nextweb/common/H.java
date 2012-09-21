@@ -1,12 +1,15 @@
 package com.ononedb.nextweb.common;
 
 import io.nextweb.Entity;
+import io.nextweb.EntityList;
 import io.nextweb.Node;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
+import io.nextweb.fn.ResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.core.DefaultPluginFactory;
+import io.nextweb.plugins.core.EntityList_SelectPlugin;
 import io.nextweb.plugins.core.Entity_SelectPlugin;
 import one.core.domain.OneClient;
 import one.core.dsl.CoreDsl;
@@ -16,6 +19,7 @@ import one.core.nodes.OneTypedReference;
 import com.ononedb.nextweb.OnedbObject;
 import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.internal.OnedbFactory;
+import com.ononedb.nextweb.plugins.EntityListPlugin_Select_Factory;
 import com.ononedb.nextweb.plugins.EntityPlugin_Select_Factory;
 
 /**
@@ -30,9 +34,17 @@ public class H {
 		return client(fromObj).one();
 	}
 
-	public static <E> void each(Iterable<E> list, Closure<E> f) {
+	public static <E extends Entity> void each(Iterable<E> list,
+			final Closure<Node> f) {
 		for (E e : list) {
-			f.apply(e);
+			e.get(new ResultCallback<Node>() {
+
+				@Override
+				public void onSuccess(Node result) {
+					f.apply(result);
+				}
+			});
+
 		}
 	}
 
@@ -81,6 +93,12 @@ public class H {
 			@Override
 			public <GEntity extends Entity, GPlugin extends Entity_SelectPlugin<GEntity>> PluginFactory<GEntity, GPlugin> select() {
 				return (PluginFactory<GEntity, GPlugin>) EntityPlugin_Select_Factory.FACTORY;
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public <GEntity extends EntityList<?>, GPlugin extends EntityList_SelectPlugin<GEntity>> PluginFactory<GEntity, GPlugin> selectForLists() {
+				return (PluginFactory<GEntity, GPlugin>) EntityListPlugin_Select_Factory.FACTORY;
 			}
 
 		};

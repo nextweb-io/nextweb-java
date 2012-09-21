@@ -6,7 +6,6 @@ import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
-import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
@@ -21,20 +20,20 @@ import java.util.List;
 
 import com.ononedb.nextweb.common.H;
 
-public class OnedbNodeList implements OnedbEntityList, NodeList {
+public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 
 	private final List<Node> list;
 	private final OnedbSession session;
 	private final ExceptionManager exceptionManager;
 
 	@Override
-	public <PluginType extends Plugin<EntityList>> PluginType plugin(
-			PluginFactory<EntityList, PluginType> factory) {
+	public <PluginType extends Plugin<EntityList<NodeList>>> PluginType plugin(
+			PluginFactory<EntityList<NodeList>, PluginType> factory) {
 		return Plugins.plugin(this, factory);
 	}
 
 	@Override
-	public Query select(Link propertyType) {
+	public NodeListQuery select(Link propertyType) {
 		throw new RuntimeException("Not yet implemented");
 	}
 

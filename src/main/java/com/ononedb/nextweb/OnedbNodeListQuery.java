@@ -3,10 +3,11 @@ package com.ononedb.nextweb;
 import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
+import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
-import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.ResultCallback;
@@ -15,7 +16,8 @@ import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
 
-public class OnedbNodeListQuery implements NodeListQuery, OnedbEntityList {
+public class OnedbNodeListQuery implements NodeListQuery,
+		OnedbEntityList<NodeList> {
 
 	private final Result<NodeList> result;
 	private final OnedbSession session;
@@ -50,7 +52,7 @@ public class OnedbNodeListQuery implements NodeListQuery, OnedbEntityList {
 	}
 
 	@Override
-	public Query select(Link propertyType) {
+	public NodeListQuery select(Link propertyType) {
 		throw new RuntimeException("Not implemented yet!");
 	}
 
@@ -70,8 +72,8 @@ public class OnedbNodeListQuery implements NodeListQuery, OnedbEntityList {
 	}
 
 	@Override
-	public <PluginType extends Plugin<EntityList>> PluginType plugin(
-			PluginFactory<EntityList, PluginType> factory) {
+	public <PluginType extends Plugin<EntityList<NodeList>>> PluginType plugin(
+			PluginFactory<EntityList<NodeList>, PluginType> factory) {
 
 		return Plugins.plugin(this, factory);
 	}
@@ -86,6 +88,18 @@ public class OnedbNodeListQuery implements NodeListQuery, OnedbEntityList {
 	public ExceptionManager getExceptionManager() {
 
 		return this.exceptionManager;
+	}
+
+	@Override
+	public NodeListQuery each(final Closure<Node> f) {
+		this.result.get(new ResultCallback<NodeList>() {
+
+			@Override
+			public void onSuccess(NodeList result) {
+				result.each(f);
+			}
+		});
+		return this;
 	}
 
 }

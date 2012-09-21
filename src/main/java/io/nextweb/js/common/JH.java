@@ -197,7 +197,7 @@ public class JH {
 		return ((NextwebEngineJs) entity.getSession().getEngine()).jsFactory();
 	}
 
-	public static final JsFactory jsFactory(EntityList entityList) {
+	public static final JsFactory jsFactory(EntityList<?> entityList) {
 		return ((NextwebEngineJs) entityList.getSession().getEngine())
 				.jsFactory();
 	}
