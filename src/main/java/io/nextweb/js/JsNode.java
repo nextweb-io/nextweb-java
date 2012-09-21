@@ -73,6 +73,7 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 				node.getExceptionManager());
 	}
 
+	@Export
 	@Override
 	public void catchExceptions(final JsClosure listener) {
 		node.getExceptionManager().catchExceptions(new ExceptionListener() {
@@ -82,6 +83,32 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 				listener.apply(t);
 			}
 		});
+	}
+
+	@Export
+	@Override
+	public JsLinkListQuery selectAllLinks() {
+		return JH.jsFactory(node).createLinkListQuery(node.selectAllLinks());
+	}
+
+	@Export
+	@Override
+	public JsNodeListQuery selectAll(JsLink propertyType) {
+		return JH.jsFactory(node).createNodeListQuery(
+				node.selectAll(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsQuery select(JsLink propertyType) {
+		return JH.jsFactory(node).createQuery(
+				node.select(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsNodeListQuery selectAll() {
+		return JH.jsFactory(node).createNodeListQuery(node.selectAll());
 	}
 
 }

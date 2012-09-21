@@ -15,6 +15,7 @@ public class JsLink implements Exportable, JsEntity, JsWrapper<Link> {
 
 	private Link link;
 
+	@Override
 	@Export
 	public JsNodeListQuery selectAll() {
 		return JH.jsFactory(link).createNodeListQuery(link.selectAll());
@@ -42,6 +43,7 @@ public class JsLink implements Exportable, JsEntity, JsWrapper<Link> {
 		return JH.get(link);
 	}
 
+	@Override
 	@Export
 	public JsQuery select(JsLink propertyType) {
 		return JH.jsFactory(propertyType.getOriginal()).createQuery(
@@ -93,6 +95,19 @@ public class JsLink implements Exportable, JsEntity, JsWrapper<Link> {
 	public JsExceptionManager getExceptionManager() {
 		return JH.jsFactory(link).createExceptionManager(
 				link.getExceptionManager());
+	}
+
+	@Export
+	@Override
+	public JsLinkListQuery selectAllLinks() {
+		return JH.jsFactory(link).createLinkListQuery(link.selectAllLinks());
+	}
+
+	@Export
+	@Override
+	public JsNodeListQuery selectAll(JsLink propertyType) {
+		return JH.jsFactory(link).createNodeListQuery(
+				link.selectAll(propertyType.getOriginal()));
 	}
 
 }

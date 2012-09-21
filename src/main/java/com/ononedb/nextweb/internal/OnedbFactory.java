@@ -1,6 +1,7 @@
 package com.ononedb.nextweb.internal;
 
 import io.nextweb.Link;
+import io.nextweb.LinkList;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.fn.AsyncResult;
@@ -13,6 +14,7 @@ import one.core.nodes.OneTypedReference;
 
 import com.ononedb.nextweb.OnedbLink;
 import com.ononedb.nextweb.OnedbLinkList;
+import com.ononedb.nextweb.OnedbLinkListQuery;
 import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.OnedbNode;
 import com.ononedb.nextweb.OnedbNodeList;
@@ -50,6 +52,13 @@ public class OnedbFactory {
 	public final OnedbLinkList createLinkList(OnedbSession session,
 			ExceptionManager fallbackExceptionManager, List<Link> list) {
 		return new OnedbLinkList(session, fallbackExceptionManager, list);
+	}
+
+	public final OnedbLinkListQuery createLinkListQuery(OnedbSession session,
+			ExceptionManager fallbackExceptionManager,
+			AsyncResult<LinkList> result) {
+		return new OnedbLinkListQuery(session, session.getEngine()
+				.createResult(result), fallbackExceptionManager);
 	}
 
 	public final OnedbNode createNode(OnedbSession session,

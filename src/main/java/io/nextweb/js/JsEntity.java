@@ -5,6 +5,14 @@ import io.nextweb.js.fn.JsClosure;
 
 public interface JsEntity {
 
+	public JsQuery select(JsLink propertyType);
+
+	public JsNodeListQuery selectAll();
+
+	public JsLinkListQuery selectAllLinks();
+
+	public JsNodeListQuery selectAll(JsLink propertyType);
+
 	public JsSession getSession();
 
 	public JsExceptionManager getExceptionManager();

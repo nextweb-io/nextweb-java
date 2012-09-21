@@ -74,4 +74,30 @@ public class JsQuery implements Exportable, JsEntity, JsWrapper<Query> {
 		});
 	}
 
+	@Export
+	@Override
+	public JsLinkListQuery selectAllLinks() {
+		return JH.jsFactory(query).createLinkListQuery(query.selectAllLinks());
+	}
+
+	@Export
+	@Override
+	public JsNodeListQuery selectAll(JsLink propertyType) {
+		return JH.jsFactory(query).createNodeListQuery(
+				query.selectAll(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsQuery select(JsLink propertyType) {
+		return JH.jsFactory(query).createQuery(
+				query.select(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsNodeListQuery selectAll() {
+		return JH.jsFactory(query).createNodeListQuery(query.selectAll());
+	}
+
 }
