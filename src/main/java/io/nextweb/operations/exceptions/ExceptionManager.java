@@ -5,9 +5,9 @@ import io.nextweb.fn.ExceptionListener;
 
 public class ExceptionManager implements
 		ExceptionInterceptor<ExceptionManager>,
-		AuthorizationExceptionInterceptor, ExceptionListener,
+		AuthorizationExceptionInterceptor<ExceptionManager>, ExceptionListener,
 		AuthorizationExceptionListener, UndefinedExceptionListener,
-		UndefinedExceptionInterceptor {
+		UndefinedExceptionInterceptor<ExceptionManager> {
 
 	private final ExceptionManager fallback;
 

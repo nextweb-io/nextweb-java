@@ -3,7 +3,7 @@ package com.ononedb.nextweb.jre;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,7 @@ final class ResultImplementation<ResultType> implements Result<ResultType> {
 	private final AsyncResult<ResultType> asyncResult;
 	ResultType cached = null;
 	AtomicBoolean requesting = new AtomicBoolean();
-	List<ResultCallback<ResultType>> deferredCalls = new LinkedList<ResultCallback<ResultType>>();
+	List<RequestResultCallback<ResultType>> deferredCalls = new LinkedList<RequestResultCallback<ResultType>>();
 	ExceptionListener exceptionListener;
 
 	ResultImplementation(AsyncResult<ResultType> asyncResult) {
@@ -25,7 +25,7 @@ final class ResultImplementation<ResultType> implements Result<ResultType> {
 	}
 
 	@Override
-	public synchronized void get(final ResultCallback<ResultType> callback) {
+	public synchronized void get(final RequestResultCallback<ResultType> callback) {
 		if (cached != null) {
 			callback.onSuccess(cached);
 			return;
@@ -36,7 +36,7 @@ final class ResultImplementation<ResultType> implements Result<ResultType> {
 		}
 		requesting.set(true);
 
-		asyncResult.get(new ResultCallback<ResultType>() {
+		asyncResult.get(new RequestResultCallback<ResultType>() {
 
 			@Override
 			public void onSuccess(ResultType result) {
@@ -44,7 +44,7 @@ final class ResultImplementation<ResultType> implements Result<ResultType> {
 				requesting.set(false);
 				callback.onSuccess(result);
 
-				for (ResultCallback<ResultType> deferredCallback : deferredCalls) {
+				for (RequestResultCallback<ResultType> deferredCallback : deferredCalls) {
 					deferredCallback.onSuccess(result);
 				}
 				deferredCalls.clear();
@@ -57,7 +57,7 @@ final class ResultImplementation<ResultType> implements Result<ResultType> {
 
 				callback.onFailure(t);
 
-				for (ResultCallback<ResultType> deferredCallback : deferredCalls) {
+				for (RequestResultCallback<ResultType> deferredCallback : deferredCalls) {
 					deferredCallback.onFailure(t);
 				}
 				deferredCalls.clear();
@@ -74,7 +74,7 @@ final class ResultImplementation<ResultType> implements Result<ResultType> {
 		final List<Throwable> exceptionList = Collections
 				.synchronizedList(new ArrayList<Throwable>(1));
 
-		get(new ResultCallback<ResultType>() {
+		get(new RequestResultCallback<ResultType>() {
 
 			@Override
 			public void onSuccess(ResultType result) {

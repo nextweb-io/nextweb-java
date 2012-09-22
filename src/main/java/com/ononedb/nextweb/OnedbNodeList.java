@@ -10,7 +10,7 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -45,18 +45,19 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 		AsyncResult<NodeList> selectResult = new AsyncResult<NodeList>() {
 
 			@Override
-			public void get(final ResultCallback<NodeList> callback) {
+			public void get(final RequestResultCallback<NodeList> callback) {
 
 				ListCallbackJoiner<Node, Node> joiner = new ListCallbackJoiner<Node, Node>(
 						list, new ListCallback<Node>() {
 
 							@Override
 							public void onFailure(Throwable arg0) {
-								exceptionManager.onFailure(this, arg0);
+								callback.onFailure(arg0);
 							}
 
 							@Override
 							public void onSuccess(List<Node> nodes) {
+
 								callback.onSuccess(H
 										.factory(OnedbNodeList.this)
 										.createNodeList(getOnedbSession(),
@@ -66,17 +67,22 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 
 				for (Node child : list) {
 
-					LocalCallback<Node> localCallback = joiner
+					final LocalCallback<Node> localCallback = joiner
 							.createCallback(child);
 
 					child.select(propertyType)
-							.catchExceptions(exceptionManager)
-							.get(new ResultCallback<Node>() {
+							.catchExceptions(new ExceptionListener() {
+
+								@Override
+								public void onFailure(Object origin, Throwable t) {
+
+									localCallback.onFailure(t);
+								}
+							}).get(new RequestResultCallback<Node>() {
 
 								@Override
 								public void onSuccess(Node result) {
-									// TODO Auto-generated method stub
-
+									localCallback.onSuccess(result);
 								}
 							});
 
@@ -175,7 +181,7 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 	}
 
 	@Override
-	public void get(ResultCallback<NodeList> callback) {
+	public void get(RequestResultCallback<NodeList> callback) {
 		callback.onSuccess(this);
 	}
 

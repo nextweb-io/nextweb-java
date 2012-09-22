@@ -1,7 +1,7 @@
 package io.nextweb.js.fn;
 
 import io.nextweb.fn.Result;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -21,7 +21,7 @@ public class JsResult implements Exportable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void get(final JsClosure onSuccess,
 			final JsClosure onFailure) {
-		result.get(new ResultCallback() {
+		result.get(new RequestResultCallback() {
 
 			@Override
 			public void onSuccess(Object result) {

@@ -8,7 +8,7 @@ import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.core.Entity_SelectPlugin;
 
@@ -39,8 +39,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
 
 			@Override
-			public void get(final ResultCallback<NodeList> callback) {
-				entity.get(new ResultCallback<Node>() {
+			public void get(final RequestResultCallback<NodeList> callback) {
+				entity.get(new RequestResultCallback<Node>() {
 
 					@Override
 					public void onSuccess(Node result) {
@@ -85,7 +85,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 									@Override
 									public void onFailure(Throwable t) {
-										exceptionManager.onFailure(this, t);
+										callback.onFailure(t);
 									}
 
 								});
@@ -94,7 +94,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 					@Override
 					public void onFailure(Throwable t) {
-						exceptionManager.onFailure(this, t);
+						callback.onFailure(t);
 					}
 
 				});
@@ -115,9 +115,9 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<Node> selectResult = new AsyncResult<Node>() {
 
 			@Override
-			public void get(final ResultCallback<Node> callback) {
+			public void get(final RequestResultCallback<Node> callback) {
 
-				entity.get(new ResultCallback<Node>() {
+				entity.get(new RequestResultCallback<Node>() {
 
 					@Override
 					public void onSuccess(Node result) {
@@ -132,7 +132,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 											WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
 										if (sr.children().size() == 0) {
-											exceptionManager.onUndefined(this);
+											callback.onUndefined(new Exception(
+													"No child matching the specified criteria."));
 											return;
 										}
 
@@ -155,7 +156,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 									@Override
 									public void onFailure(Throwable t) {
-										exceptionManager.onFailure(this, t);
+										callback.onFailure(t);
 									}
 
 								});
@@ -163,7 +164,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 
 					@Override
 					public void onFailure(Throwable t) {
-						exceptionManager.onFailure(this, t);
+						callback.onFailure(t);
 					}
 
 				});
@@ -189,8 +190,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<LinkList> selectAllLinksResult = new AsyncResult<LinkList>() {
 
 			@Override
-			public void get(final ResultCallback<LinkList> callback) {
-				entity.get(new ResultCallback<Node>() {
+			public void get(final RequestResultCallback<LinkList> callback) {
+				entity.get(new RequestResultCallback<Node>() {
 
 					@Override
 					public void onSuccess(Node result) {
@@ -234,8 +235,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
 
 			@Override
-			public void get(final ResultCallback<NodeList> callback) {
-				entity.get(new ResultCallback<Node>() {
+			public void get(final RequestResultCallback<NodeList> callback) {
+				entity.get(new RequestResultCallback<Node>() {
 
 					@Override
 					public void onSuccess(Node result) {

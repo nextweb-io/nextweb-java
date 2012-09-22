@@ -6,7 +6,7 @@ import io.nextweb.LinkList;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
@@ -31,7 +31,7 @@ public class JH {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new ResultCallback<Node>() {
+		entityResult.get(new RequestResultCallback<Node>() {
 
 			@Override
 			public void onSuccess(Node result) {
@@ -56,7 +56,7 @@ public class JH {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new ResultCallback<NodeList>() {
+		entityResult.get(new RequestResultCallback<NodeList>() {
 
 			@Override
 			public void onSuccess(NodeList result) {
@@ -147,7 +147,7 @@ public class JH {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new ResultCallback<LinkList>() {
+		entityResult.get(new RequestResultCallback<LinkList>() {
 
 			@Override
 			public void onSuccess(LinkList result) {

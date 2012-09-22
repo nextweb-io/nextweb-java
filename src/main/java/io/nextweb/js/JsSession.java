@@ -2,7 +2,7 @@ package io.nextweb.js;
 
 import io.nextweb.Session;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.engine.JsNextwebEngine;
@@ -92,7 +92,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 		final JavaScriptObject callback_onSuccess_Closed = callback_onSuccess;
 		final JavaScriptObject callback_onFailure_Closed = callback_onFailure;
 		session.getAll(requestedEntities.toArray(new Result<?>[0])).get(
-				new ResultCallback<SuccessFail>() {
+				new RequestResultCallback<SuccessFail>() {
 
 					@Override
 					public void onSuccess(SuccessFail result) {

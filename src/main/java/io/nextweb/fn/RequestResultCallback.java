@@ -2,7 +2,7 @@ package io.nextweb.fn;
 
 import io.nextweb.Nextweb;
 
-public abstract class ResultCallback<ResultType> {
+public abstract class RequestResultCallback<ResultType> {
 
 	public abstract void onSuccess(ResultType result);
 
@@ -11,8 +11,8 @@ public abstract class ResultCallback<ResultType> {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static <Callback extends ResultCallback<?>> Callback doNothing() {
-		return (Callback) new ResultCallback() {
+	public static <Callback extends RequestResultCallback<?>> Callback doNothing() {
+		return (Callback) new RequestResultCallback() {
 
 			@Override
 			public void onSuccess(Object result) {

@@ -5,7 +5,7 @@ import io.nextweb.EntityList;
 import io.nextweb.Node;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.core.DefaultPluginFactory;
@@ -37,7 +37,7 @@ public class H {
 	public static <E extends Entity> void each(Iterable<E> list,
 			final Closure<Node> f) {
 		for (E e : list) {
-			e.get(new ResultCallback<Node>() {
+			e.get(new RequestResultCallback<Node>() {
 
 				@Override
 				public void onSuccess(Node result) {

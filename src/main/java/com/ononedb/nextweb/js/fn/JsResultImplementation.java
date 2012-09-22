@@ -2,7 +2,7 @@ package com.ononedb.nextweb.js.fn;
 
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
 
 import java.util.LinkedList;
@@ -18,9 +18,9 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 
 	private boolean requestingResult;
 
-	private final List<ResultCallback<ResultType>> deferredCalls;
+	private final List<RequestResultCallback<ResultType>> deferredCalls;
 
-	private void requestResult(final ResultCallback<ResultType> callback) {
+	private void requestResult(final RequestResultCallback<ResultType> callback) {
 
 		if (resultCache != null) {
 			callback.onSuccess(resultCache);
@@ -32,7 +32,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 			return;
 		}
 
-		asyncResult.get(new ResultCallback<ResultType>() {
+		asyncResult.get(new RequestResultCallback<ResultType>() {
 
 			@Override
 			public void onSuccess(ResultType result) {
@@ -40,7 +40,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 				requestingResult = false;
 				callback.onSuccess(result);
 
-				for (ResultCallback<ResultType> deferredCallback : deferredCalls) {
+				for (RequestResultCallback<ResultType> deferredCallback : deferredCalls) {
 					deferredCallback.onSuccess(result);
 				}
 				deferredCalls.clear();
@@ -50,7 +50,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 			public void onFailure(Throwable t) {
 				requestingResult = false;
 				callback.onFailure(t);
-				for (ResultCallback<ResultType> deferredCallback : deferredCalls) {
+				for (RequestResultCallback<ResultType> deferredCallback : deferredCalls) {
 					deferredCallback.onFailure(t);
 				}
 				deferredCalls.clear();
@@ -62,7 +62,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 	}
 
 	@Override
-	public void get(final ResultCallback<ResultType> callback) {
+	public void get(final RequestResultCallback<ResultType> callback) {
 		requestResult(callback);
 	}
 
@@ -72,7 +72,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 	@Override
 	public ResultType get() {
 
-		requestResult(new ResultCallback<ResultType>() {
+		requestResult(new RequestResultCallback<ResultType>() {
 
 			@Override
 			public void onSuccess(ResultType result) {
@@ -97,7 +97,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 		this.resultCache = null;
 		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
 		this.requestingResult = false;
-		this.deferredCalls = new LinkedList<ResultCallback<ResultType>>();
+		this.deferredCalls = new LinkedList<RequestResultCallback<ResultType>>();
 	}
 
 }

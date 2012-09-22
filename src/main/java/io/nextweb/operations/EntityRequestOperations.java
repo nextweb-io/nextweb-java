@@ -6,7 +6,8 @@ import io.nextweb.operations.exceptions.AuthorizationExceptionInterceptor;
 import io.nextweb.operations.exceptions.UndefinedExceptionInterceptor;
 
 public interface EntityRequestOperations<EntityType extends Entity> extends
-		ExceptionInterceptor<EntityType>, AuthorizationExceptionInterceptor,
-		UndefinedExceptionInterceptor {
+		ExceptionInterceptor<EntityType>,
+		AuthorizationExceptionInterceptor<EntityType>,
+		UndefinedExceptionInterceptor<EntityType> {
 
 }

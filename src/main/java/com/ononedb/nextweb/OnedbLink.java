@@ -11,7 +11,7 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -86,7 +86,7 @@ public class OnedbLink implements Link, OnedbEntity {
 		this.result = session.getEngine().createResult(new AsyncResult<Node>() {
 
 			@Override
-			public void get(final ResultCallback<Node> callback) {
+			public void get(final RequestResultCallback<Node> callback) {
 
 				session.getClient().one().load(uri).in(session.getClient())
 						.and(new WhenLoaded() {
@@ -130,7 +130,7 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
-	public void get(ResultCallback<Node> callback) {
+	public void get(RequestResultCallback<Node> callback) {
 		assert this.result != null;
 
 		this.result.get(callback);

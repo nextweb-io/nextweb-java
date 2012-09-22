@@ -10,7 +10,7 @@ import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -31,7 +31,7 @@ public class OnedbNodeListQuery implements NodeListQuery,
 	}
 
 	@Override
-	public void get(ResultCallback<NodeList> callback) {
+	public void get(RequestResultCallback<NodeList> callback) {
 		result.get(callback);
 	}
 
@@ -95,7 +95,7 @@ public class OnedbNodeListQuery implements NodeListQuery,
 
 	@Override
 	public NodeListQuery each(final Closure<Node> f) {
-		this.result.get(new ResultCallback<NodeList>() {
+		this.result.get(new RequestResultCallback<NodeList>() {
 
 			@Override
 			public void onSuccess(NodeList result) {

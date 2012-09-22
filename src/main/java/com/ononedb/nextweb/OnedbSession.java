@@ -5,7 +5,7 @@ import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.ResultCallback;
+import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
@@ -55,7 +55,7 @@ public class OnedbSession implements Session {
 				.createResult(new AsyncResult<SuccessFail>() {
 
 					@Override
-					public void get(final ResultCallback<SuccessFail> callback) {
+					public void get(final RequestResultCallback<SuccessFail> callback) {
 
 						client.one().shutdown(client).and(new WhenShutdown() {
 
@@ -75,7 +75,7 @@ public class OnedbSession implements Session {
 
 				});
 
-		ResultCallback<SuccessFail> clbk = ResultCallback.doNothing();
+		RequestResultCallback<SuccessFail> clbk = RequestResultCallback.doNothing();
 		closeResult.get(clbk);
 
 		return closeResult;
@@ -92,7 +92,7 @@ public class OnedbSession implements Session {
 
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override
-			public void get(final ResultCallback<SuccessFail> callback) {
+			public void get(final RequestResultCallback<SuccessFail> callback) {
 
 				final CallbackLatch latch = new CallbackLatch(results.length) {
 
@@ -108,7 +108,7 @@ public class OnedbSession implements Session {
 				};
 
 				for (Result<?> result : results) {
-					result.get(new ResultCallback() {
+					result.get(new RequestResultCallback() {
 
 						@Override
 						public void onSuccess(Object result) {
