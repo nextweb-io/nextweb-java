@@ -9,8 +9,9 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.RequestCallback;
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -31,7 +32,7 @@ public class OnedbLinkListQuery implements LinkListQuery,
 	}
 
 	@Override
-	public void get(RequestResultCallback<LinkList> callback) {
+	public void get(RequestCallback<LinkList> callback) {
 		result.get(callback);
 	}
 
@@ -76,11 +77,12 @@ public class OnedbLinkListQuery implements LinkListQuery,
 
 	public OnedbLinkListQuery(OnedbSession session,
 			Result<LinkList> linkListQuery,
-			ExceptionManager fallbackExceptionManager) {
+			ExceptionManager parentExceptionManager) {
 		super();
 		this.session = session;
 		this.result = linkListQuery;
-		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				this, parentExceptionManager);
 	}
 
 	@Override
@@ -98,7 +100,8 @@ public class OnedbLinkListQuery implements LinkListQuery,
 	@Override
 	public LinkListQuery each(final Closure<Node> f) {
 
-		this.result.get(new RequestResultCallback<LinkList>() {
+		this.result.get(new RequestCallbackImpl<LinkList>(exceptionManager,
+				null) {
 
 			@Override
 			public void onSuccess(LinkList result) {

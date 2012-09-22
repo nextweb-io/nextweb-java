@@ -3,10 +3,12 @@ package io.nextweb.js.common;
 import io.nextweb.Entity;
 import io.nextweb.EntityList;
 import io.nextweb.LinkList;
+import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
+import io.nextweb.NodeListQuery;
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
@@ -26,12 +28,12 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class JH {
 
-	public static final void get(Result<Node> entityResult,
-			final JsClosure callback) {
+	public static final void get(Entity entityResult, final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new RequestResultCallback<Node>() {
+		entityResult.get(new RequestCallbackImpl<Node>(entityResult
+				.getExceptionManager(), null) {
 
 			@Override
 			public void onSuccess(Node result) {
@@ -51,12 +53,13 @@ public class JH {
 		return ExporterUtil.wrap(jsFactory(result).createNode(result));
 	}
 
-	public static final void getNodeList(Result<NodeList> entityResult,
+	public static final void getNodeList(NodeListQuery entityResult,
 			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new RequestResultCallback<NodeList>() {
+		entityResult.get(new RequestCallbackImpl<NodeList>(entityResult
+				.getExceptionManager(), null) {
 
 			@Override
 			public void onSuccess(NodeList result) {
@@ -142,12 +145,13 @@ public class JH {
 		return ExporterUtil.wrap(jsFactory(result).createNodeList(result));
 	}
 
-	public static final void getLinkList(Result<LinkList> entityResult,
+	public static final void getLinkList(LinkListQuery entityResult,
 			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new RequestResultCallback<LinkList>() {
+		entityResult.get(new RequestCallbackImpl<LinkList>(entityResult
+				.getExceptionManager(), null) {
 
 			@Override
 			public void onSuccess(LinkList result) {

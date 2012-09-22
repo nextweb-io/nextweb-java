@@ -10,8 +10,10 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.RequestResultCallback;
+import io.nextweb.fn.RequestCallback;
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
+import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import io.nextweb.plugins.Plugin;
@@ -45,14 +47,14 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 		AsyncResult<NodeList> selectResult = new AsyncResult<NodeList>() {
 
 			@Override
-			public void get(final RequestResultCallback<NodeList> callback) {
+			public void get(final RequestCallback<NodeList> callback) {
 
 				ListCallbackJoiner<Node, Node> joiner = new ListCallbackJoiner<Node, Node>(
 						list, new ListCallback<Node>() {
 
 							@Override
 							public void onFailure(Throwable arg0) {
-								callback.onFailure(arg0);
+								callback.onFailure(this, arg0);
 							}
 
 							@Override
@@ -78,12 +80,34 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 
 									localCallback.onFailure(t);
 								}
-							}).get(new RequestResultCallback<Node>() {
+							})
+							.get(new RequestCallbackImpl<Node>(
+									exceptionManager, null) {
 
 								@Override
 								public void onSuccess(Node result) {
 									localCallback.onSuccess(result);
 								}
+
+								@Override
+								public void onUnauthorized(Object origin,
+										AuthorizationExceptionResult r) {
+									localCallback.onFailure(new Exception(
+											"Unauthorized: " + r.getMessage()));
+								}
+
+								@Override
+								public void onUndefined(Object origin,
+										String message) {
+									localCallback.onFailure(new Exception(
+											"Undefined: " + message));
+								}
+
+								@Override
+								public void onFailure(Object origin, Throwable t) {
+									localCallback.onFailure(t);
+								}
+
 							});
 
 				}
@@ -150,16 +174,17 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 	}
 
 	public OnedbNodeList(OnedbSession session,
-			ExceptionManager fallbackExceptionManager, List<Node> list) {
+			ExceptionManager parentExceptionManager, List<Node> list) {
 		super();
 		this.list = list;
 		this.session = session;
-		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				this, parentExceptionManager);
 	}
 
 	@Override
 	public NodeList each(Closure<Node> f) {
-		H.each(list, f);
+		H.each(this, list, f);
 		return this;
 	}
 
@@ -181,7 +206,7 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 	}
 
 	@Override
-	public void get(RequestResultCallback<NodeList> callback) {
+	public void get(RequestCallback<NodeList> callback) {
 		callback.onSuccess(this);
 	}
 

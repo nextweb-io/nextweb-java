@@ -1,7 +1,8 @@
 package io.nextweb.js.fn;
 
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.RequestResultCallback;
+import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -19,9 +20,8 @@ public class JsResult implements Exportable {
 
 	@Export
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void get(final JsClosure onSuccess,
-			final JsClosure onFailure) {
-		result.get(new RequestResultCallback() {
+	public void get(final JsClosure onSuccess, final JsClosure onFailure) {
+		result.get(new RequestCallbackImpl(null, null) {
 
 			@Override
 			public void onSuccess(Object result) {
@@ -29,7 +29,19 @@ public class JsResult implements Exportable {
 			}
 
 			@Override
-			public void onFailure(Throwable t) {
+			public void onUnauthorized(Object origin,
+					AuthorizationExceptionResult r) {
+				onFailure.apply(new Exception("Insufficient authorization: "
+						+ r.getMessage()));
+			}
+
+			@Override
+			public void onUndefined(Object origin, String message) {
+				onFailure.apply(new Exception("Node not defined: " + message));
+			}
+
+			@Override
+			public void onFailure(Object origin, Throwable t) {
 				onFailure.apply(t);
 			}
 

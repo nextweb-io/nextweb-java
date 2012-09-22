@@ -8,7 +8,6 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
-import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -129,18 +128,21 @@ public class TestSelect {
 		Link questions = session
 				.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
 
-		questions.catchUndefinedExceptions(new UndefinedExceptionListener() {
-
-			@Override
-			public void onUndefined(Object origin) {
-				System.out.println("Undefined!");
-				throw new RuntimeException("E");
-			}
-		});
+		// questions.catchUndefinedExceptions(new UndefinedExceptionListener() {
+		//
+		// @Override
+		// public void onUndefined(Object origin, String message) {
+		// System.out.println("Undefined!");
+		// // throw new RuntimeException("E");
+		// }
+		// });
 
 		NodeList allBrandNames = questions.selectAll().get().select(aBrandName)
 				.get();
 
 		System.out.println(allBrandNames);
+
+		session.close().get();
+
 	}
 }

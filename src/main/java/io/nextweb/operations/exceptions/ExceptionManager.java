@@ -1,5 +1,6 @@
 package io.nextweb.operations.exceptions;
 
+import io.nextweb.Session;
 import io.nextweb.fn.ExceptionInterceptor;
 import io.nextweb.fn.ExceptionListener;
 
@@ -9,7 +10,8 @@ public class ExceptionManager implements
 		AuthorizationExceptionListener, UndefinedExceptionListener,
 		UndefinedExceptionInterceptor<ExceptionManager> {
 
-	private final ExceptionManager fallback;
+	private final ExceptionManager parentExceptionListener;
+	private final Session session;
 
 	private AuthorizationExceptionListener authExceptionListener;
 	private ExceptionListener exceptionListener;
@@ -28,15 +30,48 @@ public class ExceptionManager implements
 		return this;
 	}
 
+	public boolean canCatchExceptions() {
+		return this.exceptionListener != null
+				|| parentExceptionListener != null
+				&& parentExceptionListener.canCatchExceptions()
+				|| (session != null && session.getExceptionManager()
+						.canCatchExceptions());
+	}
+
+	public boolean canCatchUndefinedExceptions() {
+		return this.undefinedExceptionListener != null
+				|| (this.parentExceptionListener != null && this.parentExceptionListener
+						.canCatchUndefinedExceptions())
+				|| (session != null && session.getExceptionManager()
+						.canCatchUndefinedExceptions()) || canCatchExceptions();
+	}
+
+	public boolean canCatchAuthorizationExceptions() {
+		return this.authExceptionListener != null
+				|| (this.parentExceptionListener != null && this.parentExceptionListener
+						.canCatchAuthorizationExceptions())
+				|| (session != null && session.getExceptionManager()
+						.canCatchAuthorizationExceptions())
+				|| canCatchExceptions();
+	}
+
 	@Override
 	public void onFailure(Object origin, Throwable t) {
+		assert canCatchExceptions();
+
 		if (this.exceptionListener != null) {
 			this.exceptionListener.onFailure(origin, t);
 			return;
 		}
 
-		if (fallback != null) {
-			fallback.onFailure(origin, t);
+		if (parentExceptionListener != null) {
+			parentExceptionListener.onFailure(origin, t);
+			return;
+		}
+
+		if (this.session != null
+				&& this.session.getExceptionManager().canCatchExceptions()) {
+			this.session.getExceptionManager().onFailure(origin, t);
 			return;
 		}
 
@@ -47,13 +82,22 @@ public class ExceptionManager implements
 
 	@Override
 	public void onUnauthorized(Object origin, AuthorizationExceptionResult r) {
+		assert canCatchAuthorizationExceptions();
+
 		if (this.authExceptionListener != null) {
 			this.authExceptionListener.onUnauthorized(origin, r);
 			return;
 		}
 
-		if (fallback != null) {
-			fallback.onUnauthorized(origin, r);
+		if (parentExceptionListener != null) {
+			parentExceptionListener.onUnauthorized(origin, r);
+			return;
+		}
+
+		if (this.session != null
+				&& this.session.getExceptionManager()
+						.canCatchAuthorizationExceptions()) {
+			this.session.getExceptionManager().onUnauthorized(origin, r);
 			return;
 		}
 
@@ -70,24 +114,36 @@ public class ExceptionManager implements
 	}
 
 	@Override
-	public void onUndefined(Object origin) {
+	public void onUndefined(Object origin, String message) {
+		assert canCatchUndefinedExceptions();
+
 		if (this.undefinedExceptionListener != null) {
-			this.undefinedExceptionListener.onUndefined(origin);
+			this.undefinedExceptionListener.onUndefined(origin, message);
 			return;
 		}
 
-		if (fallback != null) {
-			fallback.onUndefined(origin);
+		if (parentExceptionListener != null) {
+			parentExceptionListener.onUndefined(origin, message);
+			return;
+		}
+
+		if (this.session != null
+				&& this.session.getExceptionManager()
+						.canCatchUndefinedExceptions()) {
+			this.session.getExceptionManager().onUndefined(origin, message);
 			return;
 		}
 
 		onFailure(origin, new Exception(
-				"No node matching the specified criteria was defined."));
+				"No node matching the specified criteria was defined: "
+						+ message));
 	}
 
-	public ExceptionManager(ExceptionManager fallback) {
+	public ExceptionManager(ExceptionManager parentExceptionManager,
+			Session session) {
 		super();
-		this.fallback = fallback;
+		this.parentExceptionListener = parentExceptionManager;
+		this.session = session;
 	}
 
 }

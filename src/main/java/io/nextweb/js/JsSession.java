@@ -1,13 +1,14 @@
 package io.nextweb.js;
 
 import io.nextweb.Session;
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsResult;
+import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +93,8 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 		final JavaScriptObject callback_onSuccess_Closed = callback_onSuccess;
 		final JavaScriptObject callback_onFailure_Closed = callback_onFailure;
 		session.getAll(requestedEntities.toArray(new Result<?>[0])).get(
-				new RequestResultCallback<SuccessFail>() {
+				new RequestCallbackImpl<SuccessFail>(this.session
+						.getExceptionManager(), null) {
 
 					@Override
 					public void onSuccess(SuccessFail result) {
@@ -109,7 +111,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 					}
 
 					@Override
-					public void onFailure(Throwable t) {
+					public void onFailure(Object origin, Throwable t) {
 						if (callback_onFailure_Closed == null) {
 							session.getEngine().getExceptionManager()
 									.onFailure(this, t);
@@ -120,6 +122,20 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 								((NextwebEngineJs) session.getEngine())
 										.jsFactory().getWrappers(),
 								new JavaScriptObject[] { ExporterUtil.wrap(t) });
+					}
+
+					@Override
+					public void onUnauthorized(Object origin,
+							AuthorizationExceptionResult r) {
+						onFailure(origin,
+								new Exception("Insufficient authorization: "
+										+ r.getMessage()));
+					}
+
+					@Override
+					public void onUndefined(Object origin, String message) {
+						onFailure(origin, new Exception("Node undefined: "
+								+ message));
 					}
 
 				});

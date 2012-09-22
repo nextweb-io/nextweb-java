@@ -88,7 +88,7 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 
 	@Export
 	public void each(final JsClosure closure) {
-		H.each(list, new Closure<Node>() {
+		H.each(this.list, list, new Closure<Node>() {
 
 			@Override
 			public void apply(Node o) {

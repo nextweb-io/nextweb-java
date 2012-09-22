@@ -10,8 +10,8 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.RequestCallback;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -75,51 +75,58 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	public OnedbLink(final OnedbSession session,
-			final ExceptionManager fallbackExceptionManager, final String uri) {
+			final ExceptionManager parentExceptionManager, final String uri) {
 		super();
 		assert session != null;
 		assert uri != null;
 
 		this.session = session;
 		this.uri = uri;
-		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
-		this.result = session.getEngine().createResult(new AsyncResult<Node>() {
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				this, parentExceptionManager);
+		this.result = session.getEngine().createResult(exceptionManager,
+				new AsyncResult<Node>() {
 
-			@Override
-			public void get(final RequestResultCallback<Node> callback) {
+					@Override
+					public void get(final RequestCallback<Node> callback) {
 
-				session.getClient().one().load(uri).in(session.getClient())
-						.and(new WhenLoaded() {
+						session.getClient().one().load(uri)
+								.in(session.getClient()).and(new WhenLoaded() {
 
-							@Override
-							public void thenDo(WithLoadResult<Object> lr) {
-								callback.onSuccess(session
-										.getOnedbEngine()
-										.getFactory()
-										.createNode(session, exceptionManager,
-												lr.loadedNode()));
-							}
+									@Override
+									public void thenDo(WithLoadResult<Object> lr) {
+										callback.onSuccess(session
+												.getOnedbEngine()
+												.getFactory()
+												.createNode(session,
+														exceptionManager,
+														lr.loadedNode()));
+									}
 
-							@Override
-							public void onUnauthorized(
-									WithUnauthorizedContext context) {
-								exceptionManager.onUnauthorized(this,
-										H.fromUnauthorizedContext(context));
-							}
+									@Override
+									public void onUnauthorized(
+											WithUnauthorizedContext context) {
+										callback.onUnauthorized(
+												this,
+												H.fromUnauthorizedContext(context));
+									}
 
-							@Override
-							public void onUndefined(WithUndefinedContext context) {
-								exceptionManager.onUndefined(this);
-							}
+									@Override
+									public void onUndefined(
+											WithUndefinedContext context) {
+										callback.onUndefined(this,
+												"No node is defined at address: ["
+														+ uri + "]");
+									}
 
-							@Override
-							public void onFailure(Throwable t) {
-								exceptionManager.onFailure(this, t);
-							}
+									@Override
+									public void onFailure(Throwable t) {
+										callback.onFailure(this, t);
+									}
 
-						});
-			}
-		});
+								});
+					}
+				});
 		assert this.result != null;
 	}
 
@@ -130,7 +137,7 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
-	public void get(RequestResultCallback<Node> callback) {
+	public void get(RequestCallback<Node> callback) {
 		assert this.result != null;
 
 		this.result.get(callback);

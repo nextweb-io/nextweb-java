@@ -1,8 +1,10 @@
 package com.ononedb.nextweb.js.fn;
 
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.RequestCallback;
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.RequestResultCallback;
+import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 
 import java.util.LinkedList;
@@ -18,9 +20,9 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 
 	private boolean requestingResult;
 
-	private final List<RequestResultCallback<ResultType>> deferredCalls;
+	private final List<RequestCallback<ResultType>> deferredCalls;
 
-	private void requestResult(final RequestResultCallback<ResultType> callback) {
+	private void requestResult(final RequestCallback<ResultType> callback) {
 
 		if (resultCache != null) {
 			callback.onSuccess(resultCache);
@@ -32,7 +34,8 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 			return;
 		}
 
-		asyncResult.get(new RequestResultCallback<ResultType>() {
+		asyncResult.get(new RequestCallbackImpl<ResultType>(exceptionManager,
+				null) {
 
 			@Override
 			public void onSuccess(ResultType result) {
@@ -40,21 +43,42 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 				requestingResult = false;
 				callback.onSuccess(result);
 
-				for (RequestResultCallback<ResultType> deferredCallback : deferredCalls) {
+				for (RequestCallback<ResultType> deferredCallback : deferredCalls) {
 					deferredCallback.onSuccess(result);
 				}
 				deferredCalls.clear();
 			}
 
 			@Override
-			public void onFailure(Throwable t) {
+			public void onFailure(Object origin, Throwable t) {
 				requestingResult = false;
-				callback.onFailure(t);
-				for (RequestResultCallback<ResultType> deferredCallback : deferredCalls) {
-					deferredCallback.onFailure(t);
+				callback.onFailure(origin, t);
+				for (RequestCallback<ResultType> deferredCallback : deferredCalls) {
+					deferredCallback.onFailure(origin, t);
 				}
 				deferredCalls.clear();
 
+			}
+
+			@Override
+			public void onUnauthorized(Object origin,
+					AuthorizationExceptionResult r) {
+				requestingResult = false;
+				callback.onUnauthorized(origin, r);
+				for (RequestCallback<ResultType> deferredCallback : deferredCalls) {
+					deferredCallback.onUnauthorized(origin, r);
+				}
+				deferredCalls.clear();
+			}
+
+			@Override
+			public void onUndefined(Object origin, String message) {
+				requestingResult = false;
+				callback.onUndefined(origin, message);
+				for (RequestCallback<ResultType> deferredCallback : deferredCalls) {
+					deferredCallback.onUndefined(origin, message);
+				}
+				deferredCalls.clear();
 			}
 
 		});
@@ -62,7 +86,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 	}
 
 	@Override
-	public void get(final RequestResultCallback<ResultType> callback) {
+	public void get(final RequestCallback<ResultType> callback) {
 		requestResult(callback);
 	}
 
@@ -72,16 +96,12 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 	@Override
 	public ResultType get() {
 
-		requestResult(new RequestResultCallback<ResultType>() {
+		requestResult(new RequestCallbackImpl<ResultType>(exceptionManager,
+				null) {
 
 			@Override
 			public void onSuccess(ResultType result) {
 				// nada
-			}
-
-			@Override
-			public void onFailure(Throwable t) {
-				exceptionManager.onFailure(this, t);
 			}
 
 		});
@@ -95,9 +115,9 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 		assert asyncResult != null;
 		this.asyncResult = asyncResult;
 		this.resultCache = null;
-		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
+		this.exceptionManager = fallbackExceptionManager;
 		this.requestingResult = false;
-		this.deferredCalls = new LinkedList<RequestResultCallback<ResultType>>();
+		this.deferredCalls = new LinkedList<RequestCallback<ResultType>>();
 	}
 
 }

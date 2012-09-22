@@ -12,6 +12,8 @@ import java.util.List;
 import one.core.domain.OneClient;
 import one.core.nodes.OneTypedReference;
 
+import com.ononedb.nextweb.OnedbEntity;
+import com.ononedb.nextweb.OnedbEntityList;
 import com.ononedb.nextweb.OnedbLink;
 import com.ononedb.nextweb.OnedbLinkList;
 import com.ononedb.nextweb.OnedbLinkListQuery;
@@ -28,7 +30,8 @@ public class OnedbFactory {
 			ExceptionManager fallbackExceptionManager,
 			AsyncResult<Node> asyncResult) {
 		return new OnedbQuery(session, fallbackExceptionManager, session
-				.getEngine().createResult(asyncResult));
+				.getEngine()
+				.createResult(fallbackExceptionManager, asyncResult));
 	}
 
 	public final OnedbLink createLink(OnedbSession session,
@@ -41,7 +44,8 @@ public class OnedbFactory {
 			ExceptionManager fallbackExceptionManager,
 			AsyncResult<NodeList> result) {
 		return new OnedbNodeListQuery(session, fallbackExceptionManager,
-				session.getEngine().createResult(result));
+				session.getEngine().createResult(fallbackExceptionManager,
+						result));
 	}
 
 	public final OnedbNodeList createNodeList(OnedbSession session,
@@ -58,7 +62,8 @@ public class OnedbFactory {
 			ExceptionManager fallbackExceptionManager,
 			AsyncResult<LinkList> result) {
 		return new OnedbLinkListQuery(session, session.getEngine()
-				.createResult(result), fallbackExceptionManager);
+				.createResult(fallbackExceptionManager, result),
+				fallbackExceptionManager);
 	}
 
 	public final OnedbNode createNode(OnedbSession session,
@@ -69,6 +74,21 @@ public class OnedbFactory {
 	public final OnedbSession createSession(OnedbNextwebEngine engine,
 			ExceptionManager fallbackExceptionManager, OneClient client) {
 		return new OnedbSession(engine, fallbackExceptionManager, client);
+	}
+
+	public final ExceptionManager createExceptionManager(OnedbEntity entity,
+			ExceptionManager parentExceptionManager) {
+		return new ExceptionManager(parentExceptionManager, entity.getSession());
+	}
+
+	public final ExceptionManager createExceptionManager(
+			OnedbEntityList<?> entity, ExceptionManager parentExceptionManager) {
+		return new ExceptionManager(parentExceptionManager, entity.getSession());
+	}
+
+	public ExceptionManager createExceptionManager(OnedbSession onedbSession) {
+
+		return new ExceptionManager(null, onedbSession);
 	}
 
 }

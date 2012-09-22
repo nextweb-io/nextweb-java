@@ -9,8 +9,9 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.RequestCallback;
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -31,7 +32,7 @@ public class OnedbNodeListQuery implements NodeListQuery,
 	}
 
 	@Override
-	public void get(RequestResultCallback<NodeList> callback) {
+	public void get(RequestCallback<NodeList> callback) {
 		result.get(callback);
 	}
 
@@ -47,11 +48,12 @@ public class OnedbNodeListQuery implements NodeListQuery,
 	}
 
 	public OnedbNodeListQuery(OnedbSession session,
-			ExceptionManager fallbackExceptionManager, Result<NodeList> result) {
+			ExceptionManager parentExceptionManager, Result<NodeList> result) {
 		super();
 		this.result = result;
 		this.session = session;
-		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				this, parentExceptionManager);
 	}
 
 	@Override
@@ -95,7 +97,8 @@ public class OnedbNodeListQuery implements NodeListQuery,
 
 	@Override
 	public NodeListQuery each(final Closure<Node> f) {
-		this.result.get(new RequestResultCallback<NodeList>() {
+		this.result.get(new RequestCallbackImpl<NodeList>(exceptionManager,
+				null) {
 
 			@Override
 			public void onSuccess(NodeList result) {

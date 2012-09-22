@@ -8,7 +8,8 @@ import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
-import io.nextweb.fn.RequestResultCallback;
+import io.nextweb.fn.RequestCallback;
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.core.Entity_SelectPlugin;
 
@@ -39,8 +40,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
 
 			@Override
-			public void get(final RequestResultCallback<NodeList> callback) {
-				entity.get(new RequestResultCallback<Node>() {
+			public void get(final RequestCallback<NodeList> callback) {
+				entity.get(new RequestCallbackImpl<Node>(exceptionManager, null) {
 
 					@Override
 					public void onSuccess(Node result) {
@@ -78,14 +79,15 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 									@Override
 									public void onUnauthorized(
 											WithUnauthorizedContext context) {
-										exceptionManager.onUnauthorized(
+										callback.onUnauthorized(
 												this,
 												H.fromUnauthorizedContext(context));
+
 									}
 
 									@Override
 									public void onFailure(Throwable t) {
-										callback.onFailure(t);
+										callback.onFailure(this, t);
 									}
 
 								});
@@ -93,8 +95,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 					}
 
 					@Override
-					public void onFailure(Throwable t) {
-						callback.onFailure(t);
+					public void onFailure(Object origin, Throwable t) {
+						callback.onFailure(origin, t);
 					}
 
 				});
@@ -115,12 +117,15 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<Node> selectResult = new AsyncResult<Node>() {
 
 			@Override
-			public void get(final RequestResultCallback<Node> callback) {
+			public void get(final RequestCallback<Node> callback) {
 
-				entity.get(new RequestResultCallback<Node>() {
+				entity.get(new RequestCallbackImpl<Node>(exceptionManager,
+						callback) {
 
 					@Override
 					public void onSuccess(Node result) {
+
+						final RequestCallbackImpl<Node> nestedCallback = this;
 						dsl.selectFrom(dsl.reference(result.getUri()))
 								.theChildren()
 								.linkingTo(dsl.reference(propertyType.getUri()))
@@ -132,8 +137,9 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 											WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
 										if (sr.children().size() == 0) {
-											callback.onUndefined(new Exception(
-													"No child matching the specified criteria."));
+											nestedCallback
+													.onUndefined(this,
+															"No child matching the specified criteria.");
 											return;
 										}
 
@@ -149,22 +155,22 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 									@Override
 									public void onUnauthorized(
 											WithUnauthorizedContext context) {
-										exceptionManager.onUnauthorized(
+										nestedCallback.onUnauthorized(
 												this,
 												H.fromUnauthorizedContext(context));
 									}
 
 									@Override
 									public void onFailure(Throwable t) {
-										callback.onFailure(t);
+										nestedCallback.onFailure(this, t);
 									}
 
 								});
 					}
 
 					@Override
-					public void onFailure(Throwable t) {
-						callback.onFailure(t);
+					public void onFailure(Object origin, Throwable t) {
+						callback.onFailure(origin, t);
 					}
 
 				});
@@ -190,8 +196,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<LinkList> selectAllLinksResult = new AsyncResult<LinkList>() {
 
 			@Override
-			public void get(final RequestResultCallback<LinkList> callback) {
-				entity.get(new RequestResultCallback<Node>() {
+			public void get(final RequestCallback<LinkList> callback) {
+				entity.get(new RequestCallbackImpl<Node>(exceptionManager, null) {
 
 					@Override
 					public void onSuccess(Node result) {
@@ -213,7 +219,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 									.createLinkList(H.session(entity),
 											exceptionManager, linkList));
 						} catch (Throwable t) {
-							callback.onFailure(t);
+							callback.onFailure(this, t);
 						}
 					}
 
@@ -235,8 +241,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
 
 			@Override
-			public void get(final RequestResultCallback<NodeList> callback) {
-				entity.get(new RequestResultCallback<Node>() {
+			public void get(final RequestCallback<NodeList> callback) {
+				entity.get(new RequestCallbackImpl<Node>(exceptionManager, null) {
 
 					@Override
 					public void onSuccess(Node result) {
@@ -313,8 +319,8 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 					}
 
 					@Override
-					public void onFailure(Throwable t) {
-						exceptionManager.onFailure(this, t);
+					public void onFailure(Object origin, Throwable t) {
+						exceptionManager.onFailure(origin, t);
 					}
 
 				});

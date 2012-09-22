@@ -4,9 +4,11 @@ import io.nextweb.Link;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.RequestCallback;
+import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.RequestResultCallback;
 import io.nextweb.fn.SuccessFail;
+import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
@@ -45,17 +47,18 @@ public class OnedbSession implements Session {
 		super();
 		this.engine = engine;
 		this.client = client;
-		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
+		this.exceptionManager = engine.getFactory()
+				.createExceptionManager(this);
 	}
 
 	@Override
 	public Result<SuccessFail> close() {
 
-		Result<SuccessFail> closeResult = this.engine
-				.createResult(new AsyncResult<SuccessFail>() {
+		Result<SuccessFail> closeResult = this.engine.createResult(
+				exceptionManager, new AsyncResult<SuccessFail>() {
 
 					@Override
-					public void get(final RequestResultCallback<SuccessFail> callback) {
+					public void get(final RequestCallback<SuccessFail> callback) {
 
 						client.one().shutdown(client).and(new WhenShutdown() {
 
@@ -75,7 +78,7 @@ public class OnedbSession implements Session {
 
 				});
 
-		RequestResultCallback<SuccessFail> clbk = RequestResultCallback.doNothing();
+		RequestCallbackImpl<SuccessFail> clbk = RequestCallbackImpl.doNothing();
 		closeResult.get(clbk);
 
 		return closeResult;
@@ -83,48 +86,80 @@ public class OnedbSession implements Session {
 
 	@Override
 	public Link node(String uri) {
-		return engine.getFactory().createLink(this, exceptionManager, uri);
+		return engine.getFactory().createLink(this, null, uri); // _NO_ parent
+																// exception
+																// Manager
 	}
 
 	@Override
 	public Result<SuccessFail> getAll(final Result<?>... results) {
-		return engine.createResult(new AsyncResult<SuccessFail>() {
+		return engine.createResult(exceptionManager,
+				new AsyncResult<SuccessFail>() {
 
-			@SuppressWarnings({ "rawtypes", "unchecked" })
-			@Override
-			public void get(final RequestResultCallback<SuccessFail> callback) {
-
-				final CallbackLatch latch = new CallbackLatch(results.length) {
-
+					@SuppressWarnings({ "rawtypes", "unchecked" })
 					@Override
-					public void onFailed(Throwable arg0) {
-						callback.onSuccess(SuccessFail.fail(arg0));
-					}
+					public void get(final RequestCallback<SuccessFail> callback) {
 
-					@Override
-					public void onCompleted() {
-						callback.onSuccess(SuccessFail.success());
-					}
-				};
+						final CallbackLatch latch = new CallbackLatch(
+								results.length) {
 
-				for (Result<?> result : results) {
-					result.get(new RequestResultCallback() {
+							@Override
+							public void onFailed(Throwable arg0) {
+								callback.onSuccess(SuccessFail.fail(arg0));
+							}
 
-						@Override
-						public void onSuccess(Object result) {
-							latch.registerSuccess();
+							@Override
+							public void onCompleted() {
+								callback.onSuccess(SuccessFail.success());
+							}
+						};
+
+						for (Result<?> result : results) {
+							result.get(new RequestCallbackImpl(
+									exceptionManager, null) {
+
+								@Override
+								public void onSuccess(Object result) {
+									latch.registerSuccess();
+								}
+
+								@Override
+								public void onUnauthorized(Object origin,
+										AuthorizationExceptionResult r) {
+									latch.registerFail(new Exception(
+											"Authorization exception: "
+													+ r.getMessage()));
+								}
+
+								@Override
+								public void onUndefined(Object origin,
+										String message) {
+
+									latch.registerFail(new Exception(
+											"Node was not defined: " + message));
+								}
+
+								@Override
+								public void onFailure(Object origin, Throwable t) {
+									latch.registerFail(t);
+								}
+
+							});
 						}
-					});
-				}
 
-			}
-		});
+					}
+				});
 	}
 
 	@Override
 	public <PluginType extends Plugin<Session>> PluginType plugin(
 			PluginFactory<Session, PluginType> factory) {
 		return Plugins.plugin(this, factory);
+	}
+
+	@Override
+	public ExceptionManager getExceptionManager() {
+		return exceptionManager;
 	}
 
 }

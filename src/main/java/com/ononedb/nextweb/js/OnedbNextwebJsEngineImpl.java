@@ -60,6 +60,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 
 	@Override
 	public <ResultType> Result<ResultType> createResult(
+			ExceptionManager exceptionManager,
 			AsyncResult<ResultType> asyncResult) {
 		return new JsResultImplementation<ResultType>(exceptionManager,
 				asyncResult);
@@ -78,7 +79,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 
 	public OnedbNextwebJsEngineImpl() {
 		super();
-		this.exceptionManager = new ExceptionManager(null);
+		this.exceptionManager = getFactory().createExceptionManager(null);
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
 
 			@Override

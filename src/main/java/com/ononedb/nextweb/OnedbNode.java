@@ -8,7 +8,7 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.RequestResultCallback;
+import io.nextweb.fn.RequestCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -78,11 +78,12 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	public OnedbNode(OnedbSession session,
-			ExceptionManager fallbackExceptionManager, OneTypedReference<?> node) {
+			ExceptionManager parentExceptionManager, OneTypedReference<?> node) {
 		super();
 		this.session = session;
 		this.node = node;
-		this.exceptionManager = new ExceptionManager(fallbackExceptionManager);
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				this, parentExceptionManager);
 	}
 
 	@Override
@@ -91,7 +92,7 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public void get(RequestResultCallback<Node> callback) {
+	public void get(RequestCallback<Node> callback) {
 		callback.onSuccess(this);
 	}
 
