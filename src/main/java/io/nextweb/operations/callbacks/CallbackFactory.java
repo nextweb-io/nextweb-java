@@ -19,13 +19,13 @@ public class CallbackFactory {
 	@SuppressWarnings("unchecked")
 	public static <ResultType> Callback<ResultType> embeddedCallback(
 			final ExceptionManager exceptionManager, Callback<?> embeddedIn,
-			Closure<ResultType> onSuccess) {
+			final Closure<ResultType> p_onSuccess) {
 		return new EmbeddedCallback<ResultType>((Callback<Object>) embeddedIn,
 				exceptionManager) {
 
 			@Override
 			public void onSuccess(ResultType result) {
-				onSuccess(result);
+				p_onSuccess.apply(result);
 			}
 
 		};

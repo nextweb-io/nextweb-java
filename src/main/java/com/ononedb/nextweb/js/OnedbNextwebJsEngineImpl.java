@@ -62,7 +62,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 	public <ResultType> Result<ResultType> createResult(
 			ExceptionManager exceptionManager,
 			AsyncResult<ResultType> asyncResult) {
-		return new JsResultImplementation<ResultType>(exceptionManager,
+		return new JsResultImplementation<ResultType>(null, exceptionManager,
 				asyncResult);
 	}
 

@@ -139,7 +139,9 @@ public class TestSelect {
 			}
 		});
 
-		questions.catchExceptions(new ExceptionListener() {
+		NodeList resolvedQuestions = questions.selectAll().get();
+
+		resolvedQuestions.catchExceptions(new ExceptionListener() {
 
 			@Override
 			public void onFailure(Object origin, Throwable t) {
@@ -148,15 +150,14 @@ public class TestSelect {
 			}
 		});
 
-		questions.selectAll().get().select(aBrandName)
-				.get(new RequestCallbackImpl<NodeList>(null, null) {
+		resolvedQuestions.select(aBrandName).get(new Closure<NodeList>() {
 
-					@Override
-					public void onSuccess(NodeList result) {
-						System.out.println("success");
-					}
+			@Override
+			public void apply(NodeList result) {
+				System.out.println("success");
+			}
 
-				});
+		});
 
 		// System.out.println(allBrandNames);
 

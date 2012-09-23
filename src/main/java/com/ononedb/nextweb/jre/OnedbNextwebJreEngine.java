@@ -10,28 +10,22 @@ import io.nextweb.plugins.core.DefaultPluginFactory;
 import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
-import org.timepedia.exporter.client.Export;
-import org.timepedia.exporter.client.NoExport;
-
 import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.OnedbFactory;
 
-@Export
 public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 	private CoreDsl dsl;
 
 	private final ExceptionManager exceptionManager;
 
-	@Export
 	public static OnedbNextwebJreEngine init() {
 		OnedbNextwebJreEngine engine = new OnedbNextwebJreEngine();
 		Nextweb.injectEngine(engine);
 		return engine;
 	}
 
-	@NoExport
 	@Override
 	public Session createSession() {
 
@@ -43,23 +37,20 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 				dsl.createClient());
 	}
 
-	@NoExport
 	@Override
 	public ExceptionManager getExceptionManager() {
 		return exceptionManager;
 	}
 
-	@NoExport
 	@Override
 	public <ResultType> Result<ResultType> createResult(
 			ExceptionManager exceptionManager,
 			final AsyncResult<ResultType> asyncResult) {
 
-		return new ResultImplementation<ResultType>(exceptionManager,
+		return new ResultImplementation<ResultType>(null, exceptionManager,
 				asyncResult);
 	}
 
-	@NoExport
 	@Override
 	public OnedbFactory getFactory() {
 
