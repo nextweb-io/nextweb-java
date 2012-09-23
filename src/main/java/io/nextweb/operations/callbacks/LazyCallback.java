@@ -18,7 +18,8 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 
 	@Override
 	public void onFailure(Object origin, Throwable t) {
-		if (session.getExceptionManager().canCatchExceptions()) {
+		if (session != null
+				&& session.getExceptionManager().canCatchExceptions()) {
 			session.getExceptionManager().onFailure(origin, t);
 			return;
 		}
@@ -33,7 +34,9 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 
 	@Override
 	public void onUnauthorized(Object origin, AuthorizationExceptionResult r) {
-		if (session.getExceptionManager().canCatchAuthorizationExceptions()) {
+		if (session != null
+				&& session.getExceptionManager()
+						.canCatchAuthorizationExceptions()) {
 			session.getExceptionManager().onUnauthorized(origin, r);
 			return;
 		}
@@ -48,7 +51,8 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 
 	@Override
 	public void onUndefined(Object origin, String message) {
-		if (session.getExceptionManager().canCatchUndefinedExceptions()) {
+		if (session != null
+				&& session.getExceptionManager().canCatchUndefinedExceptions()) {
 			session.getExceptionManager().onUndefined(origin, message);
 			return;
 		}

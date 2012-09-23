@@ -10,10 +10,9 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.RequestCallback;
-import io.nextweb.fn.RequestCallbackImpl;
+import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import io.nextweb.plugins.Plugin;
@@ -47,7 +46,7 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 		AsyncResult<NodeList> selectResult = new AsyncResult<NodeList>() {
 
 			@Override
-			public void get(final RequestCallback<NodeList> callback) {
+			public void get(final Callback<NodeList> callback) {
 
 				ListCallbackJoiner<Node, Node> joiner = new ListCallbackJoiner<Node, Node>(
 						list, new ListCallback<Node>() {
@@ -81,34 +80,23 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 									localCallback.onFailure(t);
 								}
 							})
-							.get(new RequestCallbackImpl<Node>(
-									exceptionManager, null) {
+							.get(CallbackFactory.eagerCallback(
+									OnedbNodeList.this.getSession(),
+									OnedbNodeList.this.getExceptionManager(),
+									new Closure<Node>() {
 
-								@Override
-								public void onSuccess(Node result) {
-									localCallback.onSuccess(result);
-								}
+										@Override
+										public void apply(Node o) {
+											localCallback.onSuccess(o);
+										}
 
-								@Override
-								public void onUnauthorized(Object origin,
-										AuthorizationExceptionResult r) {
-									localCallback.onFailure(new Exception(
-											"Unauthorized: " + r.getMessage()));
-								}
-
-								@Override
-								public void onUndefined(Object origin,
-										String message) {
-									localCallback.onFailure(new Exception(
-											"Undefined: " + message));
-								}
+									}).catchFailures(new ExceptionListener() {
 
 								@Override
 								public void onFailure(Object origin, Throwable t) {
 									localCallback.onFailure(t);
 								}
-
-							});
+							}));
 
 				}
 
@@ -178,8 +166,7 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 		super();
 		this.list = list;
 		this.session = session;
-		this.exceptionManager = session.getFactory().createExceptionManager(
-				this, parentExceptionManager);
+		this.exceptionManager = session.getFactory().createExceptionManager();
 	}
 
 	@Override
@@ -206,7 +193,7 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 	}
 
 	@Override
-	public void get(RequestCallback<NodeList> callback) {
+	public void get(Callback<NodeList> callback) {
 		callback.onSuccess(this);
 	}
 

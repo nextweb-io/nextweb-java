@@ -12,8 +12,6 @@ import java.util.List;
 import one.core.domain.OneClient;
 import one.core.nodes.OneTypedReference;
 
-import com.ononedb.nextweb.OnedbEntity;
-import com.ononedb.nextweb.OnedbEntityList;
 import com.ononedb.nextweb.OnedbLink;
 import com.ononedb.nextweb.OnedbLinkList;
 import com.ononedb.nextweb.OnedbLinkListQuery;
@@ -76,19 +74,8 @@ public class OnedbFactory {
 		return new OnedbSession(engine, fallbackExceptionManager, client);
 	}
 
-	public final ExceptionManager createExceptionManager(OnedbEntity entity,
-			ExceptionManager parentExceptionManager) {
-		return new ExceptionManager(parentExceptionManager, entity.getSession());
-	}
-
-	public final ExceptionManager createExceptionManager(
-			OnedbEntityList<?> entity, ExceptionManager parentExceptionManager) {
-		return new ExceptionManager(parentExceptionManager, entity.getSession());
-	}
-
-	public ExceptionManager createExceptionManager(OnedbSession onedbSession) {
-
-		return new ExceptionManager(null, onedbSession);
+	public final ExceptionManager createExceptionManager() {
+		return new ExceptionManager();
 	}
 
 }

@@ -52,7 +52,8 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			return;
 		}
 
-		if (session.getExceptionManager().canCatchExceptions()) {
+		if (session != null
+				&& session.getExceptionManager().canCatchExceptions()) {
 			session.getExceptionManager().onFailure(origin, t);
 			return;
 		}
@@ -69,12 +70,20 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			return;
 		}
 
+		if (hasEagerFailureListener) {
+			this.exceptionListener.onFailure(origin, new Exception(
+					"Unauthorized: " + r.getMessage()));
+			return;
+		}
+
 		if (exceptionManager.canCatchAuthorizationExceptions()) {
 			exceptionManager.onUnauthorized(origin, r);
 			return;
 		}
 
-		if (session.getExceptionManager().canCatchAuthorizationExceptions()) {
+		if (session != null
+				&& session.getExceptionManager()
+						.canCatchAuthorizationExceptions()) {
 			session.getExceptionManager().onUnauthorized(origin, r);
 			return;
 		}
@@ -89,12 +98,19 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			return;
 		}
 
+		if (hasEagerFailureListener) {
+			this.exceptionListener.onFailure(origin, new Exception(
+					"Undefined: " + message));
+			return;
+		}
+
 		if (exceptionManager.canCatchUndefinedExceptions()) {
 			exceptionManager.onUndefined(origin, message);
 			return;
 		}
 
-		if (session.getExceptionManager().canCatchUndefinedExceptions()) {
+		if (session != null
+				&& session.getExceptionManager().canCatchUndefinedExceptions()) {
 			session.getExceptionManager().onUndefined(origin, message);
 			return;
 		}
@@ -110,13 +126,13 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	@Override
 	public boolean hasEagerUndefinedListener() {
 
-		return hasEagerUndefinedListener;
+		return hasEagerUndefinedListener || hasEagerFailureListener;
 	}
 
 	@Override
 	public boolean hasEagerUnauthorizedListener() {
 
-		return hasEagerUnauthorizedListener;
+		return hasEagerUnauthorizedListener || hasEagerFailureListener;
 	}
 
 	public EagerCallback(Session session, ExceptionManager exceptionManager) {

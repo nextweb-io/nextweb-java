@@ -1,14 +1,15 @@
 package io.nextweb.js;
 
 import io.nextweb.Session;
-import io.nextweb.fn.RequestCallbackImpl;
+import io.nextweb.fn.Closure;
+import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsResult;
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
+import io.nextweb.operations.callbacks.CallbackFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Export
 	public void getAll(Object... params) {
 		// com.google.gwt.core.client.JsArray<JavaScriptObject> jsAr = params
@@ -92,23 +93,26 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 
 		final JavaScriptObject callback_onSuccess_Closed = callback_onSuccess;
 		final JavaScriptObject callback_onFailure_Closed = callback_onFailure;
-		session.getAll(requestedEntities.toArray(new Result<?>[0])).get(
-				new RequestCallbackImpl<SuccessFail>(this.session
-						.getExceptionManager(), null) {
+		session.getAll((Result<Object>[]) requestedEntities.toArray()).get(
+				CallbackFactory.eagerCallback(session,
+						session.getExceptionManager(),
+						new Closure<SuccessFail>() {
 
-					@Override
-					public void onSuccess(SuccessFail result) {
-						List<Object> resolvedObjects = new ArrayList<Object>(
-								requestedEntities.size());
-						for (Result<?> requestedResult : requestedEntities) {
-							resolvedObjects.add(requestedResult.get());
-						}
+							@Override
+							public void apply(SuccessFail result) {
+								List<Object> resolvedObjects = new ArrayList<Object>(
+										requestedEntities.size());
+								for (Result<?> requestedResult : requestedEntities) {
+									resolvedObjects.add(requestedResult.get());
+								}
 
-						JH.triggerCallback(callback_onSuccess_Closed,
-								((NextwebEngineJs) session.getEngine())
-										.jsFactory().getWrappers(),
-								resolvedObjects.toArray());
-					}
+								JH.triggerCallback(callback_onSuccess_Closed,
+										((NextwebEngineJs) session.getEngine())
+												.jsFactory().getWrappers(),
+										resolvedObjects.toArray());
+							}
+
+						}).catchFailures(new ExceptionListener() {
 
 					@Override
 					public void onFailure(Object origin, Throwable t) {
@@ -123,22 +127,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 										.jsFactory().getWrappers(),
 								new JavaScriptObject[] { ExporterUtil.wrap(t) });
 					}
-
-					@Override
-					public void onUnauthorized(Object origin,
-							AuthorizationExceptionResult r) {
-						onFailure(origin,
-								new Exception("Insufficient authorization: "
-										+ r.getMessage()));
-					}
-
-					@Override
-					public void onUndefined(Object origin, String message) {
-						onFailure(origin, new Exception("Node undefined: "
-								+ message));
-					}
-
-				});
+				}));
 
 	}
 

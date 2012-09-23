@@ -9,7 +9,6 @@ import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import junit.framework.Assert;
 

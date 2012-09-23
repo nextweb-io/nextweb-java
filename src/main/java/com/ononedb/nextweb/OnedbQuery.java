@@ -9,8 +9,8 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.RequestCallback;
 import io.nextweb.fn.Result;
+import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -68,7 +68,7 @@ public class OnedbQuery implements Query, OnedbEntity {
 	}
 
 	@Override
-	public void get(RequestCallback<Node> callback) {
+	public void get(Callback<Node> callback) {
 		result.get(callback);
 	}
 

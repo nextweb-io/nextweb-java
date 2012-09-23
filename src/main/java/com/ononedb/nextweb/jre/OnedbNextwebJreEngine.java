@@ -68,7 +68,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 	public OnedbNextwebJreEngine() {
 		super();
-		this.exceptionManager = getFactory().createExceptionManager(null);
+		this.exceptionManager = getFactory().createExceptionManager();
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
 
 			@Override

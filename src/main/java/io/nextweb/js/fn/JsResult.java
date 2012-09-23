@@ -1,8 +1,7 @@
 package io.nextweb.js.fn;
 
-import io.nextweb.fn.RequestCallbackImpl;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -11,7 +10,7 @@ import org.timepedia.exporter.client.NoExport;
 @Export
 public class JsResult implements Exportable {
 
-	Result<?> result;
+	Result<Object> result;
 
 	@Export
 	public Object get() {
@@ -19,33 +18,16 @@ public class JsResult implements Exportable {
 	}
 
 	@Export
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void get(final JsClosure onSuccess, final JsClosure onFailure) {
-		result.get(new RequestCallbackImpl(null, null) {
+	public void get(final JsClosure onSuccess) {
+		result.get(new Closure<Object>() {
 
 			@Override
-			public void onSuccess(Object result) {
-				onSuccess.apply(result);
-			}
-
-			@Override
-			public void onUnauthorized(Object origin,
-					AuthorizationExceptionResult r) {
-				onFailure.apply(new Exception("Insufficient authorization: "
-						+ r.getMessage()));
-			}
-
-			@Override
-			public void onUndefined(Object origin, String message) {
-				onFailure.apply(new Exception("Node not defined: " + message));
-			}
-
-			@Override
-			public void onFailure(Object origin, Throwable t) {
-				onFailure.apply(t);
+			public void apply(Object o) {
+				onSuccess.apply(o);
 			}
 
 		});
+
 	}
 
 	@NoExport
@@ -54,7 +36,7 @@ public class JsResult implements Exportable {
 	}
 
 	@NoExport
-	public void setResult(Result<?> result) {
+	public void setResult(Result<Object> result) {
 		this.result = result;
 	}
 
@@ -62,10 +44,11 @@ public class JsResult implements Exportable {
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	@NoExport
 	public static JsResult wrap(Result<?> result) {
 		JsResult jsResult = new JsResult();
-		jsResult.setResult(result);
+		jsResult.setResult((Result<Object>) result);
 		return jsResult;
 	}
 

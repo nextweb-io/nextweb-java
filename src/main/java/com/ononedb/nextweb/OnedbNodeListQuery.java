@@ -9,9 +9,8 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.RequestCallback;
-import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
+import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -32,7 +31,7 @@ public class OnedbNodeListQuery implements NodeListQuery,
 	}
 
 	@Override
-	public void get(RequestCallback<NodeList> callback) {
+	public void get(Callback<NodeList> callback) {
 		result.get(callback);
 	}
 
@@ -52,8 +51,7 @@ public class OnedbNodeListQuery implements NodeListQuery,
 		super();
 		this.result = result;
 		this.session = session;
-		this.exceptionManager = session.getFactory().createExceptionManager(
-				this, parentExceptionManager);
+		this.exceptionManager = session.getFactory().createExceptionManager();
 	}
 
 	@Override
@@ -97,14 +95,16 @@ public class OnedbNodeListQuery implements NodeListQuery,
 
 	@Override
 	public NodeListQuery each(final Closure<Node> f) {
-		this.result.get(new RequestCallbackImpl<NodeList>(exceptionManager,
-				null) {
+		this.result.get(CallbackFactory.lazyCallback(this,
+				new Closure<NodeList>() {
 
-			@Override
-			public void onSuccess(NodeList result) {
-				result.each(f);
-			}
-		});
+					@Override
+					public void apply(NodeList result) {
+						result.each(f);
+					}
+
+				}));
+
 		return this;
 	}
 

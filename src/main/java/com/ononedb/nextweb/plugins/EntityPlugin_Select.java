@@ -119,7 +119,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<Node> selectResult = new AsyncResult<Node>() {
 
 			@Override
-			public void get(final RequestCallback<Node> callback) {
+			public void get(final Callback<Node> callback) {
 
 				entity.get(new RequestCallbackImpl<Node>(exceptionManager,
 						callback) {
@@ -198,7 +198,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<LinkList> selectAllLinksResult = new AsyncResult<LinkList>() {
 
 			@Override
-			public void get(final RequestCallback<LinkList> callback) {
+			public void get(final Callback<LinkList> callback) {
 				entity.get(new RequestCallbackImpl<Node>(exceptionManager, null) {
 
 					@Override

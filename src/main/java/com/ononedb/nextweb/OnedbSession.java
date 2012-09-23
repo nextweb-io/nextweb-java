@@ -5,10 +5,12 @@ import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
-import io.nextweb.fn.RequestCallback;
+import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.SuccessFail;
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
+import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.operations.callbacks.CallbackFactory;
+import io.nextweb.operations.callbacks.EagerCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
@@ -47,8 +49,7 @@ public class OnedbSession implements Session {
 		super();
 		this.engine = engine;
 		this.client = client;
-		this.exceptionManager = engine.getFactory()
-				.createExceptionManager(null);
+		this.exceptionManager = engine.getFactory().createExceptionManager();
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class OnedbSession implements Session {
 				exceptionManager, new AsyncResult<SuccessFail>() {
 
 					@Override
-					public void get(final RequestCallback<SuccessFail> callback) {
+					public void get(final Callback<SuccessFail> callback) {
 
 						client.one().shutdown(client).and(new WhenShutdown() {
 
@@ -102,9 +103,9 @@ public class OnedbSession implements Session {
 		return engine.createResult(exceptionManager,
 				new AsyncResult<SuccessFail>() {
 
-					@SuppressWarnings({ "rawtypes", "unchecked" })
+					@SuppressWarnings({ "unchecked" })
 					@Override
-					public void get(final RequestCallback<SuccessFail> callback) {
+					public void get(final Callback<SuccessFail> callback) {
 
 						final CallbackLatch latch = new CallbackLatch(
 								results.length) {
@@ -120,37 +121,31 @@ public class OnedbSession implements Session {
 							}
 						};
 
-						for (Result<?> result : results) {
-							result.get(new RequestCallbackImpl(
-									exceptionManager, null) {
+						Result<Object>[] resultObj = (Result<Object>[]) results;
 
-								@Override
-								public void onSuccess(Object result) {
-									latch.registerSuccess();
-								}
+						for (Result<Object> result : resultObj) {
+							EagerCallback<Object> eagerCallback = CallbackFactory
+									.eagerCallback(OnedbSession.this,
+											exceptionManager,
+											new Closure<Object>() {
 
-								@Override
-								public void onUnauthorized(Object origin,
-										AuthorizationExceptionResult r) {
-									latch.registerFail(new Exception(
-											"Authorization exception: "
-													+ r.getMessage()));
-								}
+												@Override
+												public void apply(Object o) {
+													latch.registerSuccess();
+												}
 
-								@Override
-								public void onUndefined(Object origin,
-										String message) {
+											}).catchFailures(
+											new ExceptionListener() {
 
-									latch.registerFail(new Exception(
-											"Node was not defined: " + message));
-								}
+												@Override
+												public void onFailure(
+														Object origin,
+														Throwable t) {
+													latch.registerFail(t);
+												}
+											});
+							result.get(eagerCallback);
 
-								@Override
-								public void onFailure(Object origin, Throwable t) {
-									latch.registerFail(t);
-								}
-
-							});
 						}
 
 					}

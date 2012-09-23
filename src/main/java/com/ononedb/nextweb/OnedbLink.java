@@ -11,8 +11,8 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.RequestCallback;
 import io.nextweb.fn.Result;
+import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -83,13 +83,12 @@ public class OnedbLink implements Link, OnedbEntity {
 
 		this.session = session;
 		this.uri = uri;
-		this.exceptionManager = session.getFactory().createExceptionManager(
-				this, parentExceptionManager);
+		this.exceptionManager = session.getFactory().createExceptionManager();
 		this.result = session.getEngine().createResult(exceptionManager,
 				new AsyncResult<Node>() {
 
 					@Override
-					public void get(final RequestCallback<Node> callback) {
+					public void get(final Callback<Node> callback) {
 
 						session.getClient().one().load(uri)
 								.in(session.getClient()).and(new WhenLoaded() {
@@ -138,7 +137,7 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
-	public void get(RequestCallback<Node> callback) {
+	public void get(Callback<Node> callback) {
 		assert this.result != null;
 
 		this.result.get(callback);

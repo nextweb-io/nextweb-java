@@ -32,12 +32,12 @@ public class ExceptionManager implements
 	}
 
 	public boolean canCatchUndefinedExceptions() {
-		return this.undefinedExceptionListener != null;
+		return this.undefinedExceptionListener != null || canCatchExceptions();
 
 	}
 
 	public boolean canCatchAuthorizationExceptions() {
-		return this.authExceptionListener != null;
+		return this.authExceptionListener != null || canCatchExceptions();
 
 	}
 
@@ -54,10 +54,16 @@ public class ExceptionManager implements
 
 	@Override
 	public void onUnauthorized(Object origin, AuthorizationExceptionResult r) {
-		assert canCatchAuthorizationExceptions();
+		assert canCatchAuthorizationExceptions() || canCatchExceptions();
 
 		if (this.authExceptionListener != null) {
 			this.authExceptionListener.onUnauthorized(origin, r);
+			return;
+		}
+
+		if (this.exceptionListener != null) {
+			this.exceptionListener.onFailure(origin, new Exception(
+					"Unauthorized: " + r.getMessage()));
 			return;
 		}
 	}
@@ -71,10 +77,16 @@ public class ExceptionManager implements
 
 	@Override
 	public void onUndefined(Object origin, String message) {
-		assert canCatchUndefinedExceptions();
+		assert canCatchUndefinedExceptions() || canCatchExceptions();
 
 		if (this.undefinedExceptionListener != null) {
 			this.undefinedExceptionListener.onUndefined(origin, message);
+			return;
+		}
+
+		if (this.exceptionListener != null) {
+			this.exceptionListener.onFailure(origin, new Exception(
+					"Undefined: " + message));
 			return;
 		}
 

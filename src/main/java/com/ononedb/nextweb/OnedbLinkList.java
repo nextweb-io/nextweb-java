@@ -9,7 +9,7 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.RequestCallback;
+import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
@@ -92,8 +92,7 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 		super();
 		this.session = session;
 		this.list = list;
-		this.exceptionManager = session.getFactory().createExceptionManager(
-				this, parentExceptionManager);
+		this.exceptionManager = session.getFactory().createExceptionManager();
 	}
 
 	@Override
@@ -115,7 +114,7 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 	}
 
 	@Override
-	public void get(RequestCallback<LinkList> callback) {
+	public void get(Callback<LinkList> callback) {
 		callback.onSuccess(this);
 	}
 

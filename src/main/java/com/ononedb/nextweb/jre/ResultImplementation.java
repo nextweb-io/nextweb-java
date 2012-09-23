@@ -1,12 +1,16 @@
 package com.ononedb.nextweb.jre;
 
+import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
-import io.nextweb.fn.RequestCallback;
-import io.nextweb.fn.RequestCallbackImpl;
+import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
+import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.operations.callbacks.CallbackFactory;
+import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,22 +24,25 @@ public final class ResultImplementation<ResultType> implements
 
 	private final AsyncResult<ResultType> asyncResult;
 	private final AtomicBoolean requesting;
-	private final List<RequestCallback<ResultType>> deferredCalls;
+	private final List<Callback<ResultType>> deferredCalls;
 	private final ExceptionManager exceptionManager;
+	private final Session session;
 
 	ResultType cached = null;
 
-	public ResultImplementation(ExceptionManager exceptionManager,
+	public ResultImplementation(Session session,
+			ExceptionManager exceptionManager,
 			AsyncResult<ResultType> asyncResult) {
 		super();
 		this.asyncResult = asyncResult;
+		this.session = session;
 		this.exceptionManager = exceptionManager;
-		this.deferredCalls = new LinkedList<RequestCallback<ResultType>>();
+		this.deferredCalls = new LinkedList<Callback<ResultType>>();
 		requesting = new AtomicBoolean();
 	}
 
 	@Override
-	public synchronized void get(final RequestCallback<ResultType> callback) {
+	public synchronized void get(final Callback<ResultType> callback) {
 		if (cached != null) {
 			callback.onSuccess(cached);
 			return;
@@ -46,60 +53,68 @@ public final class ResultImplementation<ResultType> implements
 		}
 		requesting.set(true);
 
-		asyncResult.get(new RequestCallbackImpl<ResultType>(exceptionManager,
-				callback) {
+		asyncResult.get(CallbackFactory
+				.eagerCallback(session, exceptionManager,
+						new Closure<ResultType>() {
 
-			@Override
-			public void onSuccess(ResultType result) {
-				cached = result;
-				requesting.set(false);
-				callback.onSuccess(result);
+							@Override
+							public void apply(ResultType result) {
+								cached = result;
+								requesting.set(false);
+								callback.onSuccess(result);
 
-				for (RequestCallback<ResultType> deferredCallback : deferredCalls) {
-					deferredCallback.onSuccess(result);
-				}
-				deferredCalls.clear();
+								for (Callback<ResultType> deferredCallback : deferredCalls) {
+									deferredCallback.onSuccess(result);
+								}
+								deferredCalls.clear();
+							}
 
-			}
+						})
+				.catchFailures(new ExceptionListener() {
 
-			@Override
-			public void onFailure(Object origin, Throwable t) {
-				requesting.set(false);
+					@Override
+					public void onFailure(Object origin, Throwable t) {
+						requesting.set(false);
 
-				callback.onFailure(origin, t);
+						callback.onFailure(origin, t);
 
-				for (RequestCallback<ResultType> deferredCallback : deferredCalls) {
-					deferredCallback.onFailure(origin, t);
-				}
-				deferredCalls.clear();
-			}
+						for (Callback<ResultType> deferredCallback : deferredCalls) {
+							deferredCallback.onFailure(origin, t);
+						}
+						deferredCalls.clear();
+					}
+				})
+				.catchUndefinedExceptions(new UndefinedExceptionListener() {
 
-			@Override
-			public void onUnauthorized(Object origin,
-					AuthorizationExceptionResult r) {
-				requesting.set(false);
+					@Override
+					public void onUndefined(Object origin, String message) {
+						requesting.set(false);
 
-				callback.onUnauthorized(origin, r);
+						callback.onUndefined(origin, message);
 
-				for (RequestCallback<ResultType> deferredCallback : deferredCalls) {
-					deferredCallback.onUnauthorized(origin, r);
-				}
-				deferredCalls.clear();
-			}
+						for (Callback<ResultType> deferredCallback : deferredCalls) {
+							deferredCallback.onUndefined(origin, message);
+						}
+						deferredCalls.clear();
+					}
+				})
+				.catchAuthorizationExceptions(
+						new AuthorizationExceptionListener() {
 
-			@Override
-			public void onUndefined(Object origin, String message) {
-				requesting.set(false);
+							@Override
+							public void onUnauthorized(Object origin,
+									AuthorizationExceptionResult r) {
+								requesting.set(false);
 
-				callback.onUndefined(origin, message);
+								callback.onUnauthorized(origin, r);
 
-				for (RequestCallback<ResultType> deferredCallback : deferredCalls) {
-					deferredCallback.onUndefined(origin, message);
-				}
-				deferredCalls.clear();
-			}
+								for (Callback<ResultType> deferredCallback : deferredCalls) {
+									deferredCallback.onUnauthorized(origin, r);
+								}
+								deferredCalls.clear();
+							}
+						}));
 
-		});
 	}
 
 	@Override
@@ -110,35 +125,21 @@ public final class ResultImplementation<ResultType> implements
 		final List<Throwable> exceptionList = Collections
 				.synchronizedList(new ArrayList<Throwable>(1));
 
-		get(new RequestCallback<ResultType>() {
+		get(CallbackFactory.eagerCallback(session, exceptionManager,
+				new Closure<ResultType>() {
 
-			@Override
-			public void onSuccess(ResultType result) {
-				latch.countDown();
-			}
+					@Override
+					public void apply(ResultType o) {
+						latch.countDown();
+					}
+				}).catchFailures(new ExceptionListener() {
 
 			@Override
 			public void onFailure(Object origin, Throwable t) {
 				exceptionList.add(t);
 				latch.countDown();
 			}
-
-			@Override
-			public void onUnauthorized(Object origin,
-					AuthorizationExceptionResult r) {
-				exceptionList.add(new Exception("Unauthorized access to node: "
-						+ r.getMessage()));
-				latch.countDown();
-			}
-
-			@Override
-			public void onUndefined(Object origin, String message) {
-				exceptionList
-						.add(new Exception("Node not defined: " + message));
-				latch.countDown();
-			}
-
-		});
+		}));
 
 		latch.countDown();
 		try {
@@ -160,13 +161,7 @@ public final class ResultImplementation<ResultType> implements
 
 	@Override
 	public void get(final Closure<ResultType> callback) {
-		get(new RequestCallbackImpl<ResultType>(exceptionManager, null) {
-
-			@Override
-			public void onSuccess(ResultType result) {
-				callback.apply(result);
-			}
-		});
+		get(CallbackFactory.lazyCallback(session, exceptionManager, callback));
 	}
 
 }
