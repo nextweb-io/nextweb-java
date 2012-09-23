@@ -4,8 +4,8 @@ import io.nextweb.Link;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.RequestCallback;
-import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
@@ -78,8 +78,14 @@ public class OnedbSession implements Session {
 
 				});
 
-		RequestCallbackImpl<SuccessFail> clbk = RequestCallbackImpl.doNothing();
-		closeResult.get(clbk);
+		closeResult.get(new Closure<SuccessFail>() {
+
+			@Override
+			public void apply(SuccessFail o) {
+				// nothing
+			}
+
+		});
 
 		return closeResult;
 	}

@@ -7,12 +7,13 @@ import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
-import io.nextweb.fn.RequestCallbackImpl;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.utils.WrapperCollection;
+import io.nextweb.operations.callbacks.CallbackFactory;
 
 import java.util.Date;
 
@@ -32,15 +33,17 @@ public class JH {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new RequestCallbackImpl<Node>(entityResult
-				.getExceptionManager(), null) {
+		entityResult.get(CallbackFactory.lazyCallback(
+				entityResult.getSession(), entityResult.getExceptionManager(),
+				new Closure<Node>() {
 
-			@Override
-			public void onSuccess(Node result) {
-				callback.apply(ExporterUtil.wrap(jsFactory(result).createNode(
-						result)));
-			}
-		});
+					@Override
+					public void apply(Node o) {
+						callback.apply(ExporterUtil.wrap(jsFactory(o)
+								.createNode(o)));
+					}
+				}));
+
 	}
 
 	public static final Object get(Result<Node> entityResult) {
@@ -58,15 +61,17 @@ public class JH {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new RequestCallbackImpl<NodeList>(entityResult
-				.getExceptionManager(), null) {
+		entityResult.get(CallbackFactory.lazyCallback(entityResult,
+				new Closure<NodeList>() {
 
-			@Override
-			public void onSuccess(NodeList result) {
-				callback.apply(ExporterUtil.wrap(jsFactory(result)
-						.createNodeList(result)));
-			}
-		});
+					@Override
+					public void apply(NodeList o) {
+						callback.apply(ExporterUtil.wrap(jsFactory(o)
+								.createNodeList(o)));
+					}
+
+				}));
+
 	}
 
 	public static final boolean isJsString(Object value) {
@@ -150,15 +155,17 @@ public class JH {
 		assert entityResult != null;
 		assert callback != null;
 
-		entityResult.get(new RequestCallbackImpl<LinkList>(entityResult
-				.getExceptionManager(), null) {
+		entityResult.get(CallbackFactory.lazyCallback(entityResult,
+				new Closure<LinkList>() {
 
-			@Override
-			public void onSuccess(LinkList result) {
-				callback.apply(ExporterUtil.wrap(jsFactory(result)
-						.createLinkList(result)));
-			}
-		});
+					@Override
+					public void apply(LinkList o) {
+						callback.apply(ExporterUtil.wrap(jsFactory(o)
+								.createLinkList(o)));
+					}
+
+				}));
+
 	}
 
 	public static final Object getLinkList(Result<LinkList> entityResult) {

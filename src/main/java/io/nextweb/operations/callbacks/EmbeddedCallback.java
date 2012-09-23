@@ -5,7 +5,7 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 
 public class EmbeddedCallback<ResultType> implements Callback<ResultType> {
 
-	private final Callback<ResultType> embeddedIn;
+	private final Callback<Object> embeddedIn;
 	private final ExceptionManager exceptionManager;
 
 	@Override
@@ -75,7 +75,7 @@ public class EmbeddedCallback<ResultType> implements Callback<ResultType> {
 		return embeddedIn.hasEagerUnauthorizedListener();
 	}
 
-	public EmbeddedCallback(Callback<ResultType> embeddedIn,
+	public EmbeddedCallback(Callback<Object> embeddedIn,
 			ExceptionManager exceptionManager) {
 		super();
 		this.embeddedIn = embeddedIn;

@@ -1,6 +1,5 @@
 package io.nextweb.operations.exceptions;
 
-import io.nextweb.Session;
 import io.nextweb.fn.ExceptionInterceptor;
 import io.nextweb.fn.ExceptionListener;
 
@@ -9,9 +8,6 @@ public class ExceptionManager implements
 		AuthorizationExceptionInterceptor<ExceptionManager>, ExceptionListener,
 		AuthorizationExceptionListener, UndefinedExceptionListener,
 		UndefinedExceptionInterceptor<ExceptionManager> {
-
-	private final ExceptionManager parentExceptionListener;
-	private final Session session;
 
 	private AuthorizationExceptionListener authExceptionListener;
 	private ExceptionListener exceptionListener;
@@ -31,28 +27,18 @@ public class ExceptionManager implements
 	}
 
 	public boolean canCatchExceptions() {
-		return this.exceptionListener != null
-				|| parentExceptionListener != null
-				&& parentExceptionListener.canCatchExceptions()
-				|| (session != null && session.getExceptionManager()
-						.canCatchExceptions());
+		return this.exceptionListener != null;
+
 	}
 
 	public boolean canCatchUndefinedExceptions() {
-		return this.undefinedExceptionListener != null
-				|| (this.parentExceptionListener != null && this.parentExceptionListener
-						.canCatchUndefinedExceptions())
-				|| (session != null && session.getExceptionManager()
-						.canCatchUndefinedExceptions()) || canCatchExceptions();
+		return this.undefinedExceptionListener != null;
+
 	}
 
 	public boolean canCatchAuthorizationExceptions() {
-		return this.authExceptionListener != null
-				|| (this.parentExceptionListener != null && this.parentExceptionListener
-						.canCatchAuthorizationExceptions())
-				|| (session != null && session.getExceptionManager()
-						.canCatchAuthorizationExceptions())
-				|| canCatchExceptions();
+		return this.authExceptionListener != null;
+
 	}
 
 	@Override
@@ -64,20 +50,6 @@ public class ExceptionManager implements
 			return;
 		}
 
-		if (parentExceptionListener != null) {
-			parentExceptionListener.onFailure(origin, t);
-			return;
-		}
-
-		if (this.session != null
-				&& this.session.getExceptionManager().canCatchExceptions()) {
-			this.session.getExceptionManager().onFailure(origin, t);
-			return;
-		}
-
-		throw new RuntimeException("Unhandled exception in ExceptionManager: "
-				+ t.getMessage() + " from class: " + origin.getClass(), t);
-		// Nextweb.unhandledException(origin, t);
 	}
 
 	@Override
@@ -88,22 +60,6 @@ public class ExceptionManager implements
 			this.authExceptionListener.onUnauthorized(origin, r);
 			return;
 		}
-
-		if (parentExceptionListener != null) {
-			parentExceptionListener.onUnauthorized(origin, r);
-			return;
-		}
-
-		if (this.session != null
-				&& this.session.getExceptionManager()
-						.canCatchAuthorizationExceptions()) {
-			this.session.getExceptionManager().onUnauthorized(origin, r);
-			return;
-		}
-
-		onFailure(origin,
-				new Exception("Invalid authorization: " + r.getMessage()
-						+ " type " + r.getType()));
 	}
 
 	@Override
@@ -122,28 +78,11 @@ public class ExceptionManager implements
 			return;
 		}
 
-		if (parentExceptionListener != null) {
-			parentExceptionListener.onUndefined(origin, message);
-			return;
-		}
-
-		if (this.session != null
-				&& this.session.getExceptionManager()
-						.canCatchUndefinedExceptions()) {
-			this.session.getExceptionManager().onUndefined(origin, message);
-			return;
-		}
-
-		onFailure(origin, new Exception(
-				"No node matching the specified criteria was defined: "
-						+ message));
 	}
 
-	public ExceptionManager(ExceptionManager parentExceptionManager,
-			Session session) {
+	public ExceptionManager() {
 		super();
-		this.parentExceptionListener = parentExceptionManager;
-		this.session = session;
+
 	}
 
 }

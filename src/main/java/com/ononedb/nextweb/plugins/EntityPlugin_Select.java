@@ -8,8 +8,10 @@ import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.RequestCallback;
-import io.nextweb.fn.RequestCallbackImpl;
+import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.core.Entity_SelectPlugin;
 
@@ -40,66 +42,66 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
 
 			@Override
-			public void get(final RequestCallback<NodeList> callback) {
-				entity.get(new RequestCallbackImpl<Node>(exceptionManager, null) {
+			public void get(final Callback<NodeList> callback) {
+				entity.get(CallbackFactory.embeddedCallback(exceptionManager,
+						callback, new Closure<Node>() {
 
-					@Override
-					public void onSuccess(Node result) {
-						dsl.selectFrom(H.node(dsl, result))
-								.theChildren()
-								.linkingTo(dsl.reference(propertyType.getUri()))
-								.in(H.client(entity))
-								.and(new WhenChildrenSelected<OneTypedReference<Object>>() {
+							@Override
+							public void apply(Node result) {
+								dsl.selectFrom(H.node(dsl, result))
+										.theChildren()
+										.linkingTo(
+												dsl.reference(propertyType
+														.getUri()))
+										.in(H.client(entity))
+										.and(new WhenChildrenSelected<OneTypedReference<Object>>() {
 
-									@Override
-									public void thenDo(
-											WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
+											@Override
+											public void thenDo(
+													WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
-										List<Node> nodes = new ArrayList<Node>(
-												sr.children().size());
+												List<Node> nodes = new ArrayList<Node>(
+														sr.children().size());
 
-										for (OneTypedReference<?> child : sr
-												.children()) {
+												for (OneTypedReference<?> child : sr
+														.children()) {
 
-											nodes.add(H.factory(entity)
-													.createNode(
-															H.session(entity),
-															exceptionManager,
-															child));
+													nodes.add(H
+															.factory(entity)
+															.createNode(
+																	H.session(entity),
+																	exceptionManager,
+																	child));
 
-										}
+												}
 
-										callback.onSuccess(H
-												.factory(entity)
-												.createNodeList(
-														H.session(entity),
-														exceptionManager, nodes));
-									}
+												callback.onSuccess(H
+														.factory(entity)
+														.createNodeList(
+																H.session(entity),
+																exceptionManager,
+																nodes));
+											}
 
-									@Override
-									public void onUnauthorized(
-											WithUnauthorizedContext context) {
-										callback.onUnauthorized(
-												this,
-												H.fromUnauthorizedContext(context));
+											@Override
+											public void onUnauthorized(
+													WithUnauthorizedContext context) {
+												callback.onUnauthorized(
+														this,
+														H.fromUnauthorizedContext(context));
 
-									}
+											}
 
-									@Override
-									public void onFailure(Throwable t) {
-										callback.onFailure(this, t);
-									}
+											@Override
+											public void onFailure(Throwable t) {
+												callback.onFailure(this, t);
+											}
 
-								});
+										});
 
-					}
+							}
 
-					@Override
-					public void onFailure(Object origin, Throwable t) {
-						callback.onFailure(origin, t);
-					}
-
-				});
+						}));
 			}
 
 		};

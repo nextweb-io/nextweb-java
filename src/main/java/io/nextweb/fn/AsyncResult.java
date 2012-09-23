@@ -1,7 +1,9 @@
 package io.nextweb.fn;
 
+import io.nextweb.operations.callbacks.Callback;
+
 public interface AsyncResult<ResultType> {
 
-	public void get(RequestCallback<ResultType> callback);
+	public void get(Callback<ResultType> callback);
 
 }
