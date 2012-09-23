@@ -17,7 +17,9 @@ import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
 import one.async.joiner.CallbackLatch;
 import one.core.domain.OneClient;
+import one.core.dsl.callbacks.WhenCommitted;
 import one.core.dsl.callbacks.WhenShutdown;
+import one.core.dsl.callbacks.results.WithCommittedResult;
 
 import com.ononedb.nextweb.internal.OnedbFactory;
 
@@ -53,6 +55,48 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
+	public Result<SuccessFail> commit() {
+		Result<SuccessFail> commitResult = this.engine.createResult(
+				exceptionManager, this, new AsyncResult<SuccessFail>() {
+
+					@Override
+					public void get(final Callback<SuccessFail> callback) {
+						client.one().commit(client).and(new WhenCommitted() {
+
+							@Override
+							public void thenDo(WithCommittedResult arg0) {
+								callback.onSuccess(SuccessFail.success());
+							}
+
+							@Override
+							public void onFailure(Throwable t) {
+								callback.onSuccess(SuccessFail.fail(t));
+							}
+
+						});
+					}
+				});
+
+		commitResult.get(new Closure<SuccessFail>() {
+
+			@Override
+			public void apply(SuccessFail o) {
+				if (o.isFail()) {
+					if (exceptionManager.canCatchExceptions()) {
+						exceptionManager.onFailure(this, o.getException());
+						return;
+					}
+
+					engine.getExceptionManager().onFailure(this,
+							o.getException());
+				}
+			}
+		});
+
+		return commitResult;
+	}
+
+	@Override
 	public Result<SuccessFail> close() {
 
 		Result<SuccessFail> closeResult = this.engine.createResult(
@@ -83,7 +127,15 @@ public class OnedbSession implements Session {
 
 			@Override
 			public void apply(SuccessFail o) {
-				// nothing
+				if (o.isFail()) {
+					if (exceptionManager.canCatchExceptions()) {
+						exceptionManager.onFailure(this, o.getException());
+						return;
+					}
+
+					engine.getExceptionManager().onFailure(this,
+							o.getException());
+				}
 			}
 
 		});
@@ -93,13 +145,20 @@ public class OnedbSession implements Session {
 
 	@Override
 	public Link node(String uri) {
-		return engine.getFactory().createLink(this, null, uri); // _NO_ parent
-																// exception
-																// Manager
+		return engine.getFactory().createLink(this, null, uri, ""); // _NO_
+																	// parent
+		// exception
+		// Manager
 	}
 
 	@Override
-	public void getAll(Result<?>... results) {
+	public Link node(String uri, String secret) {
+
+		return engine.getFactory().createLink(this, null, uri, secret);
+	}
+
+	@Override
+	public Session getAll(Result<?>... results) {
 
 		Result<SuccessFail> callback = getAll(true, results);
 
@@ -108,6 +167,8 @@ public class OnedbSession implements Session {
 		if (result.isFail()) {
 			throw new RuntimeException(result.getException());
 		}
+
+		return this;
 	}
 
 	@Override

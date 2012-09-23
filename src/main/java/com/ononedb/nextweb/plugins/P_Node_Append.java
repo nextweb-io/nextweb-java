@@ -34,8 +34,8 @@ public class P_Node_Append implements Plugin_Node_Append<OnedbNode> {
 		}
 
 		cleanedString = cleanedString
-				+ (dsl.selectFrom(entity).allChildrenFast()
-						.in(H.client(entity)).size() + 1);
+				+ (dsl.selectFrom(dsl.reference(entity.getUri()))
+						.allChildrenFast().in(H.client(entity)).size() + 1);
 
 		OneValue<Object> appendedValue = dsl.append(value)
 				.to(dsl.reference(entity.getUri()))

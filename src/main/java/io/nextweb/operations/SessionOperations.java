@@ -1,6 +1,7 @@
 package io.nextweb.operations;
 
 import io.nextweb.Link;
+import io.nextweb.Session;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.SuccessFail;
 
@@ -13,9 +14,18 @@ public interface SessionOperations {
 	 */
 	public Result<SuccessFail> close();
 
+	/**
+	 * Will be executed eagerly.
+	 * 
+	 * @return
+	 */
+	public Result<SuccessFail> commit();
+
 	public Link node(String uri);
 
-	public void getAll(Result<?>... results);
+	public Link node(String uri, String secret);
+
+	public Session getAll(Result<?>... results);
 
 	public Result<SuccessFail> getAll(boolean asynchronous,
 			Result<?>... results);

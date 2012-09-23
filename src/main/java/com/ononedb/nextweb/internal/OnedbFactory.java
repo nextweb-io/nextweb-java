@@ -33,8 +33,8 @@ public class OnedbFactory {
 	}
 
 	public final OnedbLink createLink(OnedbSession session,
-			ExceptionManager fallbackExceptionManager, String uri) {
-		return new OnedbLink(session, fallbackExceptionManager, uri);
+			ExceptionManager fallbackExceptionManager, String uri, String secret) {
+		return new OnedbLink(session, fallbackExceptionManager, uri, secret);
 
 	}
 

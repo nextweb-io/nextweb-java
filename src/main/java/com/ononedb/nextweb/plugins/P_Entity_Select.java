@@ -211,7 +211,8 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 									for (String uri : children) {
 										linkList.add(H.factory(entity)
 												.createLink(H.session(entity),
-														exceptionManager, uri));
+														exceptionManager, uri,
+														""));
 									}
 
 									callback.onSuccess(H.factory(entity)

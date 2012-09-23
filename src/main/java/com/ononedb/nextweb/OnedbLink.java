@@ -32,6 +32,7 @@ public class OnedbLink implements Link, OnedbEntity {
 	private final String uri;
 	private final Result<Node> result;
 	private final ExceptionManager exceptionManager;
+	private final String secret;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -79,13 +80,15 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	public OnedbLink(final OnedbSession session,
-			final ExceptionManager parentExceptionManager, final String uri) {
+			final ExceptionManager parentExceptionManager, final String uri,
+			final String secret) {
 		super();
 		assert session != null;
 		assert uri != null;
 
 		this.session = session;
 		this.uri = uri;
+		this.secret = secret;
 		this.exceptionManager = session.getFactory().createExceptionManager(
 				parentExceptionManager);
 		this.result = session.getEngine().createResult(exceptionManager,
@@ -94,7 +97,7 @@ public class OnedbLink implements Link, OnedbEntity {
 					@Override
 					public void get(final Callback<Node> callback) {
 
-						session.getClient().one().load(uri)
+						session.getClient().one().load(uri).withSecret(secret)
 								.in(session.getClient()).and(new WhenLoaded() {
 
 									@Override
