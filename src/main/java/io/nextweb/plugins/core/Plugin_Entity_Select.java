@@ -4,7 +4,7 @@ import io.nextweb.Entity;
 import io.nextweb.operations.EntitySelectOperations;
 import io.nextweb.plugins.EntityPlugin;
 
-public interface Entity_SelectPlugin<EntityType extends Entity> extends
+public interface Plugin_Entity_Select<EntityType extends Entity> extends
 		EntityPlugin<EntityType>, EntitySelectOperations {
 
 }

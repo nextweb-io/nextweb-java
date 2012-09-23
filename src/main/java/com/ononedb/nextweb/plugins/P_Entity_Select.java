@@ -12,7 +12,7 @@ import io.nextweb.fn.Closure;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.plugins.core.Entity_SelectPlugin;
+import io.nextweb.plugins.core.Plugin_Entity_Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import one.core.nodes.OneTypedReference;
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.common.H;
 
-public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
+public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 	private OnedbEntity entity;
 
@@ -178,7 +178,7 @@ public class EntityPlugin_Select implements Entity_SelectPlugin<OnedbEntity> {
 				exceptionManager, selectResult);
 	}
 
-	public EntityPlugin_Select() {
+	public P_Entity_Select() {
 		super();
 	}
 

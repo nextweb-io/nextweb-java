@@ -3,16 +3,16 @@ package com.ononedb.nextweb.plugins;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.NodeListQuery;
-import io.nextweb.plugins.core.EntityList_SelectPlugin;
+import io.nextweb.plugins.core.Plugin_EntityList_Select;
 
 import com.ononedb.nextweb.OnedbEntityList;
 
-public class EntityListPlugin_Select implements
-		EntityList_SelectPlugin<OnedbEntityList<?>> {
+public class P_EntityList_Select implements
+		Plugin_EntityList_Select<OnedbEntityList<?>> {
 
 	private OnedbEntityList<?> list;
 
-	public EntityListPlugin_Select() {
+	public P_EntityList_Select() {
 		super();
 
 	}
