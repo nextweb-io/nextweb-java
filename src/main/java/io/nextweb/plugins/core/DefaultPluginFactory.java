@@ -13,4 +13,6 @@ public interface DefaultPluginFactory {
 
 	public <GEntity extends Node, GPlugin extends Plugin_Node_Append<GEntity>> PluginFactory<GEntity, GPlugin> appendForNode();
 
+	public <GEntity extends Entity, GPlugin extends Plugin_Entity_Remove<GEntity>> PluginFactory<GEntity, GPlugin> remove();
+
 }

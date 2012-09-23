@@ -9,6 +9,8 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.Result;
+import io.nextweb.fn.SuccessFail;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -140,22 +142,20 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
+	public Result<SuccessFail> remove(Entity entity) {
+		return plugin(H.plugins(session).remove()).remove(entity);
+	}
+
+	@Override
 	public Node append(Object value, String atAddress) {
-		// TODO Auto-generated method stub
-		return null;
+		return plugin(H.plugins(session).appendForNode()).append(value,
+				atAddress);
 	}
 
 	@Override
 	public Node appendValue(Object value) {
-		// TODO Auto-generated method stub
-		return null;
+		return plugin(H.plugins(session).appendForNode()).appendValue(value);
 	}
-
-	// @Override
-	// public <PluginType extends Plugin<Node>> PluginType plugin(
-	// PluginFactory<Node, PluginType> factory) {
-	// return Plugins.plugin(this, factory);
-	// }
 
 	@Override
 	public String toString() {

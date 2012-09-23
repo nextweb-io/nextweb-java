@@ -28,7 +28,7 @@ public class P_Entity_Remove implements Plugin_Entity_Remove<OnedbEntity> {
 	@Override
 	public Result<SuccessFail> remove(final Entity whichEntity) {
 
-		AsyncResult<SuccessFail> removeResult = new AsyncResult<SuccessFail>() {
+		final AsyncResult<SuccessFail> removeResult = new AsyncResult<SuccessFail>() {
 
 			@Override
 			public void get(final Callback<SuccessFail> callback) {

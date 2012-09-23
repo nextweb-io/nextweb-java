@@ -1,6 +1,6 @@
 package io.nextweb.operations;
 
-
-public interface EntityOperations extends EntitySelectOperations {
+public interface EntityOperations extends EntitySelectOperations,
+		EntityRemoveOperations {
 
 }
