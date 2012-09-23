@@ -103,10 +103,12 @@ public class OnedbQuery implements Query, OnedbEntity {
 		return plugin(H.plugins(session).select()).selectAll();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public <PluginType extends Plugin<Entity>> PluginType plugin(
-			PluginFactory<Entity, PluginType> factory) {
-		return Plugins.plugin(this, factory);
+	public <GType extends Entity, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+
+		return Plugins.plugin((GType) this, factory);
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
+import io.nextweb.plugins.Plugins;
 import one.core.dsl.callbacks.WhenLoaded;
 import one.core.dsl.callbacks.results.WithLoadResult;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
@@ -32,10 +33,12 @@ public class OnedbLink implements Link, OnedbEntity {
 	private final Result<Node> result;
 	private final ExceptionManager exceptionManager;
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public <PluginType extends Plugin<Entity>> PluginType plugin(
-			PluginFactory<Entity, PluginType> factory) {
-		return factory.create(this);
+	public <GType extends Entity, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+
+		return Plugins.plugin((GType) this, factory);
 	}
 
 	@Override

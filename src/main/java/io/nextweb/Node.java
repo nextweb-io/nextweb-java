@@ -1,8 +1,10 @@
 package io.nextweb;
 
 import io.nextweb.operations.EntityRequestOperations;
+import io.nextweb.operations.NodeAppendOperations;
 
-public interface Node extends Entity, EntityRequestOperations<Node> {
+public interface Node extends Entity, EntityRequestOperations<Node>,
+		NodeAppendOperations {
 
 	public String getUri();
 

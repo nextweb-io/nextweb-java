@@ -134,15 +134,40 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public <PluginType extends Plugin<Entity>> PluginType plugin(
-			PluginFactory<Entity, PluginType> factory) {
-		return Plugins.plugin(this, factory);
+	public Node append(Object value) {
+
+		return plugin(H.plugins(session).appendForNode()).append(value);
 	}
+
+	@Override
+	public Node append(Object value, String atAddress) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Node appendValue(Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// @Override
+	// public <PluginType extends Plugin<Node>> PluginType plugin(
+	// PluginFactory<Node, PluginType> factory) {
+	// return Plugins.plugin(this, factory);
+	// }
 
 	@Override
 	public String toString() {
 		return "node(\"" + this.getUri() + "\", " + this.getValue().getClass()
 				+ ")";
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <GType extends Entity, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+		return Plugins.plugin((GType) this, factory);
 	}
 
 	@Override

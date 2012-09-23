@@ -11,6 +11,7 @@ import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.core.DefaultPluginFactory;
 import io.nextweb.plugins.core.Plugin_EntityList_Select;
 import io.nextweb.plugins.core.Plugin_Entity_Select;
+import io.nextweb.plugins.core.Plugin_Node_Append;
 import one.core.domain.OneClient;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
@@ -21,6 +22,7 @@ import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.internal.OnedbFactory;
 import com.ononedb.nextweb.plugins.P_EntityList_Select_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Select_Factory;
+import com.ononedb.nextweb.plugins.P_Node_Append_Factory;
 
 /**
  * Helper methods.
@@ -99,6 +101,13 @@ public class H {
 			@Override
 			public <GEntity extends EntityList<?>, GPlugin extends Plugin_EntityList_Select<GEntity>> PluginFactory<GEntity, GPlugin> selectForLists() {
 				return (PluginFactory<GEntity, GPlugin>) P_EntityList_Select_Factory.FACTORY;
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public <GEntity extends Node, GPlugin extends Plugin_Node_Append<GEntity>> PluginFactory<GEntity, GPlugin> appendForNode() {
+
+				return (PluginFactory<GEntity, GPlugin>) P_Node_Append_Factory.FACTORY;
 			}
 
 		};

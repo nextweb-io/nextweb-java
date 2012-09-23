@@ -76,11 +76,12 @@ public class OnedbNodeListQuery implements NodeListQuery,
 		throw new RuntimeException("Not implemented yet!");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public <PluginType extends Plugin<EntityList<NodeList>>> PluginType plugin(
-			PluginFactory<EntityList<NodeList>, PluginType> factory) {
+	public <GType extends EntityList<NodeList>, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
 
-		return Plugins.plugin(this, factory);
+		return Plugins.plugin((GType) this, factory);
 	}
 
 	@Override

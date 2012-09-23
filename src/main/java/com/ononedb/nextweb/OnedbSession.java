@@ -167,10 +167,12 @@ public class OnedbSession implements Session {
 		return getAllResult;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public <PluginType extends Plugin<Session>> PluginType plugin(
-			PluginFactory<Session, PluginType> factory) {
-		return Plugins.plugin(this, factory);
+	public <GType extends Session, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+
+		return Plugins.plugin((GType) this, factory);
 	}
 
 	@Override

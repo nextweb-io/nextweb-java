@@ -2,10 +2,10 @@ package io.nextweb.plugins;
 
 public class Plugins {
 
-	public static <ForType, PluginType extends Plugin<ForType>> PluginType plugin(
-			ForType forObject, PluginFactory<ForType, PluginType> factory) {
+	public static <GType, PluginType extends Plugin<GType>> PluginType plugin(
+			GType forObj, PluginFactory<GType, PluginType> factory) {
 
-		return factory.create(forObject);
+		return factory.create(forObj);
 
 	}
 

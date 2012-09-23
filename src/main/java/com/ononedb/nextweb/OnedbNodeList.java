@@ -34,10 +34,12 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 	private final OnedbSession session;
 	private final ExceptionManager exceptionManager;
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public <PluginType extends Plugin<EntityList<NodeList>>> PluginType plugin(
-			PluginFactory<EntityList<NodeList>, PluginType> factory) {
-		return Plugins.plugin(this, factory);
+	public <GType extends EntityList<NodeList>, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+
+		return Plugins.plugin((GType) this, factory);
 	}
 
 	@Override

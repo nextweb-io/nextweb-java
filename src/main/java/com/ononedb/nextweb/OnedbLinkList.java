@@ -55,10 +55,12 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 		return list.get(index);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public <PluginType extends Plugin<EntityList<LinkList>>> PluginType plugin(
-			PluginFactory<EntityList<LinkList>, PluginType> factory) {
-		return Plugins.plugin(this, factory);
+	public <GType extends EntityList<LinkList>, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+
+		return Plugins.plugin((GType) this, factory);
 	}
 
 	@Override
