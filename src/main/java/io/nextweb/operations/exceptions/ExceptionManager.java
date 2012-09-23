@@ -12,6 +12,7 @@ public class ExceptionManager implements
 	private AuthorizationExceptionListener authExceptionListener;
 	private ExceptionListener exceptionListener;
 	private UndefinedExceptionListener undefinedExceptionListener;
+	private final ExceptionManager parentExceptionManager;
 
 	@Override
 	public ExceptionManager catchAuthorizationExceptions(
@@ -27,17 +28,25 @@ public class ExceptionManager implements
 	}
 
 	public boolean canCatchExceptions() {
-		return this.exceptionListener != null;
+		return this.exceptionListener != null
+				|| (this.parentExceptionManager != null && this.parentExceptionManager
+						.canCatchExceptions());
 
 	}
 
 	public boolean canCatchUndefinedExceptions() {
-		return this.undefinedExceptionListener != null || canCatchExceptions();
+		return this.undefinedExceptionListener != null
+				|| canCatchExceptions()
+				|| (this.parentExceptionManager != null && this.parentExceptionManager
+						.canCatchUndefinedExceptions());
 
 	}
 
 	public boolean canCatchAuthorizationExceptions() {
-		return this.authExceptionListener != null || canCatchExceptions();
+		return this.authExceptionListener != null
+				|| canCatchExceptions()
+				|| (this.parentExceptionManager != null && this.parentExceptionManager
+						.canCatchAuthorizationExceptions());
 
 	}
 
@@ -48,6 +57,13 @@ public class ExceptionManager implements
 		if (this.exceptionListener != null) {
 			this.exceptionListener.onFailure(origin, t);
 			return;
+		}
+
+		if (this.parentExceptionManager != null) {
+			if (this.parentExceptionManager.canCatchExceptions()) {
+				this.parentExceptionManager.onFailure(origin, t);
+				return;
+			}
 		}
 
 	}
@@ -65,6 +81,13 @@ public class ExceptionManager implements
 			this.exceptionListener.onFailure(origin, new Exception(
 					"Unauthorized: " + r.getMessage()));
 			return;
+		}
+
+		if (this.parentExceptionManager != null) {
+			if (this.parentExceptionManager.canCatchAuthorizationExceptions()) {
+				this.parentExceptionManager.onUnauthorized(origin, r);
+				return;
+			}
 		}
 	}
 
@@ -90,10 +113,18 @@ public class ExceptionManager implements
 			return;
 		}
 
+		if (this.parentExceptionManager != null) {
+			if (this.parentExceptionManager.canCatchUndefinedExceptions()) {
+				this.parentExceptionManager.onUndefined(origin, message);
+				return;
+			}
+		}
+
 	}
 
-	public ExceptionManager() {
+	public ExceptionManager(ExceptionManager parentExceptionManager) {
 		super();
+		this.parentExceptionManager = parentExceptionManager;
 
 	}
 

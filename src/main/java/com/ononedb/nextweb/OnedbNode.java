@@ -83,7 +83,8 @@ public class OnedbNode implements Node, OnedbEntity {
 		super();
 		this.session = session;
 		this.node = node;
-		this.exceptionManager = session.getFactory().createExceptionManager();
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				parentExceptionManager);
 	}
 
 	@Override

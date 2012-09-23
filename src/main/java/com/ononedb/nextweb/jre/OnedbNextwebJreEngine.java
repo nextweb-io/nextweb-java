@@ -33,8 +33,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 			dsl = OneJre.init();
 		}
 
-		return getFactory().createSession(this, exceptionManager,
-				dsl.createClient());
+		return getFactory().createSession(this, dsl.createClient());
 	}
 
 	@Override
@@ -44,10 +43,10 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 	@Override
 	public <ResultType> Result<ResultType> createResult(
-			ExceptionManager exceptionManager,
+			ExceptionManager exceptionManager, Session session,
 			final AsyncResult<ResultType> asyncResult) {
 
-		return new ResultImplementation<ResultType>(null, exceptionManager,
+		return new ResultImplementation<ResultType>(session, exceptionManager,
 				asyncResult);
 	}
 
@@ -59,7 +58,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 	public OnedbNextwebJreEngine() {
 		super();
-		this.exceptionManager = getFactory().createExceptionManager();
+		this.exceptionManager = getFactory().createExceptionManager(null);
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
 
 			@Override

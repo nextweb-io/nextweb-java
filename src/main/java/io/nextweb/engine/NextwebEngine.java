@@ -11,7 +11,7 @@ public interface NextwebEngine {
 	public Session createSession();
 
 	public <ResultType> Result<ResultType> createResult(
-			ExceptionManager exceptionManager,
+			ExceptionManager exceptionManager, Session session,
 			AsyncResult<ResultType> asyncResult);
 
 	public ExceptionManager getExceptionManager();

@@ -52,7 +52,8 @@ public class OnedbNodeListQuery implements NodeListQuery,
 		super();
 		this.result = result;
 		this.session = session;
-		this.exceptionManager = session.getFactory().createExceptionManager();
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				parentExceptionManager);
 	}
 
 	@Override

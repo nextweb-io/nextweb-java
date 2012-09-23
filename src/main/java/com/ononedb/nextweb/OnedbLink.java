@@ -83,9 +83,10 @@ public class OnedbLink implements Link, OnedbEntity {
 
 		this.session = session;
 		this.uri = uri;
-		this.exceptionManager = session.getFactory().createExceptionManager();
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				parentExceptionManager);
 		this.result = session.getEngine().createResult(exceptionManager,
-				new AsyncResult<Node>() {
+				session, new AsyncResult<Node>() {
 
 					@Override
 					public void get(final Callback<Node> callback) {

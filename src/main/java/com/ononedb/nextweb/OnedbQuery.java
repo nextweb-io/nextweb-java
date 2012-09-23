@@ -32,7 +32,8 @@ public class OnedbQuery implements Query, OnedbEntity {
 		this.result = result;
 		this.session = session;
 
-		this.exceptionManager = session.getFactory().createExceptionManager();
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				parentExceptionManager);
 	}
 
 	@Override

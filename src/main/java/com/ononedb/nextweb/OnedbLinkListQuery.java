@@ -81,7 +81,8 @@ public class OnedbLinkListQuery implements LinkListQuery,
 		super();
 		this.session = session;
 		this.result = linkListQuery;
-		this.exceptionManager = session.getFactory().createExceptionManager();
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				parentExceptionManager);
 	}
 
 	@Override

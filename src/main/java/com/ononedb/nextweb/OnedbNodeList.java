@@ -166,7 +166,8 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 		super();
 		this.list = list;
 		this.session = session;
-		this.exceptionManager = session.getFactory().createExceptionManager();
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				parentExceptionManager);
 	}
 
 	@Override

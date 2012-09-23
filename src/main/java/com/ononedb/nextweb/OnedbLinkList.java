@@ -92,7 +92,8 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 		super();
 		this.session = session;
 		this.list = list;
-		this.exceptionManager = session.getFactory().createExceptionManager();
+		this.exceptionManager = session.getFactory().createExceptionManager(
+				parentExceptionManager);
 	}
 
 	@Override

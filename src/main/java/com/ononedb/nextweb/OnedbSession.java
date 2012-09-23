@@ -44,19 +44,19 @@ public class OnedbSession implements Session {
 		return getOnedbEngine();
 	}
 
-	public OnedbSession(OnedbNextwebEngine engine,
-			ExceptionManager fallbackExceptionManager, OneClient client) {
+	public OnedbSession(OnedbNextwebEngine engine, OneClient client) {
 		super();
 		this.engine = engine;
 		this.client = client;
-		this.exceptionManager = engine.getFactory().createExceptionManager();
+		this.exceptionManager = engine.getFactory()
+				.createExceptionManager(null);
 	}
 
 	@Override
 	public Result<SuccessFail> close() {
 
 		Result<SuccessFail> closeResult = this.engine.createResult(
-				exceptionManager, new AsyncResult<SuccessFail>() {
+				exceptionManager, this, new AsyncResult<SuccessFail>() {
 
 					@Override
 					public void get(final Callback<SuccessFail> callback) {
@@ -100,7 +100,7 @@ public class OnedbSession implements Session {
 
 	@Override
 	public Result<SuccessFail> getAll(final Result<?>... results) {
-		return engine.createResult(exceptionManager,
+		return engine.createResult(exceptionManager, this,
 				new AsyncResult<SuccessFail>() {
 
 					@SuppressWarnings({ "unchecked" })

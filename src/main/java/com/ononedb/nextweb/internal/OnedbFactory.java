@@ -28,8 +28,8 @@ public class OnedbFactory {
 			ExceptionManager fallbackExceptionManager,
 			AsyncResult<Node> asyncResult) {
 		return new OnedbQuery(session, fallbackExceptionManager, session
-				.getEngine()
-				.createResult(fallbackExceptionManager, asyncResult));
+				.getEngine().createResult(fallbackExceptionManager, session,
+						asyncResult));
 	}
 
 	public final OnedbLink createLink(OnedbSession session,
@@ -43,7 +43,7 @@ public class OnedbFactory {
 			AsyncResult<NodeList> result) {
 		return new OnedbNodeListQuery(session, fallbackExceptionManager,
 				session.getEngine().createResult(fallbackExceptionManager,
-						result));
+						session, result));
 	}
 
 	public final OnedbNodeList createNodeList(OnedbSession session,
@@ -60,7 +60,7 @@ public class OnedbFactory {
 			ExceptionManager fallbackExceptionManager,
 			AsyncResult<LinkList> result) {
 		return new OnedbLinkListQuery(session, session.getEngine()
-				.createResult(fallbackExceptionManager, result),
+				.createResult(fallbackExceptionManager, session, result),
 				fallbackExceptionManager);
 	}
 
@@ -70,12 +70,13 @@ public class OnedbFactory {
 	}
 
 	public final OnedbSession createSession(OnedbNextwebEngine engine,
-			ExceptionManager fallbackExceptionManager, OneClient client) {
-		return new OnedbSession(engine, fallbackExceptionManager, client);
+			OneClient client) {
+		return new OnedbSession(engine, client);
 	}
 
-	public final ExceptionManager createExceptionManager() {
-		return new ExceptionManager();
+	public final ExceptionManager createExceptionManager(
+			ExceptionManager parentExceptionManager) {
+		return new ExceptionManager(parentExceptionManager);
 	}
 
 }
