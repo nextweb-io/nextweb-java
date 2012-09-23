@@ -25,6 +25,13 @@ public abstract class SuccessFail {
 			throw new IllegalStateException(
 					"Success does not have an exception.");
 		}
+
+		@Override
+		public String toString() {
+
+			return "SucessFail.SUCCESS";
+		}
+
 	};
 
 	public static final SuccessFail success() {
@@ -48,6 +55,12 @@ public abstract class SuccessFail {
 			public Throwable getException() {
 
 				return t;
+			}
+
+			@Override
+			public String toString() {
+
+				return "SucessFail.FAIL(" + t.getMessage() + ")";
 			}
 		};
 	}

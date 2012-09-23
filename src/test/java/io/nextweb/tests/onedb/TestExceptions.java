@@ -133,8 +133,7 @@ public class TestExceptions {
 
 			@Override
 			public void onFailure(Object origin, Throwable t) {
-				t.printStackTrace();
-				System.out.println("Successfully intercepted");
+				Assert.assertTrue("Successfully intercepted", true);
 			}
 		});
 
@@ -154,8 +153,79 @@ public class TestExceptions {
 	}
 
 	@Test
-	public void testMultipleExceptions() {
-		// get all ...
+	public void testNestedExceptionCastingDepth() {
+		Session session = getSession();
+
+		Link questionBagRepository = session
+				.node("http://slicnet.com/seed1/seed1/9/1/h/sd");
+
+		Link aQuestionBag = session
+				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Question_Bag");
+
+		Link aStartTime = session
+				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/1/n/Web_Time_Reporter_Docume/Types/Start_Time");
+
+		questionBagRepository.catchExceptions(new ExceptionListener() {
+
+			@Override
+			public void onFailure(Object origin, Throwable t) {
+				Assert.assertTrue("Exception forwarded too far", false);
+			}
+		});
+
+		Query questionBag = questionBagRepository.select(aQuestionBag);
+
+		questionBag.catchUndefinedExceptions(new UndefinedExceptionListener() {
+
+			@Override
+			public void onUndefined(Object origin, String message) {
+				Assert.assertTrue("Successfully intercepted", true);
+			}
+		});
+
+		questionBag.select(aStartTime).get(new Closure<Node>() {
+
+			@Override
+			public void apply(Node o) {
+				Assert.assertTrue("Node should not be available.", false);
+			}
+
+		});
+
+		session.close().get();
+
 	}
 
+	@Test
+	public void testMultipleExceptions() {
+
+		Session session = getSession();
+		Link questionBagRepository = session
+				.node("http://slicnet.com/seed1/seed1/9/1/h/sd");
+
+		Link aQuestionBag = session
+				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Question_Bag");
+
+		Link doesNotExist = session
+				.node("http://slicnet.com/IdoNotExist/atRealm");
+
+		doesNotExist.catchExceptions(new ExceptionListener() {
+
+			@Override
+			public void onFailure(Object origin, Throwable t) {
+				Assert.assertTrue(
+						"Exception should not have been intercepted.", false);
+			}
+		});
+
+		try {
+			session.getAll(questionBagRepository, aQuestionBag, doesNotExist);
+		} catch (Throwable t) {
+			Assert.assertTrue("Exception successfully thrown", true);
+			session.close().get();
+			return;
+		}
+		Assert.assertTrue("Exception should have been thrown.", false);
+
+	}
 }

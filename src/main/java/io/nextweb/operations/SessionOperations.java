@@ -15,6 +15,9 @@ public interface SessionOperations {
 
 	public Link node(String uri);
 
-	public Result<SuccessFail> getAll(Result<?>... results);
+	public void getAll(Result<?>... results);
+
+	public Result<SuccessFail> getAll(boolean asynchronous,
+			Result<?>... results);
 
 }

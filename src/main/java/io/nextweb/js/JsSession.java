@@ -93,13 +93,32 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 
 		final JavaScriptObject callback_onSuccess_Closed = callback_onSuccess;
 		final JavaScriptObject callback_onFailure_Closed = callback_onFailure;
-		session.getAll((Result<Object>[]) requestedEntities.toArray()).get(
-				CallbackFactory.eagerCallback(session,
+		session.getAll(true, (Result<Object>[]) requestedEntities.toArray())
+				.get(CallbackFactory.eagerCallback(session,
 						session.getExceptionManager(),
 						new Closure<SuccessFail>() {
 
 							@Override
 							public void apply(SuccessFail result) {
+								if (result.isFail()) {
+									if (callback_onFailure_Closed == null) {
+										session.getEngine()
+												.getExceptionManager()
+												.onFailure(this,
+														result.getException());
+										return;
+									}
+
+									JH.triggerCallback(
+											callback_onFailure_Closed,
+											((NextwebEngineJs) session
+													.getEngine()).jsFactory()
+													.getWrappers(),
+											new JavaScriptObject[] { ExporterUtil
+													.wrap(result.getException()) });
+									return;
+								}
+
 								List<Object> resolvedObjects = new ArrayList<Object>(
 										requestedEntities.size());
 								for (Result<?> requestedResult : requestedEntities) {

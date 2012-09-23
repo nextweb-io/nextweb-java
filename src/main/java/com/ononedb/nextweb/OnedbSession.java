@@ -99,9 +99,22 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
-	public Result<SuccessFail> getAll(final Result<?>... results) {
-		return engine.createResult(exceptionManager, this,
-				new AsyncResult<SuccessFail>() {
+	public void getAll(Result<?>... results) {
+
+		Result<SuccessFail> callback = getAll(true, results);
+
+		SuccessFail result = callback.get();
+
+		if (result.isFail()) {
+			throw new RuntimeException(result.getException());
+		}
+	}
+
+	@Override
+	public Result<SuccessFail> getAll(final boolean asynchronous,
+			final Result<?>... results) {
+		Result<SuccessFail> getAllResult = engine.createResult(
+				exceptionManager, this, new AsyncResult<SuccessFail>() {
 
 					@SuppressWarnings({ "unchecked" })
 					@Override
@@ -150,6 +163,8 @@ public class OnedbSession implements Session {
 
 					}
 				});
+
+		return getAllResult;
 	}
 
 	@Override
