@@ -7,6 +7,7 @@ import io.nextweb.Node;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.RequestCallback;
 import io.nextweb.fn.Result;
@@ -106,6 +107,11 @@ public class OnedbQuery implements Query, OnedbEntity {
 	public <PluginType extends Plugin<Entity>> PluginType plugin(
 			PluginFactory<Entity, PluginType> factory) {
 		return Plugins.plugin(this, factory);
+	}
+
+	@Override
+	public void get(Closure<Node> callback) {
+		result.get(callback);
 	}
 
 }

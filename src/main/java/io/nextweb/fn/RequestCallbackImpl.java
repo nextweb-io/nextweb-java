@@ -18,10 +18,6 @@ public abstract class RequestCallbackImpl<ResultType> implements
 	 */
 	@Override
 	public void onUnauthorized(Object origin, AuthorizationExceptionResult r) {
-		if (exceptionManager.canCatchAuthorizationExceptions()) {
-			exceptionManager.onUnauthorized(origin, r);
-			return;
-		}
 
 		nestedIn.onUnauthorized(origin, r);
 	}
@@ -34,10 +30,6 @@ public abstract class RequestCallbackImpl<ResultType> implements
 	 */
 	@Override
 	public void onUndefined(Object origin, String message) {
-		if (exceptionManager.canCatchUndefinedExceptions()) {
-			exceptionManager.onUndefined(origin, message);
-			return;
-		}
 
 		nestedIn.onUndefined(origin, message);
 	}
@@ -50,10 +42,6 @@ public abstract class RequestCallbackImpl<ResultType> implements
 	 */
 	@Override
 	public void onFailure(Object origin, Throwable t) {
-		if (exceptionManager.canCatchExceptions()) {
-			exceptionManager.onFailure(origin, t);
-			return;
-		}
 
 		nestedIn.onFailure(origin, t);
 	}
@@ -79,7 +67,7 @@ public abstract class RequestCallbackImpl<ResultType> implements
 		};
 	}
 
-	public RequestCallbackImpl(ExceptionManager exceptionManager,
+	public RequestCallbackImpl(final ExceptionManager exceptionManager,
 			RequestCallback<ResultType> nestedIn) {
 		super();
 		this.exceptionManager = exceptionManager;
@@ -96,18 +84,37 @@ public abstract class RequestCallbackImpl<ResultType> implements
 				@Override
 				public void onUnauthorized(Object origin,
 						AuthorizationExceptionResult r) {
+					if (exceptionManager != null
+							&& exceptionManager
+									.canCatchAuthorizationExceptions()) {
+						exceptionManager.onUnauthorized(origin, r);
+						return;
+					}
+
 					Nextweb.getEngine().getExceptionManager()
 							.onUnauthorized(origin, r);
 				}
 
 				@Override
 				public void onUndefined(Object origin, String message) {
+					if (exceptionManager != null
+							&& exceptionManager.canCatchUndefinedExceptions()) {
+						exceptionManager.onUndefined(origin, message);
+						return;
+					}
+
 					Nextweb.getEngine().getExceptionManager()
 							.onUndefined(origin, message);
 				}
 
 				@Override
 				public void onFailure(Object origin, Throwable t) {
+					if (exceptionManager != null
+							&& exceptionManager.canCatchExceptions()) {
+						exceptionManager.onFailure(origin, t);
+						return;
+					}
+
 					Nextweb.getEngine().getExceptionManager()
 							.onFailure(origin, t);
 

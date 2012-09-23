@@ -1,6 +1,7 @@
 package com.ononedb.nextweb.js.fn;
 
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.RequestCallback;
 import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
@@ -118,6 +119,17 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 		this.exceptionManager = fallbackExceptionManager;
 		this.requestingResult = false;
 		this.deferredCalls = new LinkedList<RequestCallback<ResultType>>();
+	}
+
+	@Override
+	public void get(final Closure<ResultType> callback) {
+		get(new RequestCallbackImpl<ResultType>(exceptionManager, null) {
+
+			@Override
+			public void onSuccess(ResultType result) {
+				callback.apply(result);
+			}
+		});
 	}
 
 }

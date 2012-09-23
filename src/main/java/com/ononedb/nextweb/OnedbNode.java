@@ -7,6 +7,7 @@ import io.nextweb.Node;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.RequestCallback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
@@ -155,6 +156,11 @@ public class OnedbNode implements Node, OnedbEntity {
 	public Node catchUndefinedExceptions(UndefinedExceptionListener listener) {
 		exceptionManager.catchUndefinedExceptions(listener);
 		return this;
+	}
+
+	@Override
+	public void get(Closure<Node> callback) {
+		callback.apply(this);
 	}
 
 }

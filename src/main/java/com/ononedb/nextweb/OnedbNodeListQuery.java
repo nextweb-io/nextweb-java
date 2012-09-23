@@ -122,4 +122,10 @@ public class OnedbNodeListQuery implements NodeListQuery,
 		return this;
 	}
 
+	@Override
+	public void get(Closure<NodeList> callback) {
+		result.get(callback);
+
+	}
+
 }

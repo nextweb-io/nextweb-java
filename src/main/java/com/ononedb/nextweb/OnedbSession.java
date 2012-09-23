@@ -48,7 +48,7 @@ public class OnedbSession implements Session {
 		this.engine = engine;
 		this.client = client;
 		this.exceptionManager = engine.getFactory()
-				.createExceptionManager(this);
+				.createExceptionManager(null);
 	}
 
 	@Override

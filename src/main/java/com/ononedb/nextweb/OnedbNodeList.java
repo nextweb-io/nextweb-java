@@ -229,4 +229,9 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 		return this;
 	}
 
+	@Override
+	public void get(Closure<NodeList> callback) {
+		callback.apply(this);
+	}
+
 }

@@ -126,4 +126,9 @@ public class OnedbLinkListQuery implements LinkListQuery,
 		return this;
 	}
 
+	@Override
+	public void get(Closure<LinkList> callback) {
+		result.get(callback);
+	}
+
 }

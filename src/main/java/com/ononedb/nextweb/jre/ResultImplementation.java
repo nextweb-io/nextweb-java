@@ -1,6 +1,7 @@
 package com.ononedb.nextweb.jre;
 
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.RequestCallback;
 import io.nextweb.fn.RequestCallbackImpl;
 import io.nextweb.fn.Result;
@@ -155,6 +156,17 @@ public final class ResultImplementation<ResultType> implements
 		assert cached != null;
 
 		return cached;
+	}
+
+	@Override
+	public void get(final Closure<ResultType> callback) {
+		get(new RequestCallbackImpl<ResultType>(exceptionManager, null) {
+
+			@Override
+			public void onSuccess(ResultType result) {
+				callback.apply(result);
+			}
+		});
 	}
 
 }

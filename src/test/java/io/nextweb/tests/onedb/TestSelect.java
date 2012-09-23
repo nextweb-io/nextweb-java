@@ -8,6 +8,9 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
+import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.RequestCallbackImpl;
+import io.nextweb.operations.exceptions.UndefinedExceptionListener;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -128,19 +131,35 @@ public class TestSelect {
 		Link questions = session
 				.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
 
-		// questions.catchUndefinedExceptions(new UndefinedExceptionListener() {
-		//
-		// @Override
-		// public void onUndefined(Object origin, String message) {
-		// System.out.println("Undefined!");
-		// // throw new RuntimeException("E");
-		// }
-		// });
+		questions.catchUndefinedExceptions(new UndefinedExceptionListener() {
 
-		NodeList allBrandNames = questions.selectAll().get().select(aBrandName)
-				.get();
+			@Override
+			public void onUndefined(Object origin, String message) {
+				System.out.println("Undefined!");
+				throw new RuntimeException("E");
+			}
+		});
 
-		System.out.println(allBrandNames);
+		questions.catchExceptions(new ExceptionListener() {
+
+			@Override
+			public void onFailure(Object origin, Throwable t) {
+				System.out.println("Exception intercepted: "
+						+ t.getLocalizedMessage());
+			}
+		});
+
+		questions.selectAll().get().select(aBrandName)
+				.get(new RequestCallbackImpl<NodeList>(null, null) {
+
+					@Override
+					public void onSuccess(NodeList result) {
+						System.out.println("success");
+					}
+
+				});
+
+		// System.out.println(allBrandNames);
 
 		session.close().get();
 

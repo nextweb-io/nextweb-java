@@ -144,4 +144,9 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 		return this;
 	}
 
+	@Override
+	public void get(Closure<LinkList> callback) {
+		callback.apply(this);
+	}
+
 }

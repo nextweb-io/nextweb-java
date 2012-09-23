@@ -9,6 +9,7 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.RequestCallback;
 import io.nextweb.fn.Result;
@@ -183,6 +184,11 @@ public class OnedbLink implements Link, OnedbEntity {
 	@Override
 	public String toString() {
 		return "link(\"" + this.getUri() + "\")";
+	}
+
+	@Override
+	public void get(Closure<Node> callback) {
+		result.get(callback);
 	}
 
 }
