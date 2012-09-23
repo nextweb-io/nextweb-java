@@ -31,7 +31,7 @@ public class TestAppend {
 
 		Node node = link.get();
 
-		node.append("Hello, world.");
+		// node.append("Hello, world.");
 
 		session.commit();
 
