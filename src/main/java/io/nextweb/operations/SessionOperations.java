@@ -3,6 +3,7 @@ package io.nextweb.operations;
 import io.nextweb.Link;
 import io.nextweb.Session;
 import io.nextweb.fn.Result;
+import io.nextweb.fn.Success;
 import io.nextweb.fn.SuccessFail;
 
 public interface SessionOperations {
@@ -12,14 +13,14 @@ public interface SessionOperations {
 	 * 
 	 * @return
 	 */
-	public Result<SuccessFail> close();
+	public Result<Success> close();
 
 	/**
 	 * Will be executed eagerly.
 	 * 
 	 * @return
 	 */
-	public Result<SuccessFail> commit();
+	public Result<Success> commit();
 
 	public Link node(String uri);
 

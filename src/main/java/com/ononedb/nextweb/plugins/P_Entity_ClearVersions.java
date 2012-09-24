@@ -37,6 +37,10 @@ public class P_Entity_ClearVersions implements
 
 								CoreDsl dsl = H.dsl(entity);
 
+								System.out.println("Clearing verions ..."
+										+ dsl.reference(o.getUri()) + " "
+										+ keepVersions);
+
 								dsl.clearVersions(dsl.reference(o.getUri()))
 										.andKeepOnServer(keepVersions)
 										.in(H.client(entity))
@@ -45,6 +49,8 @@ public class P_Entity_ClearVersions implements
 											@Override
 											public void thenDo(
 													WithVersionsClearedResult arg0) {
+												System.out
+														.println("All cleared.");
 												callback.onSuccess(arg0
 														.noOfVersionsCleared());
 											}
@@ -71,8 +77,19 @@ public class P_Entity_ClearVersions implements
 			}
 		};
 
-		return H.engine(entity).createResult(entity.getExceptionManager(),
-				H.session(entity), clearVersionsResult);
+		Result<Integer> result = H.engine(entity).createResult(
+				entity.getExceptionManager(), H.session(entity),
+				clearVersionsResult);
+
+		result.get(new Closure<Integer>() {
+
+			@Override
+			public void apply(Integer o) {
+				// nothing
+			}
+		});
+
+		return result;
 	}
 
 	@Override

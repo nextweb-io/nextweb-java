@@ -46,11 +46,6 @@ public class P_Entity_Remove implements Plugin_Entity_Remove<OnedbEntity> {
 									return;
 								}
 
-								if (whichEntity instanceof Node) {
-									performRemove(o,
-											((Node) whichEntity).getUri());
-								}
-
 								whichEntity.get(CallbackFactory
 										.embeddedCallback(
 												entity.getExceptionManager(),
@@ -82,6 +77,7 @@ public class P_Entity_Remove implements Plugin_Entity_Remove<OnedbEntity> {
 
 									dsl.remove(whichNode).fromNode(fromNode)
 											.in(H.client(entity));
+
 								} catch (Exception e) {
 									callback.onFailure(this, e);
 									return;
@@ -95,9 +91,21 @@ public class P_Entity_Remove implements Plugin_Entity_Remove<OnedbEntity> {
 			}
 		};
 
-		return H.session(entity)
+		Result<Success> result = H
+				.session(entity)
 				.getEngine()
 				.createResult(entity.getExceptionManager(), H.session(entity),
 						removeResult);
+
+		result.get(new Closure<Success>() {
+
+			@Override
+			public void apply(Success o) {
+
+				// do nothing
+			}
+		});
+
+		return result;
 	}
 }

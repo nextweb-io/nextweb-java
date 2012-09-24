@@ -7,6 +7,7 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
+import io.nextweb.fn.Success;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
@@ -55,41 +56,33 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
-	public Result<SuccessFail> commit() {
-		Result<SuccessFail> commitResult = this.engine.createResult(
-				exceptionManager, this, new AsyncResult<SuccessFail>() {
+	public Result<Success> commit() {
+		Result<Success> commitResult = this.engine.createResult(
+				exceptionManager, this, new AsyncResult<Success>() {
 
 					@Override
-					public void get(final Callback<SuccessFail> callback) {
+					public void get(final Callback<Success> callback) {
 						client.one().commit(client).and(new WhenCommitted() {
 
 							@Override
 							public void thenDo(WithCommittedResult arg0) {
-								callback.onSuccess(SuccessFail.success());
+								callback.onSuccess(Success.INSTANCE);
 							}
 
 							@Override
 							public void onFailure(Throwable t) {
-								callback.onSuccess(SuccessFail.fail(t));
+								callback.onFailure(this, t);
 							}
 
 						});
 					}
 				});
 
-		commitResult.get(new Closure<SuccessFail>() {
+		commitResult.get(new Closure<Success>() {
 
 			@Override
-			public void apply(SuccessFail o) {
-				if (o.isFail()) {
-					if (exceptionManager.canCatchExceptions()) {
-						exceptionManager.onFailure(this, o.getException());
-						return;
-					}
+			public void apply(Success o) {
 
-					engine.getExceptionManager().onFailure(this,
-							o.getException());
-				}
 			}
 		});
 
@@ -97,24 +90,24 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
-	public Result<SuccessFail> close() {
+	public Result<Success> close() {
 
-		Result<SuccessFail> closeResult = this.engine.createResult(
-				exceptionManager, this, new AsyncResult<SuccessFail>() {
+		Result<Success> closeResult = this.engine.createResult(
+				exceptionManager, this, new AsyncResult<Success>() {
 
 					@Override
-					public void get(final Callback<SuccessFail> callback) {
+					public void get(final Callback<Success> callback) {
 
 						client.one().shutdown(client).and(new WhenShutdown() {
 
 							@Override
 							public void thenDo() {
-								callback.onSuccess(SuccessFail.success());
+								callback.onSuccess(Success.INSTANCE);
 							}
 
 							@Override
 							public void onFailure(Throwable t) {
-								callback.onSuccess(SuccessFail.fail(t));
+								callback.onFailure(this, t);
 							}
 
 						});
@@ -123,19 +116,11 @@ public class OnedbSession implements Session {
 
 				});
 
-		closeResult.get(new Closure<SuccessFail>() {
+		closeResult.get(new Closure<Success>() {
 
 			@Override
-			public void apply(SuccessFail o) {
-				if (o.isFail()) {
-					if (exceptionManager.canCatchExceptions()) {
-						exceptionManager.onFailure(this, o.getException());
-						return;
-					}
+			public void apply(Success o) {
 
-					engine.getExceptionManager().onFailure(this,
-							o.getException());
-				}
 			}
 
 		});
