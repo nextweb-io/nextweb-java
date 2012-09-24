@@ -41,6 +41,10 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 			return;
 		}
 
+		requestingResult = true;
+
+		// GWT.log("Requestion result for" + asyncResult);
+
 		asyncResult.get(CallbackFactory
 				.eagerCallback(session, exceptionManager,
 						new Closure<ResultType>() {

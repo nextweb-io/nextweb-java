@@ -24,15 +24,19 @@
 		var testNode = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests", "ChaiK3CZYnrr");
 		
 		testNode.get(function(node) {
-			node.append("Hello from JS");
+			var appended = node.append("Hello from JS");
+			
+			$("#output").append("<p>Appended: "+appended.value()+".</p>");
 			
 			session.commit();
 			
-			session.close();
+			node.remove(appended);
 			
-			//.get(function(success) {
-			//	$("#output").append("<p>Appended successfully.</p>");
-			//});
+			$("#output").append("<p>Removed: .</p>");
+			
+			session.close().get(function(success) {
+				$("#output").append("<p>Session closed successfully.</p>");
+			});
 			
 		});
 		

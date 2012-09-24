@@ -6,9 +6,11 @@ import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
+import io.nextweb.js.fn.JsResult;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
+import org.timepedia.exporter.client.ExporterUtil;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
@@ -39,8 +41,8 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 
 	@Export
 	public Object append(Object value) {
-		Object javaValue = ((NextwebEngineJs) node.getSession().getEngine())
-				.jsFactory().getWrappers().wrapValueObjectForJava(value);
+		Object javaValue = JH.jsFactory(node).getWrappers()
+				.wrapValueObjectForJava(value);
 
 		if (javaValue instanceof JsQuery) {
 			throw new RuntimeException("Not supported yet.");
@@ -56,8 +58,32 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 
 		// assert, should be a value object such as "text" or 33
 
-		return ((NextwebEngineJs) node.getSession().getEngine()).jsFactory()
-				.createNode(node.append(value));
+		return ExporterUtil.wrap(JH.jsFactory(node).createNode(
+				node.append(value)));
+
+	}
+
+	@Export
+	public JsResult remove(Object entity) {
+		Object javaEntity = ExporterUtil.gwtInstance(entity);
+
+		if (javaEntity instanceof JsNode) {
+
+			return JH.jsFactory(node).createResult(
+					node.remove(((JsNode) javaEntity).getOriginal()));
+		}
+
+		if (javaEntity instanceof JsLink) {
+			throw new RuntimeException("Not supported yet.");
+		}
+
+		if (javaEntity instanceof JsQuery) {
+			throw new RuntimeException("Not supported yet.");
+		}
+
+		throw new IllegalArgumentException(
+				"Only JsLink, JsNode and JsQuery objects can be passed as parameters for the remove operation and not ["
+						+ entity + ":" + entity.getClass() + "]");
 
 	}
 

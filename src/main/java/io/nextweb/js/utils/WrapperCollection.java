@@ -195,7 +195,7 @@ public class WrapperCollection {
 
 		for (Wrapper wrapper : registeredWrappers) {
 			if (wrapper.accepts(gwtNode)) {
-				return wrapper.wrap(gwtNode);
+				return ExporterUtil.wrap(wrapper.wrap(gwtNode));
 			}
 		}
 
