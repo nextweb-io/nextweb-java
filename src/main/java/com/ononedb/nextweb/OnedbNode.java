@@ -158,6 +158,12 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
+	public Result<Integer> clearVersions(int keepVersions) {
+		return plugin(H.plugins(session).clearVersions()).clearVersions(
+				keepVersions);
+	}
+
+	@Override
 	public String toString() {
 		return "node(\"" + this.getUri() + "\", " + this.getValue().getClass()
 				+ ")";

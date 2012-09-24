@@ -69,6 +69,12 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
+	public Result<Integer> clearVersions(int keepVersions) {
+		return plugin(H.plugins(session).clearVersions()).clearVersions(
+				keepVersions);
+	}
+
+	@Override
 	public OnedbSession getOnedbSession() {
 
 		return session;

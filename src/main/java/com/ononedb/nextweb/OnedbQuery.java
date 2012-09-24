@@ -109,6 +109,12 @@ public class OnedbQuery implements Query, OnedbEntity {
 		return plugin(H.plugins(session).remove()).remove(entity);
 	}
 
+	@Override
+	public Result<Integer> clearVersions(int keepVersions) {
+		return plugin(H.plugins(session).clearVersions()).clearVersions(
+				keepVersions);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <GType extends Entity, PluginType extends Plugin<GType>> PluginType plugin(
