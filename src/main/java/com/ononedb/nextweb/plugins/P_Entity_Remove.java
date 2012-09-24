@@ -6,7 +6,7 @@ import io.nextweb.Node;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.SuccessFail;
+import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.plugins.core.Plugin_Entity_Remove;
@@ -26,12 +26,12 @@ public class P_Entity_Remove implements Plugin_Entity_Remove<OnedbEntity> {
 	}
 
 	@Override
-	public Result<SuccessFail> remove(final Entity whichEntity) {
+	public Result<Success> remove(final Entity whichEntity) {
 
-		final AsyncResult<SuccessFail> removeResult = new AsyncResult<SuccessFail>() {
+		final AsyncResult<Success> removeResult = new AsyncResult<Success>() {
 
 			@Override
-			public void get(final Callback<SuccessFail> callback) {
+			public void get(final Callback<Success> callback) {
 
 				entity.get(CallbackFactory.embeddedCallback(
 						entity.getExceptionManager(), callback,
@@ -87,7 +87,7 @@ public class P_Entity_Remove implements Plugin_Entity_Remove<OnedbEntity> {
 									return;
 								}
 
-								callback.onSuccess(SuccessFail.success());
+								callback.onSuccess(Success.INSTANCE);
 
 							}
 						}));

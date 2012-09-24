@@ -10,7 +10,7 @@ import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.SuccessFail;
+import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -105,7 +105,7 @@ public class OnedbQuery implements Query, OnedbEntity {
 	}
 
 	@Override
-	public Result<SuccessFail> remove(Entity entity) {
+	public Result<Success> remove(Entity entity) {
 		return plugin(H.plugins(session).remove()).remove(entity);
 	}
 

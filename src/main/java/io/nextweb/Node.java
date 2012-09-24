@@ -1,7 +1,7 @@
 package io.nextweb;
 
-import io.nextweb.operations.EntityRequestOperations;
 import io.nextweb.operations.NodeAppendOperations;
+import io.nextweb.operations.entity.EntityRequestOperations;
 
 public interface Node extends Entity, EntityRequestOperations<Node>,
 		NodeAppendOperations {
