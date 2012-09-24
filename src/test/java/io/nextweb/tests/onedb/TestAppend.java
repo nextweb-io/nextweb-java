@@ -21,40 +21,6 @@ public class TestAppend {
 		return session;
 	}
 
-	// @Test
-	// public void testClearVersions() {
-	// final CoreDsl dsl = OneJre.init();
-	//
-	// final OneClient client = dsl.createClient();
-	//
-	// dsl.load(
-	// "http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests")
-	// .withSecret("ChaiK3CZYnrr").and(new WhenLoaded() {
-	//
-	// @Override
-	// public void thenDo(WithLoadResult<Object> arg0) {
-	// System.out.println("Loaded!");
-	// dsl.clearVersions(arg0.loadedNode()).andKeepOnServer(1)
-	// .in(client).and(new WhenVersionsCleared() {
-	//
-	// @Override
-	// public void thenDo(
-	// WithVersionsClearedResult arg0) {
-	// System.out.println("done");
-	// }
-	//
-	// });
-	// }
-	// });
-	//
-	// try {
-	// Thread.sleep(15000);
-	// } catch (InterruptedException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-
 	@Test
 	public void testNodeAppend() throws InterruptedException {
 
@@ -68,8 +34,6 @@ public class TestAppend {
 		Node node = link.get();
 
 		Node testAppend = node.append("Appending");
-		// System.out.println("appended");
-
 		Node nested = testAppend.append("Nested");
 
 		session.commit().get();
@@ -78,12 +42,6 @@ public class TestAppend {
 		Result<Success> removeNode = node.remove(testAppend);
 
 		session.getAll(removeNested, removeNode);
-
-		// System.out.println("All removed.");
-
-		// System.out.println(node.clearVersions(2).get());
-
-		// Thread.sleep(5000);
 
 		Result<Integer> clearVersions = node.clearVersions(2);
 

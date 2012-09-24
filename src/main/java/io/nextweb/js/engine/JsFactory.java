@@ -8,6 +8,7 @@ import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.fn.Result;
 import io.nextweb.js.JsLink;
 import io.nextweb.js.JsLinkList;
 import io.nextweb.js.JsLinkListQuery;
@@ -17,6 +18,7 @@ import io.nextweb.js.JsNodeListQuery;
 import io.nextweb.js.JsQuery;
 import io.nextweb.js.JsSession;
 import io.nextweb.js.common.operations.JsExceptionManager;
+import io.nextweb.js.fn.JsResult;
 import io.nextweb.js.plugins.JsPluginUtils;
 import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -49,6 +51,13 @@ public class JsFactory implements Exportable {
 		for (JavaScriptObject pluginFactory : pluginFactories) {
 			JsPluginUtils.plugin(ExporterUtil.wrap(dest), pluginFactory);
 		}
+	}
+
+	@NoExport
+	public JsResult createResult(Result<?> result) {
+		final JsResult jsResult = JsResult.wrap(result);
+
+		return jsResult;
 	}
 
 	@NoExport

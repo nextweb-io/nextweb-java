@@ -37,6 +37,30 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 		return getValue();
 	}
 
+	@Export
+	public Object append(Object value) {
+		Object javaValue = ((NextwebEngineJs) node.getSession().getEngine())
+				.jsFactory().getWrappers().wrapValueObjectForJava(value);
+
+		if (javaValue instanceof JsQuery) {
+			throw new RuntimeException("Not supported yet.");
+		}
+
+		if (javaValue instanceof JsLink) {
+			throw new RuntimeException("Not supported yet.");
+		}
+
+		if (javaValue instanceof Node) {
+			throw new RuntimeException("Not supported yet.");
+		}
+
+		// assert, should be a value object such as "text" or 33
+
+		return ((NextwebEngineJs) node.getSession().getEngine()).jsFactory()
+				.createNode(node.append(value));
+
+	}
+
 	@Override
 	@NoExport
 	public Node getOriginal() {

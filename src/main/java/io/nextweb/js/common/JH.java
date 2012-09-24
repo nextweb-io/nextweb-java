@@ -7,6 +7,7 @@ import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
+import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
 import io.nextweb.js.engine.JsFactory;
@@ -205,12 +206,15 @@ public class JH {
 	}-*/;
 
 	public static final JsFactory jsFactory(Entity entity) {
-		return ((NextwebEngineJs) entity.getSession().getEngine()).jsFactory();
+		return jsFactory(entity.getSession());
+	}
+
+	public static final JsFactory jsFactory(Session session) {
+		return ((NextwebEngineJs) session.getEngine()).jsFactory();
 	}
 
 	public static final JsFactory jsFactory(EntityList<?> entityList) {
-		return ((NextwebEngineJs) entityList.getSession().getEngine())
-				.jsFactory();
+		return jsFactory(entityList.getSession());
 	}
 
 }

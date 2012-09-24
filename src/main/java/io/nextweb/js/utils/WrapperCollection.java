@@ -8,13 +8,20 @@ import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.js.common.JsAtomicTypeWrapper;
 import io.nextweb.js.engine.JsFactory;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import one.common.nodes.v01.OneJSONData;
+
 import org.timepedia.exporter.client.ExporterUtil;
+
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONValue;
 
 public class WrapperCollection {
 
@@ -61,6 +68,88 @@ public class WrapperCollection {
 
 		return engineNode;
 	}
+
+	public Object wrapValueObjectForJava(Object jsNode) {
+
+		if (jsNode instanceof String) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof Integer) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof Short) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof Long) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof Byte) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof Character) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof Double) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof Float) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof Date) {
+			return jsNode;
+		}
+
+		if (jsNode instanceof JavaScriptObject) {
+
+			final JavaScriptObject jsobj = (JavaScriptObject) jsNode;
+			if (isDate(jsobj)) {
+				return dateFromJsDate(jsobj);
+			}
+
+			final JsAtomicTypeWrapper wrapper = (jsobj).cast();
+
+			if (wrapper.isWrapper()) {
+				return wrapper.getValue();
+			}
+
+		}
+
+		final Object obj = ExporterUtil.gwtInstance(jsNode);
+
+		if (obj instanceof JavaScriptObject || obj instanceof JSONValue) {
+			final String jsonData = new JSONObject((JavaScriptObject) obj)
+					.toString();
+
+			return new OneJSONData(jsonData);
+		}
+
+		return obj;
+
+	}
+
+	public final native static boolean isDate(final JavaScriptObject d)/*-{
+		return (d && d.getTime && typeof d.getTime == 'function');
+	}-*/;
+
+	public final static Date dateFromJsDate(final JavaScriptObject d) {
+		final String dateStr = timeFromJsDate(d);
+
+		final long time = Long.valueOf(dateStr.substring(1));
+
+		return new Date(time);
+	}
+
+	public final native static String timeFromJsDate(final JavaScriptObject d)/*-{
+		return "t" + d.getTime();
+	}-*/;
 
 	public Object wrapValueObjectForJs(Object gwtNode) {
 

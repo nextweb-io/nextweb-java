@@ -13,11 +13,30 @@
 	window.onNextweb = function() {
 		var session = Nextweb.createSession();
 		
-		testSelectAll(session);
-		
+		//testSelectAll(session);
+		testAppend(session);
 		
 		
 	};
+	
+	var testAppend = function(session) {
+		
+		var testNode = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests", "ChaiK3CZYnrr");
+		
+		testNode.get(function(node) {
+			node.append("Hello from JS");
+			
+			session.commit();
+			
+			session.close();
+			
+			//.get(function(success) {
+			//	$("#output").append("<p>Appended successfully.</p>");
+			//});
+			
+		});
+		
+ 	};
 	
 	var testSelectAll = function(session) {
 		var questionBag = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");

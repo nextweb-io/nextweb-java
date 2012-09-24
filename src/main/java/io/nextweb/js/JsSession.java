@@ -38,9 +38,18 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 
 	@Export
 	public JsLink node(String uri) {
-		return ((NextwebEngineJs) session.getEngine()).jsFactory().createLink(
-				session.node(uri));
+		return JH.jsFactory(session).createLink(session.node(uri));
 
+	}
+
+	@Export
+	public JsLink node(String uri, String secret) {
+		return JH.jsFactory(session).createLink(session.node(uri, secret));
+	}
+
+	@Export
+	public JsResult commit() {
+		return JH.jsFactory(session).createResult(session.commit());
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
