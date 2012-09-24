@@ -14,7 +14,7 @@
 		var session = Nextweb.createSession();
 		
 		//testSelectAll(session);
-		testAppend(session);
+		testAppendValues(session);
 		
 		
 	};
@@ -34,6 +34,10 @@
 			
 			$("#output").append("<p>Removed: .</p>");
 			
+			node.clearVersions(3).get(function(cleared) {
+				$("#output").append("<p>Cleared: "+cleared+".</p>");
+			});
+			
 			session.close().get(function(success) {
 				$("#output").append("<p>Session closed successfully.</p>");
 			});
@@ -42,6 +46,46 @@
 		
  	};
 	
+ 	var testAppendValues = function(session) {
+		var testNode = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests", "ChaiK3CZYnrr");
+		
+		testNode.get(function(node) {
+			
+			var textNode = node.append("Hello from JS");
+			$("#output").append("<p>Appended: "+textNode.value()+".</p>");
+			
+			var intNode = node.append(42);
+			$("#output").append("<p>Appended: "+intNode.value()+".</p>");
+			
+			var floatNode = node.append(4.2);
+			$("#output").append("<p>Appended: "+floatNode.value()+".</p>");
+			
+			var booleanNode = node.append(true);
+			$("#output").append("<p>Appended: "+booleanNode.value()+".</p>");
+			
+			var dateNode = node.append(new Date());
+			$("#output").append("<p>Appended: "+dateNode.value()+".</p>");
+			
+			var jsonNode = node.append({value: "jsonObject"});
+			$("#output").append("<p>Appended: "+JSON.stringify(jsonNode.value())+".</p>");
+			
+			session.commit();
+			
+			node.remove(textNode);
+			
+			$("#output").append("<p>Removed: .</p>");
+			
+			node.clearVersions(3).get(function(cleared) {
+				$("#output").append("<p>Cleared: "+cleared+".</p>");
+			});
+			
+			session.close().get(function(success) {
+				$("#output").append("<p>Session closed successfully.</p>");
+			});
+			
+		});
+ 	}
+ 	
 	var testSelectAll = function(session) {
 		var questionBag = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
 		

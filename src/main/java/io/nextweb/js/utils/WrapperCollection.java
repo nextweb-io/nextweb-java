@@ -79,6 +79,10 @@ public class WrapperCollection {
 			return jsNode;
 		}
 
+		if (jsNode instanceof Boolean) {
+			return jsNode;
+		}
+
 		if (jsNode instanceof Short) {
 			return jsNode;
 		}
@@ -107,10 +111,12 @@ public class WrapperCollection {
 			return jsNode;
 		}
 
-		if (jsNode instanceof JavaScriptObject) {
+		final Object obj = ExporterUtil.gwtInstance(jsNode);
 
-			final JavaScriptObject jsobj = (JavaScriptObject) jsNode;
+		if (obj instanceof JavaScriptObject) {
+			final JavaScriptObject jsobj = (JavaScriptObject) obj;
 			if (isDate(jsobj)) {
+
 				return dateFromJsDate(jsobj);
 			}
 
@@ -121,8 +127,6 @@ public class WrapperCollection {
 			}
 
 		}
-
-		final Object obj = ExporterUtil.gwtInstance(jsNode);
 
 		if (obj instanceof JavaScriptObject || obj instanceof JSONValue) {
 			final String jsonData = new JSONObject((JavaScriptObject) obj)
@@ -135,8 +139,13 @@ public class WrapperCollection {
 
 	}
 
+	public final native static JavaScriptObject getJsObj(Object o)/*-{
+		return o;
+	}-*/;
+
 	public final native static boolean isDate(final JavaScriptObject d)/*-{
-		return (d && d.getTime && typeof d.getTime == 'function');
+		return (d && d.getTime && typeof d.getTime == 'function') ? true
+				: false;
 	}-*/;
 
 	public final static Date dateFromJsDate(final JavaScriptObject d) {
@@ -195,7 +204,11 @@ public class WrapperCollection {
 
 		for (Wrapper wrapper : registeredWrappers) {
 			if (wrapper.accepts(gwtNode)) {
-				return ExporterUtil.wrap(wrapper.wrap(gwtNode));
+				Object wrapped = wrapper.wrap(gwtNode);
+				if (!(wrapped instanceof JavaScriptObject)) {
+					wrapped = ExporterUtil.wrap(wrapped);
+				}
+				return wrapped;
 			}
 		}
 

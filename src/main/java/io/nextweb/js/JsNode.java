@@ -59,7 +59,7 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 		// assert, should be a value object such as "text" or 33
 
 		return ExporterUtil.wrap(JH.jsFactory(node).createNode(
-				node.append(value)));
+				node.append(javaValue)));
 
 	}
 
@@ -85,6 +85,12 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 				"Only JsLink, JsNode and JsQuery objects can be passed as parameters for the remove operation and not ["
 						+ entity + ":" + entity.getClass() + "]");
 
+	}
+
+	@Export
+	public JsResult clearVersions(int keepVersions) {
+		return JH.jsFactory(node)
+				.createResult(node.clearVersions(keepVersions));
 	}
 
 	@Override
