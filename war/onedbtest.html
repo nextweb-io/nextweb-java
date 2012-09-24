@@ -72,6 +72,11 @@
 			session.commit();
 			
 			node.remove(textNode);
+			node.remove(intNode);
+			node.remove(floatNode);
+			node.remove(booleanNode);
+			node.remove(dateNode);
+			node.remove(jsonNode);
 			
 			$("#output").append("<p>Removed: .</p>");
 			

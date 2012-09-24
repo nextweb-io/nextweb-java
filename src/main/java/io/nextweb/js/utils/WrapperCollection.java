@@ -100,10 +100,18 @@ public class WrapperCollection {
 		}
 
 		if (jsNode instanceof Double) {
+			if (Math.round(((Double) jsNode).floatValue()) == ((Double) jsNode)
+					.floatValue()) {
+				return new Long(Math.round(((Double) jsNode).doubleValue()));
+			}
 			return jsNode;
 		}
 
 		if (jsNode instanceof Float) {
+			if (Math.round(((Float) jsNode).floatValue()) == ((Float) jsNode)
+					.floatValue()) {
+				return new Integer(Math.round(((Float) jsNode).floatValue()));
+			}
 			return jsNode;
 		}
 
@@ -191,6 +199,7 @@ public class WrapperCollection {
 		}
 
 		if (gwtNode instanceof Float) {
+
 			return gwtNode;
 		}
 
