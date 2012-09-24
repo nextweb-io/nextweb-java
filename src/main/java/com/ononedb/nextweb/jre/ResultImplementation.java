@@ -130,6 +130,7 @@ public final class ResultImplementation<ResultType> implements
 
 					@Override
 					public void apply(ResultType o) {
+						// System.out.println("count down after " + o);
 						latch.countDown();
 					}
 				}).catchFailures(new ExceptionListener() {

@@ -33,13 +33,9 @@ public class P_Entity_ClearVersions implements
 						new Closure<Node>() {
 
 							@Override
-							public void apply(Node o) {
+							public void apply(final Node o) {
 
-								CoreDsl dsl = H.dsl(entity);
-
-								System.out.println("Clearing verions ..."
-										+ dsl.reference(o.getUri()) + " "
-										+ keepVersions);
+								final CoreDsl dsl = H.dsl(entity);
 
 								dsl.clearVersions(dsl.reference(o.getUri()))
 										.andKeepOnServer(keepVersions)
@@ -49,8 +45,7 @@ public class P_Entity_ClearVersions implements
 											@Override
 											public void thenDo(
 													WithVersionsClearedResult arg0) {
-												System.out
-														.println("All cleared.");
+
 												callback.onSuccess(arg0
 														.noOfVersionsCleared());
 											}

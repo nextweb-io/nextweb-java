@@ -56,7 +56,7 @@ public class TestAppend {
 	// }
 
 	@Test
-	public void testNodeAppend() {
+	public void testNodeAppend() throws InterruptedException {
 
 		String testNode = "http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests";
 		String testNodeSecret = "ChaiK3CZYnrr";
@@ -68,6 +68,7 @@ public class TestAppend {
 		Node node = link.get();
 
 		Node testAppend = node.append("Appending");
+		// System.out.println("appended");
 
 		Node nested = testAppend.append("Nested");
 
@@ -81,6 +82,12 @@ public class TestAppend {
 		// System.out.println("All removed.");
 
 		// System.out.println(node.clearVersions(2).get());
+
+		// Thread.sleep(5000);
+
+		Result<Integer> clearVersions = node.clearVersions(2);
+
+		clearVersions.get();
 
 		session.close().get();
 
