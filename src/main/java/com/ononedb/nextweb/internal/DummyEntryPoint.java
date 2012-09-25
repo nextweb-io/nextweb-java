@@ -7,7 +7,7 @@ import com.ononedb.nextweb.js.OnedbNextwebJsEngineImpl;
 public class DummyEntryPoint {
 	public void onModuleLoad() {
 		ExporterUtil.exportAll();
-		// GWT.log("all exported");
+
 		OnedbNextwebJsEngineImpl.init();
 
 		onLoadImpl();

@@ -178,17 +178,6 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 		return jsSession;
 	}
 
-	@Export
-	public final native void getAllOld(Object... args)/*-{
-
-		if (arguments.length === 0) {
-			throw "Specify nodes and a callback when calling getAll()";
-		}
-
-		//this.@io.nextweb.js.JsSession::getAll(Lcom/google/gwt/core/client/JavaScriptObject;)(arguments);
-
-	}-*/;
-
 	public JsSession() {
 		super();
 

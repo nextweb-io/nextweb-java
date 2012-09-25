@@ -54,14 +54,14 @@
 			
 			var textNode = node.append("Hello from JS");
 			textNode.get(function(node) {
-				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
-				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
+				$("#output").append("<p>Appended Node after clb: "+textNode.get().value()+".</p>");
+				$("#output").append("<p>Appended Node after clb: "+textNode.get().value()+".</p>");
 				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
 				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
 				$("#output").append("<p>Appended callback reports: "+node.value()+".</p>");
 			});
 			
-			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
+			$("#output").append("<p>Appended Node: "+textNode.get().value()+".</p>");
 			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
 			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
 			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");

@@ -8,12 +8,10 @@ import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
+import org.timepedia.exporter.client.ExporterUtil;
 import org.timepedia.exporter.client.NoExport;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.ononedb.nextweb.OnedbObject;
-import com.ononedb.nextweb.common.H;
 
 @Export
 public class JsQuery implements Exportable, JsEntity, JsWrapper<Query> {
@@ -21,33 +19,20 @@ public class JsQuery implements Exportable, JsEntity, JsWrapper<Query> {
 	private Query query;
 
 	@Export
-	public void get(final JsClosure callback) {
-		JH.getNode(query, callback);
-	}
-
-	public final native JavaScriptObject getSafe()/*-{
-		var result = this.@io.nextweb.js.JsQuery::performGet()();
-		console.log(result);
-		if (result === null) {
-			throw "Result is not defined.";
+	public Object get(Object... params) {
+		if (params.length == 0) {
+			return ExporterUtil.wrap(JH.getNode(query));
 		}
-		return result;
-	}-*/;
 
-	@Export
-	public Object get() {
+		if (params.length > 1) {
+			throw new IllegalArgumentException(
+					"Only one argument of type JsClosure is supported.");
+		}
 
-		return JH.jsFactory(query).createLink(
-				H.factory((OnedbObject) query).createLink(
-						H.session((OnedbObject) query),
-						query.getExceptionManager(), "myuri", ""));// getSafe();
-	}
+		JH.getNode(query, JH.asJsClosure((JavaScriptObject) params[0], JH
+				.jsFactory(query).getWrappers()));
 
-	public JavaScriptObject performGet() {
-
-		JavaScriptObject getting = JH.getNode(query);
-		GWT.log("Requesting JSQuery value: " + getting);
-		return getting;
+		return ExporterUtil.wrap(JH.jsFactory(query).createQuery(query));
 	}
 
 	@Override
@@ -71,7 +56,6 @@ public class JsQuery implements Exportable, JsEntity, JsWrapper<Query> {
 
 	public JsQuery() {
 		super();
-
 	}
 
 	@Export

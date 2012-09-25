@@ -10,6 +10,7 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
+import io.nextweb.js.JsNode;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
@@ -48,7 +49,7 @@ public class JH {
 
 	}
 
-	public static final JavaScriptObject getNode(Result<Node> entityResult) {
+	public static final JsNode getNode(Result<Node> entityResult) {
 		assert entityResult != null;
 
 		final Node result = entityResult.get();
@@ -56,7 +57,7 @@ public class JH {
 			return null;
 		}
 
-		return ExporterUtil.wrap(jsFactory(result).createNode(result));
+		return jsFactory(result).createNode(result);
 	}
 
 	public static final void getNodeList(NodeListQuery entityResult,
@@ -201,6 +202,23 @@ public class JH {
 		}
 		return result;
 	}
+
+	public static final JsClosure asJsClosure(final JavaScriptObject fn,
+			final WrapperCollection wrappers) {
+		return new JsClosure() {
+
+			@Override
+			public void apply(Object result) {
+				triggerCallbackSimpleJs(fn, (JavaScriptObject) result);
+			}
+		};
+
+	}
+
+	public static final native void triggerCallbackSimpleJs(
+			JavaScriptObject fn, JavaScriptObject parameter)/*-{
+		fn(parameter);
+	}-*/;
 
 	public static final native void triggerCallbackJs(JavaScriptObject fn,
 			JavaScriptObject jsArray)/*-{

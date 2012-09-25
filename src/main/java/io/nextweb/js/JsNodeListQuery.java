@@ -43,6 +43,7 @@ public class JsNodeListQuery implements JsWrapper<NodeListQuery>, Exportable,
 		this.list = original;
 	}
 
+	@NoExport
 	public static JsNodeListQuery wrap(NodeListQuery query) {
 		final JsNodeListQuery jsQuery = new JsNodeListQuery();
 		jsQuery.setOriginal(query);
