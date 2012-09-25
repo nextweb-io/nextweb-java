@@ -45,4 +45,45 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 		this.node = node;
 	}
 
+	@Override
+	public Object append(Object value, String atAddress) {
+		Object javaValue = JH.jsFactory(node).getWrappers()
+				.wrapValueObjectForJava(value);
+
+		if (javaValue instanceof JsQuery) {
+			return ExporterUtil.wrap(JH.jsFactory(node)
+					.createQuery(
+							node.append(((JsQuery) javaValue).getOriginal(),
+									atAddress)));
+		}
+
+		if (javaValue instanceof JsLink) {
+			return ExporterUtil
+					.wrap(JH.jsFactory(node).createQuery(
+							node.append(((JsLink) javaValue).getOriginal(),
+									atAddress)));
+		}
+
+		if (javaValue instanceof Node) {
+			return ExporterUtil
+					.wrap(JH.jsFactory(node).createQuery(
+							node.append(((JsNode) javaValue).getOriginal(),
+									atAddress)));
+		}
+
+		// assert, should be a value object such as "text" or 33
+
+		return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
+				node.append(javaValue, atAddress)));
+	}
+
+	@Override
+	public Object appendValue(Object value) {
+		Object javaValue = JH.jsFactory(node).getWrappers()
+				.wrapValueObjectForJava(value);
+
+		return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
+				node.appendValue(javaValue)));
+	}
+
 }

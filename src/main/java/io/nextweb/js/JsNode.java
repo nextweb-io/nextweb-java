@@ -10,7 +10,6 @@ import io.nextweb.js.fn.JsResult;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
-import org.timepedia.exporter.client.ExporterUtil;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
@@ -45,38 +44,31 @@ public class JsNode implements Exportable, JsEntity<Node> {
 		return JH.op(node).append().append(value);
 	}
 
+	@Export
+	@Override
+	public Object append(Object value, String atAddress) {
+		return JH.op(node).append().append(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValue(Object value) {
+		return JH.op(node).append().appendValue(value);
+	}
+
 	@Override
 	@Export
 	public Object get(Object... params) {
 		return JH.get(this, params);
 	}
 
+	@Override
 	@Export
 	public JsResult remove(Object entity) {
-		Object javaEntity = ExporterUtil.gwtInstance(entity);
-
-		if (javaEntity instanceof JsNode) {
-
-			return JH.jsFactory(node).createResult(
-					node.remove(((JsNode) javaEntity).getOriginal()));
-		}
-
-		if (javaEntity instanceof JsLink) {
-			return JH.jsFactory(node).createResult(
-					node.remove(((JsLink) javaEntity).getOriginal()));
-		}
-
-		if (javaEntity instanceof JsQuery) {
-			return JH.jsFactory(node).createResult(
-					node.remove(((JsQuery) javaEntity).getOriginal()));
-		}
-
-		throw new IllegalArgumentException(
-				"Only JsLink, JsNode and JsQuery objects can be passed as parameters for the remove operation and not ["
-						+ entity + ":" + entity.getClass() + "]");
-
+		return JH.op(node).remove().remove(entity);
 	}
 
+	@Override
 	@Export
 	public JsResult clearVersions(int keepVersions) {
 		return JH.jsFactory(node)

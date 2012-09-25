@@ -5,6 +5,7 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
+import io.nextweb.js.fn.JsResult;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -21,9 +22,22 @@ public class JsQuery implements Exportable, JsEntity<Query> {
 		return JH.get(this, params);
 	}
 
+	@Export
 	@Override
 	public Object append(Object value) {
 		return JH.op(query).append().append(value);
+	}
+
+	@Export
+	@Override
+	public Object append(Object value, String atAddress) {
+		return JH.op(query).append().append(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValue(Object value) {
+		return JH.op(query).append().appendValue(value);
 	}
 
 	@Override
@@ -98,6 +112,19 @@ public class JsQuery implements Exportable, JsEntity<Query> {
 	@Override
 	public JsNodeListQuery selectAll() {
 		return JH.jsFactory(query).createNodeListQuery(query.selectAll());
+	}
+
+	@Export
+	@Override
+	public JsResult clearVersions(int keepVersions) {
+		return JH.jsFactory(query).createResult(
+				query.clearVersions(keepVersions));
+	}
+
+	@Export
+	@Override
+	public JsResult remove(Object entity) {
+		return JH.op(query).remove().remove(entity);
 	}
 
 }

@@ -2,11 +2,15 @@ package io.nextweb.js.fn;
 
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
+import io.nextweb.js.common.JH;
 import io.nextweb.js.utils.WrapperCollection;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
+import org.timepedia.exporter.client.ExporterUtil;
 import org.timepedia.exporter.client.NoExport;
+
+import com.google.gwt.core.client.JavaScriptObject;
 
 @Export
 public class JsResult implements Exportable {
@@ -15,7 +19,24 @@ public class JsResult implements Exportable {
 	WrapperCollection wrappers;
 
 	@Export
-	public Object get() {
+	public Object get(Object... params) {
+
+		if (params.length == 0) {
+			return performGet();
+		}
+
+		if (params.length > 1) {
+			throw new IllegalArgumentException(
+					"Only one argument of type JsClosure is supported.");
+		}
+
+		performGet(JH.asJsClosure((JavaScriptObject) params[0], wrappers));
+
+		return ExporterUtil.wrap(this);
+	}
+
+	@NoExport
+	private final Object performGet() {
 		Object node = result.get();
 
 		if (node != null) {
@@ -26,8 +47,8 @@ public class JsResult implements Exportable {
 		return node;
 	}
 
-	@Export
-	public void get(final JsClosure onSuccess) {
+	@NoExport
+	private final void performGet(final JsClosure onSuccess) {
 		result.get(new Closure<Object>() {
 
 			@Override
