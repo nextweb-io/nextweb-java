@@ -28,16 +28,6 @@ public class JsNode implements Exportable, JsEntity<Node> {
 	}
 
 	@Export
-	public JsNode setValue(Object value) {
-		refpoekf
-	}
-
-	@Export
-	public JsNode value(Object value) {
-		fgerf
-	}
-
-	@Export
 	public Object getValue() {
 		return ((NextwebEngineJs) node.getSession().getEngine()).jsFactory()
 				.wrapValueObjectForJs(node.getValue());
@@ -46,6 +36,27 @@ public class JsNode implements Exportable, JsEntity<Node> {
 	@Export
 	public Object value() {
 		return getValue();
+	}
+
+	@Export
+	@Override
+	public JsEntity<Node> setValue(Object newValue) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsEntity<Node> value(Object newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Export
+	@Override
+	public JsResult setValueSafe(Object newValue) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

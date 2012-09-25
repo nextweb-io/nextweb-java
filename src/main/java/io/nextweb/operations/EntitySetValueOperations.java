@@ -1,13 +1,11 @@
 package io.nextweb.operations;
 
-import io.nextweb.Entity;
-import io.nextweb.fn.Result;
-import io.nextweb.fn.Success;
+import io.nextweb.Query;
 
-public interface EntitySetValueOperations<E extends Entity> {
+public interface EntitySetValueOperations {
 
-	public E setValue(Object newValue);
+	public Query setValue(Object newValue);
 
-	public Result<Success> setValueSafe(Object newValue);
+	public Query setValueSafe(Object newValue);
 
 }

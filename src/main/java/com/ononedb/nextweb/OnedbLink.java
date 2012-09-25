@@ -91,6 +91,16 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
+	public Query setValue(Object newValue) {
+		return plugin(H.plugins(session).setValue()).setValue(newValue);
+	}
+
+	@Override
+	public Result<Success> setValueSafe(Object newValue) {
+		return plugin(H.plugins(session).setValue()).setValueSafe(newValue);
+	}
+
+	@Override
 	public Result<Integer> clearVersions(int keepVersions) {
 		return plugin(H.plugins(session).clearVersions()).clearVersions(
 				keepVersions);

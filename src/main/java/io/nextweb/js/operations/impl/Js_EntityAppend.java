@@ -16,8 +16,7 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 
 	@Override
 	public Object append(Object value) {
-		Object javaValue = JH.jsFactory(node).getWrappers()
-				.wrapValueObjectForJava(value);
+		Object javaValue = JsOpCommon.getJavaValue(node, value);
 
 		if (javaValue instanceof JsQuery) {
 			return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
@@ -47,8 +46,7 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 
 	@Override
 	public Object append(Object value, String atAddress) {
-		Object javaValue = JH.jsFactory(node).getWrappers()
-				.wrapValueObjectForJava(value);
+		Object javaValue = JsOpCommon.getJavaValue(node, value);
 
 		if (javaValue instanceof JsQuery) {
 			return ExporterUtil.wrap(JH.jsFactory(node)
@@ -79,8 +77,7 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 
 	@Override
 	public Object appendValue(Object value) {
-		Object javaValue = JH.jsFactory(node).getWrappers()
-				.wrapValueObjectForJava(value);
+		Object javaValue = JsOpCommon.getJavaValue(node, value);
 
 		return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
 				node.appendValue(javaValue)));

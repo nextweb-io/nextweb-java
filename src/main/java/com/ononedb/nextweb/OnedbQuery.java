@@ -126,6 +126,16 @@ public class OnedbQuery implements Query, OnedbEntity {
 	}
 
 	@Override
+	public Query setValue(Object newValue) {
+		return (Query) plugin(H.plugins(session).setValue()).setValue(newValue);
+	}
+
+	@Override
+	public Result<Success> setValueSafe(Object newValue) {
+		return plugin(H.plugins(session).setValue()).setValueSafe(newValue);
+	}
+
+	@Override
 	public <GEntity extends Entity> GEntity append(GEntity entity) {
 
 		return plugin(H.plugins(session).append()).append(entity);
