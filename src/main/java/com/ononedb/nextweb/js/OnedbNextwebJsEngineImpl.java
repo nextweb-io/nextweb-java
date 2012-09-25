@@ -102,4 +102,9 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 		return jsFactory;
 	}
 
+	@Override
+	public void runSafe(Session forSession, Runnable task) {
+		task.run(); // no multi-threading in JS assured.
+	}
+
 }

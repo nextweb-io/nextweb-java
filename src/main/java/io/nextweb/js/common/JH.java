@@ -14,6 +14,7 @@ import io.nextweb.js.JsNode;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
+import io.nextweb.js.operations.JsDefaultOperations;
 import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.callbacks.CallbackFactory;
 
@@ -227,6 +228,10 @@ public class JH {
 
 	public static final JsFactory jsFactory(Entity entity) {
 		return jsFactory(entity.getSession());
+	}
+
+	public static final JsDefaultOperations op(Entity entity) {
+		return jsFactory(entity).op(entity);
 	}
 
 	public static final JsFactory jsFactory(Session session) {

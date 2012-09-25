@@ -11,6 +11,7 @@ import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
 import com.ononedb.nextweb.OnedbNextwebEngine;
+import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.OnedbFactory;
 
@@ -74,6 +75,11 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 	public DefaultPluginFactory plugin() {
 
 		return H.onedbDefaultPluginFactory();
+	}
+
+	@Override
+	public void runSafe(Session forSession, Runnable task) {
+		((OnedbSession) forSession).getClient().runSafe(task);
 	}
 
 }

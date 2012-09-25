@@ -1,5 +1,6 @@
 package io.nextweb.js.engine;
 
+import io.nextweb.Entity;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
@@ -19,6 +20,7 @@ import io.nextweb.js.JsQuery;
 import io.nextweb.js.JsSession;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsResult;
+import io.nextweb.js.operations.JsDefaultOperations;
 import io.nextweb.js.plugins.JsPluginUtils;
 import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -42,6 +44,11 @@ public class JsFactory implements Exportable {
 	public void registerEntityPlugin(JavaScriptObject plugin) {
 
 		this.entityPlugins.add(plugin);
+	}
+
+	@NoExport
+	public JsDefaultOperations op(Entity entity) {
+		return new JsDefaultOperations(entity);
 	}
 
 	@NoExport

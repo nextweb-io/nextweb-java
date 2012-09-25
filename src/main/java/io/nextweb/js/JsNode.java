@@ -41,29 +41,7 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 
 	@Export
 	public Object append(Object value) {
-		Object javaValue = JH.jsFactory(node).getWrappers()
-				.wrapValueObjectForJava(value);
-
-		if (javaValue instanceof JsQuery) {
-			return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
-					node.append(((JsQuery) javaValue).getOriginal())));
-		}
-
-		if (javaValue instanceof JsLink) {
-			return ExporterUtil.wrap(JH.jsFactory(node).createLink(
-					node.append(((JsLink) javaValue).getOriginal())));
-		}
-
-		if (javaValue instanceof Node) {
-			return ExporterUtil.wrap(JH.jsFactory(node).createNode(
-					node.append(((JsNode) javaValue).getOriginal())));
-		}
-
-		// assert, should be a value object such as "text" or 33
-
-		return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
-				node.append(javaValue)));
-
+		return JH.op(node).append().append(value);
 	}
 
 	@Export
