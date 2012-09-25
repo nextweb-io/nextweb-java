@@ -8,8 +8,10 @@ import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.fn.Success;
 import io.nextweb.js.common.JsAtomicTypeWrapper;
 import io.nextweb.js.engine.JsFactory;
+import io.nextweb.js.fn.JsSuccess;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -64,6 +66,10 @@ public class WrapperCollection {
 
 		if (engineNode instanceof LinkListQuery) {
 			return factory.createLinkListQuery((LinkListQuery) engineNode);
+		}
+
+		if (engineNode instanceof Success) {
+			return new JsSuccess();
 		}
 
 		return engineNode;

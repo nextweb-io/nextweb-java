@@ -10,6 +10,11 @@ import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.ononedb.nextweb.OnedbObject;
+import com.ononedb.nextweb.common.H;
+
 @Export
 public class JsQuery implements Exportable, JsEntity, JsWrapper<Query> {
 
@@ -17,12 +22,32 @@ public class JsQuery implements Exportable, JsEntity, JsWrapper<Query> {
 
 	@Export
 	public void get(final JsClosure callback) {
-		JH.get(query, callback);
+		JH.getNode(query, callback);
 	}
+
+	public final native JavaScriptObject getSafe()/*-{
+		var result = this.@io.nextweb.js.JsQuery::performGet()();
+		console.log(result);
+		if (result === null) {
+			throw "Result is not defined.";
+		}
+		return result;
+	}-*/;
 
 	@Export
 	public Object get() {
-		return JH.get(query);
+
+		return JH.jsFactory(query).createLink(
+				H.factory((OnedbObject) query).createLink(
+						H.session((OnedbObject) query),
+						query.getExceptionManager(), "myuri", ""));// getSafe();
+	}
+
+	public JavaScriptObject performGet() {
+
+		JavaScriptObject getting = JH.getNode(query);
+		GWT.log("Requesting JSQuery value: " + getting);
+		return getting;
 	}
 
 	@Override

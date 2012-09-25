@@ -33,7 +33,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 
 	@Export
 	public JsResult close() {
-		return JsResult.wrap(session.close());
+		return JH.jsFactory(session).createResult(session.close());
 	}
 
 	@Export

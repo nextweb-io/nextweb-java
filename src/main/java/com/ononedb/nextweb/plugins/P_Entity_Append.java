@@ -36,54 +36,53 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 
 							@Override
 							public void apply(final Node node) {
-								H.client(entity).runSafe(new Runnable() {
 
-									@Override
-									public void run() {
-										CoreDsl dsl = H.dsl(entity);
+								// GWT.log("node got");
 
-										String address = value.toString();
+								// H.client(entity).runSafe(new Runnable() {
+								//
+								// @Override
+								// public void run() {
 
-										if (address.length() > 8) {
-											address = address.substring(0, 7);
-										}
+								CoreDsl dsl = H.dsl(entity);
 
-										String cleanedString = "";
-										for (int i = 0; i <= address.length() - 1; i++) {
-											if (!OneUtilsStrings
-													.isSimpleCharacter(address
-															.charAt(i))) {
-												cleanedString = cleanedString
-														+ "_";
-											} else {
-												cleanedString = cleanedString
-														+ address.charAt(i);
-											}
-										}
+								String address = value.toString();
 
+								if (address.length() > 8) {
+									address = address.substring(0, 7);
+								}
+
+								String cleanedString = "";
+								for (int i = 0; i <= address.length() - 1; i++) {
+									if (!OneUtilsStrings
+											.isSimpleCharacter(address
+													.charAt(i))) {
+										cleanedString = cleanedString + "_";
+									} else {
 										cleanedString = cleanedString
-												+ (dsl.selectFrom(
-														dsl.reference(node
-																.getUri()))
-														.allChildrenFast()
-														.in(H.client(entity))
-														.size() + 1);
-
-										append(value, "./" + cleanedString)
-												.get(CallbackFactory.embeddedCallback(
-														entity.getExceptionManager(),
-														callback,
-														new Closure<Node>() {
-
-															@Override
-															public void apply(
-																	Node o) {
-																callback.onSuccess(o);
-															}
-
-														}));
+												+ address.charAt(i);
 									}
-								});
+								}
+
+								cleanedString = cleanedString
+										+ (dsl.selectFrom(
+												dsl.reference(node.getUri()))
+												.allChildrenFast()
+												.in(H.client(entity)).size() + 1);
+
+								append(value, "./" + cleanedString).get(
+										CallbackFactory.embeddedCallback(
+												entity.getExceptionManager(),
+												callback, new Closure<Node>() {
+
+													@Override
+													public void apply(Node o) {
+														callback.onSuccess(o);
+													}
+
+												}));
+								// }
+								// });
 							}
 
 						}));
@@ -115,38 +114,37 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 			@Override
 			public void get(final Callback<Node> callback) {
 
-				H.client(entity).runSafe(new Runnable() {
+				// H.client(entity).runSafe(new Runnable() {
+				//
+				// @Override
+				// public void run() {
 
-					@Override
-					public void run() {
+				entity.get(CallbackFactory.embeddedCallback(
+						entity.getExceptionManager(), callback,
+						new Closure<Node>() {
 
-						entity.get(CallbackFactory.embeddedCallback(
-								entity.getExceptionManager(), callback,
-								new Closure<Node>() {
+							@Override
+							public void apply(Node node) {
+								CoreDsl dsl = H.dsl(entity);
 
-									@Override
-									public void apply(Node node) {
-										CoreDsl dsl = H.dsl(entity);
+								OneValue<Object> appendedValue = dsl
+										.append(value)
+										.to(dsl.reference(node.getUri()))
+										.atAddress(atAddress)
+										.in(H.client(entity));
 
-										OneValue<Object> appendedValue = dsl
-												.append(value)
-												.to(dsl.reference(node.getUri()))
-												.atAddress(atAddress)
-												.in(H.client(entity));
+								callback.onSuccess(H.factory(entity)
+										.createNode(
+												H.session(entity),
+												entity.getExceptionManager(),
+												dsl.reference(appendedValue
+														.getId())));
+							}
 
-										callback.onSuccess(H
-												.factory(entity)
-												.createNode(
-														H.session(entity),
-														entity.getExceptionManager(),
-														dsl.reference(appendedValue
-																.getId())));
-									}
+						}));
 
-								}));
-
-					}
-				});
+				// }
+				// });
 			}
 		};
 
@@ -173,39 +171,36 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 			@Override
 			public void get(final Callback<Node> callback) {
 
-				H.client(entity).runSafe(new Runnable() {
+				// H.client(entity).runSafe(new Runnable() {
+				//
+				// @Override
+				// public void run() {
 
-					@Override
-					public void run() {
+				entity.get(CallbackFactory.embeddedCallback(
+						entity.getExceptionManager(), callback,
+						new Closure<Node>() {
 
-						entity.get(CallbackFactory.embeddedCallback(
-								entity.getExceptionManager(), callback,
-								new Closure<Node>() {
+							@Override
+							public void apply(Node node) {
+								CoreDsl dsl = H.dsl(entity);
 
-									@Override
-									public void apply(Node node) {
-										CoreDsl dsl = H.dsl(entity);
+								Object appended = dsl.append(value)
+										.to(dsl.reference(node.getUri()))
+										.in(H.client(entity));
 
-										Object appended = dsl
-												.append(value)
-												.to(dsl.reference(node.getUri()))
-												.in(H.client(entity));
+								OneTypedReference<Object> appendedRef = dsl
+										.reference(appended).in(
+												H.client(entity));
+								callback.onSuccess(H.factory(entity)
+										.createNode(H.session(entity),
+												entity.getExceptionManager(),
+												appendedRef));
+							}
 
-										OneTypedReference<Object> appendedRef = dsl
-												.reference(appended).in(
-														H.client(entity));
-										callback.onSuccess(H
-												.factory(entity)
-												.createNode(
-														H.session(entity),
-														entity.getExceptionManager(),
-														appendedRef));
-									}
-
-								}));
-
-					}
-				});
+						}));
+				//
+				// }
+				// });
 
 			}
 

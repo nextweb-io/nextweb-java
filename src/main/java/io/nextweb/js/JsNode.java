@@ -45,15 +45,18 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 				.wrapValueObjectForJava(value);
 
 		if (javaValue instanceof JsQuery) {
-			throw new RuntimeException("Not supported yet.");
+			return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
+					node.append(((JsQuery) javaValue).getOriginal())));
 		}
 
 		if (javaValue instanceof JsLink) {
-			throw new RuntimeException("Not supported yet.");
+			return ExporterUtil.wrap(JH.jsFactory(node).createLink(
+					node.append(((JsLink) javaValue).getOriginal())));
 		}
 
 		if (javaValue instanceof Node) {
-			throw new RuntimeException("Not supported yet.");
+			return ExporterUtil.wrap(JH.jsFactory(node).createNode(
+					node.append(((JsNode) javaValue).getOriginal())));
 		}
 
 		// assert, should be a value object such as "text" or 33
@@ -74,11 +77,13 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 		}
 
 		if (javaEntity instanceof JsLink) {
-			throw new RuntimeException("Not supported yet.");
+			return JH.jsFactory(node).createResult(
+					node.remove(((JsLink) javaEntity).getOriginal()));
 		}
 
 		if (javaEntity instanceof JsQuery) {
-			throw new RuntimeException("Not supported yet.");
+			return JH.jsFactory(node).createResult(
+					node.remove(((JsQuery) javaEntity).getOriginal()));
 		}
 
 		throw new IllegalArgumentException(

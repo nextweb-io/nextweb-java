@@ -30,7 +30,8 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class JH {
 
-	public static final void get(Entity entityResult, final JsClosure callback) {
+	public static final void getNode(Entity entityResult,
+			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
 
@@ -47,13 +48,14 @@ public class JH {
 
 	}
 
-	public static final Object get(Result<Node> entityResult) {
+	public static final JavaScriptObject getNode(Result<Node> entityResult) {
 		assert entityResult != null;
 
 		final Node result = entityResult.get();
 		if (result == null) {
 			return null;
 		}
+
 		return ExporterUtil.wrap(jsFactory(result).createNode(result));
 	}
 

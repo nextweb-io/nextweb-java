@@ -2,6 +2,7 @@ package io.nextweb.js.fn;
 
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
+import io.nextweb.js.utils.WrapperCollection;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -11,10 +12,18 @@ import org.timepedia.exporter.client.NoExport;
 public class JsResult implements Exportable {
 
 	Result<Object> result;
+	WrapperCollection wrappers;
 
 	@Export
 	public Object get() {
-		return result.get();
+		Object node = result.get();
+
+		if (node != null) {
+			node = wrappers.createJsEngineWrapper(node);
+			node = wrappers.wrapValueObjectForJs(node);
+		}
+
+		return node;
 	}
 
 	@Export
@@ -23,7 +32,10 @@ public class JsResult implements Exportable {
 
 			@Override
 			public void apply(Object o) {
-				onSuccess.apply(o);
+				// GWT.log("got async: " + o);
+				Object wrappedEngineNode = wrappers.createJsEngineWrapper(o);
+				// GWT.log("wrapped ASYNC engine node: " + wrappedEngineNode);
+				onSuccess.apply(wrappedEngineNode);
 			}
 
 		});
@@ -40,15 +52,26 @@ public class JsResult implements Exportable {
 		this.result = result;
 	}
 
+	@NoExport
+	public WrapperCollection getWrappers() {
+		return wrappers;
+	}
+
+	@NoExport
+	public void setWrappers(WrapperCollection wrappers) {
+		this.wrappers = wrappers;
+	}
+
 	public JsResult() {
 		super();
 	}
 
 	@SuppressWarnings("unchecked")
 	@NoExport
-	public static JsResult wrap(Result<?> result) {
+	public static JsResult wrap(Result<?> result, WrapperCollection wrappers) {
 		JsResult jsResult = new JsResult();
 		jsResult.setResult((Result<Object>) result);
+		jsResult.setWrappers(wrappers);
 		return jsResult;
 	}
 

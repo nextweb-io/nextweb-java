@@ -35,12 +35,12 @@ public class JsLink implements Exportable, JsEntity, JsWrapper<Link> {
 
 	@Export
 	public void get(final JsClosure callback) {
-		JH.get(link, callback);
+		JH.getNode(link, callback);
 	}
 
 	@Export
 	public Object get() {
-		return JH.get(link);
+		return JH.getNode(link);
 	}
 
 	@Override

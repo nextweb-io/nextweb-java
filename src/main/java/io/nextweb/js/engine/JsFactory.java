@@ -55,7 +55,7 @@ public class JsFactory implements Exportable {
 
 	@NoExport
 	public JsResult createResult(Result<?> result) {
-		final JsResult jsResult = JsResult.wrap(result);
+		final JsResult jsResult = JsResult.wrap(result, wrapperCollection);
 
 		return jsResult;
 	}

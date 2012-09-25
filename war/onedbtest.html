@@ -14,8 +14,8 @@
 		var session = Nextweb.createSession();
 		
 		//testSelectAll(session);
-		testAppendValues(session);
-		
+		//testAppendValues(session);
+		testSynchronousGet(session);
 		
 	};
 	
@@ -46,13 +46,48 @@
 		
  	};
 	
+ 	var testSynchronousGet = function(session) {
+		
+ 		var testNode = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests", "ChaiK3CZYnrr");
+		
+		testNode.get(function(node) {
+			
+			var textNode = node.append("Hello from JS");
+			textNode.get(function(node) {
+				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
+				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
+				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
+				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
+				$("#output").append("<p>Appended callback reports: "+node.value()+".</p>");
+			});
+			
+			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
+			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
+			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
+			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
+			
+			if (textNode) {
+				node.remove(textNode);
+			}
+			
+			session.close().get(function(success) {
+				$("#output").append("<p>Session closed.</p>");
+			});
+		});
+			
+			
+ 	};
+ 	
  	var testAppendValues = function(session) {
 		var testNode = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests", "ChaiK3CZYnrr");
 		
 		testNode.get(function(node) {
 			
 			var textNode = node.append("Hello from JS");
-			$("#output").append("<p>Appended: "+textNode.get().value()+".</p>");
+			
+			var resolvedTextNode = textNode.get();
+			
+			$("#output").append("<p>Appended: "+resolvedTextNode.value()+".</p>");
 			
 			var intNode = node.append(42);
 			$("#output").append("<p>Appended: "+intNode.get().value()+".</p>");
