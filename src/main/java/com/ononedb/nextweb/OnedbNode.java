@@ -59,6 +59,18 @@ public class OnedbNode implements Node, OnedbEntity {
 		return dereferenced;
 	}
 
+	@Override
+	public Node setValue(final Object newValue) {
+		return (Node) plugin(H.plugins(getSession()).setValue()).setValue(
+				newValue);
+	}
+
+	@Override
+	public Result<Success> setValueSafe(Object newValue) {
+		return plugin(H.plugins(getSession()).setValue())
+				.setValueSafe(newValue);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <ValueType> ValueType value(Class<ValueType> type) {

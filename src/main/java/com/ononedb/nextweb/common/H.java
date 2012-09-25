@@ -14,6 +14,7 @@ import io.nextweb.plugins.core.Plugin_Entity_Append;
 import io.nextweb.plugins.core.Plugin_Entity_ClearVersions;
 import io.nextweb.plugins.core.Plugin_Entity_Remove;
 import io.nextweb.plugins.core.Plugin_Entity_Select;
+import io.nextweb.plugins.core.Plugin_Entity_SetValue;
 import one.core.domain.OneClient;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
@@ -28,6 +29,7 @@ import com.ononedb.nextweb.plugins.P_Entity_Append_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_ClearVersions_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Remove_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Select_Factory;
+import com.ononedb.nextweb.plugins.P_Entity_SetValue_Factory;
 
 /**
  * Helper methods.
@@ -128,6 +130,12 @@ public class H {
 			public <GEntity extends Entity, GPlugin extends Plugin_Entity_ClearVersions<GEntity>> PluginFactory<GEntity, GPlugin> clearVersions() {
 
 				return (PluginFactory<GEntity, GPlugin>) P_Entity_ClearVersions_Factory.FACTORY;
+			}
+
+			@Override
+			public <GEntity extends Entity, GPlugin extends Plugin_Entity_SetValue<GEntity>> PluginFactory<GEntity, GPlugin> setValue() {
+
+				return (PluginFactory<GEntity, GPlugin>) P_Entity_SetValue_Factory.FACTORY;
 			}
 
 		};

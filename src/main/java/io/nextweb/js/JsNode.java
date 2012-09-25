@@ -28,6 +28,16 @@ public class JsNode implements Exportable, JsEntity<Node> {
 	}
 
 	@Export
+	public JsNode setValue(Object value) {
+		refpoekf
+	}
+
+	@Export
+	public JsNode value(Object value) {
+		fgerf
+	}
+
+	@Export
 	public Object getValue() {
 		return ((NextwebEngineJs) node.getSession().getEngine()).jsFactory()
 				.wrapValueObjectForJs(node.getValue());
