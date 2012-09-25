@@ -2,12 +2,12 @@ package io.nextweb.operations;
 
 import io.nextweb.EntityList;
 import io.nextweb.fn.ExceptionInterceptor;
-import io.nextweb.operations.exceptions.AuthorizationExceptionInterceptor;
-import io.nextweb.operations.exceptions.UndefinedExceptionInterceptor;
+import io.nextweb.operations.exceptions.UnauthorizedInterceptor;
+import io.nextweb.operations.exceptions.UndefinedInterceptor;
 
 public interface EntityListRequestOperations<EntityListType extends EntityList<?>>
 		extends ExceptionInterceptor<EntityListType>,
-		AuthorizationExceptionInterceptor<EntityListType>,
-		UndefinedExceptionInterceptor<EntityListType> {
+		UnauthorizedInterceptor<EntityListType>,
+		UndefinedInterceptor<EntityListType> {
 
 }

@@ -14,9 +14,9 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
-import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.operations.exceptions.UndefinedExceptionListener;
+import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -201,15 +201,15 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
-	public Link catchAuthorizationExceptions(
-			AuthorizationExceptionListener listener) {
-		exceptionManager.catchAuthorizationExceptions(listener);
+	public Link catchUnauthorized(
+			UnauthorizedListener listener) {
+		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}
 
 	@Override
-	public Link catchUndefinedExceptions(UndefinedExceptionListener listener) {
-		exceptionManager.catchUndefinedExceptions(listener);
+	public Link catchUndefined(UndefinedListener listener) {
+		exceptionManager.catchUndefined(listener);
 		return this;
 	}
 

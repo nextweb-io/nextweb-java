@@ -6,7 +6,7 @@ import io.nextweb.Node;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
+import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.core.DefaultPluginFactory;
 import io.nextweb.plugins.core.Plugin_EntityList_Select;
@@ -83,9 +83,9 @@ public class H {
 		return session.getEngine().plugin();
 	}
 
-	public static AuthorizationExceptionResult fromUnauthorizedContext(
+	public static UnauthorizedResult fromUnauthorizedContext(
 			final WithUnauthorizedContext context) {
-		return new AuthorizationExceptionResult() {
+		return new UnauthorizedResult() {
 
 			@Override
 			public Object getType() {

@@ -12,9 +12,9 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
-import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.operations.exceptions.UndefinedExceptionListener;
+import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -193,15 +193,15 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public Node catchAuthorizationExceptions(
-			AuthorizationExceptionListener listener) {
-		exceptionManager.catchAuthorizationExceptions(listener);
+	public Node catchUnauthorized(
+			UnauthorizedListener listener) {
+		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}
 
 	@Override
-	public Node catchUndefinedExceptions(UndefinedExceptionListener listener) {
-		exceptionManager.catchUndefinedExceptions(listener);
+	public Node catchUndefined(UndefinedListener listener) {
+		exceptionManager.catchUndefined(listener);
 		return this;
 	}
 

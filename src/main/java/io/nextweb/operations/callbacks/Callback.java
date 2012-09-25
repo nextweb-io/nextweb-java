@@ -1,11 +1,11 @@
 package io.nextweb.operations.callbacks;
 
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
-import io.nextweb.operations.exceptions.UndefinedExceptionListener;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
+import io.nextweb.operations.exceptions.UndefinedListener;
 
 public interface Callback<ResultType> extends ExceptionListener,
-		AuthorizationExceptionListener, UndefinedExceptionListener {
+		UnauthorizedListener, UndefinedListener {
 
 	public void onSuccess(ResultType result);
 

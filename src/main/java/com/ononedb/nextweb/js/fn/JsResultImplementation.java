@@ -7,10 +7,10 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
+import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.operations.exceptions.UndefinedExceptionListener;
+import io.nextweb.operations.exceptions.UndefinedListener;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -74,11 +74,11 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 					}
 				})
 				.catchAuthorizationExceptions(
-						new AuthorizationExceptionListener() {
+						new UnauthorizedListener() {
 
 							@Override
 							public void onUnauthorized(Object origin,
-									AuthorizationExceptionResult r) {
+									UnauthorizedResult r) {
 								requestingResult = false;
 								callback.onUnauthorized(origin, r);
 								for (Callback<ResultType> deferredCallback : deferredCalls) {
@@ -87,7 +87,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 								deferredCalls.clear();
 							}
 						})
-				.catchUndefinedExceptions(new UndefinedExceptionListener() {
+				.catchUndefinedExceptions(new UndefinedListener() {
 
 					@Override
 					public void onUndefined(Object origin, String message) {

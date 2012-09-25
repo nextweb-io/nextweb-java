@@ -1,6 +1,6 @@
 package io.nextweb.operations.callbacks;
 
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
+import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 
 public class EmbeddedCallback<ResultType> implements Callback<ResultType> {
@@ -41,7 +41,7 @@ public class EmbeddedCallback<ResultType> implements Callback<ResultType> {
 	}
 
 	@Override
-	public void onUnauthorized(Object origin, AuthorizationExceptionResult r) {
+	public void onUnauthorized(Object origin, UnauthorizedResult r) {
 		if (hasEagerUnauthorizedListener()) {
 			embeddedIn.onUnauthorized(origin, r);
 			return;

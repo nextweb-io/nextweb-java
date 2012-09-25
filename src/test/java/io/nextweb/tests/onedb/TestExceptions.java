@@ -7,7 +7,7 @@ import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.operations.exceptions.UndefinedExceptionListener;
+import io.nextweb.operations.exceptions.UndefinedListener;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,8 +29,8 @@ public class TestExceptions {
 
 		Session session = getSession();
 
-		session.getExceptionManager().catchUndefinedExceptions(
-				new UndefinedExceptionListener() {
+		session.getExceptionManager().catchUndefined(
+				new UndefinedListener() {
 
 					@Override
 					public void onUndefined(Object origin, String message) {
@@ -94,7 +94,7 @@ public class TestExceptions {
 
 		Link node = session.node("http://slicnet.com/IdoNotExist/atRealm");
 
-		node.catchUndefinedExceptions(new UndefinedExceptionListener() {
+		node.catchUndefined(new UndefinedListener() {
 
 			@Override
 			public void onUndefined(Object origin, String message) {
@@ -175,7 +175,7 @@ public class TestExceptions {
 
 		Query questionBag = questionBagRepository.select(aQuestionBag);
 
-		questionBag.catchUndefinedExceptions(new UndefinedExceptionListener() {
+		questionBag.catchUndefined(new UndefinedListener() {
 
 			@Override
 			public void onUndefined(Object origin, String message) {

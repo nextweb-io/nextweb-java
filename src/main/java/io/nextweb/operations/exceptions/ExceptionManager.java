@@ -5,18 +5,18 @@ import io.nextweb.fn.ExceptionListener;
 
 public class ExceptionManager implements
 		ExceptionInterceptor<ExceptionManager>,
-		AuthorizationExceptionInterceptor<ExceptionManager>, ExceptionListener,
-		AuthorizationExceptionListener, UndefinedExceptionListener,
-		UndefinedExceptionInterceptor<ExceptionManager> {
+		UnauthorizedInterceptor<ExceptionManager>, ExceptionListener,
+		UnauthorizedListener, UndefinedListener,
+		UndefinedInterceptor<ExceptionManager> {
 
-	private AuthorizationExceptionListener authExceptionListener;
+	private UnauthorizedListener authExceptionListener;
 	private ExceptionListener exceptionListener;
-	private UndefinedExceptionListener undefinedExceptionListener;
+	private UndefinedListener undefinedExceptionListener;
 	private final ExceptionManager parentExceptionManager;
 
 	@Override
-	public ExceptionManager catchAuthorizationExceptions(
-			AuthorizationExceptionListener authExceptionListener) {
+	public ExceptionManager catchUnauthorized(
+			UnauthorizedListener authExceptionListener) {
 		this.authExceptionListener = authExceptionListener;
 		return this;
 	}
@@ -69,7 +69,7 @@ public class ExceptionManager implements
 	}
 
 	@Override
-	public void onUnauthorized(Object origin, AuthorizationExceptionResult r) {
+	public void onUnauthorized(Object origin, UnauthorizedResult r) {
 		assert canCatchAuthorizationExceptions() || canCatchExceptions();
 
 		if (this.authExceptionListener != null) {
@@ -92,8 +92,8 @@ public class ExceptionManager implements
 	}
 
 	@Override
-	public ExceptionManager catchUndefinedExceptions(
-			UndefinedExceptionListener undefinedExceptionListener) {
+	public ExceptionManager catchUndefined(
+			UndefinedListener undefinedExceptionListener) {
 		this.undefinedExceptionListener = undefinedExceptionListener;
 		return this;
 	}

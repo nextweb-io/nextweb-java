@@ -1,6 +1,6 @@
 package io.nextweb.operations.exceptions;
 
-public interface AuthorizationExceptionResult {
+public interface UnauthorizedResult {
 
 	public String getMessage();
 

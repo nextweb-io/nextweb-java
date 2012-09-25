@@ -2,7 +2,7 @@ package io.nextweb.operations.callbacks;
 
 import io.nextweb.Nextweb;
 import io.nextweb.Session;
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
+import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 
 public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
@@ -33,7 +33,7 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 	}
 
 	@Override
-	public void onUnauthorized(Object origin, AuthorizationExceptionResult r) {
+	public void onUnauthorized(Object origin, UnauthorizedResult r) {
 		if (session != null
 				&& session.getExceptionManager()
 						.canCatchAuthorizationExceptions()) {

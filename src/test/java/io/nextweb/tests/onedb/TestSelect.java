@@ -9,7 +9,7 @@ import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.operations.exceptions.UndefinedExceptionListener;
+import io.nextweb.operations.exceptions.UndefinedListener;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -130,7 +130,7 @@ public class TestSelect {
 		Link questions = session
 				.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
 
-		questions.catchUndefinedExceptions(new UndefinedExceptionListener() {
+		questions.catchUndefined(new UndefinedListener() {
 
 			@Override
 			public void onUndefined(Object origin, String message) {

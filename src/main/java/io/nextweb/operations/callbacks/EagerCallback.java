@@ -3,10 +3,10 @@ package io.nextweb.operations.callbacks;
 import io.nextweb.Nextweb;
 import io.nextweb.Session;
 import io.nextweb.fn.ExceptionListener;
-import io.nextweb.operations.exceptions.AuthorizationExceptionListener;
-import io.nextweb.operations.exceptions.AuthorizationExceptionResult;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
+import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.operations.exceptions.UndefinedExceptionListener;
+import io.nextweb.operations.exceptions.UndefinedListener;
 
 public abstract class EagerCallback<ResultType> implements Callback<ResultType> {
 
@@ -16,8 +16,8 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	private ExceptionListener exceptionListener;
 	private final Session session;
 	private final ExceptionManager exceptionManager;
-	private AuthorizationExceptionListener authExceptionListener;
-	private UndefinedExceptionListener undefinedExceptionListenr;
+	private UnauthorizedListener authExceptionListener;
+	private UndefinedListener undefinedExceptionListenr;
 
 	public EagerCallback<ResultType> catchFailures(
 			ExceptionListener exceptionListener) {
@@ -27,14 +27,14 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	}
 
 	public EagerCallback<ResultType> catchAuthorizationExceptions(
-			AuthorizationExceptionListener exceptionListener) {
+			UnauthorizedListener exceptionListener) {
 		hasEagerUnauthorizedListener = true;
 		this.authExceptionListener = exceptionListener;
 		return this;
 	}
 
 	public EagerCallback<ResultType> catchUndefinedExceptions(
-			UndefinedExceptionListener listener) {
+			UndefinedListener listener) {
 		hasEagerUndefinedListener = true;
 		this.undefinedExceptionListenr = listener;
 		return this;
@@ -64,7 +64,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 
 	@Override
 	public final void onUnauthorized(Object origin,
-			AuthorizationExceptionResult r) {
+			UnauthorizedResult r) {
 		if (hasEagerUnauthorizedListener) {
 			this.authExceptionListener.onUnauthorized(origin, r);
 			return;
