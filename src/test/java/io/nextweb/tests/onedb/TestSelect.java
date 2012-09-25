@@ -10,6 +10,7 @@ import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
+import io.nextweb.operations.exceptions.UndefinedResult;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -133,7 +134,7 @@ public class TestSelect {
 		questions.catchUndefined(new UndefinedListener() {
 
 			@Override
-			public void onUndefined(Object origin, String message) {
+			public void onUndefined(UndefinedResult r) {
 				System.out.println("Undefined!");
 				throw new RuntimeException("E");
 			}
@@ -145,8 +146,8 @@ public class TestSelect {
 
 			@Override
 			public void onFailure(Object origin, Throwable t) {
-				System.out.println("Exception intercepted: "
-						+ t.getLocalizedMessage());
+				// System.out.println("Exception intercepted: "
+				// + t.getLocalizedMessage());
 			}
 		});
 
@@ -154,7 +155,7 @@ public class TestSelect {
 
 			@Override
 			public void apply(NodeList result) {
-				System.out.println("success");
+				// System.out.println("success");
 			}
 
 		});

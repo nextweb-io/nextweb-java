@@ -8,6 +8,7 @@ import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
+import io.nextweb.operations.exceptions.UndefinedResult;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,15 +30,13 @@ public class TestExceptions {
 
 		Session session = getSession();
 
-		session.getExceptionManager().catchUndefined(
-				new UndefinedListener() {
+		session.getExceptionManager().catchUndefined(new UndefinedListener() {
 
-					@Override
-					public void onUndefined(Object origin, String message) {
-						Assert.assertTrue(
-								"Exception successfully intercepted.", true);
-					}
-				});
+			@Override
+			public void onUndefined(UndefinedResult r) {
+				Assert.assertTrue("Exception successfully intercepted.", true);
+			}
+		});
 
 		session.node("http://slicnet.com/IdoNotExist/atRealm").get(
 				new Closure<Node>() {
@@ -97,7 +96,7 @@ public class TestExceptions {
 		node.catchUndefined(new UndefinedListener() {
 
 			@Override
-			public void onUndefined(Object origin, String message) {
+			public void onUndefined(UndefinedResult r) {
 				Assert.assertTrue(
 						"Exception should not have been intercepted.", false);
 			}
@@ -178,7 +177,7 @@ public class TestExceptions {
 		questionBag.catchUndefined(new UndefinedListener() {
 
 			@Override
-			public void onUndefined(Object origin, String message) {
+			public void onUndefined(UndefinedResult r) {
 				Assert.assertTrue("Successfully intercepted", true);
 			}
 		});

@@ -12,6 +12,7 @@ import io.nextweb.fn.Closure;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UndefinedResult;
 import io.nextweb.plugins.core.Plugin_Entity_Select;
 
 import java.util.ArrayList;
@@ -139,8 +140,20 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 													WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
 												if (sr.children().size() == 0) {
-													callback.onUndefined(this,
-															"No child matching the specified criteria.");
+													callback.onUndefined(new UndefinedResult() {
+
+														@Override
+														public Object origin() {
+															return this;
+														}
+
+														@Override
+														public String message() {
+
+															return "No child matching the specified criteria.";
+														}
+													});
+
 													return;
 												}
 

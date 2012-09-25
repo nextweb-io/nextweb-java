@@ -3,10 +3,11 @@ package io.nextweb.operations.callbacks;
 import io.nextweb.Nextweb;
 import io.nextweb.Session;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
-import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedListener;
+import io.nextweb.operations.exceptions.UndefinedResult;
 
 public abstract class EagerCallback<ResultType> implements Callback<ResultType> {
 
@@ -63,8 +64,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	}
 
 	@Override
-	public final void onUnauthorized(Object origin,
-			UnauthorizedResult r) {
+	public final void onUnauthorized(Object origin, UnauthorizedResult r) {
 		if (hasEagerUnauthorizedListener) {
 			this.authExceptionListener.onUnauthorized(origin, r);
 			return;
@@ -92,30 +92,30 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	}
 
 	@Override
-	public final void onUndefined(Object origin, String message) {
+	public final void onUndefined(UndefinedResult r) {
 		if (hasEagerUndefinedListener) {
-			this.undefinedExceptionListenr.onUndefined(origin, message);
+			this.undefinedExceptionListenr.onUndefined(r);
 			return;
 		}
 
 		if (hasEagerFailureListener) {
-			this.exceptionListener.onFailure(origin, new Exception(
-					"Undefined: " + message));
+			this.exceptionListener.onFailure(r.origin(), new Exception(
+					"Undefined: " + r.message()));
 			return;
 		}
 
 		if (exceptionManager.canCatchUndefinedExceptions()) {
-			exceptionManager.onUndefined(origin, message);
+			exceptionManager.onUndefined(r);
 			return;
 		}
 
 		if (session != null
 				&& session.getExceptionManager().canCatchUndefinedExceptions()) {
-			session.getExceptionManager().onUndefined(origin, message);
+			session.getExceptionManager().onUndefined(r);
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onUndefined(origin, message);
+		Nextweb.getEngine().getExceptionManager().onUndefined(r);
 	}
 
 	@Override

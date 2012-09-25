@@ -1,7 +1,8 @@
 package io.nextweb.operations.callbacks;
 
-import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UnauthorizedResult;
+import io.nextweb.operations.exceptions.UndefinedResult;
 
 public class EmbeddedCallback<ResultType> implements Callback<ResultType> {
 
@@ -9,19 +10,19 @@ public class EmbeddedCallback<ResultType> implements Callback<ResultType> {
 	private final ExceptionManager exceptionManager;
 
 	@Override
-	public void onUndefined(Object origin, String message) {
+	public void onUndefined(UndefinedResult r) {
 
 		if (hasEagerUndefinedListener()) {
-			embeddedIn.onUndefined(origin, message);
+			embeddedIn.onUndefined(r);
 			return;
 		}
 
 		if (exceptionManager.canCatchUndefinedExceptions()) {
-			exceptionManager.onUndefined(origin, message);
+			exceptionManager.onUndefined(r);
 			return;
 		}
 
-		embeddedIn.onUndefined(origin, message);
+		embeddedIn.onUndefined(r);
 
 	}
 

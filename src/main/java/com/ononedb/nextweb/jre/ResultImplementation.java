@@ -7,10 +7,11 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
+import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
-import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedListener;
+import io.nextweb.operations.exceptions.UndefinedResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,8 +70,7 @@ public final class ResultImplementation<ResultType> implements
 								deferredCalls.clear();
 							}
 
-						})
-				.catchFailures(new ExceptionListener() {
+						}).catchFailures(new ExceptionListener() {
 
 					@Override
 					public void onFailure(Object origin, Throwable t) {
@@ -83,37 +83,34 @@ public final class ResultImplementation<ResultType> implements
 						}
 						deferredCalls.clear();
 					}
-				})
-				.catchUndefinedExceptions(new UndefinedListener() {
+				}).catchUndefinedExceptions(new UndefinedListener() {
 
 					@Override
-					public void onUndefined(Object origin, String message) {
+					public void onUndefined(UndefinedResult r) {
 						requesting.set(false);
 
-						callback.onUndefined(origin, message);
+						callback.onUndefined(r);
 
 						for (Callback<ResultType> deferredCallback : deferredCalls) {
-							deferredCallback.onUndefined(origin, message);
+							deferredCallback.onUndefined(r);
 						}
 						deferredCalls.clear();
 					}
-				})
-				.catchAuthorizationExceptions(
-						new UnauthorizedListener() {
+				}).catchAuthorizationExceptions(new UnauthorizedListener() {
 
-							@Override
-							public void onUnauthorized(Object origin,
-									UnauthorizedResult r) {
-								requesting.set(false);
+					@Override
+					public void onUnauthorized(Object origin,
+							UnauthorizedResult r) {
+						requesting.set(false);
 
-								callback.onUnauthorized(origin, r);
+						callback.onUnauthorized(origin, r);
 
-								for (Callback<ResultType> deferredCallback : deferredCalls) {
-									deferredCallback.onUnauthorized(origin, r);
-								}
-								deferredCalls.clear();
-							}
-						}));
+						for (Callback<ResultType> deferredCallback : deferredCalls) {
+							deferredCallback.onUnauthorized(origin, r);
+						}
+						deferredCalls.clear();
+					}
+				}));
 
 	}
 

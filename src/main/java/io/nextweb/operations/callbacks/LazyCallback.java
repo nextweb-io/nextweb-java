@@ -2,8 +2,9 @@ package io.nextweb.operations.callbacks;
 
 import io.nextweb.Nextweb;
 import io.nextweb.Session;
-import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UnauthorizedResult;
+import io.nextweb.operations.exceptions.UndefinedResult;
 
 public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 
@@ -50,19 +51,19 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 	}
 
 	@Override
-	public void onUndefined(Object origin, String message) {
+	public void onUndefined(UndefinedResult r) {
 		if (session != null
 				&& session.getExceptionManager().canCatchUndefinedExceptions()) {
-			session.getExceptionManager().onUndefined(origin, message);
+			session.getExceptionManager().onUndefined(r);
 			return;
 		}
 
 		if (exceptionManager.canCatchUndefinedExceptions()) {
-			exceptionManager.onUndefined(origin, message);
+			exceptionManager.onUndefined(r);
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onUndefined(origin, message);
+		Nextweb.getEngine().getExceptionManager().onUndefined(r);
 	}
 
 	@Override

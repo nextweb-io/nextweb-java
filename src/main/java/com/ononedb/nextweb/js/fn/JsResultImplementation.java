@@ -7,10 +7,11 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
+import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
-import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedListener;
+import io.nextweb.operations.exceptions.UndefinedResult;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -60,8 +61,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 								deferredCalls.clear();
 							}
 
-						})
-				.catchFailures(new ExceptionListener() {
+						}).catchFailures(new ExceptionListener() {
 
 					@Override
 					public void onFailure(Object origin, Throwable t) {
@@ -72,29 +72,26 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 						}
 						deferredCalls.clear();
 					}
-				})
-				.catchAuthorizationExceptions(
-						new UnauthorizedListener() {
-
-							@Override
-							public void onUnauthorized(Object origin,
-									UnauthorizedResult r) {
-								requestingResult = false;
-								callback.onUnauthorized(origin, r);
-								for (Callback<ResultType> deferredCallback : deferredCalls) {
-									deferredCallback.onUnauthorized(origin, r);
-								}
-								deferredCalls.clear();
-							}
-						})
-				.catchUndefinedExceptions(new UndefinedListener() {
+				}).catchAuthorizationExceptions(new UnauthorizedListener() {
 
 					@Override
-					public void onUndefined(Object origin, String message) {
+					public void onUnauthorized(Object origin,
+							UnauthorizedResult r) {
 						requestingResult = false;
-						callback.onUndefined(origin, message);
+						callback.onUnauthorized(origin, r);
 						for (Callback<ResultType> deferredCallback : deferredCalls) {
-							deferredCallback.onUndefined(origin, message);
+							deferredCallback.onUnauthorized(origin, r);
+						}
+						deferredCalls.clear();
+					}
+				}).catchUndefinedExceptions(new UndefinedListener() {
+
+					@Override
+					public void onUndefined(UndefinedResult r) {
+						requestingResult = false;
+						callback.onUndefined(r);
+						for (Callback<ResultType> deferredCallback : deferredCalls) {
+							deferredCallback.onUndefined(r);
 						}
 						deferredCalls.clear();
 					}

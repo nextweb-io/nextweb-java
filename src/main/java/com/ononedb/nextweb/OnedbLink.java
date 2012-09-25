@@ -14,9 +14,10 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
-import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
+import io.nextweb.operations.exceptions.UndefinedResult;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -165,9 +166,22 @@ public class OnedbLink implements Link, OnedbEntity {
 									@Override
 									public void onUndefined(
 											WithUndefinedContext context) {
-										callback.onUndefined(this,
-												"No node is defined at address: ["
-														+ uri + "]");
+										callback.onUndefined(new UndefinedResult() {
+
+											@Override
+											public Object origin() {
+
+												return this;
+											}
+
+											@Override
+											public String message() {
+
+												return "No node is defined at address: ["
+														+ uri + "]";
+											}
+										});
+
 									}
 
 									@Override
@@ -201,8 +215,7 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
-	public Link catchUnauthorized(
-			UnauthorizedListener listener) {
+	public Link catchUnauthorized(UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}

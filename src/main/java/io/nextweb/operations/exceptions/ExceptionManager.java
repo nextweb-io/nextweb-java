@@ -99,23 +99,23 @@ public class ExceptionManager implements
 	}
 
 	@Override
-	public void onUndefined(Object origin, String message) {
+	public void onUndefined(UndefinedResult r) {
 		assert canCatchUndefinedExceptions() || canCatchExceptions();
 
 		if (this.undefinedExceptionListener != null) {
-			this.undefinedExceptionListener.onUndefined(origin, message);
+			this.undefinedExceptionListener.onUndefined(r);
 			return;
 		}
 
 		if (this.exceptionListener != null) {
-			this.exceptionListener.onFailure(origin, new Exception(
-					"Undefined: " + message));
+			this.exceptionListener.onFailure(r.origin(), new Exception(
+					"Undefined: " + r.message()));
 			return;
 		}
 
 		if (this.parentExceptionManager != null) {
 			if (this.parentExceptionManager.canCatchUndefinedExceptions()) {
-				this.parentExceptionManager.onUndefined(origin, message);
+				this.parentExceptionManager.onUndefined(r);
 				return;
 			}
 		}
