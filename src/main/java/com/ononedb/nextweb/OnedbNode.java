@@ -136,7 +136,7 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public Node append(Object value) {
+	public Query append(Object value) {
 
 		return plugin(H.plugins(session).appendForNode()).append(value);
 	}
@@ -147,14 +147,20 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public Node append(Object value, String atAddress) {
+	public Query append(Object value, String atAddress) {
 		return plugin(H.plugins(session).appendForNode()).append(value,
 				atAddress);
 	}
 
 	@Override
-	public Node appendValue(Object value) {
+	public Query appendValue(Object value) {
 		return plugin(H.plugins(session).appendForNode()).appendValue(value);
+	}
+
+	@Override
+	public <GEntity extends Entity> GEntity append(GEntity entity) {
+
+		return plugin(H.plugins(session).appendForNode()).append(entity);
 	}
 
 	@Override

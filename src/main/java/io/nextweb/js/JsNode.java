@@ -58,7 +58,7 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 
 		// assert, should be a value object such as "text" or 33
 
-		return ExporterUtil.wrap(JH.jsFactory(node).createNode(
+		return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
 				node.append(javaValue)));
 
 	}
