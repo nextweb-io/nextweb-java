@@ -10,6 +10,7 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
+import io.nextweb.js.JsEntity;
 import io.nextweb.js.JsNode;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
@@ -47,6 +48,27 @@ public class JH {
 								.createNode(o)));
 					}
 				}));
+
+	}
+
+	public static final <E extends Entity> Object get(JsEntity<E> forEntity,
+			Object... params) {
+
+		E node = forEntity.getOriginal();
+
+		if (params.length == 0) {
+			return ExporterUtil.wrap(JH.getNode(node));
+		}
+
+		if (params.length > 1) {
+			throw new IllegalArgumentException(
+					"Only one argument of type JsClosure is supported.");
+		}
+
+		JH.getNode(node, JH.asJsClosure((JavaScriptObject) params[0], JH
+				.jsFactory(node).getWrappers()));
+
+		return ExporterUtil.wrap(forEntity);
 
 	}
 

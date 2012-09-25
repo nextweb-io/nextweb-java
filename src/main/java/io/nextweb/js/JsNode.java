@@ -14,7 +14,7 @@ import org.timepedia.exporter.client.ExporterUtil;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
+public class JsNode implements Exportable, JsEntity<Node> {
 
 	private Node node;
 
@@ -39,9 +39,16 @@ public class JsNode implements Exportable, JsEntity, JsWrapper<Node> {
 		return getValue();
 	}
 
+	@Override
 	@Export
 	public Object append(Object value) {
 		return JH.op(node).append().append(value);
+	}
+
+	@Override
+	@Export
+	public Object get(Object... params) {
+		return JH.get(this, params);
 	}
 
 	@Export

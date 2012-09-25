@@ -8,31 +8,22 @@ import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
-import org.timepedia.exporter.client.ExporterUtil;
 import org.timepedia.exporter.client.NoExport;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 @Export
-public class JsQuery implements Exportable, JsEntity, JsWrapper<Query> {
+public class JsQuery implements Exportable, JsEntity<Query> {
 
 	private Query query;
 
+	@Override
 	@Export
 	public Object get(Object... params) {
-		if (params.length == 0) {
-			return ExporterUtil.wrap(JH.getNode(query));
-		}
+		return JH.get(this, params);
+	}
 
-		if (params.length > 1) {
-			throw new IllegalArgumentException(
-					"Only one argument of type JsClosure is supported.");
-		}
-
-		JH.getNode(query, JH.asJsClosure((JavaScriptObject) params[0], JH
-				.jsFactory(query).getWrappers()));
-
-		return ExporterUtil.wrap(JH.jsFactory(query).createQuery(query));
+	@Override
+	public Object append(Object value) {
+		return JH.op(query).append().append(value);
 	}
 
 	@Override

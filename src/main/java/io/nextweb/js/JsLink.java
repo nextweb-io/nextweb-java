@@ -11,7 +11,7 @@ import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsLink implements Exportable, JsEntity, JsWrapper<Link> {
+public class JsLink implements Exportable, JsEntity<Link> {
 
 	private Link link;
 
@@ -33,14 +33,15 @@ public class JsLink implements Exportable, JsEntity, JsWrapper<Link> {
 		});
 	}
 
+	@Override
 	@Export
-	public void get(final JsClosure callback) {
-		JH.getNode(link, callback);
+	public Object get(Object... params) {
+		return JH.get(this, params);
 	}
 
-	@Export
-	public Object get() {
-		return JH.getNode(link);
+	@Override
+	public Object append(Object value) {
+		return JH.op(link).append().append(value);
 	}
 
 	@Override
