@@ -1,13 +1,12 @@
 package io.nextweb.js.operations;
 
-import io.nextweb.js.JsEntity;
-import io.nextweb.js.fn.JsResult;
+import io.nextweb.js.JsQuery;
 
-public interface JsEntitySetValueOperations<E extends JsEntity<?>> {
+public interface JsEntitySetValueOperations {
 
-	public E setValue(Object newValue);
+	public JsQuery setValue(Object newValue);
 
-	public E value(Object newValue);
+	public JsQuery value(Object newValue);
 
-	public JsResult setValueSafe(Object newValue);
+	public JsQuery setValueSafe(Object newValue);
 }

@@ -40,23 +40,20 @@ public class JsNode implements Exportable, JsEntity<Node> {
 
 	@Export
 	@Override
-	public JsEntity<Node> setValue(Object newValue) {
-		// TODO Auto-generated method stub
-		return this;
+	public JsQuery setValue(Object newValue) {
+		return JH.op(node).setValue().setValue(newValue);
 	}
 
 	@Export
 	@Override
-	public JsEntity<Node> value(Object newValue) {
-		// TODO Auto-generated method stub
-		return null;
+	public JsQuery value(Object newValue) {
+		return setValue(newValue);
 	}
 
 	@Export
 	@Override
-	public JsResult setValueSafe(Object newValue) {
-		// TODO Auto-generated method stub
-		return null;
+	public JsQuery setValueSafe(Object newValue) {
+		return JH.op(node).setValue().setValueSafe(newValue);
 	}
 
 	@Override

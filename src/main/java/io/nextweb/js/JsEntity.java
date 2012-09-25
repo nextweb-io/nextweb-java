@@ -7,8 +7,7 @@ import io.nextweb.js.operations.JsEntityOperations;
 import io.nextweb.js.operations.JsEntitySetValueOperations;
 
 public interface JsEntity<EntityType extends Entity> extends
-		JsEntityOperations, JsWrapper<EntityType>,
-		JsEntitySetValueOperations<JsEntity<EntityType>> {
+		JsEntityOperations, JsWrapper<EntityType>, JsEntitySetValueOperations {
 
 	public JsSession getSession();
 

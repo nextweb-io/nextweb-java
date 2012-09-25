@@ -40,6 +40,24 @@ public class JsQuery implements Exportable, JsEntity<Query> {
 		return JH.op(query).append().appendValue(value);
 	}
 
+	@Export
+	@Override
+	public JsQuery setValue(Object newValue) {
+		return JH.op(query).setValue().setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery value(Object newValue) {
+		return setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery setValueSafe(Object newValue) {
+		return JH.op(query).setValue().setValueSafe(newValue);
+	}
+
 	@Override
 	@NoExport
 	public Query getOriginal() {

@@ -58,6 +58,24 @@ public class JsLink implements Exportable, JsEntity<Link> {
 		return JH.op(link).append().appendValue(value);
 	}
 
+	@Export
+	@Override
+	public JsQuery setValue(Object newValue) {
+		return JH.op(link).setValue().setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery value(Object newValue) {
+		return setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery setValueSafe(Object newValue) {
+		return JH.op(link).setValue().setValueSafe(newValue);
+	}
+
 	@Override
 	@Export
 	public JsQuery select(JsLink propertyType) {

@@ -1,42 +1,36 @@
 package io.nextweb.js.operations.impl;
 
 import io.nextweb.Entity;
-import io.nextweb.fn.Result;
-import io.nextweb.fn.Success;
-import io.nextweb.js.JsEntity;
+import io.nextweb.Query;
+import io.nextweb.js.JsQuery;
 import io.nextweb.js.common.JH;
-import io.nextweb.js.fn.JsResult;
 import io.nextweb.js.operations.JsEntitySetValueOperations;
 
-public class Js_Entity_SetValue<E extends JsEntity<?>> implements
-		JsEntitySetValueOperations<E> {
+public class Js_Entity_SetValue implements JsEntitySetValueOperations {
 
 	private final Entity entity;
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public E setValue(Object newValue) {
+	public JsQuery setValue(Object newValue) {
 		final Object javaValue = JsOpCommon.getJavaValue(entity, newValue);
 
-		entity.setValue(javaValue);
-
-		return (E) JH.jsFactory(entity.getSession()).getWrappers()
-				.createJsEngineWrapper(entity);
+		return JH.jsFactory(entity.getSession()).createQuery(
+				entity.setValue(javaValue));
 	}
 
 	@Override
-	public E value(Object newValue) {
+	public JsQuery value(Object newValue) {
 		return setValue(newValue);
 	}
 
 	@Override
-	public JsResult setValueSafe(Object newValue) {
+	public JsQuery setValueSafe(Object newValue) {
 		final Object javaValue = JsOpCommon.getJavaValue(entity, newValue);
 
-		Result<Success> setValueSafeResult = entity.setValueSafe(javaValue);
+		Query setValueSafeResult = entity.setValueSafe(javaValue);
 
-		return JH.jsFactory(entity.getSession()).createResult(
-				setValueSafeResult);
+		return JH.jsFactory(entity.getSession())
+				.createQuery(setValueSafeResult);
 	}
 
 	public Js_Entity_SetValue(Entity entity) {

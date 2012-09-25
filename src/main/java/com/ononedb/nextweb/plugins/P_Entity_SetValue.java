@@ -18,6 +18,7 @@ import one.core.nodes.OneTypedReference;
 import one.core.nodes.OneValue;
 
 import com.ononedb.nextweb.OnedbEntity;
+import com.ononedb.nextweb.OnedbQuery;
 import com.ononedb.nextweb.common.H;
 
 public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
@@ -86,46 +87,85 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 			}
 		};
 
-		return H.engine(entity).createResult(entity.getExceptionManager(),
-				entity.getSession(), setValueResult);
+		OnedbQuery createQuery = H.factory(entity).createQuery(entity.getOnedbSession(), entity.getExceptionManager(), setValueResult);
+		
+		createQuery.get(new Closure<Node>() {
+
+			@Override
+			public void apply(Node o) {
+				// nothing
+			}
+		});
+		
+		return createQuery;
 	}
 
 	@Override
-	public OnedbEntity setValue(final Object newValue) {
+	public Query setValue(final Object newValue) {
 
-		entity.get(new Closure<Node>() {
+		AsyncResult<Node> setValueResult = new AsyncResult<Node>() {
 
 			@Override
-			public void apply(final Node o) {
-				H.engine(entity).runSafe(H.session(entity), new Runnable() {
+			public void get(Callback<Node> callback) {
 
-					@Override
-					public void run() {
+				entity.get(CallbackFactory.embeddedCallback(
+						entity.getExceptionManager(), callback,
+						new Closure<Node>() {
 
-						CoreDsl dsl = H.dsl(entity);
+							@Override
+							public void apply(final Node o) {
+								H.engine(entity).runSafe(H.session(entity),
+										new Runnable() {
 
-						OneTypedReference<?> node = dsl.reference(o.getUri());
-						Object dereferenced = dsl.dereference(node).in(
-								H.session(entity).getClient());
+											@Override
+											public void run() {
 
-						if (dereferenced instanceof OneValue<?>) {
+												CoreDsl dsl = H.dsl(entity);
 
-							OneValue<?> newValueObject = dsl.newNode(newValue)
-									.at(o.getUri());
+												OneTypedReference<?> node = dsl
+														.reference(o.getUri());
+												Object dereferenced = dsl
+														.dereference(node)
+														.in(H.session(entity)
+																.getClient());
 
-							dsl.replace(node).with(newValueObject)
-									.in(H.client(entity));
+												if (dereferenced instanceof OneValue<?>) {
 
-							return;
-						}
+													OneValue<?> newValueObject = dsl
+															.newNode(newValue)
+															.at(o.getUri());
 
-						dsl.replace(node).with(newValue).in(H.client(entity));
-					}
-				});
+													dsl.replace(node)
+															.with(newValueObject)
+															.in(H.client(entity));
+
+													return;
+												}
+
+												dsl.replace(node)
+														.with(newValue)
+														.in(H.client(entity));
+											}
+										});
+							}
+						}));
+
+			}
+		};
+		OnedbQuery query = H.factory(entity).createQuery(
+				entity.getOnedbSession(), entity.getExceptionManager(),
+				setValueResult);
+
+		query.get(new Closure<Node>() {
+
+			@Override
+			public void apply(Node o) {
+				// nothing
 			}
 		});
 
-		return entity;
+		return query;
+
 	}
 
 	@Override

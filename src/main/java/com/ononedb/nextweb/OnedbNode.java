@@ -60,13 +60,12 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public Node setValue(final Object newValue) {
-		return (Node) plugin(H.plugins(getSession()).setValue()).setValue(
-				newValue);
+	public Query setValue(final Object newValue) {
+		return plugin(H.plugins(getSession()).setValue()).setValue(newValue);
 	}
 
 	@Override
-	public Result<Success> setValueSafe(Object newValue) {
+	public Query setValueSafe(Object newValue) {
 		return plugin(H.plugins(getSession()).setValue())
 				.setValueSafe(newValue);
 	}
