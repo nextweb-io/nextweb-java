@@ -52,22 +52,22 @@
 		testNode.get(function(node) {
 			
 			var textNode = node.append("Hello from JS");
-			$("#output").append("<p>Appended: "+textNode.value()+".</p>");
+			$("#output").append("<p>Appended: "+textNode.get().value()+".</p>");
 			
 			var intNode = node.append(42);
-			$("#output").append("<p>Appended: "+intNode.value()+".</p>");
+			$("#output").append("<p>Appended: "+intNode.get().value()+".</p>");
 			
 			var floatNode = node.append(4.2);
-			$("#output").append("<p>Appended: "+floatNode.value()+".</p>");
+			$("#output").append("<p>Appended: "+floatNode.get().value()+".</p>");
 			
 			var booleanNode = node.append(true);
-			$("#output").append("<p>Appended: "+booleanNode.value()+".</p>");
+			$("#output").append("<p>Appended: "+booleanNode.get().value()+".</p>");
 			
 			var dateNode = node.append(new Date());
-			$("#output").append("<p>Appended: "+dateNode.value()+".</p>");
+			$("#output").append("<p>Appended: "+dateNode.get().value()+".</p>");
 			
 			var jsonNode = node.append({value: "jsonObject"});
-			$("#output").append("<p>Appended: "+JSON.stringify(jsonNode.value())+".</p>");
+			$("#output").append("<p>Appended: "+JSON.stringify(jsonNode.get().value())+".</p>");
 			
 			session.commit();
 			

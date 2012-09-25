@@ -136,31 +136,30 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public Query append(Object value) {
-
-		return plugin(H.plugins(session).appendForNode()).append(value);
-	}
-
-	@Override
 	public Result<Success> remove(Entity entity) {
 		return plugin(H.plugins(session).remove()).remove(entity);
 	}
 
 	@Override
+	public Query append(Object value) {
+
+		return plugin(H.plugins(session).append()).append(value);
+	}
+
+	@Override
 	public Query append(Object value, String atAddress) {
-		return plugin(H.plugins(session).appendForNode()).append(value,
-				atAddress);
+		return plugin(H.plugins(session).append()).append(value, atAddress);
 	}
 
 	@Override
 	public Query appendValue(Object value) {
-		return plugin(H.plugins(session).appendForNode()).appendValue(value);
+		return plugin(H.plugins(session).append()).appendValue(value);
 	}
 
 	@Override
 	public <GEntity extends Entity> GEntity append(GEntity entity) {
 
-		return plugin(H.plugins(session).appendForNode()).append(entity);
+		return plugin(H.plugins(session).append()).append(entity);
 	}
 
 	@Override

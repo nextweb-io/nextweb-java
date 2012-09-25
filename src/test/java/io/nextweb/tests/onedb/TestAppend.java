@@ -2,6 +2,7 @@ package io.nextweb.tests.onedb;
 
 import io.nextweb.Link;
 import io.nextweb.Node;
+import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Result;
@@ -33,8 +34,10 @@ public class TestAppend {
 
 		Node node = link.get();
 
-		Node testAppend = node.append("Appending");
-		Node nested = testAppend.append("Nested");
+		Query testAppend = node.append("Appending");
+		Query nested = testAppend.append("Nested");
+
+		session.getAll(testAppend, nested); // should be executed in REAL TIME
 
 		session.commit().get();
 

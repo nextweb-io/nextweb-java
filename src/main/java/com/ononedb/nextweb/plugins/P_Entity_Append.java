@@ -15,6 +15,7 @@ import one.core.nodes.OneValue;
 import one.utils.OneUtilsStrings;
 
 import com.ononedb.nextweb.OnedbEntity;
+import com.ononedb.nextweb.OnedbQuery;
 import com.ononedb.nextweb.common.H;
 
 public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
@@ -68,7 +69,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 														.in(H.client(entity))
 														.size() + 1);
 
-										append(value, cleanedString)
+										append(value, "./" + cleanedString)
 												.get(CallbackFactory.embeddedCallback(
 														entity.getExceptionManager(),
 														callback,
@@ -91,8 +92,19 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 
 		};
 
-		return H.factory(entity).createQuery(H.session(entity),
-				entity.getExceptionManager(), appendResult);
+		OnedbQuery appendQuery = H.factory(entity).createQuery(
+				H.session(entity), entity.getExceptionManager(), appendResult);
+
+		appendQuery.get(new Closure<Node>() {
+
+			@Override
+			public void apply(Node o) {
+				// nothing
+			}
+
+		});
+
+		return appendQuery;
 
 	}
 
@@ -138,8 +150,19 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 			}
 		};
 
-		return H.factory(entity).createQuery(H.session(entity),
-				entity.getExceptionManager(), appendResult);
+		OnedbQuery appendQuery = H.factory(entity).createQuery(
+				H.session(entity), entity.getExceptionManager(), appendResult);
+
+		appendQuery.get(new Closure<Node>() {
+
+			@Override
+			public void apply(Node o) {
+				// nothing
+			}
+
+		});
+
+		return appendQuery;
 	}
 
 	@Override
@@ -188,8 +211,19 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 
 		};
 
-		return H.factory(entity).createQuery(H.session(entity),
-				entity.getExceptionManager(), appendResult);
+		OnedbQuery appendQuery = H.factory(entity).createQuery(
+				H.session(entity), entity.getExceptionManager(), appendResult);
+
+		appendQuery.get(new Closure<Node>() {
+
+			@Override
+			public void apply(Node o) {
+				// nothing
+			}
+
+		});
+
+		return appendQuery;
 	}
 
 	@Override

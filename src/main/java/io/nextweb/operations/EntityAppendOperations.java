@@ -3,6 +3,12 @@ package io.nextweb.operations;
 import io.nextweb.Entity;
 import io.nextweb.Query;
 
+/**
+ * All executed eagerly.
+ * 
+ * @author mroh004
+ * 
+ */
 public interface EntityAppendOperations {
 
 	public Query append(Object value);

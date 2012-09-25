@@ -69,6 +69,28 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
+	public Query append(Object value) {
+
+		return plugin(H.plugins(session).append()).append(value);
+	}
+
+	@Override
+	public Query append(Object value, String atAddress) {
+		return plugin(H.plugins(session).append()).append(value, atAddress);
+	}
+
+	@Override
+	public Query appendValue(Object value) {
+		return plugin(H.plugins(session).append()).appendValue(value);
+	}
+
+	@Override
+	public <GEntity extends Entity> GEntity append(GEntity entity) {
+
+		return plugin(H.plugins(session).append()).append(entity);
+	}
+
+	@Override
 	public Result<Integer> clearVersions(int keepVersions) {
 		return plugin(H.plugins(session).clearVersions()).clearVersions(
 				keepVersions);
