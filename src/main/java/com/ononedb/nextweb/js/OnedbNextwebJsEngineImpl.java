@@ -3,6 +3,7 @@ package com.ononedb.nextweb.js;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Result;
 import io.nextweb.js.NextwebJs;
 import io.nextweb.js.engine.JsFactory;
@@ -82,10 +83,10 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
+			public void onFailure(ExceptionResult r) {
 				throw new RuntimeException("Unhandled exception: "
-						+ t.getMessage() + " from object " + origin + " ("
-						+ origin.getClass() + ")");
+						+ r.exception().getMessage() + " from object "
+						+ r.origin() + " (" + r.origin().getClass() + ")");
 			}
 		});
 		this.jsFactory = new JsFactory();

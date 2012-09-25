@@ -7,6 +7,7 @@ import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
 import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.operations.exceptions.UndefinedResult;
 
@@ -59,7 +60,7 @@ public class TestExceptions {
 		session.getExceptionManager().catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
+			public void onFailure(ExceptionResult r) {
 				Assert.assertTrue("Exception successfully intercepted.", true);
 			}
 		});
@@ -85,7 +86,7 @@ public class TestExceptions {
 		session.getExceptionManager().catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
+			public void onFailure(ExceptionResult r) {
 				Assert.assertTrue(
 						"Exception should not have been intercepted.", false);
 			}
@@ -131,7 +132,7 @@ public class TestExceptions {
 		questionBagRepository.catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
+			public void onFailure(ExceptionResult r) {
 				Assert.assertTrue("Successfully intercepted", true);
 			}
 		});
@@ -167,7 +168,7 @@ public class TestExceptions {
 		questionBagRepository.catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
+			public void onFailure(ExceptionResult r) {
 				Assert.assertTrue("Exception forwarded too far", false);
 			}
 		});
@@ -211,7 +212,7 @@ public class TestExceptions {
 		doesNotExist.catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
+			public void onFailure(ExceptionResult r) {
 				Assert.assertTrue(
 						"Exception should not have been intercepted.", false);
 			}

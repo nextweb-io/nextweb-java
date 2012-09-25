@@ -4,6 +4,7 @@ import io.nextweb.Nextweb;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.core.DefaultPluginFactory;
@@ -63,10 +64,10 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
+			public void onFailure(ExceptionResult r) {
 				throw new RuntimeException("Uncaught background exception: "
-						+ t.getMessage() + " from class: " + origin.getClass(),
-						t);
+						+ r.exception().getMessage() + " from class: "
+						+ r.origin().getClass(), r.exception());
 			}
 		});
 	}

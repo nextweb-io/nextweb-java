@@ -3,6 +3,7 @@ package com.ononedb.nextweb.plugins;
 import io.nextweb.Node;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
+import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
@@ -53,14 +54,15 @@ public class P_Entity_ClearVersions implements
 											@Override
 											public void onUnauthorized(
 													WithUnauthorizedContext context) {
-												callback.onUnauthorized(
-														this,
-														H.fromUnauthorizedContext(context));
+												callback.onUnauthorized(H
+														.fromUnauthorizedContext(
+																this, context));
 											}
 
 											@Override
 											public void onFailure(Throwable t) {
-												callback.onFailure(this, t);
+												callback.onFailure(Fn
+														.exception(this, t));
 											}
 
 										});

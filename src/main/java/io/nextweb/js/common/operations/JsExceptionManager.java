@@ -1,5 +1,6 @@
 package io.nextweb.js.common.operations;
 
+import io.nextweb.fn.Fn;
 import io.nextweb.js.JsWrapper;
 import io.nextweb.operations.exceptions.ExceptionManager;
 
@@ -17,7 +18,7 @@ public class JsExceptionManager implements Exportable,
 
 	@Export
 	public void onFailure(JavaScriptObject origin, String errorMessage) {
-		em.onFailure(origin, new Exception(errorMessage));
+		em.onFailure(Fn.exception(origin, new Exception(errorMessage)));
 	}
 
 	public JsExceptionManager() {

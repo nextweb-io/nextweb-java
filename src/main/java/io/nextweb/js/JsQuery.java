@@ -2,6 +2,7 @@ package io.nextweb.js;
 
 import io.nextweb.Query;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
@@ -100,8 +101,8 @@ public class JsQuery implements Exportable, JsEntity<Query> {
 		query.getExceptionManager().catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
-				listener.apply(t);
+			public void onFailure(ExceptionResult r) {
+				listener.apply(r.exception());
 			}
 		});
 	}

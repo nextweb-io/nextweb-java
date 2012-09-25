@@ -2,6 +2,7 @@ package io.nextweb.operations.callbacks;
 
 import io.nextweb.Nextweb;
 import io.nextweb.Session;
+import io.nextweb.fn.ExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.UndefinedResult;
@@ -18,36 +19,36 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 	}
 
 	@Override
-	public void onFailure(Object origin, Throwable t) {
+	public void onFailure(ExceptionResult r) {
 		if (session != null
 				&& session.getExceptionManager().canCatchExceptions()) {
-			session.getExceptionManager().onFailure(origin, t);
+			session.getExceptionManager().onFailure(r);
 			return;
 		}
 
 		if (exceptionManager.canCatchExceptions()) {
-			exceptionManager.onFailure(origin, t);
+			exceptionManager.onFailure(r);
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onFailure(origin, t);
+		Nextweb.getEngine().getExceptionManager().onFailure(r);
 	}
 
 	@Override
-	public void onUnauthorized(Object origin, UnauthorizedResult r) {
+	public void onUnauthorized(UnauthorizedResult r) {
 		if (session != null
 				&& session.getExceptionManager()
 						.canCatchAuthorizationExceptions()) {
-			session.getExceptionManager().onUnauthorized(origin, r);
+			session.getExceptionManager().onUnauthorized(r);
 			return;
 		}
 
 		if (exceptionManager.canCatchAuthorizationExceptions()) {
-			exceptionManager.onUnauthorized(origin, r);
+			exceptionManager.onUnauthorized(r);
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onUnauthorized(origin, r);
+		Nextweb.getEngine().getExceptionManager().onUnauthorized(r);
 	}
 
 	@Override

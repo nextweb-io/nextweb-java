@@ -9,6 +9,7 @@ import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
+import io.nextweb.fn.Fn;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -86,15 +87,16 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 											@Override
 											public void onUnauthorized(
 													WithUnauthorizedContext context) {
-												callback.onUnauthorized(
-														this,
-														H.fromUnauthorizedContext(context));
+												callback.onUnauthorized(H
+														.fromUnauthorizedContext(
+																this, context));
 
 											}
 
 											@Override
 											public void onFailure(Throwable t) {
-												callback.onFailure(this, t);
+												callback.onFailure(Fn
+														.exception(this, t));
 											}
 
 										});
@@ -170,14 +172,15 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 											@Override
 											public void onUnauthorized(
 													WithUnauthorizedContext context) {
-												callback.onUnauthorized(
-														this,
-														H.fromUnauthorizedContext(context));
+												callback.onUnauthorized(H
+														.fromUnauthorizedContext(
+																this, context));
 											}
 
 											@Override
 											public void onFailure(Throwable t) {
-												callback.onFailure(this, t);
+												callback.onFailure(Fn
+														.exception(this, t));
 											}
 
 										});
@@ -232,7 +235,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 											.createLinkList(H.session(entity),
 													exceptionManager, linkList));
 								} catch (Throwable t) {
-									callback.onFailure(this, t);
+									callback.onFailure(Fn.exception(this, t));
 								}
 							}
 
@@ -324,14 +327,15 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 											@Override
 											public void onUnauthorized(
 													WithUnauthorizedContext context) {
-												callback.onUnauthorized(
-														this,
-														H.fromUnauthorizedContext(context));
+												callback.onUnauthorized(H
+														.fromUnauthorizedContext(
+																this, context));
 											}
 
 											@Override
 											public void onFailure(Throwable t) {
-												callback.onFailure(this, t);
+												callback.onFailure(Fn
+														.exception(this, t));
 											}
 
 										});

@@ -4,6 +4,7 @@ import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
+import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
@@ -64,7 +65,7 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 									@Override
 									public void onUnauthorized(
 											WithUnauthorizedContext context) {
-										callback.onUnauthorized(this, H.fromUnauthorizedContext(context));
+										callback.onUnauthorized(H.fromUnauthorizedContext(this, context));
 									}
 
 									@Override
@@ -75,7 +76,7 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 
 									@Override
 									public void onFailure(Throwable t) {
-										callback.onFailure(this, t);
+										callback.onFailure(Fn.exception(this, t));
 									}
 									
 									

@@ -4,6 +4,7 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
@@ -73,13 +74,13 @@ public final class ResultImplementation<ResultType> implements
 						}).catchFailures(new ExceptionListener() {
 
 					@Override
-					public void onFailure(Object origin, Throwable t) {
+					public void onFailure(ExceptionResult r) {
 						requesting.set(false);
 
-						callback.onFailure(origin, t);
+						callback.onFailure(r);
 
 						for (Callback<ResultType> deferredCallback : deferredCalls) {
-							deferredCallback.onFailure(origin, t);
+							deferredCallback.onFailure(r);
 						}
 						deferredCalls.clear();
 					}
@@ -99,14 +100,13 @@ public final class ResultImplementation<ResultType> implements
 				}).catchAuthorizationExceptions(new UnauthorizedListener() {
 
 					@Override
-					public void onUnauthorized(Object origin,
-							UnauthorizedResult r) {
+					public void onUnauthorized(UnauthorizedResult r) {
 						requesting.set(false);
 
-						callback.onUnauthorized(origin, r);
+						callback.onUnauthorized(r);
 
 						for (Callback<ResultType> deferredCallback : deferredCalls) {
-							deferredCallback.onUnauthorized(origin, r);
+							deferredCallback.onUnauthorized(r);
 						}
 						deferredCalls.clear();
 					}
@@ -133,8 +133,8 @@ public final class ResultImplementation<ResultType> implements
 				}).catchFailures(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
-				exceptionList.add(t);
+			public void onFailure(ExceptionResult r) {
+				exceptionList.add(r.exception());
 				latch.countDown();
 			}
 		}));

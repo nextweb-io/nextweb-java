@@ -6,6 +6,8 @@ import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
+import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.fn.SuccessFail;
@@ -71,7 +73,7 @@ public class OnedbSession implements Session {
 
 							@Override
 							public void onFailure(Throwable t) {
-								callback.onFailure(this, t);
+								callback.onFailure(Fn.exception(this, t));
 							}
 
 						});
@@ -107,7 +109,7 @@ public class OnedbSession implements Session {
 
 							@Override
 							public void onFailure(Throwable t) {
-								callback.onFailure(this, t);
+								callback.onFailure(Fn.exception(this, t));
 							}
 
 						});
@@ -198,9 +200,9 @@ public class OnedbSession implements Session {
 
 												@Override
 												public void onFailure(
-														Object origin,
-														Throwable t) {
-													latch.registerFail(t);
+														ExceptionResult r) {
+													latch.registerFail(r
+															.exception());
 												}
 											});
 							result.get(eagerCallback);

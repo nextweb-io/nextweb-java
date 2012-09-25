@@ -3,6 +3,8 @@ package io.nextweb.js;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
+import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.js.common.JH;
@@ -113,8 +115,10 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 									if (callback_onFailure_Closed == null) {
 										session.getEngine()
 												.getExceptionManager()
-												.onFailure(this,
-														result.getException());
+												.onFailure(
+														Fn.exception(
+																this,
+																result.getException()));
 										return;
 									}
 
@@ -143,17 +147,18 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 						}).catchFailures(new ExceptionListener() {
 
 					@Override
-					public void onFailure(Object origin, Throwable t) {
+					public void onFailure(ExceptionResult r) {
 						if (callback_onFailure_Closed == null) {
 							session.getEngine().getExceptionManager()
-									.onFailure(this, t);
+									.onFailure(r);
 							return;
 						}
 
 						JH.triggerCallback(callback_onFailure_Closed,
 								((NextwebEngineJs) session.getEngine())
 										.jsFactory().getWrappers(),
-								new JavaScriptObject[] { ExporterUtil.wrap(t) });
+								new JavaScriptObject[] { ExporterUtil.wrap(r
+										.exception()) });
 					}
 				}));
 

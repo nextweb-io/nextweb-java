@@ -10,10 +10,12 @@ import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
+import io.nextweb.fn.Fn;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
@@ -55,7 +57,7 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 
 							@Override
 							public void onFailure(Throwable arg0) {
-								callback.onFailure(this, arg0);
+								callback.onFailure(Fn.exception(this, arg0));
 							}
 
 							@Override
@@ -77,9 +79,9 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 							.catchExceptions(new ExceptionListener() {
 
 								@Override
-								public void onFailure(Object origin, Throwable t) {
+								public void onFailure(ExceptionResult r) {
 
-									localCallback.onFailure(t);
+									localCallback.onFailure(r.exception());
 								}
 							})
 							.get(CallbackFactory.eagerCallback(
@@ -95,8 +97,8 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 									}).catchFailures(new ExceptionListener() {
 
 								@Override
-								public void onFailure(Object origin, Throwable t) {
-									localCallback.onFailure(t);
+								public void onFailure(ExceptionResult r) {
+									localCallback.onFailure(r.exception());
 								}
 							}));
 
@@ -207,8 +209,7 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 	}
 
 	@Override
-	public NodeList catchUnauthorized(
-			UnauthorizedListener listener) {
+	public NodeList catchUnauthorized(UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}

@@ -84,7 +84,7 @@ public class H {
 	}
 
 	public static UnauthorizedResult fromUnauthorizedContext(
-			final WithUnauthorizedContext context) {
+			final Object origin, final WithUnauthorizedContext context) {
 		return new UnauthorizedResult() {
 
 			@Override
@@ -95,6 +95,11 @@ public class H {
 			@Override
 			public String getMessage() {
 				return context.message();
+			}
+
+			@Override
+			public Object origin() {
+				return origin;
 			}
 		};
 	}

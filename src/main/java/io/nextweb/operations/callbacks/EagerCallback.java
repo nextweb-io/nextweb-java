@@ -3,6 +3,8 @@ package io.nextweb.operations.callbacks;
 import io.nextweb.Nextweb;
 import io.nextweb.Session;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
+import io.nextweb.fn.Fn;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
@@ -42,53 +44,53 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	}
 
 	@Override
-	public final void onFailure(Object origin, Throwable t) {
+	public final void onFailure(ExceptionResult r) {
 		if (hasEagerFailureListener) {
-			this.exceptionListener.onFailure(origin, t);
+			this.exceptionListener.onFailure(r);
 			return;
 		}
 
 		if (exceptionManager.canCatchExceptions()) {
-			exceptionManager.onFailure(origin, t);
+			exceptionManager.onFailure(r);
 			return;
 		}
 
 		if (session != null
 				&& session.getExceptionManager().canCatchExceptions()) {
-			session.getExceptionManager().onFailure(origin, t);
+			session.getExceptionManager().onFailure(r);
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onFailure(origin, t);
+		Nextweb.getEngine().getExceptionManager().onFailure(r);
 
 	}
 
 	@Override
-	public final void onUnauthorized(Object origin, UnauthorizedResult r) {
+	public final void onUnauthorized(UnauthorizedResult r) {
 		if (hasEagerUnauthorizedListener) {
-			this.authExceptionListener.onUnauthorized(origin, r);
+			this.authExceptionListener.onUnauthorized(r);
 			return;
 		}
 
 		if (hasEagerFailureListener) {
-			this.exceptionListener.onFailure(origin, new Exception(
-					"Unauthorized: " + r.getMessage()));
+			this.exceptionListener.onFailure(Fn.exception(r.origin(),
+					new Exception("Unauthorized: " + r.getMessage())));
 			return;
 		}
 
 		if (exceptionManager.canCatchAuthorizationExceptions()) {
-			exceptionManager.onUnauthorized(origin, r);
+			exceptionManager.onUnauthorized(r);
 			return;
 		}
 
 		if (session != null
 				&& session.getExceptionManager()
 						.canCatchAuthorizationExceptions()) {
-			session.getExceptionManager().onUnauthorized(origin, r);
+			session.getExceptionManager().onUnauthorized(r);
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onUnauthorized(origin, r);
+		Nextweb.getEngine().getExceptionManager().onUnauthorized(r);
 	}
 
 	@Override
@@ -99,8 +101,8 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 		}
 
 		if (hasEagerFailureListener) {
-			this.exceptionListener.onFailure(r.origin(), new Exception(
-					"Undefined: " + r.message()));
+			this.exceptionListener.onFailure(Fn.exception(r.origin(),
+					new Exception("Undefined: " + r.message())));
 			return;
 		}
 

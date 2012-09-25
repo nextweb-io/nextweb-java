@@ -2,6 +2,8 @@ package io.nextweb.operations.exceptions;
 
 import io.nextweb.fn.ExceptionInterceptor;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
+import io.nextweb.fn.Fn;
 
 public class ExceptionManager implements
 		ExceptionInterceptor<ExceptionManager>,
@@ -51,41 +53,44 @@ public class ExceptionManager implements
 	}
 
 	@Override
-	public void onFailure(Object origin, Throwable t) {
+	public void onFailure(ExceptionResult r) {
 		assert canCatchExceptions();
 
 		if (this.exceptionListener != null) {
-			this.exceptionListener.onFailure(origin, t);
+			this.exceptionListener.onFailure(r);
 			return;
 		}
 
 		if (this.parentExceptionManager != null) {
 			if (this.parentExceptionManager.canCatchExceptions()) {
-				this.parentExceptionManager.onFailure(origin, t);
+				this.parentExceptionManager.onFailure(r);
 				return;
 			}
 		}
 
+		throw new RuntimeException("Unhandled exception from: " + r.origin(),
+				r.exception());
+
 	}
 
 	@Override
-	public void onUnauthorized(Object origin, UnauthorizedResult r) {
+	public void onUnauthorized(UnauthorizedResult r) {
 		assert canCatchAuthorizationExceptions() || canCatchExceptions();
 
 		if (this.authExceptionListener != null) {
-			this.authExceptionListener.onUnauthorized(origin, r);
+			this.authExceptionListener.onUnauthorized(r);
 			return;
 		}
 
 		if (this.exceptionListener != null) {
-			this.exceptionListener.onFailure(origin, new Exception(
-					"Unauthorized: " + r.getMessage()));
+			this.exceptionListener.onFailure(Fn.exception(r.origin(),
+					new Exception("Unauthorized: " + r.getMessage())));
 			return;
 		}
 
 		if (this.parentExceptionManager != null) {
 			if (this.parentExceptionManager.canCatchAuthorizationExceptions()) {
-				this.parentExceptionManager.onUnauthorized(origin, r);
+				this.parentExceptionManager.onUnauthorized(r);
 				return;
 			}
 		}
@@ -108,8 +113,8 @@ public class ExceptionManager implements
 		}
 
 		if (this.exceptionListener != null) {
-			this.exceptionListener.onFailure(r.origin(), new Exception(
-					"Undefined: " + r.message()));
+			this.exceptionListener.onFailure(Fn.exception(r.origin(),
+					new Exception("Undefined: " + r.message())));
 			return;
 		}
 

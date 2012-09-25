@@ -2,6 +2,7 @@ package io.nextweb.js;
 
 import io.nextweb.Node;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.engine.NextwebEngineJs;
@@ -135,8 +136,8 @@ public class JsNode implements Exportable, JsEntity<Node> {
 		node.getExceptionManager().catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
-				listener.apply(t);
+			public void onFailure(ExceptionResult r) {
+				listener.apply(r.exception());
 			}
 		});
 	}

@@ -5,6 +5,7 @@ import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
+import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
@@ -79,7 +80,7 @@ public class P_Entity_Remove implements Plugin_Entity_Remove<OnedbEntity> {
 											.in(H.client(entity));
 
 								} catch (Exception e) {
-									callback.onFailure(this, e);
+									callback.onFailure(Fn.exception(this, e));
 									return;
 								}
 

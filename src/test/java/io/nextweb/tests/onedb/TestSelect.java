@@ -9,6 +9,7 @@ import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.ExceptionResult;
 import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.operations.exceptions.UndefinedResult;
 import junit.framework.Assert;
@@ -145,7 +146,7 @@ public class TestSelect {
 		resolvedQuestions.catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(Object origin, Throwable t) {
+			public void onFailure(ExceptionResult r) {
 				// System.out.println("Exception intercepted: "
 				// + t.getLocalizedMessage());
 			}
