@@ -5,7 +5,7 @@ import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.NodeListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.Success;
@@ -52,8 +52,8 @@ public class WrapperCollection {
 			return factory.createSession((Session) engineNode);
 		}
 
-		if (engineNode instanceof NodeListQuery) {
-			return factory.createNodeListQuery((NodeListQuery) engineNode);
+		if (engineNode instanceof ListQuery) {
+			return factory.createNodeListQuery((ListQuery) engineNode);
 		}
 
 		if (engineNode instanceof NodeList) {

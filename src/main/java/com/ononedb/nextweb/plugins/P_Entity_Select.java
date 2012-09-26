@@ -5,7 +5,7 @@ import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.NodeListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
@@ -35,7 +35,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 	private OnedbEntity entity;
 
 	@Override
-	public NodeListQuery selectAll(final Link propertyType) {
+	public ListQuery selectAll(final Link propertyType) {
 		final CoreDsl dsl = H.dsl(entity);
 
 		final ExceptionManager exceptionManager = entity.getExceptionManager();
@@ -250,7 +250,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 	}
 
 	@Override
-	public NodeListQuery selectAll() {
+	public ListQuery selectAll() {
 		final CoreDsl dsl = H.dsl(entity);
 
 		final ExceptionManager exceptionManager = entity.getExceptionManager();

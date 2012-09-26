@@ -4,7 +4,7 @@ import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.NodeListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
@@ -21,13 +21,12 @@ import one.async.joiner.ListCallbackJoiner;
 import one.async.joiner.LocalCallback;
 
 import com.ononedb.nextweb.OnedbEntityList;
-import com.ononedb.nextweb.OnedbNodeList;
 import com.ononedb.nextweb.common.H;
 
 public class P_EntityList_Select implements
 		Plugin_EntityList_Select<OnedbEntityList> {
 
-	private OnedbEntityList list;
+	private OnedbEntityList entity;
 
 	public P_EntityList_Select() {
 		super();
@@ -36,24 +35,25 @@ public class P_EntityList_Select implements
 
 	@Override
 	public void injectObject(OnedbEntityList obj) {
-		this.list = obj;
+		this.entity = obj;
 	}
 
 	@Override
-	public NodeListQuery select(Link propertyType) {
+	public ListQuery select(final Link propertyType) {
 		AsyncResult<NodeList> selectResult = new AsyncResult<NodeList>() {
 
 			@Override
 			public void get(final Callback<NodeList> callback) {
 
-				list.get(CallbackFactory.embeddedCallback(
-						list.getExceptionManager(), callback,
+				entity.get(CallbackFactory.embeddedCallback(
+						entity.getExceptionManager(), callback,
 						new Closure<NodeList>() {
 
 							@Override
 							public void apply(NodeList nodeList) {
 								ListCallbackJoiner<Node, Node> joiner = new ListCallbackJoiner<Node, Node>(
-										list.g, new ListCallback<Node>() {
+										nodeList.asList(),
+										new ListCallback<Node>() {
 
 											@Override
 											public void onFailure(Throwable arg0) {
@@ -66,16 +66,15 @@ public class P_EntityList_Select implements
 													List<Node> nodes) {
 
 												callback.onSuccess(H
-														.factory(
-																OnedbNodeList.this)
+														.factory(entity)
 														.createNodeList(
-																getOnedbSession(),
-																getExceptionManager(),
+																H.session(entity),
+																entity.getExceptionManager(),
 																nodes));
 											}
 										});
 
-								for (Node child : list) {
+								for (Node child : nodeList) {
 
 									final LocalCallback<Node> localCallback = joiner
 											.createCallback(child);
@@ -95,10 +94,8 @@ public class P_EntityList_Select implements
 													})
 											.get(CallbackFactory
 													.eagerCallback(
-															OnedbNodeList.this
-																	.getSession(),
-															OnedbNodeList.this
-																	.getExceptionManager(),
+															H.session(entity),
+															entity.getExceptionManager(),
 															new Closure<Node>() {
 
 																@Override
@@ -128,12 +125,12 @@ public class P_EntityList_Select implements
 			}
 		};
 
-		return H.factory(list).createNodeListQuery(H.session(list),
-				list.getExceptionManager(), selectResult);
+		return H.factory(entity).createNodeListQuery(H.session(entity),
+				entity.getExceptionManager(), selectResult);
 	}
 
 	@Override
-	public NodeListQuery selectAll(Link propertyType) {
+	public ListQuery selectAll(Link propertyType) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -145,7 +142,7 @@ public class P_EntityList_Select implements
 	}
 
 	@Override
-	public NodeListQuery selectAll() {
+	public ListQuery selectAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

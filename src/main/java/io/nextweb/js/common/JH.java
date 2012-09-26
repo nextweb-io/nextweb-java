@@ -6,7 +6,7 @@ import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.NodeListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
@@ -83,7 +83,7 @@ public class JH {
 		return jsFactory(result).createNode(result);
 	}
 
-	public static final void getNodeList(NodeListQuery entityResult,
+	public static final void getNodeList(ListQuery entityResult,
 			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;

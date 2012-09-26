@@ -6,7 +6,7 @@ import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.NodeListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.Result;
@@ -125,7 +125,7 @@ public class JsFactory implements Exportable {
 	}
 
 	@NoExport
-	public JsNodeListQuery createNodeListQuery(NodeListQuery listQuery) {
+	public JsNodeListQuery createNodeListQuery(ListQuery listQuery) {
 		final JsNodeListQuery jsListQuery = JsNodeListQuery.wrap(listQuery);
 
 		return jsListQuery;

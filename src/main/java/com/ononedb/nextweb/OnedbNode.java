@@ -4,7 +4,7 @@ import io.nextweb.Entity;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
-import io.nextweb.NodeListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
@@ -132,7 +132,7 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public NodeListQuery selectAll(Link propertyType) {
+	public ListQuery selectAll(Link propertyType) {
 		return plugin(H.plugins(session).select()).selectAll(propertyType);
 	}
 
@@ -142,7 +142,7 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public NodeListQuery selectAll() {
+	public ListQuery selectAll() {
 		return plugin(H.plugins(session).select()).selectAll();
 	}
 

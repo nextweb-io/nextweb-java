@@ -1,9 +1,9 @@
 package io.nextweb.tests.onedb;
 
 import io.nextweb.Link;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.NodeListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
@@ -101,7 +101,7 @@ public class TestSelect {
 		Link questions = session
 				.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
 
-		NodeListQuery allQuestionsQuery = questions.selectAll();
+		ListQuery allQuestionsQuery = questions.selectAll();
 
 		NodeList allQuestions = allQuestionsQuery.get();
 
@@ -141,7 +141,7 @@ public class TestSelect {
 			}
 		});
 
-		NodeList resolvedQuestions = questions.selectAll().get();
+		ListQuery resolvedQuestions = questions.selectAll();
 
 		resolvedQuestions.catchExceptions(new ExceptionListener() {
 
@@ -156,7 +156,7 @@ public class TestSelect {
 
 			@Override
 			public void apply(NodeList result) {
-				// System.out.println("success");
+				System.out.println("success");
 			}
 
 		});

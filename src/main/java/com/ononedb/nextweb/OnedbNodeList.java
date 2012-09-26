@@ -5,7 +5,7 @@ import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.NodeListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
@@ -17,6 +17,7 @@ import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,13 +38,13 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	}
 
 	@Override
-	public NodeListQuery select(final Link propertyType) {
+	public ListQuery select(final Link propertyType) {
 		return plugin(H.plugins(getSession()).selectForLists()).select(
 				propertyType);
 	}
 
 	@Override
-	public NodeListQuery selectAll(Link propertyType) {
+	public ListQuery selectAll(Link propertyType) {
 		return plugin(H.plugins(getSession()).selectForLists()).selectAll(
 				propertyType);
 	}
@@ -55,7 +56,7 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	}
 
 	@Override
-	public NodeListQuery selectAll() {
+	public ListQuery selectAll() {
 		return plugin(H.plugins(getSession()).selectForLists()).selectAll();
 	}
 
@@ -155,6 +156,11 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	@Override
 	public void get(Closure<NodeList> callback) {
 		callback.apply(this);
+	}
+
+	@Override
+	public List<Node> asList() {
+		return Collections.unmodifiableList(list);
 	}
 
 }

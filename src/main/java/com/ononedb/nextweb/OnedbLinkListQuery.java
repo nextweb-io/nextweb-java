@@ -3,7 +3,7 @@ package com.ononedb.nextweb;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
-import io.nextweb.NodeListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
@@ -45,12 +45,12 @@ public class OnedbLinkListQuery implements LinkListQuery, OnedbObject {
 	}
 
 	@Override
-	public NodeListQuery select(final Link propertyType) {
+	public ListQuery select(final Link propertyType) {
 		throw new RuntimeException("Not supported yet.");
 	}
 
 	@Override
-	public NodeListQuery selectAll(Link propertyType) {
+	public ListQuery selectAll(Link propertyType) {
 		throw new RuntimeException("Not supported yet.");
 	}
 
@@ -60,7 +60,7 @@ public class OnedbLinkListQuery implements LinkListQuery, OnedbObject {
 	}
 
 	@Override
-	public NodeListQuery selectAll() {
+	public ListQuery selectAll() {
 		throw new RuntimeException("Not supported yet.");
 	}
 
