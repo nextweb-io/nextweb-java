@@ -147,8 +147,8 @@ public class TestSelect {
 
 			@Override
 			public void onFailure(ExceptionResult r) {
-				// System.out.println("Exception intercepted: "
-				// + t.getLocalizedMessage());
+				System.out.println("Exception intercepted: "
+						+ r.exception().getLocalizedMessage());
 			}
 		});
 
@@ -156,7 +156,7 @@ public class TestSelect {
 
 			@Override
 			public void apply(NodeList result) {
-				System.out.println("success");
+				System.out.println("success " + result);
 			}
 
 		});

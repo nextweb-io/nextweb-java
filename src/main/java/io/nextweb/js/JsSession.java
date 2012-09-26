@@ -144,7 +144,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 										resolvedObjects.toArray());
 							}
 
-						}).catchFailures(new ExceptionListener() {
+						}).catchExceptions(new ExceptionListener() {
 
 					@Override
 					public void onFailure(ExceptionResult r) {

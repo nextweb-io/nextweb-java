@@ -68,7 +68,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 								deferredCalls.clear();
 							}
 
-						}).catchFailures(new ExceptionListener() {
+						}).catchExceptions(new ExceptionListener() {
 
 					@Override
 					public void onFailure(ExceptionResult r) {
@@ -79,7 +79,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 						}
 						deferredCalls.clear();
 					}
-				}).catchAuthorizationExceptions(new UnauthorizedListener() {
+				}).catchUnauthorized(new UnauthorizedListener() {
 
 					@Override
 					public void onUnauthorized(UnauthorizedResult r) {
@@ -90,7 +90,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 						}
 						deferredCalls.clear();
 					}
-				}).catchUndefinedExceptions(new UndefinedListener() {
+				}).catchUndefined(new UndefinedListener() {
 
 					@Override
 					public void onUndefined(UndefinedResult r) {

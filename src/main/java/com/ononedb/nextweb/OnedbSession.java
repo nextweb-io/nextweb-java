@@ -235,7 +235,7 @@ public class OnedbSession implements Session {
 													latch.registerSuccess();
 												}
 
-											}).catchFailures(
+											}).catchExceptions(
 											new ExceptionListener() {
 
 												@Override

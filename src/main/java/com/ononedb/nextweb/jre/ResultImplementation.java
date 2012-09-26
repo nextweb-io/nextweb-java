@@ -79,7 +79,7 @@ public final class ResultImplementation<ResultType> implements
 								deferredCalls.clear();
 							}
 
-						}).catchFailures(new ExceptionListener() {
+						}).catchExceptions(new ExceptionListener() {
 
 					@Override
 					public void onFailure(ExceptionResult r) {
@@ -92,7 +92,7 @@ public final class ResultImplementation<ResultType> implements
 						}
 						deferredCalls.clear();
 					}
-				}).catchUndefinedExceptions(new UndefinedListener() {
+				}).catchUndefined(new UndefinedListener() {
 
 					@Override
 					public void onUndefined(UndefinedResult r) {
@@ -105,7 +105,7 @@ public final class ResultImplementation<ResultType> implements
 						}
 						deferredCalls.clear();
 					}
-				}).catchAuthorizationExceptions(new UnauthorizedListener() {
+				}).catchUnauthorized(new UnauthorizedListener() {
 
 					@Override
 					public void onUnauthorized(UnauthorizedResult r) {
@@ -162,7 +162,7 @@ public final class ResultImplementation<ResultType> implements
 						// System.out.println("count down after " + o);
 						latch.countDown();
 					}
-				}).catchFailures(new ExceptionListener() {
+				}).catchExceptions(new ExceptionListener() {
 
 			@Override
 			public void onFailure(ExceptionResult r) {

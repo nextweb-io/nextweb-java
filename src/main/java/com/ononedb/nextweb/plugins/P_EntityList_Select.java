@@ -2,16 +2,21 @@ package com.ononedb.nextweb.plugins;
 
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.ListQuery;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Fn;
+import io.nextweb.fn.Maybe;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
+import io.nextweb.operations.exceptions.UnauthorizedResult;
+import io.nextweb.operations.exceptions.UndefinedListener;
+import io.nextweb.operations.exceptions.UndefinedResult;
 import io.nextweb.plugins.core.Plugin_EntityList_Select;
 
 import java.util.List;
@@ -44,16 +49,16 @@ public class P_EntityList_Select implements
 
 			@Override
 			public void get(final Callback<NodeList> callback) {
-
 				entity.get(CallbackFactory.embeddedCallback(
 						entity.getExceptionManager(), callback,
 						new Closure<NodeList>() {
 
 							@Override
-							public void apply(NodeList nodeList) {
-								ListCallbackJoiner<Node, Node> joiner = new ListCallbackJoiner<Node, Node>(
-										nodeList.asList(),
-										new ListCallback<Node>() {
+							public void apply(NodeList o) {
+
+								ListCallbackJoiner<Node, Maybe<Node>> joiner = new ListCallbackJoiner<Node, Maybe<Node>>(
+										o.asList(),
+										new ListCallback<Maybe<Node>>() {
 
 											@Override
 											public void onFailure(Throwable arg0) {
@@ -63,20 +68,20 @@ public class P_EntityList_Select implements
 
 											@Override
 											public void onSuccess(
-													List<Node> nodes) {
+													List<Maybe<Node>> nodes) {
 
 												callback.onSuccess(H
 														.factory(entity)
 														.createNodeList(
 																H.session(entity),
 																entity.getExceptionManager(),
-																nodes));
+																Maybe.allValues(nodes)));
 											}
 										});
 
-								for (Node child : nodeList) {
+								for (Node child : o) {
 
-									final LocalCallback<Node> localCallback = joiner
+									final LocalCallback<Maybe<Node>> localCallback = joiner
 											.createCallback(child);
 
 									child.select(propertyType)
@@ -92,6 +97,28 @@ public class P_EntityList_Select implements
 																			.exception());
 														}
 													})
+											.catchUnauthorized(
+													new UnauthorizedListener() {
+
+														@Override
+														public void onUnauthorized(
+																UnauthorizedResult r) {
+															localCallback
+																	.onSuccess(Maybe
+																			.isNot(Node.class));
+														}
+													})
+											.catchUndefined(
+													new UndefinedListener() {
+
+														@Override
+														public void onUndefined(
+																UndefinedResult r) {
+															localCallback
+																	.onSuccess(Maybe
+																			.isNot(Node.class));
+														}
+													})
 											.get(CallbackFactory
 													.eagerCallback(
 															H.session(entity),
@@ -102,11 +129,12 @@ public class P_EntityList_Select implements
 																public void apply(
 																		Node o) {
 																	localCallback
-																			.onSuccess(o);
+																			.onSuccess(Maybe
+																					.is(o));
 																}
 
 															})
-													.catchFailures(
+													.catchExceptions(
 															new ExceptionListener() {
 
 																@Override
@@ -116,10 +144,34 @@ public class P_EntityList_Select implements
 																			.onFailure(r
 																					.exception());
 																}
+															})
+													.catchUnauthorized(
+															new UnauthorizedListener() {
+
+																@Override
+																public void onUnauthorized(
+																		UnauthorizedResult r) {
+																	localCallback
+																			.onSuccess(Maybe
+																					.isNot(Node.class));
+																}
+															})
+													.catchUndefined(
+															new UndefinedListener() {
+
+																@Override
+																public void onUndefined(
+																		UndefinedResult r) {
+																	localCallback
+																			.onSuccess(Maybe
+																					.isNot(Node.class));
+																}
 															}));
 
 								}
+
 							}
+
 						}));
 
 			}

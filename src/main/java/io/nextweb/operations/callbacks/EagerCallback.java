@@ -26,21 +26,21 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	private UndefinedListener undefinedExceptionListenr;
 	private ImpossibleListener impossibleListener;
 
-	public EagerCallback<ResultType> catchFailures(
+	public EagerCallback<ResultType> catchExceptions(
 			ExceptionListener exceptionListener) {
 		hasEagerFailureListener = true;
 		this.exceptionListener = exceptionListener;
 		return this;
 	}
 
-	public EagerCallback<ResultType> catchAuthorizationExceptions(
+	public EagerCallback<ResultType> catchUnauthorized(
 			UnauthorizedListener exceptionListener) {
 		hasEagerUnauthorizedListener = true;
 		this.authExceptionListener = exceptionListener;
 		return this;
 	}
 
-	public EagerCallback<ResultType> catchUndefinedExceptions(
+	public EagerCallback<ResultType> catchUndefined(
 			UndefinedListener listener) {
 		hasEagerUndefinedListener = true;
 		this.undefinedExceptionListenr = listener;
