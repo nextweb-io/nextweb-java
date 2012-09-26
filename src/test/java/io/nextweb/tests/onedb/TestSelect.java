@@ -8,10 +8,6 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
-import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.ExceptionResult;
-import io.nextweb.operations.exceptions.UndefinedListener;
-import io.nextweb.operations.exceptions.UndefinedResult;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -123,45 +119,19 @@ public class TestSelect {
 
 		Session session = engine.createSession();
 
-		Link aBrandName = session
-				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Brand_Name");
-
-		Link aQuestion = session
+		Link isQuestion = session
 				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Strategy_Quadrant_Questi");
+
+		Link isBrandName = session
+				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Brand_Name");
 
 		Link questions = session
 				.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
 
-		questions.catchUndefined(new UndefinedListener() {
+		NodeList brandNames = questions.selectAll(isQuestion)
+				.select(isBrandName).get();
 
-			@Override
-			public void onUndefined(UndefinedResult r) {
-				System.out.println("Undefined!");
-				throw new RuntimeException("E");
-			}
-		});
-
-		ListQuery resolvedQuestions = questions.selectAll();
-
-		resolvedQuestions.catchExceptions(new ExceptionListener() {
-
-			@Override
-			public void onFailure(ExceptionResult r) {
-				System.out.println("Exception intercepted: "
-						+ r.exception().getLocalizedMessage());
-			}
-		});
-
-		resolvedQuestions.select(aBrandName).get(new Closure<NodeList>() {
-
-			@Override
-			public void apply(NodeList result) {
-				System.out.println("success " + result);
-			}
-
-		});
-
-		// System.out.println(allBrandNames);
+		System.out.println("Brand names: " + brandNames.values());
 
 		session.close().get();
 

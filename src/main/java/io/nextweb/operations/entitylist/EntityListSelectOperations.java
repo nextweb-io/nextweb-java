@@ -1,4 +1,4 @@
-package io.nextweb.operations;
+package io.nextweb.operations.entitylist;
 
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;

@@ -3,9 +3,9 @@ package com.ononedb.nextweb;
 import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.ListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
@@ -17,6 +17,7 @@ import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -128,6 +129,16 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	public NodeList get() {
 
 		return this;
+	}
+
+	@Override
+	public List<Object> values() {
+		List<Object> values = new ArrayList<Object>(this.list.size());
+
+		for (Node n : this.list) {
+			values.add(n.value());
+		}
+		return values;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package io.nextweb.operations;
+package io.nextweb.operations.entity;
 
 import io.nextweb.Query;
 
