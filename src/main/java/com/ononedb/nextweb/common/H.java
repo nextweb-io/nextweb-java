@@ -6,6 +6,7 @@ import io.nextweb.Node;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.operations.callbacks.CallbackFactory;
+import io.nextweb.operations.exceptions.ImpossibleResult;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.core.DefaultPluginFactory;
@@ -17,6 +18,7 @@ import io.nextweb.plugins.core.Plugin_Entity_Select;
 import io.nextweb.plugins.core.Plugin_Entity_SetValue;
 import one.core.domain.OneClient;
 import one.core.dsl.CoreDsl;
+import one.core.dsl.callbacks.results.WithImpossibleContext;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 import one.core.nodes.OneTypedReference;
 
@@ -101,6 +103,29 @@ public class H {
 			public Object origin() {
 				return origin;
 			}
+		};
+	}
+
+	public static ImpossibleResult fromImpossibleContext(final Object origin,
+			final WithImpossibleContext context) {
+
+		return new ImpossibleResult() {
+
+			@Override
+			public Object origin() {
+				return origin;
+			}
+
+			@Override
+			public String message() {
+				return context.message();
+			}
+
+			@Override
+			public Object cause() {
+				return context.cause();
+			}
+
 		};
 	}
 

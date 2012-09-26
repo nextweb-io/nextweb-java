@@ -6,4 +6,6 @@ public interface ImpossibleResult {
 
 	public String message();
 
+	public Object cause();
+
 }

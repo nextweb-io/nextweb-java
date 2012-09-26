@@ -5,8 +5,6 @@ import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;
-import io.nextweb.fn.Result;
-import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.plugins.core.Plugin_Entity_SetValue;
@@ -42,11 +40,11 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 							public void apply(Node o) {
 								final CoreDsl dsl = H.dsl(entity);
 
-								final OneTypedReference<?> node = dsl.reference(o
-										.getUri());
+								final OneTypedReference<?> node = dsl
+										.reference(o.getUri());
 
-								final Object dereferenced = dsl.dereference(node).in(
-										H.session(entity).getClient());
+								final Object dereferenced = dsl.dereference(
+										node).in(H.session(entity).getClient());
 								final Object replacement;
 								if (dereferenced instanceof OneValue<?>) {
 									replacement = dsl.newNode(newValue).at(
@@ -54,42 +52,58 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 								} else {
 									replacement = newValue;
 								}
-								
-								dsl.replaceSafe(node).with(replacement).in(H.client(entity)).and(new WhenResponseFromServerReceived<Object>() {
-									
-									@Override
-									public void thenDo(WithOperationResult<Object> or) {
-										callback.onSuccess(H.factory(entity).createNode(entity.getOnedbSession(), entity.getExceptionManager(), dsl.reference(node.getId())));
-									}
 
-									@Override
-									public void onUnauthorized(
-											WithUnauthorizedContext context) {
-										callback.onUnauthorized(H.fromUnauthorizedContext(this, context));
-									}
+								dsl.replaceSafe(node)
+										.with(replacement)
+										.in(H.client(entity))
+										.and(new WhenResponseFromServerReceived<Object>() {
 
-									@Override
-									public void onImpossible(
-											WithImpossibleContext context) {
-										pjpo // add new method to callback
-									}
+											@Override
+											public void thenDo(
+													WithOperationResult<Object> or) {
+												callback.onSuccess(H
+														.factory(entity)
+														.createNode(
+																entity.getOnedbSession(),
+																entity.getExceptionManager(),
+																dsl.reference(node
+																		.getId())));
+											}
 
-									@Override
-									public void onFailure(Throwable t) {
-										callback.onFailure(Fn.exception(this, t));
-									}
-									
-									
-								});
-								
+											@Override
+											public void onUnauthorized(
+													WithUnauthorizedContext context) {
+												callback.onUnauthorized(H
+														.fromUnauthorizedContext(
+																this, context));
+											}
+
+											@Override
+											public void onImpossible(
+													WithImpossibleContext context) {
+												callback.onImpossible(H
+														.fromImpossibleContext(
+																this, context));
+											}
+
+											@Override
+											public void onFailure(Throwable t) {
+												callback.onFailure(Fn
+														.exception(this, t));
+											}
+
+										});
+
 							}
 						}));
 
 			}
 		};
 
-		OnedbQuery createQuery = H.factory(entity).createQuery(entity.getOnedbSession(), entity.getExceptionManager(), setValueResult);
-		
+		OnedbQuery createQuery = H.factory(entity).createQuery(
+				entity.getOnedbSession(), entity.getExceptionManager(),
+				setValueResult);
+
 		createQuery.get(new Closure<Node>() {
 
 			@Override
@@ -97,7 +111,7 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 				// nothing
 			}
 		});
-		
+
 		return createQuery;
 	}
 
