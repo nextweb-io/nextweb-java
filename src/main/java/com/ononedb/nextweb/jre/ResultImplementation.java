@@ -5,6 +5,7 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
+import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
@@ -20,6 +21,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import one.core.domain.OneClient;
+import one.core.dsl.callbacks.WhenCommitted;
+import one.core.dsl.callbacks.results.WithCommittedResult;
+
+import com.ononedb.nextweb.OnedbSession;
 
 public final class ResultImplementation<ResultType> implements
 		Result<ResultType> {
@@ -111,6 +118,22 @@ public final class ResultImplementation<ResultType> implements
 						deferredCalls.clear();
 					}
 				}));
+
+		// execute commit upon every explicit get call ?!?
+		OneClient client = ((OnedbSession) session).getClient();
+		client.one().commit(client).and(new WhenCommitted() {
+
+			@Override
+			public void thenDo(WithCommittedResult r) {
+
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+				exceptionManager.onFailure(Fn.exception(this, t));
+			}
+
+		});
 
 	}
 

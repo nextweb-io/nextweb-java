@@ -5,6 +5,7 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
+import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
@@ -16,6 +17,12 @@ import io.nextweb.operations.exceptions.UndefinedResult;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import one.core.domain.OneClient;
+import one.core.dsl.callbacks.WhenCommitted;
+import one.core.dsl.callbacks.results.WithCommittedResult;
+
+import com.ononedb.nextweb.OnedbSession;
 
 public class JsResultImplementation<ResultType> implements Result<ResultType> {
 
@@ -96,6 +103,22 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 						deferredCalls.clear();
 					}
 				}));
+
+		OneClient client = ((OnedbSession) session).getClient();
+
+		client.one().commit(client).and(new WhenCommitted() {
+
+			@Override
+			public void thenDo(WithCommittedResult r) {
+
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+				exceptionManager.onFailure(Fn.exception(this, t));
+			}
+
+		});
 
 	}
 
