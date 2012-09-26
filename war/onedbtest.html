@@ -15,7 +15,33 @@
 		
 		//testSelectAll(session);
 		//testAppendValues(session);
-		testSynchronousGet(session);
+		//testSynchronousGet(session);
+		
+		//testSetValue(session);
+		
+		testSetValueSafe(session);
+		
+	};
+	
+	var testSetValue = function(session) {
+		var testNode = session.node("http://slicnet.com/seed1/seed1/1/2/9/h/sd/nj/Basic_Test_Cases_Data", "uS4aS5MoQeEE");
+		
+		testNode.setValue("Hello from JS");
+		
+		session.close().get(function(success) {
+			$("#output").append("<p>Session closed successfully.</p>");
+		});
+		
+	};
+	
+	var testSetValueSafe = function(session) {
+		var testNode = session.node("http://slicnet.com/seed1/seed1/1/2/9/h/sd/nj/Basic_Test_Cases_Data", "uS4aS5MoQeEE");
+		
+		testNode.setValueSafe("Hello from JS (safe)").setValueSafe("And Hello from JS again! (safe)");
+		
+		session.close().get(function(success) {
+			$("#output").append("<p>Session closed successfully.</p>");
+		});
 		
 	};
 	

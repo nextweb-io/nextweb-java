@@ -56,7 +56,7 @@ public class JsResult implements Exportable {
 				// GWT.log("got async: " + o);
 				Object wrappedEngineNode = wrappers.createJsEngineWrapper(o);
 				// GWT.log("wrapped ASYNC engine node: " + wrappedEngineNode);
-				onSuccess.apply(wrappedEngineNode);
+				onSuccess.apply(ExporterUtil.wrap(wrappedEngineNode));
 			}
 
 		});

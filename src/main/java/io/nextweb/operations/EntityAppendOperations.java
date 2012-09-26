@@ -18,5 +18,14 @@ public interface EntityAppendOperations {
 	public Query appendValue(Object value);
 
 	public <GEntity extends Entity> GEntity append(GEntity entity);
+	/*
+	 * public Query appendSafe(Object value);
+	 * 
+	 * public Query appendSafe(Object value, String atAddress);
+	 * 
+	 * public Query appendValueSafe(Object value);
+	 * 
+	 * public Query appendSafe(Entity entity);
+	 */
 
 }
