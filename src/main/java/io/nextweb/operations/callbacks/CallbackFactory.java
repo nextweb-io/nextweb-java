@@ -2,6 +2,7 @@ package io.nextweb.operations.callbacks;
 
 import io.nextweb.Entity;
 import io.nextweb.EntityList;
+import io.nextweb.LinkListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -33,6 +34,12 @@ public class CallbackFactory {
 
 	public static <ResultType> Callback<ResultType> lazyCallback(
 			final Entity entity, final Closure<ResultType> closure) {
+		return lazyCallback(entity.getSession(), entity.getExceptionManager(),
+				closure);
+	}
+
+	public static <ResultType> Callback<ResultType> lazyCallback(
+			final LinkListQuery entity, final Closure<ResultType> closure) {
 		return lazyCallback(entity.getSession(), entity.getExceptionManager(),
 				closure);
 	}

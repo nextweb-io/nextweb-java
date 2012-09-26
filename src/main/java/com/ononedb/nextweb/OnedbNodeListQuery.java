@@ -21,8 +21,7 @@ import io.nextweb.plugins.Plugins;
 
 import com.ononedb.nextweb.common.H;
 
-public class OnedbNodeListQuery implements NodeListQuery,
-		OnedbEntityList<NodeList> {
+public class OnedbNodeListQuery implements NodeListQuery, OnedbEntityList {
 
 	private final Result<NodeList> result;
 	private final OnedbSession session;
@@ -60,10 +59,9 @@ public class OnedbNodeListQuery implements NodeListQuery,
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends EntityList<?>, PluginType extends Plugin<GType>> PluginType plugin(
+	public <GType extends EntityList, PluginType extends Plugin<GType>> PluginType plugin(
 			PluginFactory<GType, PluginType> factory) {
 		return Plugins.plugin((GType) this, factory);
-
 	}
 
 	@Override

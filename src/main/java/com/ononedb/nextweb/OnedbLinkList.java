@@ -5,11 +5,16 @@ import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
+import io.nextweb.NodeList;
 import io.nextweb.NodeListQuery;
 import io.nextweb.Session;
+import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.Fn;
+import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
@@ -20,11 +25,16 @@ import io.nextweb.plugins.Plugins;
 import java.util.Iterator;
 import java.util.List;
 
+import one.async.joiner.ListCallback;
+import one.async.joiner.ListCallbackJoiner;
+import one.async.joiner.LocalCallback;
+
 import com.ononedb.nextweb.common.H;
 
-public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
+public class OnedbLinkList implements LinkList, OnedbEntityList {
 
 	private final List<Link> list;
+	private final Result<NodeList> result;
 	private final OnedbSession session;
 	private final ExceptionManager exceptionManager;
 
@@ -57,7 +67,7 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends EntityList<?>, PluginType extends Plugin<GType>> PluginType plugin(
+	public <GType extends EntityList, PluginType extends Plugin<GType>> PluginType plugin(
 			PluginFactory<GType, PluginType> factory) {
 		return Plugins.plugin((GType) this, factory);
 
@@ -93,12 +103,60 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 	}
 
 	public OnedbLinkList(OnedbSession session,
-			ExceptionManager parentExceptionManager, List<Link> list) {
+			ExceptionManager parentExceptionManager, final List<Link> list) {
 		super();
 		this.session = session;
 		this.list = list;
 		this.exceptionManager = session.getFactory().createExceptionManager(
 				parentExceptionManager);
+		this.result = session.getEngine().createResult(exceptionManager,
+				session, new AsyncResult<NodeList>() {
+
+					@Override
+					public void get(final Callback<NodeList> callback) {
+
+						ListCallbackJoiner<Link, Node> joiner = new ListCallbackJoiner<Link, Node>(
+								list, new ListCallback<Node>() {
+
+									@Override
+									public void onSuccess(List<Node> responses) {
+										callback.onSuccess(H.factory(
+												OnedbLinkList.this)
+												.createNodeList(
+														getOnedbSession(),
+														getExceptionManager(),
+														responses));
+									}
+
+									@Override
+									public void onFailure(Throwable t) {
+										callback.onFailure(Fn
+												.exception(this, t));
+									}
+
+								});
+
+						for (Link link : list) {
+
+							final LocalCallback<Node> localCallback = joiner
+									.createCallback(link);
+
+							// TODO how to deal with 'unresolvable' nodes
+							// maybe not forward exceptions for every call?
+							link.get(CallbackFactory.embeddedCallback(
+									getExceptionManager(), callback,
+									new Closure<Node>() {
+
+										@Override
+										public void apply(Node o) {
+											localCallback.onSuccess(o);
+										}
+									}));
+
+						}
+
+					}
+				});
 	}
 
 	@Override
@@ -114,14 +172,19 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 	}
 
 	@Override
-	public LinkList get() {
+	public NodeList get() {
 
-		return this;
+		return result.get();
 	}
 
 	@Override
-	public void get(Callback<LinkList> callback) {
-		callback.onSuccess(this);
+	public void get(Callback<NodeList> callback) {
+		result.get(callback);
+	}
+
+	@Override
+	public void get(Closure<NodeList> callback) {
+		result.get(callback);
 	}
 
 	@Override
@@ -146,11 +209,6 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 	public LinkList catchUnauthorized(UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
-	}
-
-	@Override
-	public void get(Closure<LinkList> callback) {
-		callback.apply(this);
 	}
 
 }

@@ -248,6 +248,12 @@ public class JH {
 		fn.apply(this, jsArray.getArray());
 	}-*/;
 
+	public static JsFactory jsFactory(LinkListQuery listQuery) {
+		Session session = listQuery.getSession();
+		return ((NextwebEngineJs) session.getEngine()).jsFactory();
+
+	}
+
 	public static final JsFactory jsFactory(Entity entity) {
 		return jsFactory(entity.getSession());
 	}
@@ -260,7 +266,7 @@ public class JH {
 		return ((NextwebEngineJs) session.getEngine()).jsFactory();
 	}
 
-	public static final JsFactory jsFactory(EntityList<?> entityList) {
+	public static final JsFactory jsFactory(EntityList entityList) {
 		return jsFactory(entityList.getSession());
 	}
 

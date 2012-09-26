@@ -25,9 +25,9 @@ import com.ononedb.nextweb.OnedbNodeList;
 import com.ononedb.nextweb.common.H;
 
 public class P_EntityList_Select implements
-		Plugin_EntityList_Select<OnedbEntityList<?>> {
+		Plugin_EntityList_Select<OnedbEntityList> {
 
-	private OnedbEntityList<?> list;
+	private OnedbEntityList list;
 
 	public P_EntityList_Select() {
 		super();
@@ -35,7 +35,7 @@ public class P_EntityList_Select implements
 	}
 
 	@Override
-	public void injectObject(OnedbEntityList<?> obj) {
+	public void injectObject(OnedbEntityList obj) {
 		this.list = obj;
 	}
 

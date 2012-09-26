@@ -22,7 +22,7 @@ import java.util.List;
 
 import com.ononedb.nextweb.common.H;
 
-public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
+public class OnedbNodeList implements OnedbEntityList, NodeList {
 
 	private final List<Node> list;
 	private final OnedbSession session;
@@ -30,7 +30,7 @@ public class OnedbNodeList implements OnedbEntityList<NodeList>, NodeList {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends EntityList<?>, PluginType extends Plugin<GType>> PluginType plugin(
+	public <GType extends EntityList, PluginType extends Plugin<GType>> PluginType plugin(
 			PluginFactory<GType, PluginType> factory) {
 		return Plugins.plugin((GType) this, factory);
 

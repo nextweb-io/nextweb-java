@@ -46,8 +46,8 @@ public class H {
 		return client(fromObj).one();
 	}
 
-	public static <N extends Entity, E extends EntityList<?>> void each(
-			EntityList<E> entity, Iterable<N> list, final Closure<Node> f) {
+	public static <N extends Entity, E extends EntityList> void each(
+			EntityList entity, Iterable<N> list, final Closure<Node> f) {
 		for (N e : list) {
 			e.get(CallbackFactory.lazyCallback(entity.getSession(),
 					entity.getExceptionManager(), new Closure<Node>() {
@@ -74,7 +74,7 @@ public class H {
 		return session(fromObj).getFactory();
 	}
 
-	public static OnedbFactory factory(OnedbEntityList<?> list) {
+	public static OnedbFactory factory(OnedbEntityList list) {
 		return session(list).getFactory();
 	}
 
@@ -144,7 +144,7 @@ public class H {
 			}
 
 			@Override
-			public <GEntity extends EntityList<?>, GPlugin extends Plugin_EntityList_Select<GEntity>> PluginFactory<GEntity, GPlugin> selectForLists() {
+			public <GEntity extends EntityList, GPlugin extends Plugin_EntityList_Select<GEntity>> PluginFactory<GEntity, GPlugin> selectForLists() {
 				return (PluginFactory<GEntity, GPlugin>) P_EntityList_Select_Factory.FACTORY;
 			}
 
