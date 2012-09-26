@@ -121,7 +121,7 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 		AsyncResult<Node> setValueResult = new AsyncResult<Node>() {
 
 			@Override
-			public void get(Callback<Node> callback) {
+			public void get(final Callback<Node> callback) {
 
 				entity.get(CallbackFactory.embeddedCallback(
 						entity.getExceptionManager(), callback,
@@ -153,13 +153,14 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 													dsl.replace(node)
 															.with(newValueObject)
 															.in(H.client(entity));
-
+													callback.onSuccess(o);
 													return;
 												}
 
 												dsl.replace(node)
 														.with(newValue)
 														.in(H.client(entity));
+												callback.onSuccess(o);
 											}
 										});
 							}

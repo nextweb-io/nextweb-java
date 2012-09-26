@@ -100,18 +100,54 @@ public class OnedbSession implements Session {
 					@Override
 					public void get(final Callback<Success> callback) {
 
-						client.one().shutdown(client).and(new WhenShutdown() {
+						client.runSafe(new Runnable() {
 
 							@Override
-							public void thenDo() {
-								callback.onSuccess(Success.INSTANCE);
-							}
+							public void run() {
+								client.one().commit(client)
+										.and(new WhenCommitted() {
 
-							@Override
-							public void onFailure(Throwable t) {
-								callback.onFailure(Fn.exception(this, t));
-							}
+											@Override
+											public void thenDo(
+													WithCommittedResult r) {
+												client.runSafe(new Runnable() {
 
+													@Override
+													public void run() {
+														client.one()
+																.shutdown(
+																		client)
+																.and(new WhenShutdown() {
+
+																	@Override
+																	public void thenDo() {
+																		callback.onSuccess(Success.INSTANCE);
+																	}
+
+																	@Override
+																	public void onFailure(
+																			Throwable t) {
+																		callback.onFailure(Fn
+																				.exception(
+																						this,
+																						t));
+																	}
+
+																});
+													}
+												});
+
+											}
+
+											@Override
+											public void onFailure(Throwable t) {
+												callback.onFailure(Fn
+														.exception(this, t));
+											}
+
+										});
+
+							}
 						});
 
 					}
@@ -150,6 +186,10 @@ public class OnedbSession implements Session {
 		Result<SuccessFail> callback = getAll(true, results);
 
 		SuccessFail result = callback.get();
+
+		if (result == null) {
+			return this;
+		}
 
 		if (result.isFail()) {
 			throw new RuntimeException(result.getException());

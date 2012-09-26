@@ -58,7 +58,6 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 
 							@Override
 							public void apply(ResultType result) {
-
 								resultCache = result;
 								requestingResult = false;
 								callback.onSuccess(result);

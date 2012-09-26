@@ -52,6 +52,7 @@ public final class ResultImplementation<ResultType> implements
 
 	@Override
 	public synchronized void get(final Callback<ResultType> callback) {
+
 		if (cached != null) {
 			callback.onSuccess(cached);
 			return;
@@ -139,6 +140,14 @@ public final class ResultImplementation<ResultType> implements
 
 	@Override
 	public ResultType get() {
+
+		if (Thread.currentThread().getName()
+				.startsWith("nx.remote.AccessThread")) {
+			throw new IllegalStateException(
+					"Cannot perform synchronous get() in engine worker thread.\n"
+							+ "Please create your own Thread using new Thread(..).start(); to call synchronous get() or use"
+							+ " asynchronous get(Callback) operation.");
+		}
 
 		final CountDownLatch latch = new CountDownLatch(2);
 
