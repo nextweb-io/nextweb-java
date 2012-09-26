@@ -12,12 +12,14 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
+
+import com.ononedb.nextweb.common.H;
 
 public class OnedbLinkListQuery implements LinkListQuery,
 		OnedbEntityList<LinkList> {
@@ -36,24 +38,35 @@ public class OnedbLinkListQuery implements LinkListQuery,
 		result.get(callback);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public NodeListQuery select(Link propertyType) {
-		throw new RuntimeException("Not implemented yet!");
+	public <GType extends EntityList<?>, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+		return Plugins.plugin((GType) this, factory);
+
+	}
+
+	@Override
+	public NodeListQuery select(final Link propertyType) {
+		return plugin(H.plugins(getSession()).selectForLists()).select(
+				propertyType);
 	}
 
 	@Override
 	public NodeListQuery selectAll(Link propertyType) {
-		throw new RuntimeException("Not implemented yet!");
+		return plugin(H.plugins(getSession()).selectForLists()).selectAll(
+				propertyType);
 	}
 
 	@Override
 	public LinkListQuery selectAllLinks() {
-		throw new RuntimeException("Not implemented yet!");
+		return plugin(H.plugins(getSession()).selectForLists())
+				.selectAllLinks();
 	}
 
 	@Override
 	public NodeListQuery selectAll() {
-		throw new RuntimeException("Not implemented yet!");
+		return plugin(H.plugins(getSession()).selectForLists()).selectAll();
 	}
 
 	@Override
@@ -66,14 +79,6 @@ public class OnedbLinkListQuery implements LinkListQuery,
 	public OnedbSession getOnedbSession() {
 
 		return session;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <GType extends EntityList<LinkList>, PluginType extends Plugin<GType>> PluginType plugin(
-			PluginFactory<GType, PluginType> factory) {
-
-		return Plugins.plugin((GType) this, factory);
 	}
 
 	public OnedbLinkListQuery(OnedbSession session,
@@ -115,15 +120,13 @@ public class OnedbLinkListQuery implements LinkListQuery,
 	}
 
 	@Override
-	public LinkListQuery catchUnauthorized(
-			UnauthorizedListener listener) {
+	public LinkListQuery catchUnauthorized(UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}
 
 	@Override
-	public LinkListQuery catchUndefined(
-			UndefinedListener listener) {
+	public LinkListQuery catchUndefined(UndefinedListener listener) {
 		exceptionManager.catchUndefined(listener);
 		return this;
 	}

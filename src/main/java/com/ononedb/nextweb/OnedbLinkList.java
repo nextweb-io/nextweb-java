@@ -10,8 +10,8 @@ import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.operations.callbacks.Callback;
-import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
@@ -57,30 +57,33 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends EntityList<LinkList>, PluginType extends Plugin<GType>> PluginType plugin(
+	public <GType extends EntityList<?>, PluginType extends Plugin<GType>> PluginType plugin(
 			PluginFactory<GType, PluginType> factory) {
-
 		return Plugins.plugin((GType) this, factory);
+
 	}
 
 	@Override
-	public NodeListQuery select(Link propertyType) {
-		throw new RuntimeException("Not implemented yet!");
+	public NodeListQuery select(final Link propertyType) {
+		return plugin(H.plugins(getSession()).selectForLists()).select(
+				propertyType);
 	}
 
 	@Override
 	public NodeListQuery selectAll(Link propertyType) {
-		throw new RuntimeException("Not implemented yet!");
+		return plugin(H.plugins(getSession()).selectForLists()).selectAll(
+				propertyType);
 	}
 
 	@Override
 	public LinkListQuery selectAllLinks() {
-		throw new RuntimeException("Not implemented yet!");
+		return plugin(H.plugins(getSession()).selectForLists())
+				.selectAllLinks();
 	}
 
 	@Override
 	public NodeListQuery selectAll() {
-		throw new RuntimeException("Not implemented yet!");
+		return plugin(H.plugins(getSession()).selectForLists()).selectAll();
 	}
 
 	@Override
@@ -140,8 +143,7 @@ public class OnedbLinkList implements LinkList, OnedbEntityList<LinkList> {
 	}
 
 	@Override
-	public LinkList catchUnauthorized(
-			UnauthorizedListener listener) {
+	public LinkList catchUnauthorized(UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}

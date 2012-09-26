@@ -6,7 +6,7 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.HasPlugins;
 
 public interface EntityList<ResultType extends EntityList<?>> extends
-		HasPlugins<EntityList<ResultType>>, EntityListSelectOperations,
+		HasPlugins<EntityList<?>>, EntityListSelectOperations,
 		Result<ResultType> {
 
 	public Session getSession();

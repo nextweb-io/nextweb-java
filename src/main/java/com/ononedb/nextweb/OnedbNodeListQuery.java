@@ -12,12 +12,14 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
+
+import com.ononedb.nextweb.common.H;
 
 public class OnedbNodeListQuery implements NodeListQuery,
 		OnedbEntityList<NodeList> {
@@ -56,32 +58,35 @@ public class OnedbNodeListQuery implements NodeListQuery,
 				parentExceptionManager);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public NodeListQuery select(Link propertyType) {
-		throw new RuntimeException("Not implemented yet!");
+	public <GType extends EntityList<?>, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+		return Plugins.plugin((GType) this, factory);
+
+	}
+
+	@Override
+	public NodeListQuery select(final Link propertyType) {
+		return plugin(H.plugins(getSession()).selectForLists()).select(
+				propertyType);
 	}
 
 	@Override
 	public NodeListQuery selectAll(Link propertyType) {
-		throw new RuntimeException("Not implemented yet!");
+		return plugin(H.plugins(getSession()).selectForLists()).selectAll(
+				propertyType);
 	}
 
 	@Override
 	public LinkListQuery selectAllLinks() {
-		throw new RuntimeException("Not implemented yet!");
+		return plugin(H.plugins(getSession()).selectForLists())
+				.selectAllLinks();
 	}
 
 	@Override
 	public NodeListQuery selectAll() {
-		throw new RuntimeException("Not implemented yet!");
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <GType extends EntityList<NodeList>, PluginType extends Plugin<GType>> PluginType plugin(
-			PluginFactory<GType, PluginType> factory) {
-
-		return Plugins.plugin((GType) this, factory);
+		return plugin(H.plugins(getSession()).selectForLists()).selectAll();
 	}
 
 	@Override
@@ -112,15 +117,13 @@ public class OnedbNodeListQuery implements NodeListQuery,
 	}
 
 	@Override
-	public NodeListQuery catchUnauthorized(
-			UnauthorizedListener listener) {
+	public NodeListQuery catchUnauthorized(UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}
 
 	@Override
-	public NodeListQuery catchUndefined(
-			UndefinedListener listener) {
+	public NodeListQuery catchUndefined(UndefinedListener listener) {
 		exceptionManager.catchUndefined(listener);
 		return this;
 	}
