@@ -6,6 +6,8 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Fn;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.ImpossibleListener;
+import io.nextweb.operations.exceptions.ImpossibleResult;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.UndefinedListener;
@@ -16,11 +18,13 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	private boolean hasEagerFailureListener;
 	private boolean hasEagerUndefinedListener;
 	private boolean hasEagerUnauthorizedListener;
+	private boolean hasEagerImpossibleListener;
 	private ExceptionListener exceptionListener;
 	private final Session session;
 	private final ExceptionManager exceptionManager;
 	private UnauthorizedListener authExceptionListener;
 	private UndefinedListener undefinedExceptionListenr;
+	private ImpossibleListener impossibleListener;
 
 	public EagerCallback<ResultType> catchFailures(
 			ExceptionListener exceptionListener) {
@@ -40,6 +44,12 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			UndefinedListener listener) {
 		hasEagerUndefinedListener = true;
 		this.undefinedExceptionListenr = listener;
+		return this;
+	}
+
+	public EagerCallback<ResultType> catchImpossible(ImpossibleListener listener) {
+		hasEagerImpossibleListener = true;
+		this.impossibleListener = listener;
 		return this;
 	}
 
@@ -91,6 +101,39 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 		}
 
 		Nextweb.getEngine().getExceptionManager().onUnauthorized(r);
+	}
+
+	@Override
+	public void onImpossible(ImpossibleResult ir) {
+		if (hasEagerImpossibleListener) {
+			this.impossibleListener.onImpossible(ir);
+			return;
+		}
+
+		if (hasEagerFailureListener) {
+			this.exceptionListener.onFailure(Fn.exception(ir.origin(),
+					new Exception("Operation impossible: [" + ir.message()
+							+ "]")));
+		}
+
+		if (exceptionManager.canCatchImpossibe()) {
+			exceptionManager.onImpossible(ir);
+			return;
+		}
+
+		if (session != null
+				&& session.getExceptionManager().canCatchImpossibe()) {
+			session.getExceptionManager().onImpossible(ir);
+			return;
+		}
+
+		Nextweb.getEngine().getExceptionManager().onImpossible(ir);
+
+	}
+
+	@Override
+	public boolean hasEagerImpossibleListener() {
+		return hasEagerImpossibleListener || hasEagerFailureListener;
 	}
 
 	@Override

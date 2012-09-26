@@ -1,5 +1,6 @@
 package io.nextweb.operations.exceptions;
 
+import io.nextweb.Nextweb;
 import io.nextweb.fn.ExceptionInterceptor;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
@@ -8,12 +9,14 @@ import io.nextweb.fn.Fn;
 public class ExceptionManager implements
 		ExceptionInterceptor<ExceptionManager>,
 		UnauthorizedInterceptor<ExceptionManager>, ExceptionListener,
-		UnauthorizedListener, UndefinedListener,
+		UnauthorizedListener, UndefinedListener, ImpossibleListener,
 		UndefinedInterceptor<ExceptionManager> {
 
 	private UnauthorizedListener authExceptionListener;
 	private ExceptionListener exceptionListener;
 	private UndefinedListener undefinedExceptionListener;
+	private ImpossibleListener impossibleListener;
+
 	private final ExceptionManager parentExceptionManager;
 
 	@Override
@@ -52,6 +55,13 @@ public class ExceptionManager implements
 
 	}
 
+	public boolean canCatchImpossibe() {
+		return this.impossibleListener != null
+				|| canCatchExceptions()
+				|| (this.parentExceptionManager != null && this.parentExceptionManager
+						.canCatchImpossibe());
+	}
+
 	@Override
 	public void onFailure(ExceptionResult r) {
 		assert canCatchExceptions();
@@ -68,9 +78,7 @@ public class ExceptionManager implements
 			}
 		}
 
-		throw new RuntimeException("Unhandled exception from: " + r.origin(),
-				r.exception());
-
+		Nextweb.getEngine().getExceptionManager().onFailure(r);
 	}
 
 	@Override
@@ -94,6 +102,36 @@ public class ExceptionManager implements
 				return;
 			}
 		}
+
+		onFailure(Fn.exception(r.origin(),
+				new Exception("Unauthorized: " + r.getMessage())));
+	}
+
+	@Override
+	public void onImpossible(ImpossibleResult ir) {
+		assert canCatchImpossibe() || canCatchExceptions();
+
+		if (this.impossibleListener != null) {
+			this.impossibleListener.onImpossible(ir);
+			return;
+		}
+
+		if (this.exceptionListener != null) {
+			this.exceptionListener.onFailure(Fn.exception(ir.origin(),
+					new Exception("Operation impossible: [" + ir.message()
+							+ "]")));
+			return;
+		}
+
+		if (this.parentExceptionManager != null) {
+			if (this.parentExceptionManager.canCatchImpossibe()) {
+				this.parentExceptionManager.onImpossible(ir);
+				return;
+			}
+		}
+
+		onFailure(Fn.exception(ir.origin(), new Exception(
+				"Operation impossible: [" + ir.message() + "]")));
 	}
 
 	@Override
@@ -125,6 +163,8 @@ public class ExceptionManager implements
 			}
 		}
 
+		onFailure(Fn.exception(r.origin(),
+				new Exception("Undefined: " + r.message())));
 	}
 
 	public ExceptionManager(ExceptionManager parentExceptionManager) {

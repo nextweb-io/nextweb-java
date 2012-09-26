@@ -2,6 +2,7 @@ package io.nextweb.operations.callbacks;
 
 import io.nextweb.fn.ExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.ImpossibleResult;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.UndefinedResult;
 
@@ -43,6 +44,21 @@ public class EmbeddedCallback<ResultType> implements Callback<ResultType> {
 	}
 
 	@Override
+	public void onImpossible(ImpossibleResult ir) {
+		if (hasEagerImpossibleListener()) {
+			embeddedIn.onImpossible(ir);
+			return;
+		}
+
+		if (exceptionManager.canCatchImpossibe()) {
+			exceptionManager.onImpossible(ir);
+			return;
+		}
+
+		embeddedIn.onImpossible(ir);
+	}
+
+	@Override
 	public void onUnauthorized(UnauthorizedResult r) {
 		if (hasEagerUnauthorizedListener()) {
 			embeddedIn.onUnauthorized(r);
@@ -60,6 +76,12 @@ public class EmbeddedCallback<ResultType> implements Callback<ResultType> {
 	@Override
 	public void onSuccess(ResultType result) {
 		embeddedIn.onSuccess(result);
+	}
+
+	@Override
+	public boolean hasEagerImpossibleListener() {
+
+		return embeddedIn.hasEagerImpossibleListener();
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import io.nextweb.Nextweb;
 import io.nextweb.Session;
 import io.nextweb.fn.ExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.ImpossibleResult;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.UndefinedResult;
 
@@ -20,14 +21,15 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 
 	@Override
 	public void onFailure(ExceptionResult r) {
-		if (session != null
-				&& session.getExceptionManager().canCatchExceptions()) {
-			session.getExceptionManager().onFailure(r);
-			return;
-		}
 
 		if (exceptionManager.canCatchExceptions()) {
 			exceptionManager.onFailure(r);
+			return;
+		}
+
+		if (session != null
+				&& session.getExceptionManager().canCatchExceptions()) {
+			session.getExceptionManager().onFailure(r);
 			return;
 		}
 
@@ -36,6 +38,12 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 
 	@Override
 	public void onUnauthorized(UnauthorizedResult r) {
+
+		if (exceptionManager.canCatchAuthorizationExceptions()) {
+			exceptionManager.onUnauthorized(r);
+			return;
+		}
+
 		if (session != null
 				&& session.getExceptionManager()
 						.canCatchAuthorizationExceptions()) {
@@ -43,28 +51,46 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 			return;
 		}
 
-		if (exceptionManager.canCatchAuthorizationExceptions()) {
-			exceptionManager.onUnauthorized(r);
-			return;
-		}
-
 		Nextweb.getEngine().getExceptionManager().onUnauthorized(r);
 	}
 
 	@Override
-	public void onUndefined(UndefinedResult r) {
-		if (session != null
-				&& session.getExceptionManager().canCatchUndefinedExceptions()) {
-			session.getExceptionManager().onUndefined(r);
+	public void onImpossible(ImpossibleResult ir) {
+
+		if (exceptionManager.canCatchImpossibe()) {
+			exceptionManager.onImpossible(ir);
 			return;
 		}
+
+		if (session != null
+				&& session.getExceptionManager().canCatchImpossibe()) {
+			session.getExceptionManager().onImpossible(ir);
+			return;
+		}
+
+		Nextweb.getEngine().getExceptionManager().onImpossible(ir);
+	}
+
+	@Override
+	public void onUndefined(UndefinedResult r) {
 
 		if (exceptionManager.canCatchUndefinedExceptions()) {
 			exceptionManager.onUndefined(r);
 			return;
 		}
 
+		if (session != null
+				&& session.getExceptionManager().canCatchUndefinedExceptions()) {
+			session.getExceptionManager().onUndefined(r);
+			return;
+		}
+
 		Nextweb.getEngine().getExceptionManager().onUndefined(r);
+	}
+
+	@Override
+	public boolean hasEagerImpossibleListener() {
+		return false;
 	}
 
 	@Override
