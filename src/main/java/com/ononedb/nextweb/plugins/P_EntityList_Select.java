@@ -46,63 +46,90 @@ public class P_EntityList_Select implements
 			@Override
 			public void get(final Callback<NodeList> callback) {
 
-				ListCallbackJoiner<Node, Node> joiner = new ListCallbackJoiner<Node, Node>(
-						list, new ListCallback<Node>() {
+				list.get(CallbackFactory.embeddedCallback(
+						list.getExceptionManager(), callback,
+						new Closure<NodeList>() {
 
 							@Override
-							public void onFailure(Throwable arg0) {
-								callback.onFailure(Fn.exception(this, arg0));
-							}
+							public void apply(NodeList nodeList) {
+								ListCallbackJoiner<Node, Node> joiner = new ListCallbackJoiner<Node, Node>(
+										list.g, new ListCallback<Node>() {
 
-							@Override
-							public void onSuccess(List<Node> nodes) {
+											@Override
+											public void onFailure(Throwable arg0) {
+												callback.onFailure(Fn
+														.exception(this, arg0));
+											}
 
-								callback.onSuccess(H
-										.factory(OnedbNodeList.this)
-										.createNodeList(getOnedbSession(),
-												getExceptionManager(), nodes));
-							}
-						});
+											@Override
+											public void onSuccess(
+													List<Node> nodes) {
 
-				for (Node child : list) {
+												callback.onSuccess(H
+														.factory(
+																OnedbNodeList.this)
+														.createNodeList(
+																getOnedbSession(),
+																getExceptionManager(),
+																nodes));
+											}
+										});
 
-					final LocalCallback<Node> localCallback = joiner
-							.createCallback(child);
+								for (Node child : list) {
 
-					child.select(propertyType)
-							.catchExceptions(new ExceptionListener() {
+									final LocalCallback<Node> localCallback = joiner
+											.createCallback(child);
 
-								@Override
-								public void onFailure(ExceptionResult r) {
+									child.select(propertyType)
+											.catchExceptions(
+													new ExceptionListener() {
 
-									localCallback.onFailure(r.exception());
+														@Override
+														public void onFailure(
+																ExceptionResult r) {
+
+															localCallback
+																	.onFailure(r
+																			.exception());
+														}
+													})
+											.get(CallbackFactory
+													.eagerCallback(
+															OnedbNodeList.this
+																	.getSession(),
+															OnedbNodeList.this
+																	.getExceptionManager(),
+															new Closure<Node>() {
+
+																@Override
+																public void apply(
+																		Node o) {
+																	localCallback
+																			.onSuccess(o);
+																}
+
+															})
+													.catchFailures(
+															new ExceptionListener() {
+
+																@Override
+																public void onFailure(
+																		ExceptionResult r) {
+																	localCallback
+																			.onFailure(r
+																					.exception());
+																}
+															}));
+
 								}
-							})
-							.get(CallbackFactory.eagerCallback(
-									OnedbNodeList.this.getSession(),
-									OnedbNodeList.this.getExceptionManager(),
-									new Closure<Node>() {
-
-										@Override
-										public void apply(Node o) {
-											localCallback.onSuccess(o);
-										}
-
-									}).catchFailures(new ExceptionListener() {
-
-								@Override
-								public void onFailure(ExceptionResult r) {
-									localCallback.onFailure(r.exception());
-								}
-							}));
-
-				}
+							}
+						}));
 
 			}
 		};
 
-		return H.factory(this).createNodeListQuery(getOnedbSession(),
-				exceptionManager, selectResult);
+		return H.factory(list).createNodeListQuery(H.session(list),
+				list.getExceptionManager(), selectResult);
 	}
 
 	@Override

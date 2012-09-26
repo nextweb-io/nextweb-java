@@ -38,7 +38,7 @@ public class CallbackFactory {
 	}
 
 	public static <ResultType> Callback<ResultType> lazyCallback(
-			EntityList<?> entity, Closure<ResultType> closure) {
+			EntityList entity, Closure<ResultType> closure) {
 
 		return lazyCallback(entity.getSession(), entity.getExceptionManager(),
 				closure);

@@ -22,6 +22,7 @@ import one.core.dsl.callbacks.results.WithImpossibleContext;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 import one.core.nodes.OneTypedReference;
 
+import com.ononedb.nextweb.OnedbEntityList;
 import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.OnedbObject;
 import com.ononedb.nextweb.OnedbSession;
@@ -71,6 +72,10 @@ public class H {
 
 	public static OnedbFactory factory(OnedbObject fromObj) {
 		return session(fromObj).getFactory();
+	}
+
+	public static OnedbFactory factory(OnedbEntityList<?> list) {
+		return session(list).getFactory();
 	}
 
 	public static final OnedbSession session(OnedbObject fromObj) {
