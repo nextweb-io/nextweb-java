@@ -3,11 +3,12 @@ package com.ononedb.nextweb.plugins;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.ListQuery;
 import io.nextweb.Query;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.BooleanResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;
 import io.nextweb.operations.callbacks.Callback;
@@ -358,4 +359,33 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 	}
 
+	@Override
+	public BooleanResult has(final Link propertyType) {
+
+		AsyncResult<Boolean> hasResult = new AsyncResult<Boolean>() {
+
+			@Override
+			public void get(final Callback<Boolean> callback) {
+				selectAll(propertyType).get(
+						CallbackFactory.embeddedCallback(
+								entity.getExceptionManager(), callback,
+								new Closure<NodeList>() {
+
+									@Override
+									public void apply(NodeList o) {
+										if (o.size() > 0) {
+											callback.onSuccess(true);
+											return;
+										}
+
+										callback.onSuccess(false);
+									}
+								}));
+			}
+		};
+
+		return new BooleanResult(entity.getExceptionManager(),
+				entity.getSession(), hasResult);
+
+	}
 }

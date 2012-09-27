@@ -4,14 +4,16 @@ import io.nextweb.Entity;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
-import io.nextweb.Node;
 import io.nextweb.ListQuery;
+import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.BooleanResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Fn;
+import io.nextweb.fn.IntegerResult;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
@@ -66,6 +68,11 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
+	public BooleanResult has(Link propertyType) {
+		return plugin(H.plugins(session).select()).has(propertyType);
+	}
+
+	@Override
 	public Result<Success> remove(Entity entity) {
 		return plugin(H.plugins(session).remove()).remove(entity);
 	}
@@ -103,7 +110,7 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
-	public Result<Integer> clearVersions(int keepVersions) {
+	public IntegerResult clearVersions(int keepVersions) {
 		return plugin(H.plugins(session).clearVersions()).clearVersions(
 				keepVersions);
 	}

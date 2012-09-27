@@ -1,6 +1,6 @@
 package io.nextweb.operations.entity;
 
-import io.nextweb.fn.Result;
+import io.nextweb.fn.IntegerResult;
 
 public interface EntityClearVersionsOperations {
 
@@ -19,6 +19,6 @@ public interface EntityClearVersionsOperations {
 	 * 
 	 * @return
 	 */
-	public Result<Integer> clearVersions(int keepVersions);
+	public IntegerResult clearVersions(int keepVersions);
 
 }

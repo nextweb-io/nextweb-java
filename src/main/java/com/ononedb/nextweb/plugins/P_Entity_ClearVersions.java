@@ -4,6 +4,7 @@ import io.nextweb.Node;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;
+import io.nextweb.fn.IntegerResult;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
@@ -22,7 +23,7 @@ public class P_Entity_ClearVersions implements
 	OnedbEntity entity;
 
 	@Override
-	public Result<Integer> clearVersions(final int keepVersions) {
+	public IntegerResult clearVersions(final int keepVersions) {
 
 		AsyncResult<Integer> clearVersionsResult = new AsyncResult<Integer>() {
 
@@ -86,7 +87,8 @@ public class P_Entity_ClearVersions implements
 			}
 		});
 
-		return result;
+		return new IntegerResult(entity.getExceptionManager(),
+				entity.getSession(), result);
 	}
 
 	@Override

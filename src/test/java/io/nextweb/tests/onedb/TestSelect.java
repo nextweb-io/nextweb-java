@@ -136,4 +136,28 @@ public class TestSelect {
 		session.close().get();
 
 	}
+
+	@Test
+	public void testHas() {
+		NextwebEngine engine = OnedbNextwebJreEngine.init();
+
+		Session session = engine.createSession();
+
+		Link isQuestion = session
+				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Strategy_Quadrant_Questi");
+
+		Link isBrandName = session
+				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Brand_Name");
+
+		Link isBrandImage = session
+				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Brand_Image");
+
+		Link question = session
+				.node("http://slicnet.com/seed1/seed1/7/0/h/sd/q");
+
+		Assert.assertTrue(question.has(isBrandName)
+				.and(question.has(isBrandImage)).get());
+		Assert.assertFalse(question.has(isQuestion).get());
+
+	}
 }
