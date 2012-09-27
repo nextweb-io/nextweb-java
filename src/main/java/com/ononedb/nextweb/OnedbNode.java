@@ -58,6 +58,10 @@ public class OnedbNode implements Node, OnedbEntity {
 			return ((OneValue<?>) dereferenced).getValue();
 		}
 
+		if (dereferenced instanceof OneTypedReference<?>) {
+			return session.node(((OneTypedReference<?>) dereferenced).getId());
+		}
+
 		return dereferenced;
 	}
 
