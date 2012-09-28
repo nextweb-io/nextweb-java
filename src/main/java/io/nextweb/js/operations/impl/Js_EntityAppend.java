@@ -24,12 +24,12 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 		}
 
 		if (javaValue instanceof JsLink) {
-			return ExporterUtil.wrap(JH.jsFactory(node).createLink(
+			return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
 					node.append(((JsLink) javaValue).getOriginal())));
 		}
 
-		if (javaValue instanceof Node) {
-			return ExporterUtil.wrap(JH.jsFactory(node).createNode(
+		if (javaValue instanceof JsNode) {
+			return ExporterUtil.wrap(JH.jsFactory(node).createQuery(
 					node.append(((JsNode) javaValue).getOriginal())));
 		}
 
