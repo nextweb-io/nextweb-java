@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>onedbtest</title>
+<script type="text/javascript" language="javascript"
+	src="onedbnextweb/onedbnextweb.nocache.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+</head>
+
+<script>
+	
+	window.onNextweb = function() {
+		var session = Nextweb.createSession();
+		
+		//testSelectAll(session);
+		//testAppendValues(session);
+		//testSynchronousGet(session);
+		
+		//testSetValue(session);
+		
+		testSetValueSafe(session);
+		
+	};
+	
+	var testSetValue = function(session) {
+		var testNode = session.node("http://slicnet.com/seed1/seed1/1/2/9/h/sd/nj/Basic_Test_Cases_Data", "uS4aS5MoQeEE");
+		
+		testNode.setValue("Hello from JS");
+		
+		session.close().get(function(success) {
+			$("#output").append("<p>Session closed successfully.</p>");
+		});
+		
+	};
+	
+	var testSetValueSafe = function(session) {
+		var testNode = session.node("http://slicnet.com/seed1/seed1/1/2/9/h/sd/nj/Basic_Test_Cases_Data", "uS4aS5MoQeEE");
+		
+		testNode.setValueSafe("Hello from JS (safe)").setValueSafe("And Hello from JS again! (safe)");
+		
+		session.close().get(function(success) {
+			$("#output").append("<p>Session closed successfully.</p>");
+		});
+		
+	};
+	
+	var testAppend = function(session) {
+		
+		var testNode = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests", "ChaiK3CZYnrr");
+		
+		testNode.get(function(node) {
+			var appended = node.append("Hello from JS");
+			
+			$("#output").append("<p>Appended: "+appended.value()+".</p>");
+			
+			session.commit();
+			
+			node.remove(appended);
+			
+			$("#output").append("<p>Removed: .</p>");
+			
+			node.clearVersions(3).get(function(cleared) {
+				$("#output").append("<p>Cleared: "+cleared+".</p>");
+			});
+			
+			session.close().get(function(success) {
+				$("#output").append("<p>Session closed successfully.</p>");
+			});
+			
+		});
+		
+ 	};
+	
+ 	var testSynchronousGet = function(session) {
+		
+ 		var testNode = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests", "ChaiK3CZYnrr");
+		
+		testNode.get(function(node) {
+			
+			var textNode = node.append("Hello from JS");
+			textNode.get(function(node) {
+				$("#output").append("<p>Appended Node after clb: "+textNode.get().value()+".</p>");
+				$("#output").append("<p>Appended Node after clb: "+textNode.get().value()+".</p>");
+				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
+				$("#output").append("<p>Appended Node after clb: "+textNode.get()+".</p>");
+				$("#output").append("<p>Appended callback reports: "+node.value()+".</p>");
+			});
+			
+			$("#output").append("<p>Appended Node: "+textNode.get().value()+".</p>");
+			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
+			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
+			$("#output").append("<p>Appended Node: "+textNode.get()+".</p>");
+			
+			if (textNode) {
+				node.remove(textNode);
+			}
+			
+			session.close().get(function(success) {
+				$("#output").append("<p>Session closed.</p>");
+			});
+		});
+			
+			
+ 	};
+ 	
+ 	var testAppendValues = function(session) {
+		var testNode = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests", "ChaiK3CZYnrr");
+		
+		testNode.get(function(node) {
+			
+			var textNode = node.append("Hello from JS");
+			
+			var resolvedTextNode = textNode.get();
+			
+			$("#output").append("<p>Appended: "+resolvedTextNode.value()+".</p>");
+			
+			var intNode = node.append(42);
+			$("#output").append("<p>Appended: "+intNode.get().value()+".</p>");
+			
+			var floatNode = node.append(4.2);
+			$("#output").append("<p>Appended: "+floatNode.get().value()+".</p>");
+			
+			var booleanNode = node.append(true);
+			$("#output").append("<p>Appended: "+booleanNode.get().value()+".</p>");
+			
+			var dateNode = node.append(new Date());
+			$("#output").append("<p>Appended: "+dateNode.get().value()+".</p>");
+			
+			var jsonNode = node.append({value: "jsonObject"});
+			$("#output").append("<p>Appended: "+JSON.stringify(jsonNode.get().value())+".</p>");
+			
+			session.commit();
+			
+			node.remove(textNode);
+			node.remove(intNode);
+			node.remove(floatNode);
+			node.remove(booleanNode);
+			node.remove(dateNode);
+			node.remove(jsonNode);
+			
+			$("#output").append("<p>Removed: .</p>");
+			
+			node.clearVersions(3).get(function(cleared) {
+				$("#output").append("<p>Cleared: "+cleared+".</p>");
+			});
+			
+			session.close().get(function(success) {
+				$("#output").append("<p>Session closed successfully.</p>");
+			});
+			
+		});
+ 	}
+ 	
+	var testSelectAll = function(session) {
+		var questionBag = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
+		
+		var questions = questionBag.selectAll();
+		
+		session.getAll(questions, function(questions) {
+			V = questions.values();
+			$("#output").append("<p>"+questions.values()+"</p>");
+			$("#output").append("<p>"+questions.values()[1]+"</p>");
+			questions.each(function(node) {
+				$("#output").append($("<p>"+node.getUri()+"</p>"));
+			});
+		});
+		
+	};
+	
+	var testSelectListChain = function(session) {
+		var questionBag = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd/questions");
+		
+		var brands = questionBag.selectAll(aQuestion).select(aBrand);
+		
+		session.getAll(brands, function(brands) {
+			questions.each(function(node) {
+				$("#output").append($("<p>"+node.value()+"</p>"));
+			});
+		});
+		
+	};
+	
+	var testSelect = function(session) {
+		var link = session.node("http://slicnet.com/seed1/seed1/9/1/h/sd");
+		
+		link.alert();
+		
+		var aQuestionBag = session.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Question_Bag");
+		
+		var questionBag = link.select(aQuestionBag);
+		
+		session.getAll(link, questionBag, function(link, questionBag) {
+			alert(questionBag.value());
+		}, function(ex) {
+			window.E =ex;
+			alert("Unexpected exception: "+ex);
+		});
+	};
+	
+	</script>
+
+<body>
+	<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1'
+		style="position: absolute; width: 0; height: 0; border: 0"></iframe>
+	<div id="output"></div>
+</body>
+</html>
