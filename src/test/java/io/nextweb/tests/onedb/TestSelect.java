@@ -78,11 +78,10 @@ public class TestSelect {
 		final Link aQuestionBag = session
 				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Question_Bag");
 
-		// Query questionBagQuery = questionBagRepository.plugin(
-		// engine.plugin().select()).select(aQuestionBag);
-
-		final Query questionBagQuery = questionBagRepository
-				.select(aQuestionBag);
+		final Query questionBagQuery = questionBagRepository.plugin(
+				engine.plugin().select()).select(aQuestionBag);
+		// final Query questionBagQuery = questionBagRepository
+		// .select(aQuestionBag);
 
 		session.getAll(questionBagRepository, aQuestionBag, questionBagQuery);
 
