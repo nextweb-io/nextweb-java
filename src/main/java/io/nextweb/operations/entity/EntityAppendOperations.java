@@ -17,7 +17,7 @@ public interface EntityAppendOperations {
 
 	public Query appendValue(Object value);
 
-	public <GEntity extends Entity> GEntity append(GEntity entity);
+	public Query append(Entity entity);
 
 	public Query appendSafe(Object value);
 
@@ -26,5 +26,21 @@ public interface EntityAppendOperations {
 	public Query appendValueSafe(Object value);
 
 	public Query appendSafe(Entity entity);
+
+	public Query insert(Object value, int atIndex);
+
+	public Query insert(Object value, String atAddress, int atIndex);
+
+	public Query insertValue(Object value, int atIndex);
+
+	public Query insert(Entity entity, int atIndex);
+
+	public Query insertSafe(Object value, int atIndex);
+
+	public Query insertSafe(Object value, String atAddress, int atIndex);
+
+	public Query insertValueSafe(Object value, int atIndex);
+
+	public Query insertSafe(Entity entity, int atIndex);
 
 }
