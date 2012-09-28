@@ -27,7 +27,7 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 	@Override
 	public Query setValueSafe(final Object newValue) {
 
-		AsyncResult<Node> setValueResult = new AsyncResult<Node>() {
+		final AsyncResult<Node> setValueResult = new AsyncResult<Node>() {
 
 			@Override
 			public void get(final Callback<Node> callback) {
@@ -37,7 +37,7 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 						new Closure<Node>() {
 
 							@Override
-							public void apply(Node o) {
+							public void apply(final Node o) {
 								final CoreDsl dsl = H.dsl(entity);
 
 								final OneTypedReference<?> node = dsl
@@ -60,19 +60,20 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 
 											@Override
 											public void thenDo(
-													WithOperationResult<Object> or) {
+													final WithOperationResult<Object> or) {
 												callback.onSuccess(H
 														.factory(entity)
 														.createNode(
 																entity.getOnedbSession(),
 																entity.getExceptionManager(),
 																dsl.reference(node
-																		.getId())));
+																		.getId()),
+																o.getSecret()));
 											}
 
 											@Override
 											public void onUnauthorized(
-													WithUnauthorizedContext context) {
+													final WithUnauthorizedContext context) {
 												callback.onUnauthorized(H
 														.fromUnauthorizedContext(
 																this, context));
@@ -80,14 +81,15 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 
 											@Override
 											public void onImpossible(
-													WithImpossibleContext context) {
+													final WithImpossibleContext context) {
 												callback.onImpossible(H
 														.fromImpossibleContext(
 																this, context));
 											}
 
 											@Override
-											public void onFailure(Throwable t) {
+											public void onFailure(
+													final Throwable t) {
 												callback.onFailure(Fn
 														.exception(this, t));
 											}
@@ -100,14 +102,14 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 			}
 		};
 
-		OnedbQuery createQuery = H.factory(entity).createQuery(
+		final OnedbQuery createQuery = H.factory(entity).createQuery(
 				entity.getOnedbSession(), entity.getExceptionManager(),
 				setValueResult);
 
 		createQuery.get(new Closure<Node>() {
 
 			@Override
-			public void apply(Node o) {
+			public void apply(final Node o) {
 				// nothing
 			}
 		});
@@ -118,7 +120,7 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 	@Override
 	public Query setValue(final Object newValue) {
 
-		AsyncResult<Node> setValueResult = new AsyncResult<Node>() {
+		final AsyncResult<Node> setValueResult = new AsyncResult<Node>() {
 
 			@Override
 			public void get(final Callback<Node> callback) {
@@ -135,18 +137,19 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 											@Override
 											public void run() {
 
-												CoreDsl dsl = H.dsl(entity);
+												final CoreDsl dsl = H
+														.dsl(entity);
 
-												OneTypedReference<?> node = dsl
+												final OneTypedReference<?> node = dsl
 														.reference(o.getUri());
-												Object dereferenced = dsl
+												final Object dereferenced = dsl
 														.dereference(node)
 														.in(H.session(entity)
 																.getClient());
 
 												if (dereferenced instanceof OneValue<?>) {
 
-													OneValue<?> newValueObject = dsl
+													final OneValue<?> newValueObject = dsl
 															.newNode(newValue)
 															.at(o.getUri());
 
@@ -168,14 +171,14 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 
 			}
 		};
-		OnedbQuery query = H.factory(entity).createQuery(
+		final OnedbQuery query = H.factory(entity).createQuery(
 				entity.getOnedbSession(), entity.getExceptionManager(),
 				setValueResult);
 
 		query.get(new Closure<Node>() {
 
 			@Override
-			public void apply(Node o) {
+			public void apply(final Node o) {
 				// nothing
 			}
 		});
@@ -185,7 +188,7 @@ public class P_Entity_SetValue implements Plugin_Entity_SetValue<OnedbEntity> {
 	}
 
 	@Override
-	public void injectObject(OnedbEntity obj) {
+	public void injectObject(final OnedbEntity obj) {
 		this.entity = obj;
 	}
 

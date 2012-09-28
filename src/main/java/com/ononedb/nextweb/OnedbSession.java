@@ -1,6 +1,8 @@
 package com.ononedb.nextweb;
 
 import io.nextweb.Link;
+import io.nextweb.Node;
+import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
@@ -21,8 +23,10 @@ import io.nextweb.plugins.Plugins;
 import one.async.joiner.CallbackLatch;
 import one.core.domain.OneClient;
 import one.core.dsl.callbacks.WhenCommitted;
+import one.core.dsl.callbacks.WhenSeeded;
 import one.core.dsl.callbacks.WhenShutdown;
 import one.core.dsl.callbacks.results.WithCommittedResult;
+import one.core.dsl.callbacks.results.WithSeedResult;
 
 import com.ononedb.nextweb.internal.OnedbFactory;
 
@@ -89,6 +93,52 @@ public class OnedbSession implements Session {
 		});
 
 		return commitResult;
+	}
+
+	@Override
+	public Query seed() {
+		final AsyncResult<Node> seedResult = new AsyncResult<Node>() {
+
+			@Override
+			public void get(final Callback<Node> callback) {
+
+				client.runSafe(new Runnable() {
+
+					@Override
+					public void run() {
+
+						client.one().seed(client, new WhenSeeded() {
+
+							@Override
+							public void thenDo(final WithSeedResult r) {
+
+								callback.onSuccess(engine.getFactory()
+										.createNode(OnedbSession.this,
+												exceptionManager, r.seedNode(),
+												r.accessToken()));
+
+							}
+
+							@Override
+							public void onFailure(final Throwable t) {
+								callback.onFailure(Fn.exception(this, t));
+							}
+
+						});
+
+					}
+				});
+
+			}
+		};
+		return this.engine.getFactory().createQuery(this, exceptionManager,
+				seedResult);
+	}
+
+	@Override
+	public Query createRealm(final String realmType, final String apiKey) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

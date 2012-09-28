@@ -35,6 +35,7 @@ public class OnedbNode implements Node, OnedbEntity {
 	private final OnedbSession session;
 	private final OneTypedReference<?> node;
 	private final ExceptionManager exceptionManager;
+	private final String secret;
 
 	@Override
 	public String getUri() {
@@ -46,6 +47,11 @@ public class OnedbNode implements Node, OnedbEntity {
 	public String uri() {
 
 		return getUri();
+	}
+
+	@Override
+	public String getSecret() {
+		return this.secret;
 	}
 
 	@Override
@@ -93,12 +99,13 @@ public class OnedbNode implements Node, OnedbEntity {
 
 	public OnedbNode(final OnedbSession session,
 			final ExceptionManager parentExceptionManager,
-			final OneTypedReference<?> node) {
+			final OneTypedReference<?> node, final String secret) {
 		super();
 		this.session = session;
 		this.node = node;
 		this.exceptionManager = session.getFactory().createExceptionManager(
 				parentExceptionManager);
+		this.secret = secret;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package io.nextweb.operations;
 
 import io.nextweb.Link;
+import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
@@ -30,5 +31,9 @@ public interface SessionOperations {
 
 	public Result<SuccessFail> getAll(boolean asynchronous,
 			Result<?>... results);
+
+	public Query seed();
+
+	public Query createRealm(String realmType, String apiKey);
 
 }

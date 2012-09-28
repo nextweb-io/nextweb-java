@@ -101,7 +101,7 @@ public class OnedbLink implements Link, OnedbEntity {
 												.getFactory()
 												.createNode(session,
 														exceptionManager,
-														lr.loadedNode()));
+														lr.loadedNode(), secret));
 									}
 
 									@Override

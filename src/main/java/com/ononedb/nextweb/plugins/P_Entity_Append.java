@@ -43,22 +43,22 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 	}
 
 	@Override
-	public Query appendSafe(Object value) {
+	public Query appendSafe(final Object value) {
 		return executeAppend(value, null, false, -1, true, false);
 	}
 
 	@Override
-	public Query appendSafe(Object value, String atAddress) {
+	public Query appendSafe(final Object value, final String atAddress) {
 		return executeAppend(value, atAddress, false, -1, true, false);
 	}
 
 	@Override
-	public Query appendValueSafe(Object value) {
+	public Query appendValueSafe(final Object value) {
 		return executeAppend(value, null, false, -1, true, true);
 	}
 
 	@Override
-	public Query appendSafe(Entity append) {
+	public Query appendSafe(final Entity append) {
 		return executeAppendEntity(append, false, -1, true);
 	}
 
@@ -68,42 +68,44 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 	}
 
 	@Override
-	public Query insert(Object value, int atIndex) {
+	public Query insert(final Object value, final int atIndex) {
 		return executeAppend(value, null, true, atIndex, false, false);
 	}
 
 	@Override
-	public Query insert(Object value, String atAddress, int atIndex) {
+	public Query insert(final Object value, final String atAddress,
+			final int atIndex) {
 		return executeAppend(value, atAddress, true, atIndex, false, false);
 	}
 
 	@Override
-	public Query insertValue(Object value, int atIndex) {
+	public Query insertValue(final Object value, final int atIndex) {
 		return executeAppend(value, null, true, atIndex, false, true);
 	}
 
 	@Override
-	public Query insert(Entity entity, int atIndex) {
+	public Query insert(final Entity entity, final int atIndex) {
 		return executeAppendEntity(entity, true, atIndex, false);
 	}
 
 	@Override
-	public Query insertSafe(Object value, int atIndex) {
+	public Query insertSafe(final Object value, final int atIndex) {
 		return executeAppend(value, null, true, atIndex, true, false);
 	}
 
 	@Override
-	public Query insertSafe(Object value, String atAddress, int atIndex) {
+	public Query insertSafe(final Object value, final String atAddress,
+			final int atIndex) {
 		return executeAppend(value, atAddress, true, atIndex, true, false);
 	}
 
 	@Override
-	public Query insertValueSafe(Object value, int atIndex) {
+	public Query insertValueSafe(final Object value, final int atIndex) {
 		return executeAppend(value, null, true, atIndex, true, true);
 	}
 
 	@Override
-	public Query insertSafe(Entity entity, int atIndex) {
+	public Query insertSafe(final Entity entity, final int atIndex) {
 		return executeAppendEntity(entity, true, atIndex, true);
 	}
 
@@ -111,7 +113,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 			final String p_address, final boolean isInsert, final int index,
 			final boolean isSafe, final boolean appendAsValue) {
 
-		AsyncResult<Node> appendResult = new AsyncResult<Node>() {
+		final AsyncResult<Node> appendResult = new AsyncResult<Node>() {
 
 			@Override
 			public void get(final Callback<Node> callback) {
@@ -129,12 +131,13 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 											@Override
 											public void run() {
 
-												CoreDsl dsl = H.dsl(entity);
+												final CoreDsl dsl = H
+														.dsl(entity);
 
 												String address = p_address;
 
 												if (address == null) {
-													String generatedAddress = generateAddress(
+													final String generatedAddress = generateAddress(
 															value, node, dsl);
 
 													address = "./"
@@ -173,13 +176,13 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 
 		};
 
-		OnedbQuery appendQuery = H.factory(entity).createQuery(
+		final OnedbQuery appendQuery = H.factory(entity).createQuery(
 				H.session(entity), entity.getExceptionManager(), appendResult);
 
 		appendQuery.get(new Closure<Node>() {
 
 			@Override
-			public void apply(Node o) {
+			public void apply(final Node o) {
 				// nothing
 			}
 
@@ -195,7 +198,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 			final Node node, final CoreDsl dsl, final String address) {
 		if (!appendAsValue) {
 
-			OneValue<Object> appendType = null;
+			final OneValue<Object> appendType = null;
 
 			if (!isInsert) {
 
@@ -204,7 +207,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 						.atAddress(address)
 						.in(H.client(entity))
 						.and(createCallbackForSafeOperation(callback, dsl,
-								appendType));
+								appendType, node.getSecret()));
 			} else {
 				dsl.insertSafe(value)
 						.to(dsl.reference(node.getUri()))
@@ -212,7 +215,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 						.atAddress(address)
 						.in(H.client(entity))
 						.and(createCallbackForSafeOperation(callback, dsl,
-								appendType));
+								appendType, node.getSecret()));
 			}
 
 			return;
@@ -223,14 +226,14 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 						.to(dsl.reference(node.getUri()))
 						.in(H.client(entity))
 						.and(createCallbackForSafeOperation(callback, dsl,
-								value));
+								value, node.getSecret()));
 			} else {
 				dsl.insertSafe(value)
 						.to(dsl.reference(node.getUri()))
 						.atIndex(index)
 						.in(H.client(entity))
 						.and(createCallbackForSafeOperation(callback, dsl,
-								value));
+								value, node.getSecret()));
 
 			}
 
@@ -240,29 +243,30 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 	}
 
 	private <GType extends Object> WhenResponseFromServerReceived<GType> createCallbackForSafeOperation(
-			final Callback<Node> callback, final CoreDsl dsl, final GType type) {
+			final Callback<Node> callback, final CoreDsl dsl, final GType type,
+			final String secret) {
 		return new WhenResponseFromServerReceived<GType>() {
 
 			@Override
-			public void thenDo(WithOperationResult<GType> or) {
+			public void thenDo(final WithOperationResult<GType> or) {
 				callback.onSuccess(H.factory(entity).createNode(
 						H.session(entity), entity.getExceptionManager(),
-						dsl.reference(or.node().getId())));
+						dsl.reference(or.node().getId()), secret));
 			}
 
 			@Override
-			public void onUnauthorized(WithUnauthorizedContext context) {
+			public void onUnauthorized(final WithUnauthorizedContext context) {
 				callback.onUnauthorized(H
 						.fromUnauthorizedContext(this, context));
 			}
 
 			@Override
-			public void onImpossible(WithImpossibleContext context) {
+			public void onImpossible(final WithImpossibleContext context) {
 				callback.onImpossible(H.fromImpossibleContext(this, context));
 			}
 
 			@Override
-			public void onFailure(Throwable t) {
+			public void onFailure(final Throwable t) {
 				callback.onFailure(Fn.exception(this, t));
 			}
 
@@ -272,7 +276,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 	private final void executeUnsafeAppendInsert(final Object value,
 			final boolean isInsert, final int index,
 			final boolean appendAsValue, final Callback<Node> callback,
-			final Node node, CoreDsl dsl, String address) {
+			final Node node, final CoreDsl dsl, final String address) {
 		if (!appendAsValue) {
 
 			OneValue<?> appendedValue;
@@ -289,7 +293,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 
 			callback.onSuccess(H.factory(entity).createNode(H.session(entity),
 					entity.getExceptionManager(),
-					dsl.reference(appendedValue.getId())));
+					dsl.reference(appendedValue.getId()), node.getSecret()));
 			return;
 		} else {
 
@@ -303,17 +307,19 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 
 			}
 
-			OneTypedReference<Object> appendedRef = dsl.reference(appended).in(
-					H.client(entity));
-			callback.onSuccess(H.factory(entity).createNode(H.session(entity),
-					entity.getExceptionManager(), appendedRef));
+			final OneTypedReference<Object> appendedRef = dsl.reference(
+					appended).in(H.client(entity));
+			callback.onSuccess(H.factory(entity)
+					.createNode(H.session(entity),
+							entity.getExceptionManager(), appendedRef,
+							node.getSecret()));
 			return;
 
 		}
 	}
 
 	private String generateAddress(final Object value, final Node node,
-			CoreDsl dsl) {
+			final CoreDsl dsl) {
 		String genAddress = value.toString();
 
 		if (genAddress.length() > 8) {
@@ -338,7 +344,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 	private final Query executeAppendEntity(final Entity append,
 			final boolean isInsert, final int index, final boolean isSafe) {
 
-		AsyncResult<Node> appendResult = new AsyncResult<Node>() {
+		final AsyncResult<Node> appendResult = new AsyncResult<Node>() {
 
 			@Override
 			public void get(final Callback<Node> callback) {
@@ -362,17 +368,17 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 										append.get(new Closure<Node>() {
 
 											@Override
-											public void apply(Node o) {
+											public void apply(final Node o) {
 												performAppend(node, o.getUri());
 											}
 
 										});
 									}
 
-									private final void performAppend(Node node,
-											String uri) {
+									private final void performAppend(
+											final Node node, final String uri) {
 
-										CoreDsl dsl = H.dsl(entity);
+										final CoreDsl dsl = H.dsl(entity);
 
 										if (!isSafe) {
 
@@ -394,13 +400,14 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 													.createNode(
 															H.session(entity),
 															entity.getExceptionManager(),
-															dsl.reference(uri)));
+															dsl.reference(uri),
+															node.getSecret()));
 											return;
 
 										} else {
 
 											@SuppressWarnings("unchecked")
-											OneTypedReference<Object> onedbNodeToAppend = (OneTypedReference<Object>) dsl
+											final OneTypedReference<Object> onedbNodeToAppend = (OneTypedReference<Object>) dsl
 													.reference(uri);
 
 											if (!isInsert) {
@@ -411,8 +418,10 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 																.getUri()))
 														.in(H.client(entity))
 														.and(createCallbackForSafeOperation(
-																callback, dsl,
-																onedbNodeToAppend));
+																callback,
+																dsl,
+																onedbNodeToAppend,
+																node.getSecret()));
 												return;
 											} else {
 
@@ -423,8 +432,10 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 														.atIndex(index)
 														.in(H.client(entity))
 														.and(createCallbackForSafeOperation(
-																callback, dsl,
-																onedbNodeToAppend));
+																callback,
+																dsl,
+																onedbNodeToAppend,
+																node.getSecret()));
 												return;
 
 											}
@@ -441,13 +452,13 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 			}
 		};
 
-		OnedbQuery appendQuery = H.factory(entity).createQuery(
+		final OnedbQuery appendQuery = H.factory(entity).createQuery(
 				H.session(entity), entity.getExceptionManager(), appendResult);
 
 		appendQuery.get(new Closure<Node>() {
 
 			@Override
-			public void apply(Node o) {
+			public void apply(final Node o) {
 				// nothing
 			}
 
@@ -457,7 +468,7 @@ public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 	}
 
 	@Override
-	public void injectObject(OnedbEntity obj) {
+	public void injectObject(final OnedbEntity obj) {
 		this.entity = obj;
 	}
 

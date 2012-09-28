@@ -8,6 +8,8 @@ public interface Node extends Entity, EntityRequestOperations<Node> {
 
 	public String uri();
 
+	public String getSecret();
+
 	public Object value();
 
 	public Object getValue();

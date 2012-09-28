@@ -66,12 +66,10 @@ public class TestAppend {
 
 		final Node node = link.get();
 
-		final Query testAppend = node.appendSafe("Appended");
+		final Query testAppend = node.appendSafe("Appended Safe");
 		final Query nested = testAppend.appendSafe("Nested");
 
-		// testAppend.get();
-		// System.out.println("Appended first!");
-		// session.commit().get();
+		System.out.println("Append scheduled!");
 
 		session.getAll(testAppend, nested);
 

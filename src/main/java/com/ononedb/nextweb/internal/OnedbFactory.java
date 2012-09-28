@@ -24,58 +24,64 @@ import com.ononedb.nextweb.OnedbSession;
 
 public class OnedbFactory {
 
-	public final OnedbQuery createQuery(OnedbSession session,
-			ExceptionManager fallbackExceptionManager,
-			AsyncResult<Node> asyncResult) {
+	public final OnedbQuery createQuery(final OnedbSession session,
+			final ExceptionManager fallbackExceptionManager,
+			final AsyncResult<Node> asyncResult) {
 		return new OnedbQuery(session, fallbackExceptionManager, session
 				.getEngine().createResult(fallbackExceptionManager, session,
 						asyncResult));
 	}
 
-	public final OnedbLink createLink(OnedbSession session,
-			ExceptionManager fallbackExceptionManager, String uri, String secret) {
+	public final OnedbLink createLink(final OnedbSession session,
+			final ExceptionManager fallbackExceptionManager, final String uri,
+			final String secret) {
 		return new OnedbLink(session, fallbackExceptionManager, uri, secret);
 
 	}
 
-	public final OnedbNodeListQuery createNodeListQuery(OnedbSession session,
-			ExceptionManager fallbackExceptionManager,
-			AsyncResult<NodeList> result) {
+	public final OnedbNodeListQuery createNodeListQuery(
+			final OnedbSession session,
+			final ExceptionManager fallbackExceptionManager,
+			final AsyncResult<NodeList> result) {
 		return new OnedbNodeListQuery(session, fallbackExceptionManager,
 				session.getEngine().createResult(fallbackExceptionManager,
 						session, result));
 	}
 
-	public final OnedbNodeList createNodeList(OnedbSession session,
-			ExceptionManager fallbackExceptionManager, List<Node> list) {
+	public final OnedbNodeList createNodeList(final OnedbSession session,
+			final ExceptionManager fallbackExceptionManager,
+			final List<Node> list) {
 		return new OnedbNodeList(session, fallbackExceptionManager, list);
 	}
 
-	public final OnedbLinkList createLinkList(OnedbSession session,
-			ExceptionManager fallbackExceptionManager, List<Link> list) {
+	public final OnedbLinkList createLinkList(final OnedbSession session,
+			final ExceptionManager fallbackExceptionManager,
+			final List<Link> list) {
 		return new OnedbLinkList(session, fallbackExceptionManager, list);
 	}
 
-	public final OnedbLinkListQuery createLinkListQuery(OnedbSession session,
-			ExceptionManager fallbackExceptionManager,
-			AsyncResult<LinkList> result) {
+	public final OnedbLinkListQuery createLinkListQuery(
+			final OnedbSession session,
+			final ExceptionManager fallbackExceptionManager,
+			final AsyncResult<LinkList> result) {
 		return new OnedbLinkListQuery(session, session.getEngine()
 				.createResult(fallbackExceptionManager, session, result),
 				fallbackExceptionManager);
 	}
 
-	public final OnedbNode createNode(OnedbSession session,
-			ExceptionManager fallbackExceptionManager, OneTypedReference<?> node) {
-		return new OnedbNode(session, fallbackExceptionManager, node);
+	public final OnedbNode createNode(final OnedbSession session,
+			final ExceptionManager fallbackExceptionManager,
+			final OneTypedReference<?> node, final String secret) {
+		return new OnedbNode(session, fallbackExceptionManager, node, secret);
 	}
 
-	public final OnedbSession createSession(OnedbNextwebEngine engine,
-			OneClient client) {
+	public final OnedbSession createSession(final OnedbNextwebEngine engine,
+			final OneClient client) {
 		return new OnedbSession(engine, client);
 	}
 
 	public final ExceptionManager createExceptionManager(
-			ExceptionManager parentExceptionManager) {
+			final ExceptionManager parentExceptionManager) {
 		return new ExceptionManager(parentExceptionManager);
 	}
 

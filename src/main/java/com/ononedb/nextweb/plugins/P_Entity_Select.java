@@ -41,7 +41,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 		final ExceptionManager exceptionManager = entity.getExceptionManager();
 
-		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
+		final AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
 
 			@Override
 			public void get(final Callback<NodeList> callback) {
@@ -49,7 +49,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 						callback, new Closure<Node>() {
 
 							@Override
-							public void apply(Node result) {
+							public void apply(final Node result) {
 								dsl.selectFrom(H.node(dsl, result))
 										.theChildren()
 										.linkingTo(
@@ -60,12 +60,12 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 											@Override
 											public void thenDo(
-													WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
+													final WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
-												List<Node> nodes = new ArrayList<Node>(
+												final List<Node> nodes = new ArrayList<Node>(
 														sr.children().size());
 
-												for (OneTypedReference<?> child : sr
+												for (final OneTypedReference<?> child : sr
 														.children()) {
 
 													nodes.add(H
@@ -73,7 +73,8 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 															.createNode(
 																	H.session(entity),
 																	exceptionManager,
-																	child));
+																	child,
+																	result.getSecret()));
 
 												}
 
@@ -87,7 +88,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 											@Override
 											public void onUnauthorized(
-													WithUnauthorizedContext context) {
+													final WithUnauthorizedContext context) {
 												callback.onUnauthorized(H
 														.fromUnauthorizedContext(
 																this, context));
@@ -95,7 +96,8 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 											}
 
 											@Override
-											public void onFailure(Throwable t) {
+											public void onFailure(
+													final Throwable t) {
 												callback.onFailure(Fn
 														.exception(this, t));
 											}
@@ -119,7 +121,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 		final CoreDsl dsl = H.dsl(entity);
 		final ExceptionManager exceptionManager = entity.getExceptionManager();
 
-		AsyncResult<Node> selectResult = new AsyncResult<Node>() {
+		final AsyncResult<Node> selectResult = new AsyncResult<Node>() {
 
 			@Override
 			public void get(final Callback<Node> callback) {
@@ -128,7 +130,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 						callback, new Closure<Node>() {
 
 							@Override
-							public void apply(Node result) {
+							public void apply(final Node result) {
 
 								dsl.selectFrom(dsl.reference(result.getUri()))
 										.theChildren()
@@ -140,7 +142,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 											@Override
 											public void thenDo(
-													WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
+													final WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
 												if (sr.children().size() == 0) {
 													callback.onUndefined(new UndefinedResult() {
@@ -166,20 +168,22 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 																entity.getOnedbSession(),
 																exceptionManager,
 																sr.nodes().get(
-																		0)));
+																		0),
+																result.getSecret()));
 
 											}
 
 											@Override
 											public void onUnauthorized(
-													WithUnauthorizedContext context) {
+													final WithUnauthorizedContext context) {
 												callback.onUnauthorized(H
 														.fromUnauthorizedContext(
 																this, context));
 											}
 
 											@Override
-											public void onFailure(Throwable t) {
+											public void onFailure(
+													final Throwable t) {
 												callback.onFailure(Fn
 														.exception(this, t));
 											}
@@ -205,7 +209,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 		final ExceptionManager exceptionManager = entity.getExceptionManager();
 
-		AsyncResult<LinkList> selectAllLinksResult = new AsyncResult<LinkList>() {
+		final AsyncResult<LinkList> selectAllLinksResult = new AsyncResult<LinkList>() {
 
 			@Override
 			public void get(final Callback<LinkList> callback) {
@@ -213,19 +217,19 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 						callback, new Closure<Node>() {
 
 							@Override
-							public void apply(Node result) {
+							public void apply(final Node result) {
 								try {
-									List<String> children = dsl
+									final List<String> children = dsl
 											.selectFrom(
 													dsl.reference(result
 															.getUri()))
 											.allChildrenFast()
 											.in(H.client(entity));
 
-									List<Link> linkList = new ArrayList<Link>(
+									final List<Link> linkList = new ArrayList<Link>(
 											children.size());
 
-									for (String uri : children) {
+									for (final String uri : children) {
 										linkList.add(H.factory(entity)
 												.createLink(H.session(entity),
 														exceptionManager, uri,
@@ -235,7 +239,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 									callback.onSuccess(H.factory(entity)
 											.createLinkList(H.session(entity),
 													exceptionManager, linkList));
-								} catch (Throwable t) {
+								} catch (final Throwable t) {
 									callback.onFailure(Fn.exception(this, t));
 								}
 							}
@@ -256,7 +260,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 		final ExceptionManager exceptionManager = entity.getExceptionManager();
 
-		AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
+		final AsyncResult<NodeList> selectAllResult = new AsyncResult<NodeList>() {
 
 			@Override
 			public void get(final Callback<NodeList> callback) {
@@ -282,7 +286,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 															@Override
 															public boolean test(
-																	Object arg0) {
+																	final Object arg0) {
 																return arg0 instanceof Object;
 															}
 
@@ -291,7 +295,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 													@Override
 													public boolean matches(
-															Object arg0) {
+															final Object arg0) {
 														return true;
 													}
 												})
@@ -300,12 +304,12 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 											@Override
 											public void thenDo(
-													WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
+													final WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
 
-												List<Node> nodes = new ArrayList<Node>(
+												final List<Node> nodes = new ArrayList<Node>(
 														sr.children().size());
 
-												for (OneTypedReference<?> child : sr
+												for (final OneTypedReference<?> child : sr
 														.children()) {
 
 													nodes.add(H
@@ -313,7 +317,8 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 															.createNode(
 																	H.session(entity),
 																	exceptionManager,
-																	child));
+																	child,
+																	result.getSecret()));
 
 												}
 
@@ -327,14 +332,15 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 											@Override
 											public void onUnauthorized(
-													WithUnauthorizedContext context) {
+													final WithUnauthorizedContext context) {
 												callback.onUnauthorized(H
 														.fromUnauthorizedContext(
 																this, context));
 											}
 
 											@Override
-											public void onFailure(Throwable t) {
+											public void onFailure(
+													final Throwable t) {
 												callback.onFailure(Fn
 														.exception(this, t));
 											}
@@ -354,7 +360,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 	}
 
 	@Override
-	public void injectObject(OnedbEntity obj) {
+	public void injectObject(final OnedbEntity obj) {
 		this.entity = obj;
 
 	}
@@ -362,7 +368,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 	@Override
 	public BooleanResult has(final Link propertyType) {
 
-		AsyncResult<Boolean> hasResult = new AsyncResult<Boolean>() {
+		final AsyncResult<Boolean> hasResult = new AsyncResult<Boolean>() {
 
 			@Override
 			public void get(final Callback<Boolean> callback) {
@@ -372,7 +378,7 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 								new Closure<NodeList>() {
 
 									@Override
-									public void apply(NodeList o) {
+									public void apply(final NodeList o) {
 										if (o.size() > 0) {
 											callback.onSuccess(true);
 											return;
