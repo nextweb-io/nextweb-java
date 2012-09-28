@@ -8,11 +8,14 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
+import io.nextweb.plugins.PluginFactory;
+import io.nextweb.plugins.core.Plugin_Entity_Select;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.ononedb.nextweb.jre.OnedbNextwebJreEngine;
+import com.ononedb.nextweb.plugins.P_Entity_Select_Factory;
 
 public class TestSelect {
 
@@ -66,6 +69,12 @@ public class TestSelect {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	public <GPlugin extends Plugin_Entity_Select<?>> PluginFactory<?, GPlugin> select() {
+		final Object factory = P_Entity_Select_Factory.FACTORY;
+		return (PluginFactory<?, GPlugin>) factory;
+	}
+
 	@Test
 	public void testSelectPlugin() {
 		final NextwebEngine engine = OnedbNextwebJreEngine.init();
@@ -78,8 +87,8 @@ public class TestSelect {
 		final Link aQuestionBag = session
 				.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/Question_Bag");
 
-		final Query questionBagQuery = questionBagRepository.plugin(
-				engine.plugin().select()).select(aQuestionBag);
+		final Query questionBagQuery = questionBagRepository.plugin(select())
+				.select(aQuestionBag);
 		// final Query questionBagQuery = questionBagRepository
 		// .select(aQuestionBag);
 

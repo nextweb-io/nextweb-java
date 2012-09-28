@@ -1,6 +1,5 @@
 package com.ononedb.nextweb;
 
-import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
@@ -34,12 +33,12 @@ public class OnedbNodeListQuery implements ListQuery, OnedbEntityList {
 	}
 
 	@Override
-	public void get(Callback<NodeList> callback) {
+	public void get(final Callback<NodeList> callback) {
 		result.get(callback);
 	}
 
 	@Override
-	public ListQuery catchExceptions(ExceptionListener listener) {
+	public ListQuery catchExceptions(final ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
 		return this;
 	}
@@ -49,8 +48,9 @@ public class OnedbNodeListQuery implements ListQuery, OnedbEntityList {
 		return session;
 	}
 
-	public OnedbNodeListQuery(OnedbSession session,
-			ExceptionManager parentExceptionManager, Result<NodeList> result) {
+	public OnedbNodeListQuery(final OnedbSession session,
+			final ExceptionManager parentExceptionManager,
+			final Result<NodeList> result) {
 		super();
 		this.result = result;
 		this.session = session;
@@ -58,11 +58,10 @@ public class OnedbNodeListQuery implements ListQuery, OnedbEntityList {
 				parentExceptionManager);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends EntityList, PluginType extends Plugin<GType>> PluginType plugin(
-			PluginFactory<GType, PluginType> factory) {
-		return Plugins.plugin((GType) this, factory);
+	public <PluginType extends Plugin<?>> PluginType plugin(
+			final PluginFactory<?, ? extends PluginType> factory) {
+		return Plugins.plugin(this, factory);
 	}
 
 	@Override
@@ -83,7 +82,7 @@ public class OnedbNodeListQuery implements ListQuery, OnedbEntityList {
 				new Closure<NodeList>() {
 
 					@Override
-					public void apply(NodeList result) {
+					public void apply(final NodeList result) {
 						result.each(f);
 					}
 
@@ -93,19 +92,19 @@ public class OnedbNodeListQuery implements ListQuery, OnedbEntityList {
 	}
 
 	@Override
-	public ListQuery catchUnauthorized(UnauthorizedListener listener) {
+	public ListQuery catchUnauthorized(final UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}
 
 	@Override
-	public ListQuery catchUndefined(UndefinedListener listener) {
+	public ListQuery catchUndefined(final UndefinedListener listener) {
 		exceptionManager.catchUndefined(listener);
 		return this;
 	}
 
 	@Override
-	public void get(Closure<NodeList> callback) {
+	public void get(final Closure<NodeList> callback) {
 		result.get(callback);
 
 	}
@@ -122,7 +121,7 @@ public class OnedbNodeListQuery implements ListQuery, OnedbEntityList {
 	}
 
 	@Override
-	public ListQuery selectAll(Link propertyType) {
+	public ListQuery selectAll(final Link propertyType) {
 		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
 				.plugins(getSession()).selectForLists();
 		return plugin(selectForLists).selectAll(propertyType);

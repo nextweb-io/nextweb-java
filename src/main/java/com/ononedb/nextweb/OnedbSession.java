@@ -49,7 +49,7 @@ public class OnedbSession implements Session {
 		return getOnedbEngine();
 	}
 
-	public OnedbSession(OnedbNextwebEngine engine, OneClient client) {
+	public OnedbSession(final OnedbNextwebEngine engine, final OneClient client) {
 		super();
 		this.engine = engine;
 		this.client = client;
@@ -59,7 +59,7 @@ public class OnedbSession implements Session {
 
 	@Override
 	public Result<Success> commit() {
-		Result<Success> commitResult = this.engine.createResult(
+		final Result<Success> commitResult = this.engine.createResult(
 				exceptionManager, this, new AsyncResult<Success>() {
 
 					@Override
@@ -67,12 +67,12 @@ public class OnedbSession implements Session {
 						client.one().commit(client).and(new WhenCommitted() {
 
 							@Override
-							public void thenDo(WithCommittedResult arg0) {
+							public void thenDo(final WithCommittedResult arg0) {
 								callback.onSuccess(Success.INSTANCE);
 							}
 
 							@Override
-							public void onFailure(Throwable t) {
+							public void onFailure(final Throwable t) {
 								callback.onFailure(Fn.exception(this, t));
 							}
 
@@ -83,7 +83,7 @@ public class OnedbSession implements Session {
 		commitResult.get(new Closure<Success>() {
 
 			@Override
-			public void apply(Success o) {
+			public void apply(final Success o) {
 
 			}
 		});
@@ -94,7 +94,7 @@ public class OnedbSession implements Session {
 	@Override
 	public Result<Success> close() {
 
-		Result<Success> closeResult = this.engine.createResult(
+		final Result<Success> closeResult = this.engine.createResult(
 				exceptionManager, this, new AsyncResult<Success>() {
 
 					@Override
@@ -109,7 +109,7 @@ public class OnedbSession implements Session {
 
 											@Override
 											public void thenDo(
-													WithCommittedResult r) {
+													final WithCommittedResult r) {
 												client.runSafe(new Runnable() {
 
 													@Override
@@ -126,7 +126,7 @@ public class OnedbSession implements Session {
 
 																	@Override
 																	public void onFailure(
-																			Throwable t) {
+																			final Throwable t) {
 																		callback.onFailure(Fn
 																				.exception(
 																						this,
@@ -140,7 +140,8 @@ public class OnedbSession implements Session {
 											}
 
 											@Override
-											public void onFailure(Throwable t) {
+											public void onFailure(
+													final Throwable t) {
 												callback.onFailure(Fn
 														.exception(this, t));
 											}
@@ -157,7 +158,7 @@ public class OnedbSession implements Session {
 		closeResult.get(new Closure<Success>() {
 
 			@Override
-			public void apply(Success o) {
+			public void apply(final Success o) {
 
 			}
 
@@ -167,7 +168,7 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
-	public Link node(String uri) {
+	public Link node(final String uri) {
 		return engine.getFactory().createLink(this, null, uri, ""); // _NO_
 																	// parent
 		// exception
@@ -175,31 +176,31 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
-	public Link node(String uri, String secret) {
+	public Link node(final String uri, final String secret) {
 
 		return engine.getFactory().createLink(this, null, uri, secret);
 	}
 
 	@Override
-	public Session getAll(Result<?>... results) {
+	public Session getAll(final Result<?>... results) {
 
-		Result<SuccessFail> callback = getAll(true, results);
+		final Result<SuccessFail> callback = getAll(true, results);
 
 		client.one().commit(client).and(new WhenCommitted() {
 
 			@Override
-			public void thenDo(WithCommittedResult r) {
+			public void thenDo(final WithCommittedResult r) {
 
 			}
 
 			@Override
-			public void onFailure(Throwable t) {
+			public void onFailure(final Throwable t) {
 				exceptionManager.onFailure(Fn.exception(this, t));
 			}
 
 		});
 
-		SuccessFail result = callback.get();
+		final SuccessFail result = callback.get();
 
 		if (result == null) {
 			return this;
@@ -215,7 +216,7 @@ public class OnedbSession implements Session {
 	@Override
 	public Result<SuccessFail> getAll(final boolean asynchronous,
 			final Result<?>... results) {
-		Result<SuccessFail> getAllResult = engine.createResult(
+		final Result<SuccessFail> getAllResult = engine.createResult(
 				exceptionManager, this, new AsyncResult<SuccessFail>() {
 
 					@SuppressWarnings({ "unchecked" })
@@ -226,7 +227,7 @@ public class OnedbSession implements Session {
 								results.length) {
 
 							@Override
-							public void onFailed(Throwable arg0) {
+							public void onFailed(final Throwable arg0) {
 								callback.onSuccess(SuccessFail.fail(arg0));
 							}
 
@@ -236,16 +237,16 @@ public class OnedbSession implements Session {
 							}
 						};
 
-						Result<Object>[] resultObj = (Result<Object>[]) results;
+						final Result<Object>[] resultObj = (Result<Object>[]) results;
 
-						for (Result<Object> result : resultObj) {
-							EagerCallback<Object> eagerCallback = CallbackFactory
+						for (final Result<Object> result : resultObj) {
+							final EagerCallback<Object> eagerCallback = CallbackFactory
 									.eagerCallback(OnedbSession.this,
 											exceptionManager,
 											new Closure<Object>() {
 
 												@Override
-												public void apply(Object o) {
+												public void apply(final Object o) {
 													latch.registerSuccess();
 												}
 
@@ -254,7 +255,7 @@ public class OnedbSession implements Session {
 
 												@Override
 												public void onFailure(
-														ExceptionResult r) {
+														final ExceptionResult r) {
 													latch.registerFail(r
 															.exception());
 												}
@@ -269,12 +270,10 @@ public class OnedbSession implements Session {
 		return getAllResult;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends Session, PluginType extends Plugin<GType>> PluginType plugin(
-			PluginFactory<GType, PluginType> factory) {
-
-		return Plugins.plugin((GType) this, factory);
+	public <PluginType extends Plugin<?>> PluginType plugin(
+			final PluginFactory<?, ? extends PluginType> factory) {
+		return Plugins.plugin(this, factory);
 	}
 
 	@Override

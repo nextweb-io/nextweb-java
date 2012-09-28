@@ -10,4 +10,9 @@ public interface Link extends Entity, EntityRequestOperations<Link>,
 
 	public String uri();
 
+	public String getSecret();
+
+	// public <PluginType extends Plugin<?>> PluginType pluginTest(
+	// PluginFactory<?, ? extends PluginType> factory);
+
 }

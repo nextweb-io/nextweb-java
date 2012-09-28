@@ -1,6 +1,5 @@
 package com.ononedb.nextweb;
 
-import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
@@ -31,12 +30,10 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	private final OnedbSession session;
 	private final ExceptionManager exceptionManager;
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends EntityList, PluginType extends Plugin<GType>> PluginType plugin(
-			PluginFactory<GType, PluginType> factory) {
-		return Plugins.plugin((GType) this, factory);
-
+	public <PluginType extends Plugin<?>> PluginType plugin(
+			final PluginFactory<?, ? extends PluginType> factory) {
+		return Plugins.plugin(this, factory);
 	}
 
 	@Override
@@ -56,7 +53,7 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	}
 
 	@Override
-	public boolean contains(Object o) {
+	public boolean contains(final Object o) {
 
 		return list.contains(o);
 	}
@@ -68,7 +65,7 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	}
 
 	@Override
-	public Node get(int index) {
+	public Node get(final int index) {
 		return list.get(index);
 	}
 
@@ -77,8 +74,8 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 		return list.toString();
 	}
 
-	public OnedbNodeList(OnedbSession session,
-			ExceptionManager parentExceptionManager, List<Node> list) {
+	public OnedbNodeList(final OnedbSession session,
+			final ExceptionManager parentExceptionManager, final List<Node> list) {
 		super();
 		this.list = list;
 		this.session = session;
@@ -87,7 +84,7 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	}
 
 	@Override
-	public NodeList each(Closure<Node> f) {
+	public NodeList each(final Closure<Node> f) {
 		H.each(this, list, f);
 		return this;
 	}
@@ -111,39 +108,39 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 
 	@Override
 	public List<Object> values() {
-		List<Object> values = new ArrayList<Object>(this.list.size());
+		final List<Object> values = new ArrayList<Object>(this.list.size());
 
-		for (Node n : this.list) {
+		for (final Node n : this.list) {
 			values.add(n.value());
 		}
 		return values;
 	}
 
 	@Override
-	public void get(Callback<NodeList> callback) {
+	public void get(final Callback<NodeList> callback) {
 		callback.onSuccess(this);
 	}
 
 	@Override
-	public NodeList catchExceptions(ExceptionListener listener) {
+	public NodeList catchExceptions(final ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
 		return this;
 	}
 
 	@Override
-	public NodeList catchUnauthorized(UnauthorizedListener listener) {
+	public NodeList catchUnauthorized(final UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}
 
 	@Override
-	public NodeList catchUndefined(UndefinedListener listener) {
+	public NodeList catchUndefined(final UndefinedListener listener) {
 		exceptionManager.catchUndefined(listener);
 		return this;
 	}
 
 	@Override
-	public void get(Closure<NodeList> callback) {
+	public void get(final Closure<NodeList> callback) {
 		callback.apply(this);
 	}
 
@@ -164,7 +161,7 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 	}
 
 	@Override
-	public ListQuery selectAll(Link propertyType) {
+	public ListQuery selectAll(final Link propertyType) {
 		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
 				.plugins(getSession()).selectForLists();
 		return plugin(selectForLists).selectAll(propertyType);

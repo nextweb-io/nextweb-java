@@ -1,6 +1,5 @@
 package com.ononedb.nextweb;
 
-import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
@@ -52,7 +51,7 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	}
 
 	@Override
-	public boolean contains(Object o) {
+	public boolean contains(final Object o) {
 		return list.contains(o);
 	}
 
@@ -63,7 +62,7 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	}
 
 	@Override
-	public Link get(int index) {
+	public Link get(final int index) {
 		return list.get(index);
 	}
 
@@ -73,8 +72,8 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 		return this.session;
 	}
 
-	public OnedbLinkList(OnedbSession session,
-			ExceptionManager parentExceptionManager, final List<Link> list) {
+	public OnedbLinkList(final OnedbSession session,
+			final ExceptionManager parentExceptionManager, final List<Link> list) {
 		super();
 		this.session = session;
 		this.list = list;
@@ -86,11 +85,12 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 					@Override
 					public void get(final Callback<NodeList> callback) {
 
-						ListCallbackJoiner<Link, Node> joiner = new ListCallbackJoiner<Link, Node>(
+						final ListCallbackJoiner<Link, Node> joiner = new ListCallbackJoiner<Link, Node>(
 								list, new ListCallback<Node>() {
 
 									@Override
-									public void onSuccess(List<Node> responses) {
+									public void onSuccess(
+											final List<Node> responses) {
 										callback.onSuccess(H.factory(
 												OnedbLinkList.this)
 												.createNodeList(
@@ -100,14 +100,14 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 									}
 
 									@Override
-									public void onFailure(Throwable t) {
+									public void onFailure(final Throwable t) {
 										callback.onFailure(Fn
 												.exception(this, t));
 									}
 
 								});
 
-						for (Link link : list) {
+						for (final Link link : list) {
 
 							final LocalCallback<Node> localCallback = joiner
 									.createCallback(link);
@@ -119,7 +119,7 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 									new Closure<Node>() {
 
 										@Override
-										public void apply(Node o) {
+										public void apply(final Node o) {
 											localCallback.onSuccess(o);
 										}
 									}));
@@ -149,35 +149,35 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	}
 
 	@Override
-	public void get(Callback<NodeList> callback) {
+	public void get(final Callback<NodeList> callback) {
 		result.get(callback);
 	}
 
 	@Override
-	public void get(Closure<NodeList> callback) {
+	public void get(final Closure<NodeList> callback) {
 		result.get(callback);
 	}
 
 	@Override
-	public LinkList catchExceptions(ExceptionListener listener) {
+	public LinkList catchExceptions(final ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
 		return this;
 	}
 
 	@Override
-	public LinkList each(Closure<Node> f) {
+	public LinkList each(final Closure<Node> f) {
 		H.each(this, list, f);
 		return this;
 	}
 
 	@Override
-	public LinkList catchUndefined(UndefinedListener listener) {
+	public LinkList catchUndefined(final UndefinedListener listener) {
 		exceptionManager.catchUndefined(listener);
 		return this;
 	}
 
 	@Override
-	public LinkList catchUnauthorized(UnauthorizedListener listener) {
+	public LinkList catchUnauthorized(final UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}
@@ -187,12 +187,10 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 		return Collections.unmodifiableList(list);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends EntityList, PluginType extends Plugin<GType>> PluginType plugin(
-			PluginFactory<GType, PluginType> factory) {
-		return Plugins.plugin((GType) this, factory);
-
+	public <PluginType extends Plugin<?>> PluginType plugin(
+			final PluginFactory<?, ? extends PluginType> factory) {
+		return Plugins.plugin(this, factory);
 	}
 
 	/**
@@ -207,7 +205,7 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	}
 
 	@Override
-	public ListQuery selectAll(Link propertyType) {
+	public ListQuery selectAll(final Link propertyType) {
 		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
 				.plugins(getSession()).selectForLists();
 		return plugin(selectForLists).selectAll(propertyType);

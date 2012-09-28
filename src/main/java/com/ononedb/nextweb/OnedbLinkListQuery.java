@@ -28,20 +28,19 @@ public class OnedbLinkListQuery implements LinkListQuery, OnedbObject {
 	}
 
 	@Override
-	public void get(Callback<LinkList> callback) {
+	public void get(final Callback<LinkList> callback) {
 		result.get(callback);
 	}
 
 	@Override
-	public void get(Closure<LinkList> callback) {
+	public void get(final Closure<LinkList> callback) {
 		result.get(callback);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends LinkListQuery, PluginType extends Plugin<GType>> PluginType plugin(
-			PluginFactory<GType, PluginType> factory) {
-		return Plugins.plugin((GType) this, factory);
+	public <PluginType extends Plugin<?>> PluginType plugin(
+			final PluginFactory<?, ? extends PluginType> factory) {
+		return Plugins.plugin(this, factory);
 	}
 
 	@Override
@@ -50,7 +49,7 @@ public class OnedbLinkListQuery implements LinkListQuery, OnedbObject {
 	}
 
 	@Override
-	public ListQuery selectAll(Link propertyType) {
+	public ListQuery selectAll(final Link propertyType) {
 		throw new RuntimeException("Not supported yet.");
 	}
 
@@ -65,7 +64,7 @@ public class OnedbLinkListQuery implements LinkListQuery, OnedbObject {
 	}
 
 	@Override
-	public LinkListQuery catchExceptions(ExceptionListener listener) {
+	public LinkListQuery catchExceptions(final ExceptionListener listener) {
 		this.exceptionManager.catchExceptions(listener);
 		return this;
 	}
@@ -76,9 +75,9 @@ public class OnedbLinkListQuery implements LinkListQuery, OnedbObject {
 		return session;
 	}
 
-	public OnedbLinkListQuery(OnedbSession session,
-			Result<LinkList> linkListQuery,
-			ExceptionManager parentExceptionManager) {
+	public OnedbLinkListQuery(final OnedbSession session,
+			final Result<LinkList> linkListQuery,
+			final ExceptionManager parentExceptionManager) {
 		super();
 		this.session = session;
 		this.result = linkListQuery;
@@ -99,13 +98,13 @@ public class OnedbLinkListQuery implements LinkListQuery, OnedbObject {
 	}
 
 	@Override
-	public LinkListQuery catchUnauthorized(UnauthorizedListener listener) {
+	public LinkListQuery catchUnauthorized(final UnauthorizedListener listener) {
 		exceptionManager.catchUnauthorized(listener);
 		return this;
 	}
 
 	@Override
-	public LinkListQuery catchUndefined(UndefinedListener listener) {
+	public LinkListQuery catchUndefined(final UndefinedListener listener) {
 		exceptionManager.catchUndefined(listener);
 		return this;
 	}

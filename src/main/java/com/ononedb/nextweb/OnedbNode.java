@@ -133,11 +133,10 @@ public class OnedbNode implements Node, OnedbEntity {
 				+ ")";
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <GType extends Entity, PluginType extends Plugin<GType>> PluginType plugin(
-			final PluginFactory<GType, PluginType> factory) {
-		return Plugins.plugin((GType) this, factory);
+	public <PluginType extends Plugin<?>> PluginType plugin(
+			final PluginFactory<?, ? extends PluginType> factory) {
+		return Plugins.plugin(this, factory);
 	}
 
 	@Override
