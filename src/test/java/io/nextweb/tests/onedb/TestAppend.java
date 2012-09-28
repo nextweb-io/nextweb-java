@@ -15,9 +15,9 @@ import com.ononedb.nextweb.jre.OnedbNextwebJreEngine;
 public class TestAppend {
 
 	public Session getSession() {
-		NextwebEngine engine = OnedbNextwebJreEngine.init();
+		final NextwebEngine engine = OnedbNextwebJreEngine.init();
 
-		Session session = engine.createSession();
+		final Session session = engine.createSession();
 
 		return session;
 	}
@@ -25,28 +25,28 @@ public class TestAppend {
 	@Test
 	public void testNodeAppend() throws InterruptedException {
 
-		String testNode = "http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests";
-		String testNodeSecret = "ChaiK3CZYnrr";
+		final String testNode = "http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests";
+		final String testNodeSecret = "ChaiK3CZYnrr";
 
-		Session session = getSession();
+		final Session session = getSession();
 
-		Link link = session.node(testNode, testNodeSecret);
+		final Link link = session.node(testNode, testNodeSecret);
 
-		Node node = link.get();
+		final Node node = link.get();
 
-		Query testAppend = node.append("Appending");
-		Query nested = testAppend.append("Nested");
+		final Query testAppend = node.append("Appended");
+		final Query nested = testAppend.append("Nested");
 
 		session.getAll(testAppend, nested); // should be executed in REAL TIME
 
 		session.commit().get();
 
-		Result<Success> removeNested = testAppend.remove(nested);
-		Result<Success> removeNode = node.remove(testAppend);
+		final Result<Success> removeNested = testAppend.remove(nested);
+		final Result<Success> removeNode = node.remove(testAppend);
 
 		session.getAll(removeNested, removeNode);
 
-		Result<Integer> clearVersions = node.clearVersions(2);
+		final Result<Integer> clearVersions = node.clearVersions(2);
 
 		clearVersions.get();
 
@@ -57,17 +57,17 @@ public class TestAppend {
 	@Test
 	public void testNodeAppendSafe() throws InterruptedException {
 
-		String testNode = "http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests";
-		String testNodeSecret = "ChaiK3CZYnrr";
+		final String testNode = "http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests";
+		final String testNodeSecret = "ChaiK3CZYnrr";
 
-		Session session = getSession();
+		final Session session = getSession();
 
-		Link link = session.node(testNode, testNodeSecret);
+		final Link link = session.node(testNode, testNodeSecret);
 
-		Node node = link.get();
+		final Node node = link.get();
 
-		Query testAppend = node.appendSafe("Appending");
-		Query nested = testAppend.appendSafe("Nested");
+		final Query testAppend = node.appendSafe("Appended");
+		final Query nested = testAppend.appendSafe("Nested");
 
 		// testAppend.get();
 		// System.out.println("Appended first!");
@@ -75,12 +75,12 @@ public class TestAppend {
 
 		session.getAll(testAppend, nested);
 
-		Result<Success> removeNested = testAppend.remove(nested);
-		Result<Success> removeNode = node.remove(testAppend);
+		final Result<Success> removeNested = testAppend.remove(nested);
+		final Result<Success> removeNode = node.remove(testAppend);
 
 		session.getAll(removeNested, removeNode);
 
-		Result<Integer> clearVersions = node.clearVersions(2);
+		final Result<Integer> clearVersions = node.clearVersions(2);
 
 		clearVersions.get();
 
