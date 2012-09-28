@@ -42,18 +42,19 @@ import com.ononedb.nextweb.plugins.P_Entity_SetValue_Factory;
  */
 public class H {
 
-	public static CoreDsl dsl(OnedbObject fromObj) {
+	public static CoreDsl dsl(final OnedbObject fromObj) {
 		return client(fromObj).one();
 	}
 
 	public static <N extends Entity, E extends EntityList> void each(
-			EntityList entity, Iterable<N> list, final Closure<Node> f) {
-		for (N e : list) {
+			final EntityList entity, final Iterable<N> list,
+			final Closure<Node> f) {
+		for (final N e : list) {
 			e.get(CallbackFactory.lazyCallback(entity.getSession(),
 					entity.getExceptionManager(), new Closure<Node>() {
 
 						@Override
-						public void apply(Node o) {
+						public void apply(final Node o) {
 							f.apply(o);
 						}
 
@@ -62,31 +63,31 @@ public class H {
 		}
 	}
 
-	public static OneClient client(OnedbObject fromObj) {
+	public static OneClient client(final OnedbObject fromObj) {
 		return session(fromObj).getClient();
 	}
 
-	public static OneTypedReference<?> node(CoreDsl dsl, Node node) {
+	public static OneTypedReference<?> node(final CoreDsl dsl, final Node node) {
 		return dsl.reference(node.getUri());
 	}
 
-	public static OnedbFactory factory(OnedbObject fromObj) {
+	public static OnedbFactory factory(final OnedbObject fromObj) {
 		return session(fromObj).getFactory();
 	}
 
-	public static OnedbFactory factory(OnedbEntityList list) {
+	public static OnedbFactory factory(final OnedbEntityList list) {
 		return session(list).getFactory();
 	}
 
-	public static final OnedbSession session(OnedbObject fromObj) {
+	public static final OnedbSession session(final OnedbObject fromObj) {
 		return fromObj.getOnedbSession();
 	}
 
-	public static final OnedbNextwebEngine engine(OnedbObject fromObj) {
+	public static final OnedbNextwebEngine engine(final OnedbObject fromObj) {
 		return fromObj.getOnedbSession().getOnedbEngine();
 	}
 
-	public static DefaultPluginFactory plugins(Session session) {
+	public static DefaultPluginFactory plugins(final Session session) {
 		return session.getEngine().plugin();
 	}
 
@@ -140,37 +141,41 @@ public class H {
 
 			@Override
 			public <GEntity extends Entity, GPlugin extends Plugin_Entity_Select<GEntity>> PluginFactory<GEntity, GPlugin> select() {
-				return (PluginFactory<GEntity, GPlugin>) P_Entity_Select_Factory.FACTORY;
+				final Object factory = P_Entity_Select_Factory.FACTORY;
+				return (PluginFactory<GEntity, GPlugin>) factory;
 			}
 
 			@Override
 			public <GEntity extends EntityList, GPlugin extends Plugin_EntityList_Select<GEntity>> PluginFactory<GEntity, GPlugin> selectForLists() {
-				return (PluginFactory<GEntity, GPlugin>) P_EntityList_Select_Factory.FACTORY;
+				final Object factory = P_EntityList_Select_Factory.FACTORY;
+				return (PluginFactory<GEntity, GPlugin>) factory;
 			}
 
 			@Override
 			public <GEntity extends Entity, GPlugin extends Plugin_Entity_Append<GEntity>> PluginFactory<GEntity, GPlugin> append() {
 
-				return (PluginFactory<GEntity, GPlugin>) P_Entity_Append_Factory.FACTORY;
+				final Object factory = P_Entity_Append_Factory.FACTORY;
+				return (PluginFactory<GEntity, GPlugin>) factory;
 			}
 
 			@Override
 			public <GEntity extends Entity, GPlugin extends Plugin_Entity_Remove<GEntity>> PluginFactory<GEntity, GPlugin> remove() {
-
-				return (PluginFactory<GEntity, GPlugin>) P_Entity_Remove_Factory.FACTORY;
+				final Object object = P_Entity_Remove_Factory.FACTORY;
+				return (PluginFactory<GEntity, GPlugin>) object;
 
 			}
 
 			@Override
 			public <GEntity extends Entity, GPlugin extends Plugin_Entity_ClearVersions<GEntity>> PluginFactory<GEntity, GPlugin> clearVersions() {
-
-				return (PluginFactory<GEntity, GPlugin>) P_Entity_ClearVersions_Factory.FACTORY;
+				final Object object = P_Entity_ClearVersions_Factory.FACTORY;
+				return (PluginFactory<GEntity, GPlugin>) object;
 			}
 
 			@Override
 			public <GEntity extends Entity, GPlugin extends Plugin_Entity_SetValue<GEntity>> PluginFactory<GEntity, GPlugin> setValue() {
 
-				return (PluginFactory<GEntity, GPlugin>) P_Entity_SetValue_Factory.FACTORY;
+				final Object object = P_Entity_SetValue_Factory.FACTORY;
+				return (PluginFactory<GEntity, GPlugin>) object;
 			}
 
 		};
