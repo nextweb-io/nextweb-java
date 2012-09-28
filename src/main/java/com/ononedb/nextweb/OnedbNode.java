@@ -179,9 +179,71 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public <GEntity extends Entity> GEntity append(GEntity entity) {
-
+	public Query append(Entity entity) {
 		return plugin(H.plugins(session).append()).append(entity);
+	}
+
+	@Override
+	public Query appendSafe(Object value) {
+		return plugin(H.plugins(session).append()).appendSafe(value);
+	}
+
+	@Override
+	public Query appendSafe(Object value, String atAddress) {
+		return plugin(H.plugins(session).append()).appendSafe(value, atAddress);
+	}
+
+	@Override
+	public Query appendValueSafe(Object value) {
+		return plugin(H.plugins(session).append()).appendValueSafe(value);
+	}
+
+	@Override
+	public Query appendSafe(Entity entity) {
+		return plugin(H.plugins(session).append()).appendSafe(entity);
+	}
+
+	@Override
+	public Query insert(Object value, int atIndex) {
+		return plugin(H.plugins(session).append()).insert(value, atIndex);
+	}
+
+	@Override
+	public Query insert(Object value, String atAddress, int atIndex) {
+		return plugin(H.plugins(session).append()).insert(value, atAddress,
+				atIndex);
+	}
+
+	@Override
+	public Query insertValue(Object value, int atIndex) {
+		return plugin(H.plugins(session).append()).insertValue(value, atIndex);
+	}
+
+	@Override
+	public Query insert(Entity entity, int atIndex) {
+		return plugin(H.plugins(session).append()).insertValue(entity, atIndex);
+	}
+
+	@Override
+	public Query insertSafe(Object value, int atIndex) {
+		return plugin(H.plugins(session).append()).insertSafe(value, atIndex);
+	}
+
+	@Override
+	public Query insertSafe(Object value, String atAddress, int atIndex) {
+		return plugin(H.plugins(session).append()).insertSafe(value, atAddress,
+				atIndex);
+	}
+
+	@Override
+	public Query insertValueSafe(Object value, int atIndex) {
+		return plugin(H.plugins(session).append()).insertValueSafe(value,
+				atIndex);
+	}
+
+	@Override
+	public Query insertSafe(Entity entity, int atIndex) {
+		return plugin(H.plugins(session).append()).insertSafe(entity, atIndex);
 	}
 
 	@Override
