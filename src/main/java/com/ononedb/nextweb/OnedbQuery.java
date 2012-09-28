@@ -149,7 +149,10 @@ public class OnedbQuery implements Query, OnedbEntity {
 
 	@Override
 	public Query appendSafe(Object value) {
-		return plugin(H.plugins(session).append()).appendSafe(value);
+		Query appendSafe = plugin(H.plugins(session).append())
+				.appendSafe(value);
+
+		return appendSafe;
 	}
 
 	@Override

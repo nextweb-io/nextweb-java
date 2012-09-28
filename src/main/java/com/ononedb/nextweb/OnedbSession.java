@@ -185,6 +185,20 @@ public class OnedbSession implements Session {
 
 		Result<SuccessFail> callback = getAll(true, results);
 
+		client.one().commit(client).and(new WhenCommitted() {
+
+			@Override
+			public void thenDo(WithCommittedResult r) {
+
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+				exceptionManager.onFailure(Fn.exception(this, t));
+			}
+
+		});
+
 		SuccessFail result = callback.get();
 
 		if (result == null) {

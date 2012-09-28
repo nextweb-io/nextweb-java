@@ -53,4 +53,38 @@ public class TestAppend {
 		session.close().get();
 
 	}
+
+	@Test
+	public void testNodeAppendSafe() throws InterruptedException {
+
+		String testNode = "http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests";
+		String testNodeSecret = "ChaiK3CZYnrr";
+
+		Session session = getSession();
+
+		Link link = session.node(testNode, testNodeSecret);
+
+		Node node = link.get();
+
+		Query testAppend = node.appendSafe("Appending");
+		Query nested = testAppend.appendSafe("Nested");
+
+		// testAppend.get();
+		// System.out.println("Appended first!");
+		// session.commit().get();
+
+		session.getAll(testAppend, nested);
+
+		Result<Success> removeNested = testAppend.remove(nested);
+		Result<Success> removeNode = node.remove(testAppend);
+
+		session.getAll(removeNested, removeNode);
+
+		Result<Integer> clearVersions = node.clearVersions(2);
+
+		clearVersions.get();
+
+		session.close().get();
+
+	}
 }
