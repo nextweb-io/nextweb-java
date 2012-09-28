@@ -4,9 +4,9 @@ import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.ListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
@@ -21,6 +21,7 @@ import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
+import io.nextweb.plugins.core.Plugin_EntityList_Select;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -64,37 +65,6 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	@Override
 	public Link get(int index) {
 		return list.get(index);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <GType extends EntityList, PluginType extends Plugin<GType>> PluginType plugin(
-			PluginFactory<GType, PluginType> factory) {
-		return Plugins.plugin((GType) this, factory);
-
-	}
-
-	@Override
-	public ListQuery select(final Link propertyType) {
-		return plugin(H.plugins(getSession()).selectForLists()).select(
-				propertyType);
-	}
-
-	@Override
-	public ListQuery selectAll(Link propertyType) {
-		return plugin(H.plugins(getSession()).selectForLists()).selectAll(
-				propertyType);
-	}
-
-	@Override
-	public LinkListQuery selectAllLinks() {
-		return plugin(H.plugins(getSession()).selectForLists())
-				.selectAllLinks();
-	}
-
-	@Override
-	public ListQuery selectAll() {
-		return plugin(H.plugins(getSession()).selectForLists()).selectAll();
 	}
 
 	@Override
@@ -215,6 +185,46 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	@Override
 	public List<Link> asList() {
 		return Collections.unmodifiableList(list);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <GType extends EntityList, PluginType extends Plugin<GType>> PluginType plugin(
+			PluginFactory<GType, PluginType> factory) {
+		return Plugins.plugin((GType) this, factory);
+
+	}
+
+	/**
+	 * Plugins
+	 */
+
+	@Override
+	public ListQuery select(final Link propertyType) {
+		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
+				.plugins(getSession()).selectForLists();
+		return plugin(selectForLists).select(propertyType);
+	}
+
+	@Override
+	public ListQuery selectAll(Link propertyType) {
+		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
+				.plugins(getSession()).selectForLists();
+		return plugin(selectForLists).selectAll(propertyType);
+	}
+
+	@Override
+	public LinkListQuery selectAllLinks() {
+		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
+				.plugins(getSession()).selectForLists();
+		return plugin(selectForLists).selectAllLinks();
+	}
+
+	@Override
+	public ListQuery selectAll() {
+		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
+				.plugins(getSession()).selectForLists();
+		return plugin(selectForLists).selectAll();
 	}
 
 }

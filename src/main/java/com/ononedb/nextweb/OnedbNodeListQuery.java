@@ -3,9 +3,9 @@ package com.ononedb.nextweb;
 import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.ListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
@@ -18,6 +18,7 @@ import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
+import io.nextweb.plugins.core.Plugin_EntityList_Select;
 
 import com.ononedb.nextweb.common.H;
 
@@ -65,29 +66,6 @@ public class OnedbNodeListQuery implements ListQuery, OnedbEntityList {
 	}
 
 	@Override
-	public ListQuery select(final Link propertyType) {
-		return plugin(H.plugins(getSession()).selectForLists()).select(
-				propertyType);
-	}
-
-	@Override
-	public ListQuery selectAll(Link propertyType) {
-		return plugin(H.plugins(getSession()).selectForLists()).selectAll(
-				propertyType);
-	}
-
-	@Override
-	public LinkListQuery selectAllLinks() {
-		return plugin(H.plugins(getSession()).selectForLists())
-				.selectAllLinks();
-	}
-
-	@Override
-	public ListQuery selectAll() {
-		return plugin(H.plugins(getSession()).selectForLists()).selectAll();
-	}
-
-	@Override
 	public Session getSession() {
 
 		return this.session;
@@ -130,6 +108,38 @@ public class OnedbNodeListQuery implements ListQuery, OnedbEntityList {
 	public void get(Closure<NodeList> callback) {
 		result.get(callback);
 
+	}
+
+	/**
+	 * Plugins
+	 */
+
+	@Override
+	public ListQuery select(final Link propertyType) {
+		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
+				.plugins(getSession()).selectForLists();
+		return plugin(selectForLists).select(propertyType);
+	}
+
+	@Override
+	public ListQuery selectAll(Link propertyType) {
+		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
+				.plugins(getSession()).selectForLists();
+		return plugin(selectForLists).selectAll(propertyType);
+	}
+
+	@Override
+	public LinkListQuery selectAllLinks() {
+		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
+				.plugins(getSession()).selectForLists();
+		return plugin(selectForLists).selectAllLinks();
+	}
+
+	@Override
+	public ListQuery selectAll() {
+		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
+				.plugins(getSession()).selectForLists();
+		return plugin(selectForLists).selectAll();
 	}
 
 }
