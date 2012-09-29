@@ -8,6 +8,7 @@ import io.nextweb.operations.entity.EntitySetValueOperations;
 
 public interface EntityOperations extends EntitySelectOperations,
 		EntityRemoveOperations, EntityClearVersionsOperations,
-		EntityAppendOperations, EntitySetValueOperations {
+		EntityAppendOperations, EntitySetValueOperations,
+		EntityMonitorOperations {
 
 }

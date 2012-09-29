@@ -7,9 +7,11 @@ import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.BooleanResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
+import io.nextweb.fn.Fn;
 import io.nextweb.fn.IntegerResult;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
@@ -25,6 +27,11 @@ import io.nextweb.plugins.core.Plugin_Entity_ClearVersions;
 import io.nextweb.plugins.core.Plugin_Entity_Remove;
 import io.nextweb.plugins.core.Plugin_Entity_Select;
 import io.nextweb.plugins.core.Plugin_Entity_SetValue;
+import one.core.dsl.CoreDsl;
+import one.core.dsl.callbacks.WhenLoaded;
+import one.core.dsl.callbacks.results.WithLoadResult;
+import one.core.dsl.callbacks.results.WithUnauthorizedContext;
+import one.core.dsl.callbacks.results.WithUndefinedContext;
 import one.core.nodes.OneTypedReference;
 import one.core.nodes.OneValue;
 
@@ -90,6 +97,62 @@ public class OnedbNode implements Node, OnedbEntity {
 		}
 
 		return (ValueType) value;
+	}
+
+	@Override
+	public Query reload() {
+		final AsyncResult<Node> reloadResult = new AsyncResult<Node>() {
+
+			@Override
+			public void get(final Callback<Node> callback) {
+
+				final CoreDsl dsl = H.dsl(OnedbNode.this);
+
+				dsl.reload(getUri()).withSecret(getSecret())
+						.in(H.client(OnedbNode.this)).and(new WhenLoaded() {
+
+							@Override
+							public void thenDo(final WithLoadResult<Object> r) {
+								callback.onSuccess(session.getFactory()
+										.createNode(session, exceptionManager,
+												r.loadedNode(), getSecret()));
+							}
+
+							@Override
+							public void onUndefined(
+									final WithUndefinedContext context) {
+								callback.onUndefined(H.createUndefinedResult(
+										this, getUri()));
+							}
+
+							@Override
+							public void onUnauthorized(
+									final WithUnauthorizedContext context) {
+								callback.onUnauthorized(H
+										.fromUnauthorizedContext(this, context));
+							}
+
+							@Override
+							public void onFailure(final Throwable t) {
+								callback.onFailure(Fn.exception(this, t));
+							}
+
+						});
+
+			}
+		};
+		final OnedbQuery reloadQuery = session.getFactory().createQuery(
+				session, exceptionManager, reloadResult);
+
+		reloadQuery.get(new Closure<Node>() {
+
+			@Override
+			public void apply(final Node o) {
+				// nothing
+			}
+		});
+
+		return reloadQuery;
 	}
 
 	@Override

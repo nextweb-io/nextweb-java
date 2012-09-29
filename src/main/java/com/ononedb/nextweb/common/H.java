@@ -8,6 +8,7 @@ import io.nextweb.fn.Closure;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.ImpossibleResult;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
+import io.nextweb.operations.exceptions.UndefinedResult;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.core.DefaultPluginFactory;
 import io.nextweb.plugins.core.Plugin_EntityList_Select;
@@ -180,6 +181,22 @@ public class H {
 
 		};
 
+	}
+
+	public static UndefinedResult createUndefinedResult(final Object forObj,
+			final String uri) {
+		return new UndefinedResult() {
+	
+			@Override
+			public Object origin() {
+				return forObj;
+			}
+	
+			@Override
+			public String message() {
+				return "No node is defined at address: [" + uri + "]";
+			}
+		};
 	}
 
 }

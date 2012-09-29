@@ -8,6 +8,19 @@ public interface Node extends Entity, EntityRequestOperations<Node> {
 
 	public String uri();
 
+	/**
+	 * <p>
+	 * Will load any changes for the node from the server.
+	 * </p>
+	 * 
+	 * <p>
+	 * Executed eagerly.
+	 * </p>
+	 * 
+	 * @return
+	 */
+	public Query reload();
+
 	public String getSecret();
 
 	public Object value();

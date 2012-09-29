@@ -20,7 +20,6 @@ import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
-import io.nextweb.operations.exceptions.UndefinedResult;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
@@ -115,21 +114,8 @@ public class OnedbLink implements Link, OnedbEntity {
 									@Override
 									public void onUndefined(
 											final WithUndefinedContext context) {
-										callback.onUndefined(new UndefinedResult() {
-
-											@Override
-											public Object origin() {
-
-												return this;
-											}
-
-											@Override
-											public String message() {
-
-												return "No node is defined at address: ["
-														+ uri + "]";
-											}
-										});
+										callback.onUndefined(H.createUndefinedResult(
+												this, uri));
 
 									}
 
