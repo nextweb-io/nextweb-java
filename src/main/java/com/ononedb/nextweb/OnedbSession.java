@@ -23,9 +23,12 @@ import io.nextweb.plugins.Plugins;
 import one.async.joiner.CallbackLatch;
 import one.core.domain.OneClient;
 import one.core.dsl.callbacks.WhenCommitted;
+import one.core.dsl.callbacks.WhenRealmCreated;
 import one.core.dsl.callbacks.WhenSeeded;
 import one.core.dsl.callbacks.WhenShutdown;
 import one.core.dsl.callbacks.results.WithCommittedResult;
+import one.core.dsl.callbacks.results.WithQuotaExceededContext;
+import one.core.dsl.callbacks.results.WithRealmCreatedResult;
 import one.core.dsl.callbacks.results.WithSeedResult;
 
 import com.ononedb.nextweb.internal.OnedbFactory;
@@ -136,9 +139,59 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
-	public Query createRealm(final String realmType, final String apiKey) {
-		// TODO Auto-generated method stub
-		return null;
+	public Query createRealm(final String realmTitle, final String realmType,
+			final String apiKey) {
+		final AsyncResult<Node> createRealmResult = new AsyncResult<Node>() {
+
+			@Override
+			public void get(final Callback<Node> callback) {
+
+				client.runSafe(new Runnable() {
+
+					@Override
+					public void run() {
+						client.one().createRealm(realmTitle)
+								.withType(realmType).withApiKey(apiKey)
+								.in(client).and(new WhenRealmCreated() {
+
+									@Override
+									public void thenDo(
+											final WithRealmCreatedResult cr) {
+										callback.onSuccess(engine.getFactory()
+												.createNode(
+														OnedbSession.this,
+														exceptionManager,
+														client.one().reference(
+																cr.root()),
+														cr.secret()));
+									}
+
+									@Override
+									public void onQuotaExceeded(
+											final WithQuotaExceededContext context) {
+										callback.onFailure(Fn
+												.exception(
+														this,
+														new Exception(
+																"Cannot create realm because quota for API key is exceeded.\n  Message: "
+																		+ context
+																				.message())));
+									}
+
+									@Override
+									public void onFailure(final Throwable t) {
+										callback.onFailure(Fn
+												.exception(this, t));
+									}
+
+								});
+					}
+				});
+
+			}
+		};
+		return this.engine.getFactory().createQuery(this, exceptionManager,
+				createRealmResult);
 	}
 
 	@Override
