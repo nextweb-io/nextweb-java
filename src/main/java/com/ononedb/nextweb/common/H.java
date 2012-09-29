@@ -14,6 +14,7 @@ import io.nextweb.plugins.core.DefaultPluginFactory;
 import io.nextweb.plugins.core.Plugin_EntityList_Select;
 import io.nextweb.plugins.core.Plugin_Entity_Append;
 import io.nextweb.plugins.core.Plugin_Entity_ClearVersions;
+import io.nextweb.plugins.core.Plugin_Entity_Monitor;
 import io.nextweb.plugins.core.Plugin_Entity_Remove;
 import io.nextweb.plugins.core.Plugin_Entity_Select;
 import io.nextweb.plugins.core.Plugin_Entity_SetValue;
@@ -31,6 +32,7 @@ import com.ononedb.nextweb.internal.OnedbFactory;
 import com.ononedb.nextweb.plugins.P_EntityList_Select_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Append_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_ClearVersions_Factory;
+import com.ononedb.nextweb.plugins.P_Entity_Monitor_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Remove_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Select_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_SetValue_Factory;
@@ -179,6 +181,12 @@ public class H {
 				return (PluginFactory<GEntity, GPlugin>) object;
 			}
 
+			@Override
+			public <GEntity extends Entity, GPlugin extends Plugin_Entity_Monitor<GEntity>> PluginFactory<GEntity, GPlugin> monitor() {
+				final Object object = P_Entity_Monitor_Factory.FACTORY;
+				return (PluginFactory<GEntity, GPlugin>) object;
+			}
+
 		};
 
 	}
@@ -186,12 +194,12 @@ public class H {
 	public static UndefinedResult createUndefinedResult(final Object forObj,
 			final String uri) {
 		return new UndefinedResult() {
-	
+
 			@Override
 			public Object origin() {
 				return forObj;
 			}
-	
+
 			@Override
 			public String message() {
 				return "No node is defined at address: [" + uri + "]";

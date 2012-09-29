@@ -5,9 +5,11 @@ import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
+import io.nextweb.Monitor;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.Interval;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.BooleanResult;
 import io.nextweb.fn.Closure;
@@ -25,6 +27,7 @@ import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
 import io.nextweb.plugins.core.Plugin_Entity_Append;
 import io.nextweb.plugins.core.Plugin_Entity_ClearVersions;
+import io.nextweb.plugins.core.Plugin_Entity_Monitor;
 import io.nextweb.plugins.core.Plugin_Entity_Remove;
 import io.nextweb.plugins.core.Plugin_Entity_Select;
 import io.nextweb.plugins.core.Plugin_Entity_SetValue;
@@ -114,8 +117,9 @@ public class OnedbLink implements Link, OnedbEntity {
 									@Override
 									public void onUndefined(
 											final WithUndefinedContext context) {
-										callback.onUndefined(H.createUndefinedResult(
-												this, uri));
+										callback.onUndefined(H
+												.createUndefinedResult(this,
+														uri));
 
 									}
 
@@ -370,4 +374,13 @@ public class OnedbLink implements Link, OnedbEntity {
 				.plugins(session).clearVersions();
 		return plugin(clearVersions).clearVersions(keepVersions);
 	}
+
+	@Override
+	public Result<Monitor> monitor(final Closure<Node> whenChanged,
+			final Interval interval) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Monitor<OnedbEntity>> monitor = H
+				.plugins(session).monitor();
+		return plugin(monitor).monitor(whenChanged, interval);
+	}
+
 }
