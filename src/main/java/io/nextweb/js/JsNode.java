@@ -16,11 +16,38 @@ import org.timepedia.exporter.client.NoExport;
 @Export
 public class JsNode implements Exportable, JsEntity<Node> {
 
-	private Node node;
+	private Node original;
+
+	@Override
+	@NoExport
+	public Node getOriginal() {
+		return original;
+	}
+
+	@Override
+	@NoExport
+	public void setOriginal(final Node node) {
+		this.original = node;
+	}
+
+	@NoExport
+	public static JsNode wrap(final Node node) {
+		final JsNode jsNode = new JsNode();
+		jsNode.setOriginal(node);
+		return jsNode;
+	}
+
+	public JsNode() {
+		super();
+	}
+
+	/*
+	 * Js Interface
+	 */
 
 	@Export
 	public String getUri() {
-		return node.getUri();
+		return original.getUri();
 	}
 
 	@Export
@@ -30,8 +57,8 @@ public class JsNode implements Exportable, JsEntity<Node> {
 
 	@Export
 	public Object getValue() {
-		return ((NextwebEngineJs) node.getSession().getEngine()).jsFactory()
-				.wrapValueObjectForJs(node.getValue());
+		return ((NextwebEngineJs) original.getSession().getEngine())
+				.jsFactory().wrapValueObjectForJs(original.getValue());
 	}
 
 	@Export
@@ -40,103 +67,34 @@ public class JsNode implements Exportable, JsEntity<Node> {
 	}
 
 	@Export
-	@Override
-	public JsQuery setValue(Object newValue) {
-		return JH.op(node).setValue().setValue(newValue);
+	public JsQuery reload() {
+		return JH.jsFactory(original).createQuery(original.reload());
 	}
 
-	@Export
-	@Override
-	public JsQuery value(Object newValue) {
-		return setValue(newValue);
-	}
-
-	@Export
-	@Override
-	public JsQuery setValueSafe(Object newValue) {
-		return JH.op(node).setValue().setValueSafe(newValue);
-	}
-
-	@Override
-	@Export
-	public Object append(Object value) {
-		return JH.op(node).append().append(value);
-	}
-
-	@Export
-	@Override
-	public Object append(Object value, String atAddress) {
-		return JH.op(node).append().append(value, atAddress);
-	}
-
-	@Export
-	@Override
-	public Object appendValue(Object value) {
-		return JH.op(node).append().appendValue(value);
-	}
-
-	@Override
-	@Export
-	public Object get(Object... params) {
-		return JH.get(this, params);
-	}
-
-	@Override
-	@Export
-	public JsResult remove(Object entity) {
-		return JH.op(node).remove().remove(entity);
-	}
-
-	@Override
-	@Export
-	public JsResult clearVersions(int keepVersions) {
-		return JH.jsFactory(node)
-				.createResult(node.clearVersions(keepVersions));
-	}
-
-	@Override
-	@NoExport
-	public Node getOriginal() {
-		return node;
-	}
-
-	@Override
-	@NoExport
-	public void setOriginal(Node node) {
-		this.node = node;
-	}
-
-	@NoExport
-	public static JsNode wrap(Node node) {
-		JsNode jsNode = new JsNode();
-		jsNode.setOriginal(node);
-		return jsNode;
-	}
-
-	public JsNode() {
-		super();
-	}
+	/**
+	 * Entity common
+	 */
 
 	@Export
 	@Override
 	public JsSession getSession() {
-		return JH.jsFactory(node).createSession(node.getSession());
+		return JH.jsFactory(original).createSession(original.getSession());
 	}
 
 	@Export
 	@Override
 	public JsExceptionManager getExceptionManager() {
-		return JH.jsFactory(node).createExceptionManager(
-				node.getExceptionManager());
+		return JH.jsFactory(original).createExceptionManager(
+				original.getExceptionManager());
 	}
 
 	@Export
 	@Override
 	public void catchExceptions(final JsClosure listener) {
-		node.getExceptionManager().catchExceptions(new ExceptionListener() {
+		original.getExceptionManager().catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(ExceptionResult r) {
+			public void onFailure(final ExceptionResult r) {
 				listener.apply(r.exception());
 			}
 		});
@@ -144,28 +102,84 @@ public class JsNode implements Exportable, JsEntity<Node> {
 
 	@Export
 	@Override
+	public JsQuery setValue(final Object newValue) {
+		return JH.op(original).setValue().setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery value(final Object newValue) {
+		return setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery setValueSafe(final Object newValue) {
+		return JH.op(original).setValue().setValueSafe(newValue);
+	}
+
+	@Override
+	@Export
+	public Object append(final Object value) {
+		return JH.op(original).append().append(value);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value, final String atAddress) {
+		return JH.op(original).append().append(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValue(final Object value) {
+		return JH.op(original).append().appendValue(value);
+	}
+
+	@Override
+	@Export
+	public Object get(final Object... params) {
+		return JH.get(this, params);
+	}
+
+	@Override
+	@Export
+	public JsResult remove(final Object entity) {
+		return JH.op(original).remove().remove(entity);
+	}
+
+	@Override
+	@Export
+	public JsResult clearVersions(final int keepVersions) {
+		return JH.jsFactory(original).createResult(
+				original.clearVersions(keepVersions));
+	}
+
+	@Export
+	@Override
 	public JsLinkListQuery selectAllLinks() {
-		return JH.jsFactory(node).createLinkListQuery(node.selectAllLinks());
+		return JH.jsFactory(original).createLinkListQuery(
+				original.selectAllLinks());
 	}
 
 	@Export
 	@Override
-	public JsNodeListQuery selectAll(JsLink propertyType) {
-		return JH.jsFactory(node).createNodeListQuery(
-				node.selectAll(propertyType.getOriginal()));
+	public JsNodeListQuery selectAll(final JsLink propertyType) {
+		return JH.jsFactory(original).createNodeListQuery(
+				original.selectAll(propertyType.getOriginal()));
 	}
 
 	@Export
 	@Override
-	public JsQuery select(JsLink propertyType) {
-		return JH.jsFactory(node).createQuery(
-				node.select(propertyType.getOriginal()));
+	public JsQuery select(final JsLink propertyType) {
+		return JH.jsFactory(original).createQuery(
+				original.select(propertyType.getOriginal()));
 	}
 
 	@Export
 	@Override
 	public JsNodeListQuery selectAll() {
-		return JH.jsFactory(node).createNodeListQuery(node.selectAll());
+		return JH.jsFactory(original).createNodeListQuery(original.selectAll());
 	}
 
 }

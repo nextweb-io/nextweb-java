@@ -39,7 +39,7 @@ public class TestMonitor {
 
 			@Override
 			public void apply(final Node o) {
-				System.out.println("Change detected!");
+				// System.out.println("Change detected!");
 				latch.countDown();
 			}
 		});
