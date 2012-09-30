@@ -25,9 +25,9 @@ public class P_Entity_Monitor implements Plugin_Entity_Monitor<OnedbEntity> {
 	OnedbEntity entity;
 
 	@Override
-	public Result<Monitor> monitor(final Closure<Node> whenChanged,
-			final Interval interval) {
-		final AsyncResult<Monitor> monitorResult = new AsyncResult<Monitor>() {
+	public Result<Monitor> monitor(final Interval interval,
+			final Closure<Node> whenChanged) {
+		final AsyncResult<Monitor> monitorAsycResult = new AsyncResult<Monitor>() {
 
 			@Override
 			public void get(final Callback<Monitor> callback) {
@@ -118,8 +118,19 @@ public class P_Entity_Monitor implements Plugin_Entity_Monitor<OnedbEntity> {
 
 			}
 		};
-		return H.engine(entity).createResult(entity.getExceptionManager(),
-				entity.getSession(), monitorResult);
+		final Result<Monitor> monitorResult = H.engine(entity).createResult(
+				entity.getExceptionManager(), entity.getSession(),
+				monitorAsycResult);
+
+		monitorResult.get(new Closure<Monitor>() {
+
+			@Override
+			public void apply(final Monitor o) {
+				// nothing
+			}
+		});
+
+		return monitorResult;
 	}
 
 	@Override

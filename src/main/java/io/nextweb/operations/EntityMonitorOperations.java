@@ -8,6 +8,6 @@ import io.nextweb.fn.Result;
 
 public interface EntityMonitorOperations {
 
-	public Result<Monitor> monitor(Closure<Node> whenChanged, Interval interval);
+	public Result<Monitor> monitor(Interval interval, Closure<Node> whenChanged);
 
 }

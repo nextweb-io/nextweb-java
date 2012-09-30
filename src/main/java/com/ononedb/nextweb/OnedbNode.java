@@ -411,11 +411,11 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
-	public Result<Monitor> monitor(final Closure<Node> whenChanged,
-			final Interval interval) {
+	public Result<Monitor> monitor(final Interval interval,
+			final Closure<Node> whenChanged) {
 		final PluginFactory<OnedbEntity, Plugin_Entity_Monitor<OnedbEntity>> monitor = H
 				.plugins(session).monitor();
-		return plugin(monitor).monitor(whenChanged, interval);
+		return plugin(monitor).monitor(interval, whenChanged);
 	}
 
 }
