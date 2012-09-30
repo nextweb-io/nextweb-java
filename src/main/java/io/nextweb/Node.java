@@ -27,6 +27,17 @@ public interface Node extends Entity, EntityRequestOperations<Node> {
 
 	public Object getValue();
 
+	/**
+	 * <p>
+	 * By default, Nodes are only instantiated if they exist. However, this
+	 * method can return false if the node has been removed after it has been
+	 * loaded.
+	 * </p>
+	 * 
+	 * @return
+	 */
+	public boolean exists();
+
 	public <ValueType> ValueType value(Class<ValueType> type);
 
 }

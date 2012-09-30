@@ -71,6 +71,11 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
+	public boolean exists() {
+		return H.dsl(this).isLoaded(node).in(session.getClient());
+	}
+
+	@Override
 	public Object getValue() {
 		final Object dereferenced = H.dsl(this).dereference(node)
 				.in(session.getClient());

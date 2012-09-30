@@ -39,6 +39,16 @@ public class JsLink implements Exportable, JsEntity<Link> {
 		return this.original;
 	}
 
+	@Export
+	public String getSecret() {
+		return original.getSecret();
+	}
+
+	@Export
+	public String secret() {
+		return getSecret();
+	}
+
 	public JsLink() {
 		super();
 	}

@@ -39,13 +39,13 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 	}
 
 	@Export
-	public JsLink node(String uri) {
+	public JsLink node(final String uri) {
 		return JH.jsFactory(session).createLink(session.node(uri));
 
 	}
 
 	@Export
-	public JsLink node(String uri, String secret) {
+	public JsLink node(final String uri, final String secret) {
 		return JH.jsFactory(session).createLink(session.node(uri, secret));
 	}
 
@@ -54,13 +54,25 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 		return JH.jsFactory(session).createResult(session.commit());
 	}
 
+	@Export
+	public JsQuery seed() {
+		return JH.jsFactory(session).createQuery(session.seed());
+	}
+
+	@Export
+	public JsQuery createRealm(final String realmTitle, final String realmType,
+			final String apiKey) {
+		return JH.jsFactory(session).createQuery(
+				session.createRealm(realmTitle, realmType, apiKey));
+	}
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Export
-	public void getAll(Object... params) {
+	public void getAll(final Object... params) {
 		// com.google.gwt.core.client.JsArray<JavaScriptObject> jsAr = params
 		// .cast();
 
-		Object[] jsAr = params;
+		final Object[] jsAr = params;
 
 		final List<Result<?>> requestedEntities = new ArrayList<Result<?>>(
 				jsAr.length - 1);
@@ -70,9 +82,9 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 
 		for (int i = 0; i <= jsAr.length - 1; i++) {
 
-			Object param = jsAr[i];
+			final Object param = jsAr[i];
 
-			Object gwtInstance = ExporterUtil.gwtInstance(param);
+			final Object gwtInstance = ExporterUtil.gwtInstance(param);
 			// GWT.log(gwtInstance.getClass().toString());
 			if (gwtInstance instanceof JsWrapper<?>) {
 
@@ -110,7 +122,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 						new Closure<SuccessFail>() {
 
 							@Override
-							public void apply(SuccessFail result) {
+							public void apply(final SuccessFail result) {
 								if (result.isFail()) {
 									if (callback_onFailure_Closed == null) {
 										session.getEngine()
@@ -132,9 +144,9 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 									return;
 								}
 
-								List<Object> resolvedObjects = new ArrayList<Object>(
+								final List<Object> resolvedObjects = new ArrayList<Object>(
 										requestedEntities.size());
-								for (Result<?> requestedResult : requestedEntities) {
+								for (final Result<?> requestedResult : requestedEntities) {
 									resolvedObjects.add(requestedResult.get());
 								}
 
@@ -147,7 +159,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 						}).catchExceptions(new ExceptionListener() {
 
 					@Override
-					public void onFailure(ExceptionResult r) {
+					public void onFailure(final ExceptionResult r) {
 						if (callback_onFailure_Closed == null) {
 							session.getEngine().getExceptionManager()
 									.onFailure(r);
@@ -172,13 +184,13 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 
 	@Override
 	@NoExport
-	public void setOriginal(Session session) {
+	public void setOriginal(final Session session) {
 		this.session = session;
 	}
 
 	@NoExport
-	public static JsSession wrap(Session session) {
-		JsSession jsSession = new JsSession();
+	public static JsSession wrap(final Session session) {
+		final JsSession jsSession = new JsSession();
 		jsSession.setOriginal(session);
 		return jsSession;
 	}

@@ -46,6 +46,11 @@ public class JsNode implements Exportable, JsEntity<Node> {
 	 */
 
 	@Export
+	public boolean exists() {
+		return original.exists();
+	}
+
+	@Export
 	public String getUri() {
 		return original.getUri();
 	}
@@ -53,6 +58,16 @@ public class JsNode implements Exportable, JsEntity<Node> {
 	@Export
 	public String uri() {
 		return getUri();
+	}
+
+	@Export
+	public String getSecret() {
+		return original.getSecret();
+	}
+
+	@Export
+	public String secret() {
+		return getSecret();
 	}
 
 	@Export
