@@ -15,96 +15,28 @@ import org.timepedia.exporter.client.NoExport;
 @Export
 public class JsLink implements Exportable, JsEntity<Link> {
 
-	private Link link;
-
-	@Override
-	@Export
-	public JsNodeListQuery selectAll() {
-		return JH.jsFactory(link).createNodeListQuery(link.selectAll());
-	}
-
-	@Override
-	@Export
-	public void catchExceptions(final JsClosure listener) {
-		link.catchExceptions(new ExceptionListener() {
-
-			@Override
-			public void onFailure(ExceptionResult r) {
-				listener.apply(r.exception());
-			}
-		});
-	}
-
-	@Override
-	@Export
-	public Object get(Object... params) {
-		return JH.get(this, params);
-	}
-
-	@Export
-	@Override
-	public Object append(Object value) {
-		return JH.op(link).append().append(value);
-	}
-
-	@Export
-	@Override
-	public Object append(Object value, String atAddress) {
-		return JH.op(link).append().append(value, atAddress);
-	}
-
-	@Export
-	@Override
-	public Object appendValue(Object value) {
-		return JH.op(link).append().appendValue(value);
-	}
-
-	@Export
-	@Override
-	public JsQuery setValue(Object newValue) {
-		return JH.op(link).setValue().setValue(newValue);
-	}
-
-	@Export
-	@Override
-	public JsQuery value(Object newValue) {
-		return setValue(newValue);
-	}
-
-	@Export
-	@Override
-	public JsQuery setValueSafe(Object newValue) {
-		return JH.op(link).setValue().setValueSafe(newValue);
-	}
-
-	@Override
-	@Export
-	public JsQuery select(JsLink propertyType) {
-		return JH.jsFactory(propertyType.getOriginal()).createQuery(
-				link.select(propertyType.getOriginal()));
-
-	}
+	private Link original;
 
 	@Export
 	public String getUri() {
-		return link.getUri();
+		return original.getUri();
 	}
 
 	@Export
 	public String uri() {
-		return link.uri();
+		return original.uri();
 	}
 
 	@Override
 	@NoExport
-	public void setOriginal(Link link) {
-		this.link = link;
+	public void setOriginal(final Link link) {
+		this.original = link;
 	}
 
 	@Override
 	@NoExport
 	public Link getOriginal() {
-		return this.link;
+		return this.original;
 	}
 
 	public JsLink() {
@@ -112,48 +44,178 @@ public class JsLink implements Exportable, JsEntity<Link> {
 	}
 
 	@NoExport
-	public static JsLink wrap(Link link) {
-		JsLink jsLink = new JsLink();
+	public static JsLink wrap(final Link link) {
+		final JsLink jsLink = new JsLink();
 		jsLink.setOriginal(link);
 		return jsLink;
+	}
+
+	/*
+	 * Entity common
+	 */
+
+	@Override
+	@Export
+	public JsNodeListQuery selectAll() {
+		return JH.jsFactory(original).createNodeListQuery(original.selectAll());
+	}
+
+	@Override
+	@Export
+	public void catchExceptions(final JsClosure listener) {
+		original.catchExceptions(new ExceptionListener() {
+
+			@Override
+			public void onFailure(final ExceptionResult r) {
+				listener.apply(r.exception());
+			}
+		});
+	}
+
+	@Override
+	@Export
+	public Object get(final Object... params) {
+		return JH.get(this, params);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value) {
+		return JH.op(original).append().append(value);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value, final String atAddress) {
+		return JH.op(original).append().append(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValue(final Object value) {
+		return JH.op(original).append().appendValue(value);
+	}
+
+	@Export
+	@Override
+	public JsQuery setValue(final Object newValue) {
+		return JH.op(original).setValue().setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery value(final Object newValue) {
+		return setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery setValueSafe(final Object newValue) {
+		return JH.op(original).setValue().setValueSafe(newValue);
+	}
+
+	@Override
+	@Export
+	public JsQuery select(final JsLink propertyType) {
+		return JH.jsFactory(propertyType.getOriginal()).createQuery(
+				original.select(propertyType.getOriginal()));
+
 	}
 
 	@Export
 	@Override
 	public JsSession getSession() {
-		return JH.jsFactory(link).createSession(link.getSession());
+		return JH.jsFactory(original).createSession(original.getSession());
 	}
 
 	@Export
 	@Override
 	public JsExceptionManager getExceptionManager() {
-		return JH.jsFactory(link).createExceptionManager(
-				link.getExceptionManager());
+		return JH.jsFactory(original).createExceptionManager(
+				original.getExceptionManager());
 	}
 
 	@Export
 	@Override
 	public JsLinkListQuery selectAllLinks() {
-		return JH.jsFactory(link).createLinkListQuery(link.selectAllLinks());
+		return JH.jsFactory(original).createLinkListQuery(
+				original.selectAllLinks());
 	}
 
 	@Export
 	@Override
-	public JsNodeListQuery selectAll(JsLink propertyType) {
-		return JH.jsFactory(link).createNodeListQuery(
-				link.selectAll(propertyType.getOriginal()));
+	public JsNodeListQuery selectAll(final JsLink propertyType) {
+		return JH.jsFactory(original).createNodeListQuery(
+				original.selectAll(propertyType.getOriginal()));
 	}
 
 	@Export
 	@Override
-	public JsResult remove(Object entity) {
-		return JH.op(link).remove().remove(entity);
+	public JsResult remove(final Object entity) {
+		return JH.op(original).remove().remove(entity);
 	}
 
 	@Export
 	@Override
-	public JsResult clearVersions(int keepVersions) {
-		return JH.jsFactory(link)
-				.createResult(link.clearVersions(keepVersions));
+	public JsResult clearVersions(final int keepVersions) {
+		return JH.jsFactory(original).createResult(
+				original.clearVersions(keepVersions));
 	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value) {
+		return JH.op(original).append().appendSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value, final String atAddress) {
+		return JH.op(original).append().appendSafe(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValueSafe(final Object value) {
+		return JH.op(original).append().appendValueSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final int atIndex) {
+		return JH.op(original).append().insert(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insert(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValue(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValue(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValueSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValueSafe(value, atIndex);
+	}
+
 }

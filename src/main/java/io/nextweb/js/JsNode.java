@@ -71,7 +71,7 @@ public class JsNode implements Exportable, JsEntity<Node> {
 		return JH.jsFactory(original).createQuery(original.reload());
 	}
 
-	/**
+	/*
 	 * Entity common
 	 */
 
@@ -120,24 +120,6 @@ public class JsNode implements Exportable, JsEntity<Node> {
 
 	@Override
 	@Export
-	public Object append(final Object value) {
-		return JH.op(original).append().append(value);
-	}
-
-	@Export
-	@Override
-	public Object append(final Object value, final String atAddress) {
-		return JH.op(original).append().append(value, atAddress);
-	}
-
-	@Export
-	@Override
-	public Object appendValue(final Object value) {
-		return JH.op(original).append().appendValue(value);
-	}
-
-	@Override
-	@Export
 	public Object get(final Object... params) {
 		return JH.get(this, params);
 	}
@@ -180,6 +162,80 @@ public class JsNode implements Exportable, JsEntity<Node> {
 	@Override
 	public JsNodeListQuery selectAll() {
 		return JH.jsFactory(original).createNodeListQuery(original.selectAll());
+	}
+
+	@Override
+	@Export
+	public Object append(final Object value) {
+		return JH.op(original).append().append(value);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value, final String atAddress) {
+		return JH.op(original).append().append(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValue(final Object value) {
+		return JH.op(original).append().appendValue(value);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value) {
+		return JH.op(original).append().appendSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value, final String atAddress) {
+		return JH.op(original).append().appendSafe(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValueSafe(final Object value) {
+		return JH.op(original).append().appendValueSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final int atIndex) {
+		return JH.op(original).append().insert(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insert(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValue(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValue(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValueSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValueSafe(value, atIndex);
 	}
 
 }

@@ -15,65 +15,11 @@ import org.timepedia.exporter.client.NoExport;
 @Export
 public class JsQuery implements Exportable, JsEntity<Query> {
 
-	private Query query;
-
-	@Override
-	@Export
-	public Object get(Object... params) {
-		return JH.get(this, params);
-	}
-
-	@Export
-	@Override
-	public Object append(Object value) {
-		return JH.op(query).append().append(value);
-	}
-
-	@Export
-	@Override
-	public Object append(Object value, String atAddress) {
-		return JH.op(query).append().append(value, atAddress);
-	}
-
-	@Export
-	@Override
-	public Object appendValue(Object value) {
-		return JH.op(query).append().appendValue(value);
-	}
-
-	@Export
-	@Override
-	public JsQuery setValue(Object newValue) {
-		return JH.op(query).setValue().setValue(newValue);
-	}
-
-	@Export
-	@Override
-	public JsQuery value(Object newValue) {
-		return setValue(newValue);
-	}
-
-	@Export
-	@Override
-	public JsQuery setValueSafe(Object newValue) {
-		return JH.op(query).setValue().setValueSafe(newValue);
-	}
-
-	@Override
-	@NoExport
-	public Query getOriginal() {
-		return query;
-	}
-
-	@Override
-	@NoExport
-	public void setOriginal(Query query) {
-		this.query = query;
-	}
+	private Query original;
 
 	@NoExport
-	public static JsQuery wrap(Query query) {
-		JsQuery jsQuery = new JsQuery();
+	public static JsQuery wrap(final Query query) {
+		final JsQuery jsQuery = new JsQuery();
 		jsQuery.setOriginal(query);
 		return jsQuery;
 	}
@@ -82,26 +28,84 @@ public class JsQuery implements Exportable, JsEntity<Query> {
 		super();
 	}
 
+	/*
+	 * Js Entity common
+	 */
+
+	@Override
+	@Export
+	public Object get(final Object... params) {
+		return JH.get(this, params);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value) {
+		return JH.op(original).append().append(value);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value, final String atAddress) {
+		return JH.op(original).append().append(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValue(final Object value) {
+		return JH.op(original).append().appendValue(value);
+	}
+
+	@Export
+	@Override
+	public JsQuery setValue(final Object newValue) {
+		return JH.op(original).setValue().setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery value(final Object newValue) {
+		return setValue(newValue);
+	}
+
+	@Export
+	@Override
+	public JsQuery setValueSafe(final Object newValue) {
+		return JH.op(original).setValue().setValueSafe(newValue);
+	}
+
+	@Override
+	@NoExport
+	public Query getOriginal() {
+		return original;
+	}
+
+	@Override
+	@NoExport
+	public void setOriginal(final Query query) {
+		this.original = query;
+	}
+
 	@Export
 	@Override
 	public JsSession getSession() {
-		return JH.jsFactory(query).createSession(query.getSession());
+		return JH.jsFactory(original).createSession(original.getSession());
 	}
 
 	@Export
 	@Override
 	public JsExceptionManager getExceptionManager() {
-		return JH.jsFactory(query).createExceptionManager(
-				query.getExceptionManager());
+		return JH.jsFactory(original).createExceptionManager(
+				original.getExceptionManager());
 	}
 
 	@Export
 	@Override
 	public void catchExceptions(final JsClosure listener) {
-		query.getExceptionManager().catchExceptions(new ExceptionListener() {
+		original.getExceptionManager().catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(ExceptionResult r) {
+			public void onFailure(final ExceptionResult r) {
 				listener.apply(r.exception());
 			}
 		});
@@ -110,40 +114,97 @@ public class JsQuery implements Exportable, JsEntity<Query> {
 	@Export
 	@Override
 	public JsLinkListQuery selectAllLinks() {
-		return JH.jsFactory(query).createLinkListQuery(query.selectAllLinks());
+		return JH.jsFactory(original).createLinkListQuery(
+				original.selectAllLinks());
 	}
 
 	@Export
 	@Override
-	public JsNodeListQuery selectAll(JsLink propertyType) {
-		return JH.jsFactory(query).createNodeListQuery(
-				query.selectAll(propertyType.getOriginal()));
+	public JsNodeListQuery selectAll(final JsLink propertyType) {
+		return JH.jsFactory(original).createNodeListQuery(
+				original.selectAll(propertyType.getOriginal()));
 	}
 
 	@Export
 	@Override
-	public JsQuery select(JsLink propertyType) {
-		return JH.jsFactory(query).createQuery(
-				query.select(propertyType.getOriginal()));
+	public JsQuery select(final JsLink propertyType) {
+		return JH.jsFactory(original).createQuery(
+				original.select(propertyType.getOriginal()));
 	}
 
 	@Export
 	@Override
 	public JsNodeListQuery selectAll() {
-		return JH.jsFactory(query).createNodeListQuery(query.selectAll());
+		return JH.jsFactory(original).createNodeListQuery(original.selectAll());
 	}
 
 	@Export
 	@Override
-	public JsResult clearVersions(int keepVersions) {
-		return JH.jsFactory(query).createResult(
-				query.clearVersions(keepVersions));
+	public JsResult clearVersions(final int keepVersions) {
+		return JH.jsFactory(original).createResult(
+				original.clearVersions(keepVersions));
 	}
 
 	@Export
 	@Override
-	public JsResult remove(Object entity) {
-		return JH.op(query).remove().remove(entity);
+	public JsResult remove(final Object entity) {
+		return JH.op(original).remove().remove(entity);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value) {
+		return JH.op(original).append().appendSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value, final String atAddress) {
+		return JH.op(original).append().appendSafe(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValueSafe(final Object value) {
+		return JH.op(original).append().appendValueSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final int atIndex) {
+		return JH.op(original).append().insert(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insert(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValue(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValue(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValueSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValueSafe(value, atIndex);
 	}
 
 }
