@@ -35,6 +35,15 @@ public class TestMonitor {
 
 		final CountDownLatch latch = new CountDownLatch(1);
 
+		testNode.monitor(Interval.REAL_TIME, new Closure<Node>() {
+
+			@Override
+			public void apply(final Node o) {
+				System.out.println("Change detected!");
+				latch.countDown();
+			}
+		});
+
 		final Session session2 = getSession();
 
 		final Link testNode2 = session.node(testNodeUri, testNodeSecret);
@@ -42,15 +51,8 @@ public class TestMonitor {
 		testNode2
 				.remove(session
 						.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests/Monitor70"));
-		testNode.monitor(Interval.REAL_TIME, new Closure<Node>() {
 
-			@Override
-			public void apply(final Node o) {
-				// testNode.remove(session.node(append.get().getUri()));
-				System.out.println("Change detected!");
-				latch.countDown();
-			}
-		});
+		testNode2.append("Monitor");
 
 		session2.commit().get();
 
