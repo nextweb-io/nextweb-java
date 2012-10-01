@@ -34,6 +34,8 @@ public interface SessionOperations {
 
 	public Query seed();
 
+	public Query seed(String seedType);
+
 	public Query createRealm(String realmTitle, String realmType, String apiKey);
 
 }

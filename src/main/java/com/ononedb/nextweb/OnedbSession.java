@@ -99,7 +99,7 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
-	public Query seed() {
+	public Query seed(final String seedType) {
 		final AsyncResult<Node> seedResult = new AsyncResult<Node>() {
 
 			@Override
@@ -110,7 +110,7 @@ public class OnedbSession implements Session {
 					@Override
 					public void run() {
 
-						client.one().seed(client, new WhenSeeded() {
+						client.one().seed(client, seedType, new WhenSeeded() {
 
 							@Override
 							public void thenDo(final WithSeedResult r) {
@@ -136,6 +136,11 @@ public class OnedbSession implements Session {
 		};
 		return this.engine.getFactory().createQuery(this, exceptionManager,
 				seedResult);
+	}
+
+	@Override
+	public Query seed() {
+		return seed("default");
 	}
 
 	@Override

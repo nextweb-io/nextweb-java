@@ -23,7 +23,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 	private final ExceptionManager exceptionManager;
 
 	public static OnedbNextwebJreEngine init() {
-		OnedbNextwebJreEngine engine = new OnedbNextwebJreEngine();
+		final OnedbNextwebJreEngine engine = new OnedbNextwebJreEngine();
 		Nextweb.injectEngine(engine);
 		return engine;
 	}
@@ -45,7 +45,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 
 	@Override
 	public <ResultType> Result<ResultType> createResult(
-			ExceptionManager exceptionManager, Session session,
+			final ExceptionManager exceptionManager, final Session session,
 			final AsyncResult<ResultType> asyncResult) {
 
 		return new ResultImplementation<ResultType>(session, exceptionManager,
@@ -64,7 +64,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(ExceptionResult r) {
+			public void onFailure(final ExceptionResult r) {
 				throw new RuntimeException("Uncaught background exception: "
 						+ r.exception().getMessage() + " from class: "
 						+ r.origin().getClass(), r.exception());
@@ -79,7 +79,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 	}
 
 	@Override
-	public void runSafe(Session forSession, Runnable task) {
+	public void runSafe(final Session forSession, final Runnable task) {
 		((OnedbSession) forSession).getClient().runSafe(task);
 	}
 
