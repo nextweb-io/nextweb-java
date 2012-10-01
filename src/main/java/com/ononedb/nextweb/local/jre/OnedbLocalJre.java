@@ -41,11 +41,11 @@ import one.utils.OneUtilsCollections.Predicate;
 import one.utils.jre.OneUtilsJre;
 import one.utils.server.ShutdownCallback;
 
-import com.ononedb.nextweb.local.OnedbNextwebLocal;
+import com.ononedb.nextweb.local.OnedbLocalNode;
 
 public class OnedbLocalJre {
 
-	public static OnedbNextwebLocal init(final int port) {
+	public static OnedbLocalNode init(final int port) {
 
 		StoppableRemoteConnection server;
 
@@ -162,7 +162,8 @@ public class OnedbLocalJre {
 				callback.onSuccess(seedNodeUri, secret);
 			}
 		};
-		server = NxServerSeed.newSeedHandlingConnection(handler, server);
+		server = NxServerSeed.newSeedHandlingConnection(
+				OneUtilsJre.newJreConcurrency(), handler, server);
 
 		final StoppableRemoteConnection serverClosed = server;
 
@@ -221,7 +222,7 @@ public class OnedbLocalJre {
 		};
 		OneJre.getJreSettings().addConnectionDecorator(localServerDecorator);
 
-		return new OnedbNextwebLocal() {
+		return new OnedbLocalNode() {
 
 			@Override
 			public Result<Success> shutdown() {

@@ -71,7 +71,7 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>nx.server.reaml</groupId>
+			<groupId>nx.server.realm</groupId>
 			<artifactId>nxServerRealm</artifactId>
 			<version>[0.0.1,)</version>
 		</dependency>
@@ -181,7 +181,7 @@
 					<runTarget>onedbtest.html</runTarget>
 					<draftCompile>${module.draftCompile}</draftCompile>
 					<logLevel>INFO</logLevel>
-					<module>com.ononedb.nextweb.OnedbEngine</module>
+					
 					<gwtVersion>${gwtVersion}</gwtVersion>
 
 					<hostedWebapp>${basedir}/src/main/webapp</hostedWebapp>

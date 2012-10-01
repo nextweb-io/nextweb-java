@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.ononedb.nextweb.jre.OnedbJre;
-import com.ononedb.nextweb.local.OnedbNextwebLocal;
+import com.ononedb.nextweb.local.OnedbLocalNode;
 import com.ononedb.nextweb.local.jre.OnedbLocalJre;
 
 public class TestLocalJre {
@@ -64,7 +64,7 @@ public class TestLocalJre {
 	public void testLocalCreateRealm() {
 		final NextwebEngine engine = OnedbJre.init();
 
-		final OnedbNextwebLocal localServer = OnedbLocalJre.init(10023);
+		final OnedbLocalNode localServer = OnedbLocalJre.init(10023);
 
 		final Session session = engine.createSession();
 

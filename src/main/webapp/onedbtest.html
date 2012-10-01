@@ -4,7 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>onedbtest</title>
 <script type="text/javascript" language="javascript"
-	src="onedbnextweb/onedbnextweb.nocache.js"></script>
+	src="onedblocaljs/onedblocaljs.nocache.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 </head>
 
@@ -19,7 +19,17 @@
 		
 		//testSetValue(session);
 		
-		testSetValueSafe(session);
+		//testSetValueSafe(session);
+		testLocalDb(session);
+	};
+	
+	var testLocalDb = function(session) {
+		var localNode = OnedbLocal.init(20012);
+		
+		
+		localNode.shutdown().get(function(success) {
+			$("#output").append("<p>Local node shut down successfully.</p>");
+		});
 		
 	};
 	

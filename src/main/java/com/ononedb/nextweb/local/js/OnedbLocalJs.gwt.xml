@@ -4,7 +4,8 @@
 	
 	
   	<inherits name="com.ononedb.nextweb.OnedbEngine"/>
-  	<inherits name="nx.server.NxServer"/>
+  	
+  	<inherits name="nx.server.seed.NxServerSeed" />
   	
   	<set-property name="export" value="yes"/>
   	

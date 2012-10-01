@@ -12,9 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mx.gwtutils.MxroGWTUtils;
+import nx.auth.NxAuth;
+import nx.core.Nodes;
+import nx.core.Nx;
 import nx.remote.NxRemote;
 import nx.remote.RemoteConnectionDecorator;
 import nx.remote.StoppableRemoteConnection;
+import nx.remote.grammars.SeedCallback;
 import nx.remote.messages.RemoteMessage;
 import nx.remote.messages.RemoteNetworkMessage;
 import nx.remote.messages.realm.RequestRealmMessage;
@@ -27,9 +31,12 @@ import nx.server.realm.RealmRoot;
 import nx.server.realm.RegisteredRealmsService;
 import nx.server.realm.RegisteredRealmsService.When.AddressProvided;
 import nx.server.realm.RegisteredRealmsService.When.RealmRegistered;
+import nx.server.seed.NxServerSeed;
+import nx.server.seed.SeedHandler;
 import nx.sync.NxSync;
 import nx.versions.NxVersions;
 import nx.versions.VersionedNetwork;
+import one.client.gwt.OneGwt;
 import one.client.jre.OneJre;
 import one.utils.OneUtilsCollections.Predicate;
 import one.utils.gwt.GwtConcurrency;
@@ -39,14 +46,14 @@ import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
-import com.ononedb.nextweb.local.OnedbNextwebLocal;
+import com.ononedb.nextweb.local.OnedbLocalNode;
 
 @ExportPackage("")
 @Export
-public class OnedbLocalJs implements Exportable {
+public class OnedbLocal implements Exportable {
 
 	@Export
-	public static OnedbNextwebLocal init(final int port) {
+	public static OnedbLocalNodeJs init(final int port) {
 
 		StoppableRemoteConnection server;
 
@@ -129,40 +136,41 @@ public class OnedbLocalJs implements Exportable {
 
 		// to catch cache messages, which are otherwise handled by url
 		// connections
-		// server = NxRemote.pullCachingConnection(200, server);
-		//
-		// final SeedHandler handler = new SeedHandler() {
-		//
-		// private volatile int counter;
-		//
-		// @Override
-		// public void stop(final ShutdownCallback callback) {
-		// callback.onShutdownComplete();
-		// }
-		//
-		// @Override
-		// public void persistCounterValue(
-		// final WhenCounterValuePersisted callback) {
-		// callback.onSuccess();
-		// }
-		//
-		// @Override
-		// public void handle(final SeedCallback callback) {
-		// counter++;
-		// final String seedNodeUri = "http://localhost:" + port
-		// + "/seeds/s" + counter;
-		// final Object seedNode = Nodes.define("s" + counter).at(
-		// seedNodeUri);
-		//
-		// Nx.put(seedNode).in(serverNetwork);
-		// final String secret = NxAuth.newRandomToken();
-		// Nx.append(NxAuth.readWriteToken(secret)).to(seedNode)
-		// .in(serverNetwork);
-		//
-		// callback.onSuccess(seedNodeUri, secret);
-		// }
-		// };
-		// server = NxServerSeed.newSeedHandlingConnection(handler, server);
+		server = NxRemote.pullCachingConnection(200, server);
+
+		final SeedHandler handler = new SeedHandler() {
+
+			private volatile int counter;
+
+			@Override
+			public void stop(final ShutdownCallback callback) {
+				callback.onShutdownComplete();
+			}
+
+			@Override
+			public void persistCounterValue(
+					final WhenCounterValuePersisted callback) {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void handle(final SeedCallback callback) {
+				counter++;
+				final String seedNodeUri = "http://localhost:" + port
+						+ "/seeds/s" + counter;
+				final Object seedNode = Nodes.define("s" + counter).at(
+						seedNodeUri);
+
+				Nx.put(seedNode).in(serverNetwork);
+				final String secret = NxAuth.newRandomToken();
+				Nx.append(NxAuth.readWriteToken(secret)).to(seedNode)
+						.in(serverNetwork);
+
+				callback.onSuccess(seedNodeUri, secret);
+			}
+		};
+		server = NxServerSeed.newSeedHandlingConnection(new GwtConcurrency(),
+				handler, server);
 
 		final StoppableRemoteConnection serverClosed = server;
 
@@ -219,9 +227,9 @@ public class OnedbLocalJs implements Exportable {
 				});
 			}
 		};
-		OneJre.getJreSettings().addConnectionDecorator(localServerDecorator);
+		OneGwt.getSettings().addConnectionDecorator(localServerDecorator);
 
-		return new OnedbNextwebLocal() {
+		return OnedbLocalNodeJs.wrap(new OnedbLocalNode() {
 
 			@Override
 			public Result<Success> shutdown() {
@@ -263,7 +271,12 @@ public class OnedbLocalJs implements Exportable {
 
 				return shutdownResult;
 			}
-		};
+		});
 
 	}
+
+	public OnedbLocal() {
+		super();
+	}
+
 }
