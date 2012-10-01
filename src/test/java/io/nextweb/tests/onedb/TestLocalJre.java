@@ -9,19 +9,20 @@ import io.nextweb.engine.NextwebEngine;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.ononedb.nextweb.jre.OnedbNextwebJreEngine;
-import com.ononedb.nextweb.local.jre.OnedbNextwebLocalJre;
+import com.ononedb.nextweb.jre.OnedbJre;
+import com.ononedb.nextweb.local.OnedbNextwebLocal;
+import com.ononedb.nextweb.local.jre.OnedbLocalJre;
 
 public class TestLocalJre {
 
 	@Test
 	public void testLocalSeed() {
 
-		final NextwebEngine engine = OnedbNextwebJreEngine.init();
+		final NextwebEngine engine = OnedbJre.init();
 
 		final Session session = engine.createSession();
 
-		OnedbNextwebLocalJre.init(10021);
+		OnedbLocalJre.init(10021);
 
 		final Node root = session.seed("local").get();
 
@@ -42,11 +43,11 @@ public class TestLocalJre {
 	@Test
 	public void testLocalSeed2() {
 
-		final NextwebEngine engine = OnedbNextwebJreEngine.init();
+		final NextwebEngine engine = OnedbJre.init();
 
 		final Session session = engine.createSession();
 
-		OnedbNextwebLocalJre.init(10022);
+		OnedbLocalJre.init(10022);
 
 		final Node root = session.seed("local").get();
 
@@ -61,16 +62,26 @@ public class TestLocalJre {
 
 	@Test
 	public void testLocalCreateRealm() {
-		final NextwebEngine engine = OnedbNextwebJreEngine.init();
+		final NextwebEngine engine = OnedbJre.init();
+
+		final OnedbNextwebLocal localServer = OnedbLocalJre.init(10023);
 
 		final Session session = engine.createSession();
 
-		OnedbNextwebLocalJre.init(10023);
-
 		final Query localRealm = session.createRealm("test", "local", "");
 
-		System.out.println(localRealm.get().getUri() + " "
-				+ localRealm.get().getSecret());
-	}
+		final Node realmNode = localRealm.get();
 
+		final Session session2 = engine.createSession();
+
+		Assert.assertTrue(session2.node(realmNode.getUri(),
+				realmNode.getSecret()).get() != null);
+
+		session.close().get();
+
+		session2.close().get();
+
+		localServer.shutdown().get();
+
+	}
 }

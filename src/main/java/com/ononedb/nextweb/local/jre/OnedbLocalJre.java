@@ -2,6 +2,7 @@ package com.ononedb.nextweb.local.jre;
 
 import io.nextweb.Nextweb;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
@@ -42,7 +43,7 @@ import one.utils.server.ShutdownCallback;
 
 import com.ononedb.nextweb.local.OnedbNextwebLocal;
 
-public class OnedbNextwebLocalJre {
+public class OnedbLocalJre {
 
 	public static OnedbNextwebLocal init(final int port) {
 
@@ -56,12 +57,14 @@ public class OnedbNextwebLocalJre {
 						OneUtilsJre.newJreConcurrency());
 
 		final StoppableRemoteConnection connClosed = serverConnection;
-		server = NxServerRealm
+
+		server = NxServer.forkConnection(serverConnection, NxServerRealm
 				.createRealmServer(new RealmCreatorConfiguration() {
 
 					@SuppressWarnings("serial")
 					@Override
 					public Map<String, String> getNewNodesRoots() {
+
 						return new HashMap<String, String>() {
 							{
 								put("local", "http://localhost:" + port + "/");
@@ -93,7 +96,8 @@ public class OnedbNextwebLocalJre {
 									final String baseUri, final String title,
 									final AddressProvided callback) {
 								count++;
-								callback.thenDo(baseUri + "/r" + count + "/"
+
+								callback.thenDo(baseUri + "r" + count + "/"
 										+ MxroGWTUtils.getSimpleName(title, 6));
 							}
 						};
@@ -115,7 +119,17 @@ public class OnedbNextwebLocalJre {
 						};
 					}
 
-				});
+				}), new Predicate<RemoteMessage>() {
+
+			@Override
+			public boolean testElement(final RemoteMessage element) {
+				return NxRemoteUtils.isRequestRealmMessage(element);
+			}
+		});
+
+		// to catch cache messages, which are otherwise handled by url
+		// connections
+		server = NxRemote.pullCachingConnection(200, server);
 
 		final SeedHandler handler = new SeedHandler() {
 
@@ -150,15 +164,11 @@ public class OnedbNextwebLocalJre {
 		};
 		server = NxServerSeed.newSeedHandlingConnection(handler, server);
 
-		// ... so shutting down client will not shut down server
-		final StoppableRemoteConnection unblockedServer = server;
-		server = NxRemote.createBlockShutdownsConnection(serverConnection);
-
-		// to catch cache messages, which are otherwise handled by url
-		// connections
-		server = NxRemote.pullCachingConnection(200, server);
-
 		final StoppableRemoteConnection serverClosed = server;
+
+		final StoppableRemoteConnection unblockedServer = server;
+		// ... so shutting down client will not shut down server
+		server = NxRemote.createBlockShutdownsConnection(serverConnection);
 
 		final RemoteConnectionDecorator localServerDecorator = new RemoteConnectionDecorator() {
 
@@ -189,7 +199,8 @@ public class OnedbNextwebLocalJre {
 
 							final RequestRealmMessage requestRealmMessage = NxRemoteUtils
 									.asRequestRealmMessage(message);
-
+							// System.out.println("Testing: "
+							// + requestRealmMessage.getRealmKind());
 							return requestRealmMessage.getRealmKind().equals(
 									"local");
 
@@ -237,9 +248,20 @@ public class OnedbNextwebLocalJre {
 					}
 				};
 
-				return Nextweb.getEngine().createResult(
-						Nextweb.getEngine().getExceptionManager(), null,
-						asyncResult);
+				final Result<Success> shutdownResult = Nextweb.getEngine()
+						.createResult(
+								Nextweb.getEngine().getExceptionManager(),
+								null, asyncResult);
+
+				shutdownResult.get(new Closure<Success>() {
+
+					@Override
+					public void apply(final Success o) {
+						// nothing
+					}
+				});
+
+				return shutdownResult;
 			}
 		};
 

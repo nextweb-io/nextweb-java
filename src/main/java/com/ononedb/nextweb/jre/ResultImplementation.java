@@ -39,9 +39,9 @@ public final class ResultImplementation<ResultType> implements
 
 	ResultType cached = null;
 
-	public ResultImplementation(Session session,
-			ExceptionManager exceptionManager,
-			AsyncResult<ResultType> asyncResult) {
+	public ResultImplementation(final Session session,
+			final ExceptionManager exceptionManager,
+			final AsyncResult<ResultType> asyncResult) {
 		super();
 		this.asyncResult = asyncResult;
 		this.session = session;
@@ -68,12 +68,12 @@ public final class ResultImplementation<ResultType> implements
 						new Closure<ResultType>() {
 
 							@Override
-							public void apply(ResultType result) {
+							public void apply(final ResultType result) {
 								cached = result;
 								requesting.set(false);
 								callback.onSuccess(result);
 
-								for (Callback<ResultType> deferredCallback : deferredCalls) {
+								for (final Callback<ResultType> deferredCallback : deferredCalls) {
 									deferredCallback.onSuccess(result);
 								}
 								deferredCalls.clear();
@@ -82,12 +82,12 @@ public final class ResultImplementation<ResultType> implements
 						}).catchExceptions(new ExceptionListener() {
 
 					@Override
-					public void onFailure(ExceptionResult r) {
+					public void onFailure(final ExceptionResult r) {
 						requesting.set(false);
 
 						callback.onFailure(r);
 
-						for (Callback<ResultType> deferredCallback : deferredCalls) {
+						for (final Callback<ResultType> deferredCallback : deferredCalls) {
 							deferredCallback.onFailure(r);
 						}
 						deferredCalls.clear();
@@ -95,12 +95,12 @@ public final class ResultImplementation<ResultType> implements
 				}).catchUndefined(new UndefinedListener() {
 
 					@Override
-					public void onUndefined(UndefinedResult r) {
+					public void onUndefined(final UndefinedResult r) {
 						requesting.set(false);
 
 						callback.onUndefined(r);
 
-						for (Callback<ResultType> deferredCallback : deferredCalls) {
+						for (final Callback<ResultType> deferredCallback : deferredCalls) {
 							deferredCallback.onUndefined(r);
 						}
 						deferredCalls.clear();
@@ -108,12 +108,12 @@ public final class ResultImplementation<ResultType> implements
 				}).catchUnauthorized(new UnauthorizedListener() {
 
 					@Override
-					public void onUnauthorized(UnauthorizedResult r) {
+					public void onUnauthorized(final UnauthorizedResult r) {
 						requesting.set(false);
 
 						callback.onUnauthorized(r);
 
-						for (Callback<ResultType> deferredCallback : deferredCalls) {
+						for (final Callback<ResultType> deferredCallback : deferredCalls) {
 							deferredCallback.onUnauthorized(r);
 						}
 						deferredCalls.clear();
@@ -121,20 +121,23 @@ public final class ResultImplementation<ResultType> implements
 				}));
 
 		// execute commit upon every explicit get call ?!?
-		OneClient client = ((OnedbSession) session).getClient();
-		client.one().commit(client).and(new WhenCommitted() {
+		if (session != null) {
 
-			@Override
-			public void thenDo(WithCommittedResult r) {
+			final OneClient client = ((OnedbSession) session).getClient();
+			client.one().commit(client).and(new WhenCommitted() {
 
-			}
+				@Override
+				public void thenDo(final WithCommittedResult r) {
 
-			@Override
-			public void onFailure(Throwable t) {
-				exceptionManager.onFailure(Fn.exception(this, t));
-			}
+				}
 
-		});
+				@Override
+				public void onFailure(final Throwable t) {
+					exceptionManager.onFailure(Fn.exception(this, t));
+				}
+
+			});
+		}
 
 	}
 
@@ -158,14 +161,14 @@ public final class ResultImplementation<ResultType> implements
 				new Closure<ResultType>() {
 
 					@Override
-					public void apply(ResultType o) {
+					public void apply(final ResultType o) {
 						// System.out.println("count down after " + o);
 						latch.countDown();
 					}
 				}).catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(ExceptionResult r) {
+			public void onFailure(final ExceptionResult r) {
 				exceptionList.add(r.exception());
 				latch.countDown();
 			}
@@ -174,7 +177,7 @@ public final class ResultImplementation<ResultType> implements
 		latch.countDown();
 		try {
 			latch.await();
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 

@@ -155,6 +155,7 @@ public class OnedbSession implements Session {
 
 					@Override
 					public void run() {
+
 						client.one().createRealm(realmTitle)
 								.withType(realmType).withApiKey(apiKey)
 								.in(client).and(new WhenRealmCreated() {

@@ -16,14 +16,14 @@ import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.OnedbFactory;
 
-public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
+public class OnedbJre implements OnedbNextwebEngine {
 
 	private CoreDsl dsl;
 
 	private final ExceptionManager exceptionManager;
 
-	public static OnedbNextwebJreEngine init() {
-		final OnedbNextwebJreEngine engine = new OnedbNextwebJreEngine();
+	public static OnedbJre init() {
+		final OnedbJre engine = new OnedbJre();
 		Nextweb.injectEngine(engine);
 		return engine;
 	}
@@ -58,7 +58,7 @@ public class OnedbNextwebJreEngine implements OnedbNextwebEngine {
 		return new OnedbFactory();
 	}
 
-	public OnedbNextwebJreEngine() {
+	public OnedbJre() {
 		super();
 		this.exceptionManager = getFactory().createExceptionManager(null);
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
