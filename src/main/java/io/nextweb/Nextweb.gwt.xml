@@ -7,5 +7,10 @@
   	
   	<entry-point class='io.nextweb.internal.DummyEntryPoint'/>
   	
-	<source path=""/>
+	<source path='' >
+
+      <exclude name="**/jre/**" />
+      <exclude name="**/jsserver/**" />
+   
+	</source>
 </module>

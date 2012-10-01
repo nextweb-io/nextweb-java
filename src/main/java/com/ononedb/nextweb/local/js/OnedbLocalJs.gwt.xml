@@ -10,5 +10,8 @@
   	
   	<entry-point class='com.ononedb.nextweb.local.js.internal.DummyEntryPoint'/>
   	
-	<source path=""/>
+	<source path=''>
+		<exclude name="**/jre/**" />
+      <exclude name="**/jsserver/**" />
+	</source>
 </module>

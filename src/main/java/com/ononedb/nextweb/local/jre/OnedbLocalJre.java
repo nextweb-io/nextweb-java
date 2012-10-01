@@ -264,6 +264,6 @@ public class OnedbLocalJre {
 				return shutdownResult;
 			}
 		};
-
 	}
+
 }
