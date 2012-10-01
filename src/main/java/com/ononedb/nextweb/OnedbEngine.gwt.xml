@@ -17,6 +17,6 @@
 	
 	<source path=''>
       <exclude name="**/jre/**" />
-       <exclude name="**/jsserver/**" />
+      <exclude name="**/jsserver/**" />
     </source>
 </module>
