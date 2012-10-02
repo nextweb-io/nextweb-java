@@ -7,7 +7,7 @@
 	<properties>
 
 		<gwtVersion>2.4.0</gwtVersion>
-		<module.draftCompile>true</module.draftCompile>
+		<module.draftCompile>false</module.draftCompile>
 		<module.importedPackages>
 			org.junit,
 			de.mxro.thrd.hamcrest,

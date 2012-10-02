@@ -25,22 +25,37 @@
 	
 	var testLocalDb = function(session) {
 		var localNode = OnedbLocal.init(20012);
-		
+
 		var session = Nextweb.createSession();
 		
 		var localSeed = session.seed('local');
 		
 		var appended = localSeed.append("Test Node");
 		
-		session.getAll(localSeed, appended, function(localSeed, appended) {
+		var globalNode = session.node("http://slicnet.com/seed1/seed1/1/2/9/h/sd/nj/Basic_Test_Cases_Data");
+		
+		localSeed.append(globalNode);
+
+		session.getAll(localSeed, appended, globalNode, function(localSeed, appended, globalNode) {
 			$("#output").append("<p>Created local seed: "+localSeed.uri()+".</p>");
+			$("#output").append("<p>Appended: "+appended.uri()+".</p>");
 			
-			localNode.shutdown().get(function(success) {
-				$("#output").append("<p>Local node shut down successfully.</p>");
+			session.close().get(function(success) {
+				
+				var session2 = Nextweb.createSession();
+				
+				session2.node(localSeed.uri()).get(function(node) {
+					$("#output").append("<p>Loaded local seed: "+node.uri()+".</p>");
+					localNode.shutdown().get(function(success) {
+						$("#output").append("<p>Local node shut down successfully.</p>");
+					});
+				});
+				
+				
+				
 			});
+			
 		});
-		
-		
 		
 	};
 	

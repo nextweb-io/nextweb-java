@@ -9,7 +9,7 @@
   	
   	<set-property name="export" value="yes"/>
   	
-  	<entry-point class='com.ononedb.nextweb.local.js.internal.DummyEntryPoint'/>
+  	<entry-point class='com.ononedb.nextweb.local.js.internal.InitOnedbLocalEntryPoint'/>
   	
 	<source path=''>
 		<exclude name="**/jre/**" />

@@ -71,7 +71,7 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 				session.createRealm(realmTitle, realmType, apiKey));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	@Export
 	public void getAll(final Object... params) {
 		// com.google.gwt.core.client.JsArray<JavaScriptObject> jsAr = params

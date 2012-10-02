@@ -6,14 +6,12 @@ import com.google.gwt.core.client.GWT;
 import com.ononedb.nextweb.js.OnedbNextwebJsEngineImpl;
 import com.ononedb.nextweb.local.js.OnedbLocal;
 
-public class DummyEntryPoint {
+public class InitOnedbLocalEntryPoint {
+
 	public void onModuleLoad() {
-
 		ExporterUtil.exportAll();
-
 		OnedbNextwebJsEngineImpl.init();
 
-		GWT.log("now exporting");
 		GWT.create(OnedbLocal.class);
 
 		onLoadImpl();

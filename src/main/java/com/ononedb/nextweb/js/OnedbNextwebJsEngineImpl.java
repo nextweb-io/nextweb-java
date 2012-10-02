@@ -13,6 +13,7 @@ import io.nextweb.plugins.core.DefaultPluginFactory;
 import nx.client.gwt.services.GwtRemoteService;
 import nx.client.gwt.services.GwtRemoteServiceAsync;
 import one.client.gwt.OneGwt;
+import one.core.domain.BackgroundListener;
 import one.core.dsl.CoreDsl;
 
 import com.google.gwt.core.client.GWT;
@@ -29,7 +30,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 	private final JsFactory jsFactory;
 
 	public static OnedbNextwebJsEngineImpl init() {
-		OnedbNextwebJsEngineImpl engine = new OnedbNextwebJsEngineImpl();
+		final OnedbNextwebJsEngineImpl engine = new OnedbNextwebJsEngineImpl();
 		NextwebJs.injectEngine(JsNextwebEngine.wrap(engine));
 		return engine;
 	}
@@ -47,21 +48,34 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 
 		dsl = OneGwt.init(gwtService, "");
 
+		dsl.getDefaults().getSettings()
+				.setDefaultBackgroundListener(new BackgroundListener() {
+
+					@Override
+					public void onBackgroundException(final Object operation,
+							final Throwable t, final Throwable origin) {
+						throw new RuntimeException("Exception: "
+								+ t.getMessage() + " for operation: ["
+								+ operation + "] originating from: [" + origin
+								+ "].", t);
+					}
+				});
+
 		return dsl;
 	}
 
 	@Override
 	public Session createSession() {
 
-		CoreDsl dsl = assertDsl();
+		final CoreDsl dsl = assertDsl();
 
 		return getFactory().createSession(this, dsl.createClient());
 	}
 
 	@Override
 	public <ResultType> Result<ResultType> createResult(
-			ExceptionManager exceptionManager, Session session,
-			AsyncResult<ResultType> asyncResult) {
+			final ExceptionManager exceptionManager, final Session session,
+			final AsyncResult<ResultType> asyncResult) {
 		return new JsResultImplementation<ResultType>(session,
 				exceptionManager, asyncResult);
 	}
@@ -83,7 +97,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 		this.exceptionManager.catchExceptions(new ExceptionListener() {
 
 			@Override
-			public void onFailure(ExceptionResult r) {
+			public void onFailure(final ExceptionResult r) {
 				throw new RuntimeException("Unhandled exception: "
 						+ r.exception().getMessage() + " from object "
 						+ r.origin() + " (" + r.origin().getClass() + ")");
@@ -104,7 +118,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 	}
 
 	@Override
-	public void runSafe(Session forSession, Runnable task) {
+	public void runSafe(final Session forSession, final Runnable task) {
 		task.run(); // no multi-threading in JS assured.
 	}
 
