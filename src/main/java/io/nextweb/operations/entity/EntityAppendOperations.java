@@ -11,6 +11,18 @@ import io.nextweb.Query;
  */
 public interface EntityAppendOperations {
 
+	/**
+	 * <p>
+	 * The append operation establishes a connection between two nodes.
+	 * </p>
+	 * <p>
+	 * This basic variant of the append operation will append an arbitrary
+	 * <code>value</code> to the specified node.
+	 * </p>
+	 * 
+	 * @param value
+	 * @return
+	 */
 	public Query append(Object value);
 
 	public Query append(Object value, String atAddress);
