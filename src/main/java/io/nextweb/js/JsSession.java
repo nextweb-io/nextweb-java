@@ -60,6 +60,11 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 	}
 
 	@Export
+	public JsQuery seed(final String seedType) {
+		return JH.jsFactory(session).createQuery(session.seed(seedType));
+	}
+
+	@Export
 	public JsQuery createRealm(final String realmTitle, final String realmType,
 			final String apiKey) {
 		return JH.jsFactory(session).createQuery(
@@ -116,8 +121,12 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 
 		final JavaScriptObject callback_onSuccess_Closed = callback_onSuccess;
 		final JavaScriptObject callback_onFailure_Closed = callback_onFailure;
-		session.getAll(true, (Result<Object>[]) requestedEntities.toArray())
-				.get(CallbackFactory.eagerCallback(session,
+
+		final Result[] requestedEntitiesArray = requestedEntities
+				.toArray(new Result[] {});
+
+		session.getAll(true, requestedEntitiesArray).get(
+				CallbackFactory.eagerCallback(session,
 						session.getExceptionManager(),
 						new Closure<SuccessFail>() {
 

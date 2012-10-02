@@ -26,10 +26,21 @@
 	var testLocalDb = function(session) {
 		var localNode = OnedbLocal.init(20012);
 		
+		var session = Nextweb.createSession();
 		
-		localNode.shutdown().get(function(success) {
-			$("#output").append("<p>Local node shut down successfully.</p>");
+		var localSeed = session.seed('local');
+		
+		var appended = localSeed.append("Test Node");
+		
+		session.getAll(localSeed, appended, function(localSeed, appended) {
+			$("#output").append("<p>Created local seed: "+localSeed.uri()+".</p>");
+			
+			localNode.shutdown().get(function(success) {
+				$("#output").append("<p>Local node shut down successfully.</p>");
+			});
 		});
+		
+		
 		
 	};
 	
