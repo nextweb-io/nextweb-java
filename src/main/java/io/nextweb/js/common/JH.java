@@ -4,13 +4,15 @@ import io.nextweb.Entity;
 import io.nextweb.EntityList;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
-import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
 import io.nextweb.js.JsEntity;
+import io.nextweb.js.JsEntityList;
+import io.nextweb.js.JsLinkList;
+import io.nextweb.js.JsLinkListQuery;
 import io.nextweb.js.JsNode;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
@@ -57,6 +59,7 @@ public class JH {
 		final E node = forEntity.getOriginal();
 
 		if (params.length == 0) {
+
 			return ExporterUtil.wrap(JH.getNode(node));
 		}
 
@@ -72,6 +75,60 @@ public class JH {
 
 	}
 
+	public static final <E extends EntityList> Object get(
+			final JsEntityList<E> forEntity, final Object... params) {
+
+		final E list = forEntity.getOriginal();
+
+		if (params.length == 0) {
+
+			return ExporterUtil.wrap(JH.getNodeList(list));
+		}
+
+		if (params.length > 1) {
+			throw new IllegalArgumentException(
+					"Only one argument of type JsClosure is supported.");
+		}
+
+		JH.getNodeList(list, JH.asJsClosure((JavaScriptObject) params[0], JH
+				.jsFactory(list).getWrappers()));
+
+		return ExporterUtil.wrap(forEntity);
+
+	}
+
+	public static final Object get(final JsLinkListQuery forEntity,
+			final Object... params) {
+
+		final LinkListQuery list = forEntity.getOriginal();
+
+		if (params.length == 0) {
+
+			return ExporterUtil.wrap(JH.getLinkList(list));
+		}
+
+		if (params.length > 1) {
+			throw new IllegalArgumentException(
+					"Only one argument of type JsClosure is supported.");
+		}
+
+		JH.getLinkList(list, JH.asJsClosure((JavaScriptObject) params[0], JH
+				.jsFactory(list).getWrappers()));
+
+		return ExporterUtil.wrap(forEntity);
+
+	}
+
+	public static final Object getNodeList(final Result<NodeList> entityResult) {
+		assert entityResult != null;
+
+		final NodeList result = entityResult.get();
+		if (result == null) {
+			return null;
+		}
+		return ExporterUtil.wrap(jsFactory(result).createNodeList(result));
+	}
+
 	public static final JsNode getNode(final Result<Node> entityResult) {
 		assert entityResult != null;
 
@@ -83,7 +140,7 @@ public class JH {
 		return jsFactory(result).createNode(result);
 	}
 
-	public static final void getNodeList(final ListQuery entityResult,
+	public static final void getNodeList(final EntityList entityResult,
 			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
@@ -167,16 +224,6 @@ public class JH {
 
 	}
 
-	public static final Object getNodeList(final Result<NodeList> entityResult) {
-		assert entityResult != null;
-
-		final NodeList result = entityResult.get();
-		if (result == null) {
-			return null;
-		}
-		return ExporterUtil.wrap(jsFactory(result).createNodeList(result));
-	}
-
 	public static final void getLinkList(final LinkListQuery entityResult,
 			final JsClosure callback) {
 		assert entityResult != null;
@@ -195,14 +242,15 @@ public class JH {
 
 	}
 
-	public static final Object getLinkList(final Result<LinkList> entityResult) {
+	public static final JsLinkList getLinkList(
+			final Result<LinkList> entityResult) {
 		assert entityResult != null;
 
 		final LinkList result = entityResult.get();
 		if (result == null) {
 			return null;
 		}
-		return ExporterUtil.wrap(jsFactory(result).createLinkList(result));
+		return jsFactory(result).createLinkList(result);
 	}
 
 	public static final void triggerCallback(final JavaScriptObject fn,

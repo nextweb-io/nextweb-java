@@ -140,7 +140,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 
 					@Override
 					public void apply(final ResultType o) {
-
+						// nothing
 					}
 				}));
 

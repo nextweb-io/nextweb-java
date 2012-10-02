@@ -19,15 +19,21 @@ import com.ononedb.nextweb.common.H;
 
 @Export
 public class JsNodeList implements Exportable, JsWrapper<NodeList>,
-		JsEntityList {
+		JsEntityList<NodeList> {
 
 	private NodeList list;
 
+	@Override
+	@Export
+	public Object get(final Object... params) {
+		return JH.get(this, params);
+	}
+
 	@Export
 	public JavaScriptObject[] nodes() {
-		JavaScriptObject[] result = new JavaScriptObject[list.size()];
-		int count = 0;
-		for (Node n : list) {
+		final JavaScriptObject[] result = new JavaScriptObject[list.size()];
+		final int count = 0;
+		for (final Node n : list) {
 			result[count] = ExporterUtil.wrap(JH.jsFactory(list).createNode(n));
 		}
 		return result;
@@ -35,50 +41,50 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 
 	@Export
 	public JavaScriptObject values() {
-		JavaScriptObject[] result = new JavaScriptObject[list.size()];
+		final JavaScriptObject[] result = new JavaScriptObject[list.size()];
 		int count = 0;
-		for (Node n : list) {
+		for (final Node n : list) {
 			result[count] = JH.forceWrapIntoJavaScriptObject((JH
 					.jsFactory(list).wrapValueObjectForJs(n.getValue())));
 			count++;
 		}
 
-		JSONArray ar = new JSONArray(unwrapBasicTypes(ExporterUtil.wrap(JsArray
-				.wrap(result))));
+		final JSONArray ar = new JSONArray(
+				unwrapBasicTypes(ExporterUtil.wrap(JsArray.wrap(result))));
 
 		return ar.getJavaScriptObject();
 	}
 
 	private final native JavaScriptObject unwrapBasicTypes(
 			JavaScriptObject jsArray)/*-{
-		var values = jsArray.getArray();
+										var values = jsArray.getArray();
 
-		for ( var i = 0; i <= values.length - 1; i++) {
-			var value = values[i];
-			if (value.isJsBasicType
-					&& typeof value.isJsBasicType === 'function') {
-				var rpl;
-				if (value.isString() != 0) {
-					rpl = value.stringValue();
-				}
+										for ( var i = 0; i <= values.length - 1; i++) {
+										var value = values[i];
+										if (value.isJsBasicType
+										&& typeof value.isJsBasicType === 'function') {
+										var rpl;
+										if (value.isString() != 0) {
+										rpl = value.stringValue();
+										}
 
-				if (value.isInt() != 0) {
-					rpl = value.intValue();
-				}
+										if (value.isInt() != 0) {
+										rpl = value.intValue();
+										}
 
-				if (value.isDouble() != 0) {
-					rpl = value.doubleValue();
-				}
+										if (value.isDouble() != 0) {
+										rpl = value.doubleValue();
+										}
 
-				if (value.isBoolean() != 0) {
-					rpl = value.booleanValue().value;
-				}
-				values[i] = rpl;
-			}
-		}
+										if (value.isBoolean() != 0) {
+										rpl = value.booleanValue().value;
+										}
+										values[i] = rpl;
+										}
+										}
 
-		return values;
-	}-*/;
+										return values;
+										}-*/;
 
 	@Export
 	public int size() {
@@ -91,7 +97,7 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 		H.each(this.list, list, new Closure<Node>() {
 
 			@Override
-			public void apply(Node o) {
+			public void apply(final Node o) {
 				closure.apply(ExporterUtil.wrap(JH.jsFactory(list)
 						.createNode(o)));
 			}
@@ -106,13 +112,13 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 
 	@NoExport
 	@Override
-	public void setOriginal(NodeList original) {
+	public void setOriginal(final NodeList original) {
 		this.list = original;
 	}
 
 	@NoExport
-	public static JsNodeList wrap(NodeList list) {
-		JsNodeList jsList = new JsNodeList();
+	public static JsNodeList wrap(final NodeList list) {
+		final JsNodeList jsList = new JsNodeList();
 		jsList.setOriginal(list);
 		return jsList;
 	}

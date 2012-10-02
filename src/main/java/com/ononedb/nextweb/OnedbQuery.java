@@ -91,6 +91,11 @@ public class OnedbQuery implements Query, OnedbEntity {
 	}
 
 	@Override
+	public void get(final Closure<Node> callback) {
+		result.get(callback);
+	}
+
+	@Override
 	public Session getSession() {
 
 		return this.session;
@@ -105,11 +110,6 @@ public class OnedbQuery implements Query, OnedbEntity {
 	public <PluginType extends Plugin<?>> PluginType plugin(
 			final PluginFactory<?, ? extends PluginType> factory) {
 		return Plugins.plugin(this, factory);
-	}
-
-	@Override
-	public void get(final Closure<Node> callback) {
-		result.get(callback);
 	}
 
 	/**

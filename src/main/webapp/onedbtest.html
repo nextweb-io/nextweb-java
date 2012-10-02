@@ -36,9 +36,16 @@
 					"odl789hiozwd0rt");
 
 			postbox.get(function(postbox) {
+				var postedNodes = postbox.selectAllLinks().get();
+				
+				$("#output").append(
+						"<p>posted: "
+								+ postedNodes
+								+ ".</p>");
+				
 				$("#output").append(
 						"<p>After post: "
-								+ postbox.selectAllLinks().get().uris()
+								+ postedNodes.uris()
 								+ ".</p>");
 
 				var appendedLast = session

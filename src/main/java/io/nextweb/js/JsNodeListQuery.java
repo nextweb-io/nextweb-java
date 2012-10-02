@@ -3,7 +3,6 @@ package io.nextweb.js;
 import io.nextweb.ListQuery;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
-import io.nextweb.js.fn.JsClosure;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -11,23 +10,18 @@ import org.timepedia.exporter.client.NoExport;
 
 @Export
 public class JsNodeListQuery implements JsWrapper<ListQuery>, Exportable,
-		JsEntityList {
+		JsEntityList<ListQuery> {
 
 	private ListQuery list;
 
 	public JsNodeListQuery() {
 		super();
-
 	}
 
+	@Override
 	@Export
-	public void get(final JsClosure callback) {
-		JH.getNodeList(list, callback);
-	}
-
-	@Export
-	public Object get() {
-		return JH.getNodeList(list);
+	public Object get(final Object... params) {
+		return JH.get(this, params);
 	}
 
 	@NoExport
@@ -39,12 +33,12 @@ public class JsNodeListQuery implements JsWrapper<ListQuery>, Exportable,
 
 	@NoExport
 	@Override
-	public void setOriginal(ListQuery original) {
+	public void setOriginal(final ListQuery original) {
 		this.list = original;
 	}
 
 	@NoExport
-	public static JsNodeListQuery wrap(ListQuery query) {
+	public static JsNodeListQuery wrap(final ListQuery query) {
 		final JsNodeListQuery jsQuery = new JsNodeListQuery();
 		jsQuery.setOriginal(query);
 		return jsQuery;

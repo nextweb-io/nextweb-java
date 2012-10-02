@@ -14,9 +14,15 @@ import org.timepedia.exporter.client.NoExport;
 
 @Export
 public class JsLinkList implements Exportable, JsWrapper<LinkList>,
-		JsEntityList {
+		JsEntityList<LinkList> {
 
 	private LinkList list;
+
+	@Override
+	@Export
+	public Object get(final Object... params) {
+		return JH.get(this, params);
+	}
 
 	@NoExport
 	@Override
