@@ -4,9 +4,9 @@ import io.nextweb.Entity;
 import io.nextweb.EntityList;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.ListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
@@ -33,7 +33,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class JH {
 
-	public static final void getNode(Entity entityResult,
+	public static final void getNode(final Entity entityResult,
 			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
@@ -43,7 +43,7 @@ public class JH {
 				new Closure<Node>() {
 
 					@Override
-					public void apply(Node o) {
+					public void apply(final Node o) {
 						callback.apply(ExporterUtil.wrap(jsFactory(o)
 								.createNode(o)));
 					}
@@ -51,10 +51,10 @@ public class JH {
 
 	}
 
-	public static final <E extends Entity> Object get(JsEntity<E> forEntity,
-			Object... params) {
+	public static final <E extends Entity> Object get(
+			final JsEntity<E> forEntity, final Object... params) {
 
-		E node = forEntity.getOriginal();
+		final E node = forEntity.getOriginal();
 
 		if (params.length == 0) {
 			return ExporterUtil.wrap(JH.getNode(node));
@@ -72,7 +72,7 @@ public class JH {
 
 	}
 
-	public static final JsNode getNode(Result<Node> entityResult) {
+	public static final JsNode getNode(final Result<Node> entityResult) {
 		assert entityResult != null;
 
 		final Node result = entityResult.get();
@@ -83,7 +83,7 @@ public class JH {
 		return jsFactory(result).createNode(result);
 	}
 
-	public static final void getNodeList(ListQuery entityResult,
+	public static final void getNodeList(final ListQuery entityResult,
 			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
@@ -92,7 +92,7 @@ public class JH {
 				new Closure<NodeList>() {
 
 					@Override
-					public void apply(NodeList o) {
+					public void apply(final NodeList o) {
 						callback.apply(ExporterUtil.wrap(jsFactory(o)
 								.createNodeList(o)));
 					}
@@ -101,24 +101,24 @@ public class JH {
 
 	}
 
-	public static final boolean isJsString(Object value) {
+	public static final boolean isJsString(final Object value) {
 		return value instanceof String;
 	}
 
-	public static final boolean isJsInteger(Object value) {
+	public static final boolean isJsInteger(final Object value) {
 		return value instanceof Integer || value instanceof Short
 				|| value instanceof Long || value instanceof Byte;
 	}
 
-	public static final boolean isJsDouble(Object value) {
+	public static final boolean isJsDouble(final Object value) {
 		return value instanceof Float || value instanceof Double;
 	}
 
-	public static final boolean isJsBoolean(Object value) {
+	public static final boolean isJsBoolean(final Object value) {
 		return value instanceof Boolean;
 	}
 
-	public static final boolean isBasicJsType(Object node) {
+	public static final boolean isBasicJsType(final Object node) {
 		return isJsString(node) || isJsInteger(node) || isJsDouble(node)
 				|| isJsBoolean(node);
 	}
@@ -132,7 +132,7 @@ public class JH {
 	 * @return
 	 */
 	public static final JavaScriptObject forceWrapIntoJavaScriptObject(
-			Object node) {
+			final Object node) {
 
 		if (isBasicJsType(node)) {
 			return ExporterUtil.wrap(JsBasicType.wrap(node));
@@ -149,7 +149,7 @@ public class JH {
 	 * @param node
 	 * @return
 	 */
-	public static final Object wrapNonBasicNode(Object node) {
+	public static final Object wrapNonBasicNode(final Object node) {
 
 		if (isBasicJsType(node)) {
 			return node;
@@ -167,7 +167,7 @@ public class JH {
 
 	}
 
-	public static final Object getNodeList(Result<NodeList> entityResult) {
+	public static final Object getNodeList(final Result<NodeList> entityResult) {
 		assert entityResult != null;
 
 		final NodeList result = entityResult.get();
@@ -177,7 +177,7 @@ public class JH {
 		return ExporterUtil.wrap(jsFactory(result).createNodeList(result));
 	}
 
-	public static final void getLinkList(LinkListQuery entityResult,
+	public static final void getLinkList(final LinkListQuery entityResult,
 			final JsClosure callback) {
 		assert entityResult != null;
 		assert callback != null;
@@ -186,7 +186,7 @@ public class JH {
 				new Closure<LinkList>() {
 
 					@Override
-					public void apply(LinkList o) {
+					public void apply(final LinkList o) {
 						callback.apply(ExporterUtil.wrap(jsFactory(o)
 								.createLinkList(o)));
 					}
@@ -195,7 +195,7 @@ public class JH {
 
 	}
 
-	public static final Object getLinkList(Result<LinkList> entityResult) {
+	public static final Object getLinkList(final Result<LinkList> entityResult) {
 		assert entityResult != null;
 
 		final LinkList result = entityResult.get();
@@ -205,17 +205,17 @@ public class JH {
 		return ExporterUtil.wrap(jsFactory(result).createLinkList(result));
 	}
 
-	public static final void triggerCallback(JavaScriptObject fn,
-			WrapperCollection wrappers, Object[] params) {
+	public static final void triggerCallback(final JavaScriptObject fn,
+			final WrapperCollection wrappers, final Object[] params) {
 		triggerCallbackJs(fn,
 				ExporterUtil.wrap(JsArray.wrap(toJsoArray(params, wrappers))));
 	}
 
-	public static final JavaScriptObject[] toJsoArray(Object[] array,
-			WrapperCollection wrappers) {
-		JavaScriptObject[] result = new JavaScriptObject[array.length];
+	public static final JavaScriptObject[] toJsoArray(final Object[] array,
+			final WrapperCollection wrappers) {
+		final JavaScriptObject[] result = new JavaScriptObject[array.length];
 		for (int i = 0; i <= array.length - 1; i++) {
-			Object rawWrapped = wrappers.wrapValueObjectForJs(wrappers
+			final Object rawWrapped = wrappers.wrapValueObjectForJs(wrappers
 					.createJsEngineWrapper(array[i]));
 			if (rawWrapped instanceof JavaScriptObject) {
 				result[i] = (JavaScriptObject) rawWrapped;
@@ -231,7 +231,7 @@ public class JH {
 		return new JsClosure() {
 
 			@Override
-			public void apply(Object result) {
+			public void apply(final Object result) {
 				triggerCallbackSimpleJs(fn, (JavaScriptObject) result);
 			}
 		};
@@ -240,33 +240,33 @@ public class JH {
 
 	public static final native void triggerCallbackSimpleJs(
 			JavaScriptObject fn, JavaScriptObject parameter)/*-{
-		fn(parameter);
-	}-*/;
+															fn(parameter);
+															}-*/;
 
 	public static final native void triggerCallbackJs(JavaScriptObject fn,
 			JavaScriptObject jsArray)/*-{
-		fn.apply(this, jsArray.getArray());
-	}-*/;
+										fn.apply(this, jsArray.getArray());
+										}-*/;
 
-	public static JsFactory jsFactory(LinkListQuery listQuery) {
-		Session session = listQuery.getSession();
+	public static JsFactory jsFactory(final LinkListQuery listQuery) {
+		final Session session = listQuery.getSession();
 		return ((NextwebEngineJs) session.getEngine()).jsFactory();
 
 	}
 
-	public static final JsFactory jsFactory(Entity entity) {
+	public static final JsFactory jsFactory(final Entity entity) {
 		return jsFactory(entity.getSession());
 	}
 
-	public static final JsDefaultOperations op(Entity entity) {
+	public static final JsDefaultOperations op(final Entity entity) {
 		return jsFactory(entity).op(entity);
 	}
 
-	public static final JsFactory jsFactory(Session session) {
+	public static final JsFactory jsFactory(final Session session) {
 		return ((NextwebEngineJs) session.getEngine()).jsFactory();
 	}
 
-	public static final JsFactory jsFactory(EntityList entityList) {
+	public static final JsFactory jsFactory(final EntityList entityList) {
 		return jsFactory(entityList.getSession());
 	}
 

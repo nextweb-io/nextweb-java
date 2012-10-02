@@ -17,20 +17,29 @@ import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.callbacks.EagerCallback;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.UndefinedResult;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
+
+import java.io.Serializable;
+
 import one.async.joiner.CallbackLatch;
 import one.core.domain.OneClient;
 import one.core.dsl.callbacks.WhenCommitted;
+import one.core.dsl.callbacks.WhenMessagePosted;
 import one.core.dsl.callbacks.WhenRealmCreated;
 import one.core.dsl.callbacks.WhenSeeded;
 import one.core.dsl.callbacks.WhenShutdown;
 import one.core.dsl.callbacks.results.WithCommittedResult;
+import one.core.dsl.callbacks.results.WithMessagePostedResult;
 import one.core.dsl.callbacks.results.WithQuotaExceededContext;
 import one.core.dsl.callbacks.results.WithRealmCreatedResult;
 import one.core.dsl.callbacks.results.WithSeedResult;
+import one.core.dsl.callbacks.results.WithTargetNodeDoesNotExistContext;
+import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 
+import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.OnedbFactory;
 
 public class OnedbSession implements Session {
@@ -96,6 +105,72 @@ public class OnedbSession implements Session {
 		});
 
 		return commitResult;
+	}
+
+	@Override
+	public Result<Success> post(final Object value, final String toUri,
+			final String secret) {
+		final Result<Success> postResult = this.engine.createResult(
+				exceptionManager, this, new AsyncResult<Success>() {
+
+					@Override
+					public void get(final Callback<Success> callback) {
+						assert value instanceof Serializable : "Post only supports Serializable values.";
+						client.one().post((Serializable) value)
+								.to(client.one().reference(toUri))
+								.withSecret(secret).in(getClient())
+								.and(new WhenMessagePosted() {
+
+									@Override
+									public void thenDo(
+											final WithMessagePostedResult mr) {
+										callback.onSuccess(Success.INSTANCE);
+									}
+
+									@Override
+									public void onTargetNodeDoesNotExist(
+											final WithTargetNodeDoesNotExistContext context) {
+										callback.onUndefined(new UndefinedResult() {
+
+											@Override
+											public Object origin() {
+												return this;
+											}
+
+											@Override
+											public String message() {
+												return "The node to be posted to does not exist.";
+											}
+										});
+									}
+
+									@Override
+									public void onUnauthorized(
+											final WithUnauthorizedContext context) {
+										callback.onUnauthorized(H
+												.fromUnauthorizedContext(this,
+														context));
+									}
+
+									@Override
+									public void onFailure(final Throwable t) {
+										callback.onFailure(Fn
+												.exception(this, t));
+									}
+
+								});
+					}
+				});
+
+		postResult.get(new Closure<Success>() {
+
+			@Override
+			public void apply(final Success o) {
+				// nothing
+			}
+		});
+
+		return postResult;
 	}
 
 	@Override

@@ -38,4 +38,6 @@ public interface SessionOperations {
 
 	public Query createRealm(String realmTitle, String realmType, String apiKey);
 
+	public Result<Success> post(Object value, String toUri, String secret);
+
 }

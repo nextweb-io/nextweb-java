@@ -8,9 +8,11 @@ import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.js.common.JH;
+import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsResult;
+import io.nextweb.js.operations.impl.JsOpCommon;
 import io.nextweb.operations.callbacks.CallbackFactory;
 
 import java.util.ArrayList;
@@ -34,6 +36,11 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 	}
 
 	@Export
+	public JsExceptionManager getExceptionManager() {
+		return JsExceptionManager.wrap(session.getExceptionManager());
+	}
+
+	@Export
 	public JsResult close() {
 		return JH.jsFactory(session).createResult(session.close());
 	}
@@ -52,6 +59,19 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 	@Export
 	public JsResult commit() {
 		return JH.jsFactory(session).createResult(session.commit());
+	}
+
+	@Export
+	public JsResult post(final Object value, final String toUri,
+			final String secret) {
+		final Object javaValue = JsOpCommon.getJavaValue(session, value);
+
+		assert !(javaValue instanceof JsQuery)
+				&& !(javaValue instanceof JsLink)
+				&& !(javaValue instanceof JsNode) : "Entities cannot be posted. Please post values.";
+
+		return JH.jsFactory(session).createResult(
+				session.post(javaValue, toUri, secret));
 	}
 
 	@Export

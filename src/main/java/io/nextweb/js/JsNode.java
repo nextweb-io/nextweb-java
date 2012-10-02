@@ -1,8 +1,6 @@
 package io.nextweb.js;
 
 import io.nextweb.Node;
-import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.ExceptionResult;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.engine.NextwebEngineJs;
@@ -106,13 +104,8 @@ public class JsNode implements Exportable, JsEntity<Node> {
 	@Export
 	@Override
 	public void catchExceptions(final JsClosure listener) {
-		original.getExceptionManager().catchExceptions(new ExceptionListener() {
-
-			@Override
-			public void onFailure(final ExceptionResult r) {
-				listener.apply(r.exception());
-			}
-		});
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchExceptions(listener);
 	}
 
 	@Export

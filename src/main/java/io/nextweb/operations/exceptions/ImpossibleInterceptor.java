@@ -1,7 +1,7 @@
 package io.nextweb.operations.exceptions;
 
-public interface ImpossibleInterceptor {
+public interface ImpossibleInterceptor<ReturnType> {
 
-	public void catchImpossible(ImpossibleListener listener);
+	public ReturnType catchImpossible(ImpossibleListener listener);
 
 }

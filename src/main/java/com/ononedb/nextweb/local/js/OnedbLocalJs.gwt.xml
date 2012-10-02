@@ -15,4 +15,6 @@
 		<exclude name="**/jre/**" />
       <exclude name="**/jsserver/**" />
 	</source>
+	
+	  <add-linker name="xs" /> 
 </module>

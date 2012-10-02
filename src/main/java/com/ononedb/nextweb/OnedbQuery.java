@@ -17,6 +17,7 @@ import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.ImpossibleListener;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
@@ -71,6 +72,12 @@ public class OnedbQuery implements Query, OnedbEntity {
 		this.exceptionManager.catchUndefined(listener);
 		return this;
 
+	}
+
+	@Override
+	public Query catchImpossible(final ImpossibleListener listener) {
+		this.exceptionManager.catchImpossible(listener);
+		return this;
 	}
 
 	@Override

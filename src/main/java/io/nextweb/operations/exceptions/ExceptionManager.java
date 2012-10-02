@@ -10,6 +10,7 @@ public class ExceptionManager implements
 		ExceptionInterceptor<ExceptionManager>,
 		UnauthorizedInterceptor<ExceptionManager>, ExceptionListener,
 		UnauthorizedListener, UndefinedListener, ImpossibleListener,
+		ImpossibleInterceptor<ExceptionManager>,
 		UndefinedInterceptor<ExceptionManager> {
 
 	private UnauthorizedListener authExceptionListener;
@@ -21,13 +22,14 @@ public class ExceptionManager implements
 
 	@Override
 	public ExceptionManager catchUnauthorized(
-			UnauthorizedListener authExceptionListener) {
+			final UnauthorizedListener authExceptionListener) {
 		this.authExceptionListener = authExceptionListener;
 		return this;
 	}
 
 	@Override
-	public ExceptionManager catchExceptions(ExceptionListener exceptionListener) {
+	public ExceptionManager catchExceptions(
+			final ExceptionListener exceptionListener) {
 		this.exceptionListener = exceptionListener;
 		return this;
 	}
@@ -63,7 +65,7 @@ public class ExceptionManager implements
 	}
 
 	@Override
-	public void onFailure(ExceptionResult r) {
+	public void onFailure(final ExceptionResult r) {
 		assert canCatchExceptions();
 
 		if (this.exceptionListener != null) {
@@ -82,7 +84,7 @@ public class ExceptionManager implements
 	}
 
 	@Override
-	public void onUnauthorized(UnauthorizedResult r) {
+	public void onUnauthorized(final UnauthorizedResult r) {
 		assert canCatchAuthorizationExceptions() || canCatchExceptions();
 
 		if (this.authExceptionListener != null) {
@@ -108,7 +110,7 @@ public class ExceptionManager implements
 	}
 
 	@Override
-	public void onImpossible(ImpossibleResult ir) {
+	public void onImpossible(final ImpossibleResult ir) {
 		assert canCatchImpossibe() || canCatchExceptions();
 
 		if (this.impossibleListener != null) {
@@ -135,14 +137,21 @@ public class ExceptionManager implements
 	}
 
 	@Override
+	public ExceptionManager catchImpossible(final ImpossibleListener listener) {
+
+		this.impossibleListener = listener;
+		return this;
+	}
+
+	@Override
 	public ExceptionManager catchUndefined(
-			UndefinedListener undefinedExceptionListener) {
+			final UndefinedListener undefinedExceptionListener) {
 		this.undefinedExceptionListener = undefinedExceptionListener;
 		return this;
 	}
 
 	@Override
-	public void onUndefined(UndefinedResult r) {
+	public void onUndefined(final UndefinedResult r) {
 		assert canCatchUndefinedExceptions() || canCatchExceptions();
 
 		if (this.undefinedExceptionListener != null) {
@@ -167,7 +176,7 @@ public class ExceptionManager implements
 				new Exception("Undefined: " + r.message())));
 	}
 
-	public ExceptionManager(ExceptionManager parentExceptionManager) {
+	public ExceptionManager(final ExceptionManager parentExceptionManager) {
 		super();
 		this.parentExceptionManager = parentExceptionManager;
 
