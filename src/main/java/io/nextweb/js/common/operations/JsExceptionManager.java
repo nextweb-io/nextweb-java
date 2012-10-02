@@ -7,6 +7,8 @@ import io.nextweb.js.JsWrapper;
 import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.operations.JsExceptionListeners;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.ImpossibleListener;
+import io.nextweb.operations.exceptions.ImpossibleResult;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.UndefinedListener;
@@ -20,7 +22,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 @Export
 public class JsExceptionManager implements Exportable,
-		JsWrapper<ExceptionManager>, JsExceptionListeners {
+		JsWrapper<ExceptionManager>, JsExceptionListeners<JsExceptionManager> {
 
 	private ExceptionManager em;
 
@@ -75,7 +77,15 @@ public class JsExceptionManager implements Exportable,
 
 	@Override
 	public JsExceptionManager catchImpossible(final JsClosure impossibleListener) {
-		em.c
+		em.catchImpossible(new ImpossibleListener() {
+
+			@Override
+			public void onImpossible(final ImpossibleResult ir) {
+				impossibleListener.apply(wrapImpossibleResult(ir.origin()
+						.getClass().toString(), ir.message(), ir.cause()
+						.getClass().toString()));
+			}
+		});
 		return this;
 	}
 
@@ -117,6 +127,15 @@ public class JsExceptionManager implements Exportable,
 														message: message,
 														origin: origin,
 														type: type
+														}
+														}-*/;
+
+	public static final native JavaScriptObject wrapImpossibleResult(
+			String origin, String message, String cause)/*-{
+														return {
+														message: message,
+														origin: origin,
+														cause: cause
 														}
 														}-*/;
 

@@ -1,19 +1,19 @@
 package io.nextweb.js;
 
 import io.nextweb.Link;
-import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.ExceptionResult;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.fn.JsResult;
+import io.nextweb.js.operations.JsExceptionListeners;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsLink implements Exportable, JsEntity<Link> {
+public class JsLink implements Exportable, JsEntity<Link>,
+		JsExceptionListeners<JsLink> {
 
 	private Link original;
 
@@ -72,14 +72,34 @@ public class JsLink implements Exportable, JsEntity<Link> {
 
 	@Override
 	@Export
-	public void catchExceptions(final JsClosure listener) {
-		original.catchExceptions(new ExceptionListener() {
+	public JsLink catchExceptions(final JsClosure listener) {
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchExceptions(listener);
+		return this;
+	}
 
-			@Override
-			public void onFailure(final ExceptionResult r) {
-				listener.apply(r.exception());
-			}
-		});
+	@Export
+	@Override
+	public JsLink catchUndefined(final JsClosure undefinedListener) {
+		JsExceptionManager.wrap(original.getExceptionManager()).catchUndefined(
+				undefinedListener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsLink catchUnauthorized(final JsClosure unauthorizedListener) {
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchUnauthorized(unauthorizedListener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsLink catchImpossible(final JsClosure impossibleListener) {
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchImpossible(impossibleListener);
+		return this;
 	}
 
 	@Override

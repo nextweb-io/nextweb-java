@@ -1,19 +1,19 @@
 package io.nextweb.js;
 
 import io.nextweb.Query;
-import io.nextweb.fn.ExceptionListener;
-import io.nextweb.fn.ExceptionResult;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.fn.JsResult;
+import io.nextweb.js.operations.JsExceptionListeners;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsQuery implements Exportable, JsEntity<Query> {
+public class JsQuery implements Exportable, JsEntity<Query>,
+		JsExceptionListeners<JsQuery> {
 
 	private Query original;
 
@@ -99,16 +99,36 @@ public class JsQuery implements Exportable, JsEntity<Query> {
 				original.getExceptionManager());
 	}
 
+	@Override
+	@Export
+	public JsQuery catchExceptions(final JsClosure listener) {
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchExceptions(listener);
+		return this;
+	}
+
 	@Export
 	@Override
-	public void catchExceptions(final JsClosure listener) {
-		original.getExceptionManager().catchExceptions(new ExceptionListener() {
+	public JsQuery catchUndefined(final JsClosure undefinedListener) {
+		JsExceptionManager.wrap(original.getExceptionManager()).catchUndefined(
+				undefinedListener);
+		return this;
+	}
 
-			@Override
-			public void onFailure(final ExceptionResult r) {
-				listener.apply(r.exception());
-			}
-		});
+	@Export
+	@Override
+	public JsQuery catchUnauthorized(final JsClosure unauthorizedListener) {
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchUnauthorized(unauthorizedListener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsQuery catchImpossible(final JsClosure impossibleListener) {
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchImpossible(impossibleListener);
+		return this;
 	}
 
 	@Export

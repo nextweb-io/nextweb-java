@@ -1,15 +1,15 @@
 package io.nextweb.js.operations;
 
-import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
 
-public interface JsExceptionListeners {
-	public JsExceptionManager catchExceptions(final JsClosure exceptionListener);
+import org.timepedia.exporter.client.Exportable;
 
-	public JsExceptionManager catchUndefined(final JsClosure undefinedListener);
+public interface JsExceptionListeners<ReturnType extends Exportable> {
+	public ReturnType catchExceptions(final JsClosure exceptionListener);
 
-	public JsExceptionManager catchUnauthorized(
-			final JsClosure unauthorizedListener);
+	public ReturnType catchUndefined(final JsClosure undefinedListener);
 
-	public JsExceptionManager catchImpossible(final JsClosure impossibleListener);
+	public ReturnType catchUnauthorized(final JsClosure unauthorizedListener);
+
+	public ReturnType catchImpossible(final JsClosure impossibleListener);
 }

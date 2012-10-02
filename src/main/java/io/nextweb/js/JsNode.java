@@ -6,13 +6,15 @@ import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.fn.JsResult;
+import io.nextweb.js.operations.JsExceptionListeners;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsNode implements Exportable, JsEntity<Node> {
+public class JsNode implements Exportable, JsEntity<Node>,
+		JsExceptionListeners<JsNode> {
 
 	private Node original;
 
@@ -101,11 +103,36 @@ public class JsNode implements Exportable, JsEntity<Node> {
 				original.getExceptionManager());
 	}
 
-	@Export
 	@Override
-	public void catchExceptions(final JsClosure listener) {
+	@Export
+	public JsNode catchExceptions(final JsClosure listener) {
 		JsExceptionManager.wrap(original.getExceptionManager())
 				.catchExceptions(listener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsNode catchUndefined(final JsClosure undefinedListener) {
+		JsExceptionManager.wrap(original.getExceptionManager()).catchUndefined(
+				undefinedListener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsNode catchUnauthorized(final JsClosure unauthorizedListener) {
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchUnauthorized(unauthorizedListener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsNode catchImpossible(final JsClosure impossibleListener) {
+		JsExceptionManager.wrap(original.getExceptionManager())
+				.catchImpossible(impossibleListener);
+		return this;
 	}
 
 	@Export
