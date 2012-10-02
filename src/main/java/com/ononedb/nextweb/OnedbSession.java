@@ -4,6 +4,7 @@ import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.Postbox;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
@@ -216,6 +217,78 @@ public class OnedbSession implements Session {
 	@Override
 	public Query seed() {
 		return seed("default");
+	}
+
+	@Override
+	public Result<Postbox> createPostbox(final String realmTitle,
+			final String postboxType, final String apiKey) {
+		final AsyncResult<Postbox> createPostboxResult = new AsyncResult<Postbox>() {
+
+			@Override
+			public void get(final Callback<Postbox> callback) {
+
+				client.runSafe(new Runnable() {
+
+					@Override
+					public void run() {
+
+						client.one().createRealm(realmTitle)
+								.withType(postboxType).withApiKey(apiKey)
+								.in(client).and(new WhenRealmCreated() {
+
+									@Override
+									public void thenDo(
+											final WithRealmCreatedResult cr) {
+										callback.onSuccess(new Postbox() {
+
+											@Override
+											public String partnerSecret() {
+												return cr.partnerSecret();
+											}
+
+											@Override
+											public Node node() {
+												return engine
+														.getFactory()
+														.createNode(
+																OnedbSession.this,
+																exceptionManager,
+																client.one()
+																		.reference(
+																				cr.root()),
+																cr.secret());
+											}
+										});
+
+									}
+
+									@Override
+									public void onQuotaExceeded(
+											final WithQuotaExceededContext context) {
+										callback.onFailure(Fn
+												.exception(
+														this,
+														new Exception(
+																"Cannot create realm because quota for API key is exceeded.\n  Message: "
+																		+ context
+																				.message())));
+									}
+
+									@Override
+									public void onFailure(final Throwable t) {
+										callback.onFailure(Fn
+												.exception(this, t));
+									}
+
+								});
+					}
+				});
+
+			}
+		};
+
+		return this.engine.createResult(getExceptionManager(), this,
+				createPostboxResult);
 	}
 
 	@Override

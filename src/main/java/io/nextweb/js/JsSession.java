@@ -1,6 +1,8 @@
 package io.nextweb.js;
 
 import io.nextweb.Session;
+import io.nextweb.common.Postbox;
+import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
@@ -15,6 +17,7 @@ import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.fn.JsResult;
 import io.nextweb.js.operations.JsExceptionListeners;
 import io.nextweb.js.operations.impl.JsOpCommon;
+import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 
 import java.util.ArrayList;
@@ -120,6 +123,48 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 			final String apiKey) {
 		return JH.jsFactory(session).createQuery(
 				session.createRealm(realmTitle, realmType, apiKey));
+	}
+
+	@Export
+	public JsResult createPostbox(final String postboxTitle,
+			final String postboxType, final String apiKey) {
+		return JH.jsFactory(session).createResult(
+				session.getEngine().createResult(session.getExceptionManager(),
+						session, new AsyncResult<Object>() {
+
+							@Override
+							public void get(final Callback<Object> callback) {
+								session.createPostbox(postboxTitle,
+										postboxType, apiKey).get(
+										CallbackFactory.eagerCallback(session,
+												session.getExceptionManager(),
+												new Closure<Postbox>() {
+
+													@Override
+													public void apply(
+															final Postbox o) {
+														final JavaScriptObject node = ExporterUtil
+																.wrap(JH.jsFactory(
+																		session)
+																		.createNode(
+																				o.node()));
+
+														callback.onSuccess(wrapPostbox(
+																node,
+																o.partnerSecret()));
+
+													}
+
+													private final native JavaScriptObject wrapPostbox(
+															JavaScriptObject node,
+															String partnerSecret)/*-{
+																						node: node,
+																						partnerSecret: partnerSecret
+																					}-*/;
+
+												}));
+							}
+						}));
 	}
 
 	@SuppressWarnings({ "rawtypes" })

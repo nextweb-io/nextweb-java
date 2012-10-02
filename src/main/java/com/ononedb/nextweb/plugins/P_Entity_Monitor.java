@@ -1,8 +1,8 @@
 package com.ononedb.nextweb.plugins;
 
-import io.nextweb.Monitor;
 import io.nextweb.Node;
 import io.nextweb.common.Interval;
+import io.nextweb.common.Monitor;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;

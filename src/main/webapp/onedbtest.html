@@ -25,6 +25,13 @@
 		testNodeUndefined(session);
 	};
 	
+	var testPost = function(session) {
+		var newRealm = session.createRealm("postboxTests", "postbox", "v13r9vuom665j6bekespxvx6molb");
+		
+		
+		
+	};
+	
 	var testNodeExceptions = function(session) {
 		
 		var undefinedNode = session.node("http://slicnet.com/Itrulydontexist/forreal");
