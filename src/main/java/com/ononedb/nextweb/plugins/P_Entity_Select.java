@@ -28,6 +28,7 @@ import one.core.dsl.callbacks.results.WithChildrenSelectedResult;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 import one.core.nodes.OneTypedReference;
 
+import com.google.gwt.core.client.GWT;
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.common.H;
 
@@ -213,11 +214,13 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 
 			@Override
 			public void get(final Callback<LinkList> callback) {
+				GWT.log("Requesting links.");
 				entity.get(CallbackFactory.embeddedCallback(exceptionManager,
 						callback, new Closure<Node>() {
 
 							@Override
 							public void apply(final Node result) {
+								GWT.log("Links requested.");
 								try {
 									final List<String> children = dsl
 											.selectFrom(

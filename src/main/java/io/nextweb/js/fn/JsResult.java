@@ -19,7 +19,7 @@ public class JsResult implements Exportable {
 	WrapperCollection wrappers;
 
 	@Export
-	public Object get(Object... params) {
+	public Object get(final Object... params) {
 
 		if (params.length == 0) {
 			return performGet();
@@ -52,10 +52,16 @@ public class JsResult implements Exportable {
 		result.get(new Closure<Object>() {
 
 			@Override
-			public void apply(Object o) {
-				// GWT.log("got async: " + o);
-				Object wrappedEngineNode = wrappers.createJsEngineWrapper(o);
-				// GWT.log("wrapped ASYNC engine node: " + wrappedEngineNode);
+			public void apply(final Object o) {
+
+				if (o instanceof JavaScriptObject) {
+					onSuccess.apply(o);
+					return;
+				}
+
+				final Object wrappedEngineNode = wrappers
+						.createJsEngineWrapper(o);
+
 				onSuccess.apply(ExporterUtil.wrap(wrappedEngineNode));
 			}
 
@@ -69,7 +75,7 @@ public class JsResult implements Exportable {
 	}
 
 	@NoExport
-	public void setResult(Result<Object> result) {
+	public void setResult(final Result<Object> result) {
 		this.result = result;
 	}
 
@@ -79,7 +85,7 @@ public class JsResult implements Exportable {
 	}
 
 	@NoExport
-	public void setWrappers(WrapperCollection wrappers) {
+	public void setWrappers(final WrapperCollection wrappers) {
 		this.wrappers = wrappers;
 	}
 
@@ -89,8 +95,9 @@ public class JsResult implements Exportable {
 
 	@SuppressWarnings("unchecked")
 	@NoExport
-	public static JsResult wrap(Result<?> result, WrapperCollection wrappers) {
-		JsResult jsResult = new JsResult();
+	public static JsResult wrap(final Result<?> result,
+			final WrapperCollection wrappers) {
+		final JsResult jsResult = new JsResult();
 		jsResult.setResult((Result<Object>) result);
 		jsResult.setWrappers(wrappers);
 		return jsResult;

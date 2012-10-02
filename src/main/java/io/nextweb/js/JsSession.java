@@ -158,8 +158,10 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 													private final native JavaScriptObject wrapPostbox(
 															JavaScriptObject node,
 															String partnerSecret)/*-{
+																						return {
 																						node: node,
 																						partnerSecret: partnerSecret
+																						};
 																					}-*/;
 
 												}));
