@@ -39,8 +39,11 @@ public class JsExceptionManager implements Exportable,
 
 			@Override
 			public void onFailure(final ExceptionResult r) {
+
 				exceptionListener.apply(JsExceptionManager.wrapExceptionResult(
-						r.origin().getClass().toString(), r.exception()));
+						r.origin().getClass().toString(), r.exception()
+								.getMessage()));
+
 			}
 		});
 
@@ -105,14 +108,16 @@ public class JsExceptionManager implements Exportable,
 		this.em = original;
 	}
 
+	@NoExport
 	public static final native JavaScriptObject wrapExceptionResult(
-			String origin, Throwable t)/*-{
-										return {
-										exception: t,
-										origin: origin
-										}
-										}-*/;
+			String origin, String exceptionMessage)/*-{
+													return {
+													exception: exceptionMessage,
+													origin: origin
+													}
+													}-*/;
 
+	@NoExport
 	public static final native JavaScriptObject wrapUndefinedResult(
 			String origin, String message)/*-{
 											return {
@@ -121,6 +126,7 @@ public class JsExceptionManager implements Exportable,
 											}
 											}-*/;
 
+	@NoExport
 	public static final native JavaScriptObject wrapUnauthorizedResult(
 			String origin, String message, String type)/*-{
 														return {
@@ -130,6 +136,7 @@ public class JsExceptionManager implements Exportable,
 														}
 														}-*/;
 
+	@NoExport
 	public static final native JavaScriptObject wrapImpossibleResult(
 			String origin, String message, String cause)/*-{
 														return {

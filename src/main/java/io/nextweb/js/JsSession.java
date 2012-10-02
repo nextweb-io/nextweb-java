@@ -11,7 +11,9 @@ import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.js.engine.NextwebEngineJs;
+import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.fn.JsResult;
+import io.nextweb.js.operations.JsExceptionListeners;
 import io.nextweb.js.operations.impl.JsOpCommon;
 import io.nextweb.operations.callbacks.CallbackFactory;
 
@@ -26,7 +28,8 @@ import org.timepedia.exporter.client.NoExport;
 import com.google.gwt.core.client.JavaScriptObject;
 
 @Export
-public class JsSession implements Exportable, JsWrapper<Session> {
+public class JsSession implements Exportable, JsWrapper<Session>,
+		JsExceptionListeners<JsSession> {
 
 	private Session session;
 
@@ -38,6 +41,34 @@ public class JsSession implements Exportable, JsWrapper<Session> {
 	@Export
 	public JsExceptionManager getExceptionManager() {
 		return JsExceptionManager.wrap(session.getExceptionManager());
+	}
+
+	@Export
+	@Override
+	public JsSession catchExceptions(final JsClosure exceptionListener) {
+		getExceptionManager().catchExceptions(exceptionListener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsSession catchUndefined(final JsClosure undefinedListener) {
+		getExceptionManager().catchUndefined(undefinedListener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsSession catchUnauthorized(final JsClosure unauthorizedListener) {
+		getExceptionManager().catchUnauthorized(unauthorizedListener);
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsSession catchImpossible(final JsClosure impossibleListener) {
+		getExceptionManager().catchImpossible(impossibleListener);
+		return this;
 	}
 
 	@Export

@@ -20,7 +20,59 @@
 		//testSetValue(session);
 		
 		//testSetValueSafe(session);
-		testLocalDb(session);
+		//testLocalDb(session);
+		//testSessionExceptions(session);
+		testNodeUndefined(session);
+	};
+	
+	var testNodeExceptions = function(session) {
+		
+		var undefinedNode = session.node("http://slicnet.com/Itrulydontexist/forreal");
+		
+		undefinedNode.catchExceptions(function(er) {
+			alert("got ex: "+JSON.stringify(er));
+		}).get(function(node) {
+			alert("should not be called.")
+		});
+		
+		session.close().get(function(success) {
+			
+		});
+		
+	};
+	
+	var testSessionExceptions = function(session) {
+		
+		var undefinedNode = session.node("http://slicnet.com/Itrulydontexist/forreal");
+		
+		session.catchExceptions(function(er) {
+			alert("got ex: "+JSON.stringify(er));
+		});
+		
+		undefinedNode.get(function(node) {
+			alert("should not be called.")
+		});
+		
+		session.close().get(function(success) {
+			
+		});
+		
+	};
+	
+	var testNodeUndefined = function(session) {
+		
+		var undefinedNode = session.node("http://slicnet.com/Itrulydontexist/forreal");
+		
+		undefinedNode.catchUndefined(function(er) {
+			alert("got ex: "+JSON.stringify(er));
+		}).get(function(node) {
+			alert("should not be called.")
+		});
+		
+		session.close().get(function(success) {
+			
+		});
+		
 	};
 	
 	var testLocalDb = function(session) {
