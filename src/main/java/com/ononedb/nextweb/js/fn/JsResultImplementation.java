@@ -57,12 +57,12 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 						new Closure<ResultType>() {
 
 							@Override
-							public void apply(ResultType result) {
+							public void apply(final ResultType result) {
 								resultCache = result;
 								requestingResult = false;
 								callback.onSuccess(result);
 
-								for (Callback<ResultType> deferredCallback : deferredCalls) {
+								for (final Callback<ResultType> deferredCallback : deferredCalls) {
 									deferredCallback.onSuccess(result);
 								}
 								deferredCalls.clear();
@@ -71,10 +71,10 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 						}).catchExceptions(new ExceptionListener() {
 
 					@Override
-					public void onFailure(ExceptionResult r) {
+					public void onFailure(final ExceptionResult r) {
 						requestingResult = false;
 						callback.onFailure(r);
-						for (Callback<ResultType> deferredCallback : deferredCalls) {
+						for (final Callback<ResultType> deferredCallback : deferredCalls) {
 							deferredCallback.onFailure(r);
 						}
 						deferredCalls.clear();
@@ -82,10 +82,10 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 				}).catchUnauthorized(new UnauthorizedListener() {
 
 					@Override
-					public void onUnauthorized(UnauthorizedResult r) {
+					public void onUnauthorized(final UnauthorizedResult r) {
 						requestingResult = false;
 						callback.onUnauthorized(r);
-						for (Callback<ResultType> deferredCallback : deferredCalls) {
+						for (final Callback<ResultType> deferredCallback : deferredCalls) {
 							deferredCallback.onUnauthorized(r);
 						}
 						deferredCalls.clear();
@@ -93,31 +93,34 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 				}).catchUndefined(new UndefinedListener() {
 
 					@Override
-					public void onUndefined(UndefinedResult r) {
+					public void onUndefined(final UndefinedResult r) {
 						requestingResult = false;
 						callback.onUndefined(r);
-						for (Callback<ResultType> deferredCallback : deferredCalls) {
+						for (final Callback<ResultType> deferredCallback : deferredCalls) {
 							deferredCallback.onUndefined(r);
 						}
 						deferredCalls.clear();
 					}
 				}));
 
-		OneClient client = ((OnedbSession) session).getClient();
+		if (session != null) {
 
-		client.one().commit(client).and(new WhenCommitted() {
+			final OneClient client = ((OnedbSession) session).getClient();
 
-			@Override
-			public void thenDo(WithCommittedResult r) {
+			client.one().commit(client).and(new WhenCommitted() {
 
-			}
+				@Override
+				public void thenDo(final WithCommittedResult r) {
 
-			@Override
-			public void onFailure(Throwable t) {
-				exceptionManager.onFailure(Fn.exception(this, t));
-			}
+				}
 
-		});
+				@Override
+				public void onFailure(final Throwable t) {
+					exceptionManager.onFailure(Fn.exception(this, t));
+				}
+
+			});
+		}
 
 	}
 
@@ -136,7 +139,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 				new Closure<ResultType>() {
 
 					@Override
-					public void apply(ResultType o) {
+					public void apply(final ResultType o) {
 
 					}
 				}));
@@ -144,9 +147,9 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 		return this.resultCache;
 	}
 
-	public JsResultImplementation(Session session,
-			ExceptionManager fallbackExceptionManager,
-			AsyncResult<ResultType> asyncResult) {
+	public JsResultImplementation(final Session session,
+			final ExceptionManager fallbackExceptionManager,
+			final AsyncResult<ResultType> asyncResult) {
 		super();
 		assert asyncResult != null;
 		this.session = session;
@@ -163,7 +166,7 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 				new Closure<ResultType>() {
 
 					@Override
-					public void apply(ResultType o) {
+					public void apply(final ResultType o) {
 						callback.apply(o);
 					}
 				}));

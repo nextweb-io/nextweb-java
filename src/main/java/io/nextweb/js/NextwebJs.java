@@ -1,5 +1,6 @@
 package io.nextweb.js;
 
+import io.nextweb.Nextweb;
 import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.js.engine.NextwebEngineJs;
 
@@ -14,7 +15,8 @@ public class NextwebJs implements Exportable {
 	private static NextwebEngineJs injectedEngine;
 
 	@Export
-	public static void injectEngine(JsNextwebEngine engine) {
+	public static void injectEngine(final JsNextwebEngine engine) {
+		Nextweb.injectEngine(engine.getEngine());
 		injectedEngine = engine.getEngine();
 	}
 

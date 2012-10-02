@@ -7,11 +7,6 @@ import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import mx.gwtutils.MxroGWTUtils;
 import nx.auth.NxAuth;
 import nx.core.Nodes;
 import nx.core.Nx;
@@ -25,19 +20,12 @@ import nx.remote.messages.realm.RequestRealmMessage;
 import nx.remote.messages.seed.SeedMessage;
 import nx.remote.utils.NxRemoteUtils;
 import nx.server.NxServer;
-import nx.server.realm.NxServerRealm;
-import nx.server.realm.RealmCreatorConfiguration;
-import nx.server.realm.RealmRoot;
-import nx.server.realm.RegisteredRealmsService;
-import nx.server.realm.RegisteredRealmsService.When.AddressProvided;
-import nx.server.realm.RegisteredRealmsService.When.RealmRegistered;
 import nx.server.seed.NxServerSeed;
 import nx.server.seed.SeedHandler;
 import nx.sync.NxSync;
 import nx.versions.NxVersions;
 import nx.versions.VersionedNetwork;
 import one.client.gwt.OneGwt;
-import one.client.jre.OneJre;
 import one.utils.OneUtilsCollections.Predicate;
 import one.utils.gwt.GwtConcurrency;
 import one.utils.server.ShutdownCallback;
@@ -65,78 +53,78 @@ public class OnedbLocal implements Exportable {
 
 		final StoppableRemoteConnection connClosed = serverConnection;
 
-		server = NxServer.forkConnection(serverConnection, NxServerRealm
-				.createRealmServer(new RealmCreatorConfiguration() {
-
-					@SuppressWarnings("serial")
-					@Override
-					public Map<String, String> getNewNodesRoots() {
-
-						return new HashMap<String, String>() {
-							{
-								put("local", "http://localhost:" + port + "/");
-							}
-						};
-					}
-
-					private volatile int count = 0;
-
-					@Override
-					public RegisteredRealmsService getRealmDBService() {
-
-						return new RegisteredRealmsService() {
-
-							@Override
-							public void stop(final ShutdownCallback callback) {
-								callback.onShutdownComplete();
-							}
-
-							@Override
-							public void registerRealm(
-									final RealmRoot realmRoot,
-									final RealmRegistered callback) {
-								callback.thenDo();
-							}
-
-							@Override
-							public void getUniqueRealmAddress(
-									final String baseUri, final String title,
-									final AddressProvided callback) {
-								count++;
-
-								callback.thenDo(baseUri + "r" + count + "/"
-										+ MxroGWTUtils.getSimpleName(title, 6));
-							}
-						};
-					}
-
-					@Override
-					public String getSecret() {
-						return "myverysecretputsecret";
-					}
-
-					@Override
-					public RealmRemoteConnectionFactory getRemoteConnectionFactory() {
-						return new RealmRemoteConnectionFactory() {
-
-							@Override
-							public StoppableRemoteConnection createConnection() {
-								return connClosed;
-							}
-						};
-					}
-
-				}), new Predicate<RemoteMessage>() {
-
-			@Override
-			public boolean testElement(final RemoteMessage element) {
-				return NxRemoteUtils.isRequestRealmMessage(element);
-			}
-		});
+		// server = NxServer.forkConnection(serverConnection, NxServerRealm
+		// .createRealmServer(new RealmCreatorConfiguration() {
+		//
+		// @SuppressWarnings("serial")
+		// @Override
+		// public Map<String, String> getNewNodesRoots() {
+		//
+		// return new HashMap<String, String>() {
+		// {
+		// put("local", "http://localhost:" + port + "/");
+		// }
+		// };
+		// }
+		//
+		// private volatile int count = 0;
+		//
+		// @Override
+		// public RegisteredRealmsService getRealmDBService() {
+		//
+		// return new RegisteredRealmsService() {
+		//
+		// @Override
+		// public void stop(final ShutdownCallback callback) {
+		// callback.onShutdownComplete();
+		// }
+		//
+		// @Override
+		// public void registerRealm(
+		// final RealmRoot realmRoot,
+		// final RealmRegistered callback) {
+		// callback.thenDo();
+		// }
+		//
+		// @Override
+		// public void getUniqueRealmAddress(
+		// final String baseUri, final String title,
+		// final AddressProvided callback) {
+		// count++;
+		//
+		// callback.thenDo(baseUri + "r" + count + "/"
+		// + MxroGWTUtils.getSimpleName(title, 6));
+		// }
+		// };
+		// }
+		//
+		// @Override
+		// public String getSecret() {
+		// return "myverysecretputsecret";
+		// }
+		//
+		// @Override
+		// public RealmRemoteConnectionFactory getRemoteConnectionFactory() {
+		// return new RealmRemoteConnectionFactory() {
+		//
+		// @Override
+		// public StoppableRemoteConnection createConnection() {
+		// return connClosed;
+		// }
+		// };
+		// }
+		//
+		// }), new Predicate<RemoteMessage>() {
+		//
+		// @Override
+		// public boolean testElement(final RemoteMessage element) {
+		// return NxRemoteUtils.isRequestRealmMessage(element);
+		// }
+		// });
 
 		// to catch cache messages, which are otherwise handled by url
 		// connections
-		server = NxRemote.pullCachingConnection(200, server);
+		server = NxRemote.pullCachingConnection(200, serverConnection);
 
 		final SeedHandler handler = new SeedHandler() {
 
@@ -238,7 +226,7 @@ public class OnedbLocal implements Exportable {
 
 					@Override
 					public void get(final Callback<Success> callback) {
-						OneJre.getJreSettings().removeConnectionDecorator(
+						OneGwt.getSettings().removeConnectionDecorator(
 								localServerDecorator);
 
 						unblockedServer.stop(new ShutdownCallback() {
@@ -255,6 +243,9 @@ public class OnedbLocal implements Exportable {
 						});
 					}
 				};
+
+				assert Nextweb.getEngine() != null : "Engine not initialized";
+				assert Nextweb.getEngine().getExceptionManager() != null : "Exception manager not defined.";
 
 				final Result<Success> shutdownResult = Nextweb.getEngine()
 						.createResult(
