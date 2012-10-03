@@ -3,11 +3,11 @@ package io.nextweb.js;
 import io.nextweb.Session;
 import io.nextweb.common.Postbox;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Fn;
-import io.nextweb.fn.Result;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
@@ -177,7 +177,7 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 
 		final Object[] jsAr = params;
 
-		final List<Result<?>> requestedEntities = new ArrayList<Result<?>>(
+		final List<BasicResult<?>> requestedEntities = new ArrayList<BasicResult<?>>(
 				jsAr.length - 1);
 
 		JavaScriptObject callback_onSuccess = null;
@@ -191,11 +191,12 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 			// GWT.log(gwtInstance.getClass().toString());
 			if (gwtInstance instanceof JsWrapper<?>) {
 
-				if (((JsWrapper) gwtInstance).getOriginal() instanceof Result<?>) {
+				if (((JsWrapper) gwtInstance).getOriginal() instanceof BasicResult<?>) {
 					// GWT.log("Adding result "
 					// + gwtInstance.getClass().toString());
-					requestedEntities.add((Result<?>) ((JsWrapper) gwtInstance)
-							.getOriginal());
+					requestedEntities
+							.add((BasicResult<?>) ((JsWrapper) gwtInstance)
+									.getOriginal());
 				}
 			} else {
 				if (callback_onSuccess != null) {
@@ -220,8 +221,8 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 		final JavaScriptObject callback_onSuccess_Closed = callback_onSuccess;
 		final JavaScriptObject callback_onFailure_Closed = callback_onFailure;
 
-		final Result[] requestedEntitiesArray = requestedEntities
-				.toArray(new Result[] {});
+		final BasicResult[] requestedEntitiesArray = requestedEntities
+				.toArray(new BasicResult[] {});
 
 		session.getAll(true, requestedEntitiesArray).get(
 				CallbackFactory.eagerCallback(session,
@@ -253,8 +254,9 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 
 								final List<Object> resolvedObjects = new ArrayList<Object>(
 										requestedEntities.size());
-								for (final Result<?> requestedResult : requestedEntities) {
-									resolvedObjects.add(requestedResult.get());
+								for (final BasicResult<?> requestedBasicResult : requestedEntities) {
+									resolvedObjects.add(requestedBasicResult
+											.get());
 								}
 
 								JH.triggerCallback(callback_onSuccess_Closed,
