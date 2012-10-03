@@ -1,7 +1,7 @@
 package io.nextweb.js.fn;
 
+import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Closure;
-import io.nextweb.fn.Result;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.operations.JsExceptionListeners;
@@ -17,7 +17,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 @Export
 public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 
-	Result<Object> result;
+	BasicResult<Object> result;
 	WrapperCollection wrappers;
 
 	@Export
@@ -105,12 +105,12 @@ public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 	}
 
 	@NoExport
-	public Result<?> getResult() {
+	public BasicResult<?> getResult() {
 		return result;
 	}
 
 	@NoExport
-	public void setResult(final Result<Object> result) {
+	public void setResult(final BasicResult<Object> result) {
 		this.result = result;
 	}
 
@@ -130,10 +130,10 @@ public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 
 	@SuppressWarnings("unchecked")
 	@NoExport
-	public static JsResult wrap(final Result<?> result,
+	public static JsResult wrap(final BasicResult<?> result,
 			final WrapperCollection wrappers) {
 		final JsResult jsResult = new JsResult();
-		jsResult.setResult((Result<Object>) result);
+		jsResult.setResult((BasicResult<Object>) result);
 		jsResult.setWrappers(wrappers);
 		return jsResult;
 	}

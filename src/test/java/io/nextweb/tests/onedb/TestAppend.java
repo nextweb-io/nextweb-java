@@ -5,6 +5,8 @@ import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
+import io.nextweb.fn.BasicResult;
+import io.nextweb.fn.IntegerResult;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 
@@ -46,7 +48,7 @@ public class TestAppend {
 
 		session.getAll(removeNested, removeNode);
 
-		final Result<Integer> clearVersions = node.clearVersions(2);
+		final BasicResult<Integer> clearVersions = node.clearVersions(2);
 
 		clearVersions.get();
 
@@ -78,7 +80,7 @@ public class TestAppend {
 
 		session.getAll(removeNested, removeNode);
 
-		final Result<Integer> clearVersions = node.clearVersions(2);
+		final IntegerResult clearVersions = node.clearVersions(2);
 
 		clearVersions.get();
 

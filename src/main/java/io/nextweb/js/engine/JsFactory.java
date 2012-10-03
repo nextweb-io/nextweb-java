@@ -4,12 +4,12 @@ import io.nextweb.Entity;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.ListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
-import io.nextweb.fn.Result;
+import io.nextweb.fn.BasicResult;
 import io.nextweb.js.JsLink;
 import io.nextweb.js.JsLinkList;
 import io.nextweb.js.JsLinkListQuery;
@@ -41,55 +41,55 @@ public class JsFactory implements Exportable {
 	private final WrapperCollection wrapperCollection;
 
 	@Export
-	public void registerEntityPlugin(JavaScriptObject plugin) {
+	public void registerEntityPlugin(final JavaScriptObject plugin) {
 
 		this.entityPlugins.add(plugin);
 	}
 
 	@NoExport
-	public JsDefaultOperations op(Entity entity) {
+	public JsDefaultOperations op(final Entity entity) {
 		return new JsDefaultOperations(entity);
 	}
 
 	@NoExport
-	private final void applyAllPlugins(List<JavaScriptObject> pluginFactories,
-			Exportable dest) {
+	private final void applyAllPlugins(
+			final List<JavaScriptObject> pluginFactories, final Exportable dest) {
 
-		for (JavaScriptObject pluginFactory : pluginFactories) {
+		for (final JavaScriptObject pluginFactory : pluginFactories) {
 			JsPluginUtils.plugin(ExporterUtil.wrap(dest), pluginFactory);
 		}
 	}
 
 	@NoExport
-	public JsResult createResult(Result<?> result) {
+	public JsResult createResult(final BasicResult<?> result) {
 		final JsResult jsResult = JsResult.wrap(result, wrapperCollection);
 
 		return jsResult;
 	}
 
 	@NoExport
-	public JsQuery createQuery(Query query) {
+	public JsQuery createQuery(final Query query) {
 		final JsQuery jsQuery = JsQuery.wrap(query);
 		applyAllPlugins(entityPlugins, jsQuery);
 		return jsQuery;
 	}
 
 	@NoExport
-	public JsLink createLink(Link link) {
+	public JsLink createLink(final Link link) {
 		final JsLink jsLink = JsLink.wrap(link);
 		applyAllPlugins(entityPlugins, jsLink);
 		return jsLink;
 	}
 
 	@NoExport
-	public JsNode createNode(Node node) {
+	public JsNode createNode(final Node node) {
 		final JsNode jsNode = JsNode.wrap(node);
 		applyAllPlugins(entityPlugins, jsNode);
 		return jsNode;
 	}
 
 	@NoExport
-	public JsSession createSession(Session session) {
+	public JsSession createSession(final Session session) {
 		final JsSession jsSession = JsSession.wrap(session);
 
 		return jsSession;
@@ -97,42 +97,42 @@ public class JsFactory implements Exportable {
 
 	@NoExport
 	public JsExceptionManager createExceptionManager(
-			ExceptionManager exceptionManager) {
+			final ExceptionManager exceptionManager) {
 		final JsExceptionManager ex = JsExceptionManager.wrap(exceptionManager);
 
 		return ex;
 	}
 
 	@NoExport
-	public JsNodeList createNodeList(NodeList nodeList) {
+	public JsNodeList createNodeList(final NodeList nodeList) {
 		final JsNodeList jsNodeList = JsNodeList.wrap(nodeList);
 
 		return jsNodeList;
 	}
 
 	@NoExport
-	public JsLinkList createLinkList(LinkList linkList) {
+	public JsLinkList createLinkList(final LinkList linkList) {
 		final JsLinkList jsList = JsLinkList.wrap(linkList);
 
 		return jsList;
 	}
 
 	@NoExport
-	public JsLinkListQuery createLinkListQuery(LinkListQuery listQuery) {
+	public JsLinkListQuery createLinkListQuery(final LinkListQuery listQuery) {
 		final JsLinkListQuery jsListQuery = JsLinkListQuery.wrap(listQuery);
 
 		return jsListQuery;
 	}
 
 	@NoExport
-	public JsNodeListQuery createNodeListQuery(ListQuery listQuery) {
+	public JsNodeListQuery createNodeListQuery(final ListQuery listQuery) {
 		final JsNodeListQuery jsListQuery = JsNodeListQuery.wrap(listQuery);
 
 		return jsListQuery;
 	}
 
 	@NoExport
-	public Object wrapValueObjectForJs(Object in) {
+	public Object wrapValueObjectForJs(final Object in) {
 		return this.wrapperCollection.wrapValueObjectForJs(in);
 	}
 

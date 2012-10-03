@@ -4,6 +4,7 @@ import io.nextweb.Link;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.common.Postbox;
+import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.fn.SuccessFail;
@@ -28,10 +29,10 @@ public interface SessionOperations {
 
 	public Link node(String uri, String secret);
 
-	public Session getAll(Result<?>... results);
+	public Session getAll(BasicResult<?>... results);
 
 	public Result<SuccessFail> getAll(boolean asynchronous,
-			Result<?>... results);
+			BasicResult<?>... results);
 
 	public Query seed();
 

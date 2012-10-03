@@ -7,6 +7,7 @@ import io.nextweb.Session;
 import io.nextweb.common.Postbox;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
@@ -439,7 +440,7 @@ public class OnedbSession implements Session {
 	}
 
 	@Override
-	public Session getAll(final Result<?>... results) {
+	public Session getAll(final BasicResult<?>... results) {
 
 		final Result<SuccessFail> callback = getAll(true, results);
 
@@ -472,7 +473,7 @@ public class OnedbSession implements Session {
 
 	@Override
 	public Result<SuccessFail> getAll(final boolean asynchronous,
-			final Result<?>... results) {
+			final BasicResult<?>... results) {
 		final Result<SuccessFail> getAllResult = engine.createResult(
 				exceptionManager, this, new AsyncResult<SuccessFail>() {
 

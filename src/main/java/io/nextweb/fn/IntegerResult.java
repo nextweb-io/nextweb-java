@@ -3,9 +3,14 @@ package io.nextweb.fn;
 import io.nextweb.Session;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
+import io.nextweb.operations.exceptions.AllInterceptor;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.ImpossibleListener;
+import io.nextweb.operations.exceptions.UnauthorizedListener;
+import io.nextweb.operations.exceptions.UndefinedListener;
 
-public class IntegerResult implements Result<Integer> {
+public class IntegerResult implements BasicResult<Integer>,
+		AllInterceptor<IntegerResult> {
 
 	private final Result<Integer> result;
 	private final ExceptionManager exceptionManager;
@@ -101,12 +106,36 @@ public class IntegerResult implements Result<Integer> {
 		return exceptionManager;
 	}
 
-	public IntegerResult(final ExceptionManager exceptionManager,
+	@Override
+	public IntegerResult catchUndefined(final UndefinedListener listener) {
+		exceptionManager.catchUndefined(listener);
+		return this;
+	}
+
+	@Override
+	public IntegerResult catchUnauthorized(final UnauthorizedListener listener) {
+		exceptionManager.catchUnauthorized(listener);
+		return this;
+	}
+
+	@Override
+	public IntegerResult catchExceptions(final ExceptionListener listener) {
+		exceptionManager.catchExceptions(listener);
+		return this;
+	}
+
+	@Override
+	public IntegerResult catchImpossible(final ImpossibleListener listener) {
+		exceptionManager.catchImpossible(listener);
+		return this;
+	}
+
+	public IntegerResult(final ExceptionManager parentExceptionManager,
 			final Session session, final AsyncResult<Integer> result) {
 		super();
-		this.exceptionManager = exceptionManager;
+		this.exceptionManager = new ExceptionManager(parentExceptionManager);
 		this.session = session;
-		this.result = session.getEngine().createResult(exceptionManager,
+		this.result = session.getEngine().createResult(this.exceptionManager,
 				session, result);
 	}
 

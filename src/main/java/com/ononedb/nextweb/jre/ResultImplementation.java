@@ -10,6 +10,7 @@ import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.operations.exceptions.ImpossibleListener;
 import io.nextweb.operations.exceptions.UnauthorizedListener;
 import io.nextweb.operations.exceptions.UnauthorizedResult;
 import io.nextweb.operations.exceptions.UndefinedListener;
@@ -201,6 +202,31 @@ public final class ResultImplementation<ResultType> implements
 	@Override
 	public void get(final Closure<ResultType> callback) {
 		get(CallbackFactory.lazyCallback(session, exceptionManager, callback));
+	}
+
+	@Override
+	public Result<ResultType> catchUnauthorized(
+			final UnauthorizedListener listener) {
+		this.exceptionManager.catchUnauthorized(listener);
+		return this;
+	}
+
+	@Override
+	public Result<ResultType> catchImpossible(final ImpossibleListener listener) {
+		this.exceptionManager.catchImpossible(listener);
+		return this;
+	}
+
+	@Override
+	public Result<ResultType> catchUndefined(final UndefinedListener listener) {
+		this.exceptionManager.catchUndefined(listener);
+		return this;
+	}
+
+	@Override
+	public Result<ResultType> catchExceptions(final ExceptionListener listener) {
+		this.exceptionManager.catchExceptions(listener);
+		return this;
 	}
 
 }

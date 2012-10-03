@@ -7,8 +7,8 @@ import io.nextweb.LinkListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.Session;
+import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Closure;
-import io.nextweb.fn.Result;
 import io.nextweb.js.JsEntity;
 import io.nextweb.js.JsEntityList;
 import io.nextweb.js.JsLinkList;
@@ -119,7 +119,8 @@ public class JH {
 
 	}
 
-	public static final Object getNodeList(final Result<NodeList> entityResult) {
+	public static final Object getNodeList(
+			final BasicResult<NodeList> entityResult) {
 		assert entityResult != null;
 
 		final NodeList result = entityResult.get();
@@ -129,7 +130,7 @@ public class JH {
 		return ExporterUtil.wrap(jsFactory(result).createNodeList(result));
 	}
 
-	public static final JsNode getNode(final Result<Node> entityResult) {
+	public static final JsNode getNode(final BasicResult<Node> entityResult) {
 		assert entityResult != null;
 
 		final Node result = entityResult.get();
@@ -243,7 +244,7 @@ public class JH {
 	}
 
 	public static final JsLinkList getLinkList(
-			final Result<LinkList> entityResult) {
+			final BasicResult<LinkList> entityResult) {
 		assert entityResult != null;
 
 		final LinkList result = entityResult.get();
