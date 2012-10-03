@@ -258,6 +258,7 @@ public class OnedbLink implements Link, OnedbEntity {
 	public Query append(final Object value, final String atAddress) {
 		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
 				.plugins(session).append();
+
 		return plugin(append).append(value, atAddress);
 	}
 

@@ -73,7 +73,7 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 			query = node.append(getNode(javaValue), atAddress);
 		} else {
 			// assert, should be a value object such as "text" or 33
-			query = node.append(javaValue);
+			query = node.append(javaValue, atAddress);
 		}
 
 		return createQuery(query);
@@ -122,7 +122,7 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 			query = node.appendSafe(getNode(javaValue), atAddress);
 		} else {
 			// assert, should be a value object such as "text" or 33
-			query = node.appendSafe(javaValue);
+			query = node.appendSafe(javaValue, atAddress);
 		}
 
 		return createQuery(query);
@@ -172,7 +172,7 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 			query = node.insert(getNode(javaValue), atAddress, atIndex);
 		} else {
 			// assert, should be a value object such as "text" or 33
-			query = node.insert(javaValue, atIndex);
+			query = node.insert(javaValue, atAddress, atIndex);
 		}
 
 		return createQuery(query);
@@ -222,7 +222,7 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 			query = node.insertSafe(getNode(javaValue), atAddress, atIndex);
 		} else {
 			// assert, should be a value object such as "text" or 33
-			query = node.insertSafe(javaValue, atIndex);
+			query = node.insertSafe(javaValue, atAddress, atIndex);
 		}
 
 		return createQuery(query);

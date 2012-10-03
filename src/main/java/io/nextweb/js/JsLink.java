@@ -117,6 +117,7 @@ public class JsLink implements Exportable, JsEntity<Link>,
 	@Export
 	@Override
 	public Object append(final Object value, final String atAddress) {
+
 		return JH.op(original).append().append(value, atAddress);
 	}
 

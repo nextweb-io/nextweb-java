@@ -40,24 +40,6 @@ public class JsQuery implements Exportable, JsEntity<Query>,
 
 	@Export
 	@Override
-	public Object append(final Object value) {
-		return JH.op(original).append().append(value);
-	}
-
-	@Export
-	@Override
-	public Object append(final Object value, final String atAddress) {
-		return JH.op(original).append().append(value, atAddress);
-	}
-
-	@Export
-	@Override
-	public Object appendValue(final Object value) {
-		return JH.op(original).append().appendValue(value);
-	}
-
-	@Export
-	@Override
 	public JsQuery setValue(final Object newValue) {
 		return JH.op(original).setValue().setValue(newValue);
 	}
@@ -169,6 +151,24 @@ public class JsQuery implements Exportable, JsEntity<Query>,
 	@Override
 	public JsResult remove(final Object entity) {
 		return JH.op(original).remove().remove(entity);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value) {
+		return JH.op(original).append().append(value);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value, final String atAddress) {
+		return JH.op(original).append().append(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValue(final Object value) {
+		return JH.op(original).append().appendValue(value);
 	}
 
 	@Export

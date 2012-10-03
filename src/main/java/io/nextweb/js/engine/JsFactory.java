@@ -133,7 +133,7 @@ public class JsFactory implements Exportable {
 
 	@NoExport
 	public Object wrapValueObjectForJs(final Object in) {
-		return this.wrapperCollection.wrapValueObjectForJs(in);
+		return this.wrapperCollection.convertValueObjectForJs(in);
 	}
 
 	@NoExport

@@ -24,8 +24,12 @@
 		//testNodeUndefined(session);
 
 		//testPost(session);
+		
+		testAppendWithAddress(session);
 	};
 
+	
+	
 	var testPost = function(session) {
 		var postOperation = session.post("postedValue",
 				"http://slicnet.com/ttgvok/testPos", "9j2xcmulgqia5iq");
@@ -223,6 +227,30 @@
 
 	};
 
+	var testAppendWithAddress = function(session) {
+		var testNode = session
+		.node(
+				"http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests",
+				"ChaiK3CZYnrr");
+		
+		var appendedWithAddress = testNode.append("Hello, with Address", "./address");
+		
+		appendedWithAddress.get(function(appendedWithAddress) {
+			$("#output").append("<p>Appended: " + appendedWithAddress.uri() + ".</p>");
+			testNode.remove(appendedWithAddress);
+			
+			session.commit().get(function(success) {
+				
+				testNode.clearVersions(3).get(function(cleared) {
+					session.close().get(function(success) {
+						$("#output").append("<p>Session closed successfully.</p>");
+					});
+				});
+				
+			});
+		});
+	};
+	
 	var testAppend = function(session) {
 
 		var testNode = session

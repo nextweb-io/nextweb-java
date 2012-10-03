@@ -264,7 +264,7 @@ public class JH {
 			final WrapperCollection wrappers) {
 		final JavaScriptObject[] result = new JavaScriptObject[array.length];
 		for (int i = 0; i <= array.length - 1; i++) {
-			final Object rawWrapped = wrappers.wrapValueObjectForJs(wrappers
+			final Object rawWrapped = wrappers.convertValueObjectForJs(wrappers
 					.createJsEngineWrapper(array[i]));
 			if (rawWrapped instanceof JavaScriptObject) {
 				result[i] = (JavaScriptObject) rawWrapped;
@@ -281,14 +281,14 @@ public class JH {
 
 			@Override
 			public void apply(final Object result) {
-				triggerCallbackSimpleJs(fn, (JavaScriptObject) result);
+				triggerCallbackSimpleJs(fn, result);
 			}
 		};
 
 	}
 
 	public static final native void triggerCallbackSimpleJs(
-			JavaScriptObject fn, JavaScriptObject parameter)/*-{
+			JavaScriptObject fn, Object parameter)/*-{
 															fn(parameter);
 															}-*/;
 

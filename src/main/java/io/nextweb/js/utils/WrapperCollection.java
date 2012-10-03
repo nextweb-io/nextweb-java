@@ -174,7 +174,7 @@ public class WrapperCollection {
 		return "t" + d.getTime();
 	}-*/;
 
-	public Object wrapValueObjectForJs(Object gwtNode) {
+	public Object convertValueObjectForJs(Object gwtNode) {
 
 		if (gwtNode instanceof String) {
 			return gwtNode;

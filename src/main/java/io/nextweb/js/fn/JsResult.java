@@ -76,7 +76,7 @@ public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 
 		if (node != null) {
 			node = wrappers.createJsEngineWrapper(node);
-			node = wrappers.wrapValueObjectForJs(node);
+			node = wrappers.convertValueObjectForJs(node);
 		}
 
 		return node;
@@ -97,7 +97,8 @@ public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 				final Object wrappedEngineNode = wrappers
 						.createJsEngineWrapper(o);
 
-				onSuccess.apply(ExporterUtil.wrap(wrappedEngineNode));
+				onSuccess.apply(wrappers
+						.convertValueObjectForJs((wrappedEngineNode)));
 			}
 
 		});
