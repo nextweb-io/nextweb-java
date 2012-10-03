@@ -25,10 +25,31 @@
 		//testNodeUndefined(session);
 
 		//testPost(session);
-		
+		testGetAll(session);
 		
 	};
 
+	var testGetAll = function(session) {
+		
+		var questionNode = session.node("http://slicnet.com/seed1/seed1/1/4/1/h/sd/q", "w139jjjir90zd6k");
+		
+		var typesRoot = "http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/8/n/Types/";
+		var aValueChainQuestion = session.node(typesRoot
+				+ "Value_Chain_Question");
+		var aBrandName = session.node(typesRoot + "Brand_Name");
+		var aBrandImage = session.node(typesRoot + "Brand_Image");
+		
+		var brandName = questionNode.select(aBrandName);
+		var brandImage = questionNode.select(aBrandImage);
+		
+		session.getAll(brandName, brandImage, function() {
+			$("#output").append(
+					"<p>all got: "
+							+ brandName.get().value()
+							+ ".</p>");
+		});
+		
+	};
 	
 	
 	var testPost = function(session) {

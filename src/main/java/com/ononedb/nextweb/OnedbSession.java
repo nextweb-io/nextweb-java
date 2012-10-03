@@ -495,9 +495,9 @@ public class OnedbSession implements Session {
 							}
 						};
 
-						final Result<Object>[] resultObj = (Result<Object>[]) results;
+						final BasicResult<Object>[] resultObj = (BasicResult<Object>[]) results;
 
-						for (final Result<Object> result : resultObj) {
+						for (final BasicResult<Object> result : resultObj) {
 							final EagerCallback<Object> eagerCallback = CallbackFactory
 									.eagerCallback(OnedbSession.this,
 											exceptionManager,

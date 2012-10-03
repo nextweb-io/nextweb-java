@@ -50,9 +50,9 @@ public class TestMonitor {
 
 		testNode2
 				.remove(session
-						.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests/Monitor70"));
+						.node("http://slicnet.com/mxrogm/mxrogm/apps/nodejump/docs/1/7/n/Further_Append_Tests/testMonitor111211"));
 
-		testNode2.append("Monitor");
+		testNode2.append("Monitor", "./testMonitor111211");
 
 		session2.commit().get();
 

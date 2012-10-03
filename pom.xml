@@ -2,7 +2,7 @@
 <project>
 	<groupId>io.nextweb.core</groupId>
 	<artifactId>NextwebCore</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<description>Core module for Nextweb API.</description>
 	<properties>
 
@@ -282,8 +282,13 @@
 		<resources>
 			<!-- Required to be valid GWT Library (requires *.java files in jar) -->
 
-			<!-- <resource> <directory>src/main/java</directory> <includes> <include>**/*.java</include> 
-				<include>**/*.gwt.xml</include> </includes> </resource> -->
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.java</include>
+					<include>**/*.gwt.xml</include>
+				</includes>
+			</resource>
 
 			<!-- This entry makes sure that resources, which lie in the same package 
 				as Java classes, are copied into the target. Often external libraries require 
