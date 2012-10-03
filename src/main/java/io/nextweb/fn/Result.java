@@ -1,6 +1,7 @@
 package io.nextweb.fn;
 
 import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.operations.exceptions.ExceptionManager;
 
 public interface Result<ResultType> extends AsyncResult<ResultType> {
 
@@ -14,9 +15,9 @@ public interface Result<ResultType> extends AsyncResult<ResultType> {
 
 	public void get(Closure<ResultType> callback);
 
+	public ExceptionManager getExceptionManager();
+
 	@Override
 	public void get(Callback<ResultType> callback);
-
-	// / public boolean available(); ?
 
 }

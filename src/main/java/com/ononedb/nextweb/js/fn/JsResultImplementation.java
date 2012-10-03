@@ -125,6 +125,11 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 	}
 
 	@Override
+	public ExceptionManager getExceptionManager() {
+		return exceptionManager;
+	}
+
+	@Override
 	public void get(final Callback<ResultType> callback) {
 		requestResult(callback);
 	}
@@ -155,7 +160,8 @@ public class JsResultImplementation<ResultType> implements Result<ResultType> {
 		this.session = session;
 		this.asyncResult = asyncResult;
 		this.resultCache = null;
-		this.exceptionManager = fallbackExceptionManager;
+		this.exceptionManager = ((OnedbSession) session).getFactory()
+				.createExceptionManager(fallbackExceptionManager);
 		this.requestingResult = false;
 		this.deferredCalls = new LinkedList<Callback<ResultType>>();
 	}

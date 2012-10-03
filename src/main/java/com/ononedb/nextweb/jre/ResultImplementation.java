@@ -39,13 +39,19 @@ public final class ResultImplementation<ResultType> implements
 
 	ResultType cached = null;
 
+	@Override
+	public ExceptionManager getExceptionManager() {
+		return exceptionManager;
+	}
+
 	public ResultImplementation(final Session session,
 			final ExceptionManager exceptionManager,
 			final AsyncResult<ResultType> asyncResult) {
 		super();
 		this.asyncResult = asyncResult;
 		this.session = session;
-		this.exceptionManager = exceptionManager;
+		this.exceptionManager = ((OnedbSession) session).getFactory()
+				.createExceptionManager(exceptionManager);
 		this.deferredCalls = new LinkedList<Callback<ResultType>>();
 		requesting = new AtomicBoolean();
 	}

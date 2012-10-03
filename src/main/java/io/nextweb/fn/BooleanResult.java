@@ -11,6 +11,11 @@ public class BooleanResult implements Result<Boolean> {
 	private final ExceptionManager exceptionManager;
 	private final Session session;
 
+	@Override
+	public ExceptionManager getExceptionManager() {
+		return exceptionManager;
+	}
+
 	public BooleanResult and(final BooleanResult otherResult) {
 		return new BooleanResult(exceptionManager, session,
 				new AsyncResult<Boolean>() {
@@ -22,7 +27,7 @@ public class BooleanResult implements Result<Boolean> {
 								new Closure<Boolean>() {
 
 									@Override
-									public void apply(Boolean o) {
+									public void apply(final Boolean o) {
 										if (!o.booleanValue()) {
 											callback.onSuccess(false);
 											return;
@@ -36,7 +41,7 @@ public class BooleanResult implements Result<Boolean> {
 
 															@Override
 															public void apply(
-																	Boolean o) {
+																	final Boolean o) {
 																callback.onSuccess(o);
 															}
 														}));
@@ -59,7 +64,7 @@ public class BooleanResult implements Result<Boolean> {
 								new Closure<Boolean>() {
 
 									@Override
-									public void apply(Boolean o) {
+									public void apply(final Boolean o) {
 										if (o.booleanValue()) {
 											callback.onSuccess(true);
 											return;
@@ -73,7 +78,7 @@ public class BooleanResult implements Result<Boolean> {
 
 															@Override
 															public void apply(
-																	Boolean o) {
+																	final Boolean o) {
 																callback.onSuccess(o);
 															}
 														}));
@@ -91,17 +96,17 @@ public class BooleanResult implements Result<Boolean> {
 	}
 
 	@Override
-	public void get(Closure<Boolean> callback) {
+	public void get(final Closure<Boolean> callback) {
 		result.get(callback);
 	}
 
 	@Override
-	public void get(Callback<Boolean> callback) {
+	public void get(final Callback<Boolean> callback) {
 		result.get(callback);
 	}
 
-	public BooleanResult(ExceptionManager eM, Session session,
-			AsyncResult<Boolean> result) {
+	public BooleanResult(final ExceptionManager eM, final Session session,
+			final AsyncResult<Boolean> result) {
 		super();
 		this.exceptionManager = new ExceptionManager(eM);
 		this.session = session;

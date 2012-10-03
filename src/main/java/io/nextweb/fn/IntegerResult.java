@@ -34,7 +34,7 @@ public class IntegerResult implements Result<Integer> {
 
 															@Override
 															public void apply(
-																	Integer otherResultValue) {
+																	final Integer otherResultValue) {
 																callback.onSuccess(thisResultValue
 																		+ otherResultValue);
 															}
@@ -69,7 +69,7 @@ public class IntegerResult implements Result<Integer> {
 
 															@Override
 															public void apply(
-																	Integer otherResultValue) {
+																	final Integer otherResultValue) {
 																callback.onSuccess(thisResultValue
 																		- otherResultValue);
 															}
@@ -87,17 +87,22 @@ public class IntegerResult implements Result<Integer> {
 	}
 
 	@Override
-	public void get(Closure<Integer> callback) {
+	public void get(final Closure<Integer> callback) {
 		result.get(callback);
 	}
 
 	@Override
-	public void get(Callback<Integer> callback) {
+	public void get(final Callback<Integer> callback) {
 		result.get(callback);
 	}
 
-	public IntegerResult(ExceptionManager exceptionManager, Session session,
-			AsyncResult<Integer> result) {
+	@Override
+	public ExceptionManager getExceptionManager() {
+		return exceptionManager;
+	}
+
+	public IntegerResult(final ExceptionManager exceptionManager,
+			final Session session, final AsyncResult<Integer> result) {
 		super();
 		this.exceptionManager = exceptionManager;
 		this.session = session;
