@@ -124,6 +124,13 @@ public class OnedbQuery implements Query, OnedbEntity {
 	}
 
 	@Override
+	public Query ifHas(final Link propertyType) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Select<OnedbEntity>> select = H
+				.plugins(session).select();
+		return plugin(select).ifHas(propertyType);
+	}
+
+	@Override
 	public ListQuery selectAll(final Link propertyType) {
 		final PluginFactory<OnedbEntity, Plugin_Entity_Select<OnedbEntity>> select = H
 				.plugins(session).select();

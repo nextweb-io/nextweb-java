@@ -36,6 +36,13 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 	private OnedbEntity entity;
 
 	@Override
+	public Query ifHas(final Link propertyType) {
+		// requires implementation of DummyNode, DummyQuery, DummyNodeList and
+		// DummyLinkList ...
+		throw new RuntimeException("Not implemented yet.");
+	}
+
+	@Override
 	public ListQuery selectAll(final Link propertyType) {
 		final CoreDsl dsl = H.dsl(entity);
 

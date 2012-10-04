@@ -8,6 +8,7 @@ import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
 import nx.auth.NxAuth;
+import nx.client.gwt.GwtConcurrency;
 import nx.core.Nodes;
 import nx.core.Nx;
 import nx.remote.NxRemote;
@@ -27,7 +28,6 @@ import nx.versions.NxVersions;
 import nx.versions.VersionedNetwork;
 import one.client.gwt.OneGwt;
 import one.utils.OneUtilsCollections.Predicate;
-import one.utils.gwt.GwtConcurrency;
 import one.utils.server.ShutdownCallback;
 
 import org.timepedia.exporter.client.Export;

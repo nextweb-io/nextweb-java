@@ -6,7 +6,7 @@ public class Nextweb {
 
 	private static NextwebEngine definedEngine;
 
-	public static void injectEngine(NextwebEngine engine) {
+	public static void injectEngine(final NextwebEngine engine) {
 		definedEngine = engine;
 	}
 
@@ -16,6 +16,10 @@ public class Nextweb {
 
 	public static NextwebEngine getEngine() {
 		return definedEngine;
+	}
+
+	public static void main(final String[] args) {
+		System.out.println("Please see http://nextweb.io/ for more infos.");
 	}
 
 }

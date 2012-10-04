@@ -10,6 +10,8 @@ public interface EntitySelectOperations {
 
 	public Query select(Link propertyType);
 
+	public Query ifHas(Link propertyType);
+
 	public ListQuery selectAll(Link propertyType);
 
 	public LinkListQuery selectAllLinks();
