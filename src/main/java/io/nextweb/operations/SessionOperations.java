@@ -3,6 +3,7 @@ package io.nextweb.operations;
 import io.nextweb.Link;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
 import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Result;
@@ -44,5 +45,7 @@ public interface SessionOperations {
 			String apiKey);
 
 	public Result<Success> post(Object value, String toUri, String secret);
+
+	public LoginResult login(String userName, String password);
 
 }
