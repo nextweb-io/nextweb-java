@@ -5,6 +5,7 @@ import io.nextweb.common.LoginResult;
 import io.nextweb.common.User;
 import io.nextweb.engine.NextwebEngine;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.ononedb.nextweb.jre.OnedbJre;
@@ -30,7 +31,9 @@ public class TestLogin {
 
 		final User user = login.get();
 
-		System.out.println(user.sessionToken());
+		Assert.assertTrue(user.sessionToken() != null);
+		Assert.assertTrue(user.userNode() != null);
+		Assert.assertTrue(user.email() != null);
 
 	}
 
