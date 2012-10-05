@@ -4,7 +4,9 @@ import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
+import io.nextweb.common.User;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.BasicResult;
@@ -18,6 +20,7 @@ import io.nextweb.fn.SuccessFail;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.callbacks.EagerCallback;
+import io.nextweb.operations.exceptions.ChallengedResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedResult;
 import io.nextweb.plugins.Plugin;
@@ -33,6 +36,8 @@ import one.core.dsl.callbacks.WhenMessagePosted;
 import one.core.dsl.callbacks.WhenRealmCreated;
 import one.core.dsl.callbacks.WhenSeeded;
 import one.core.dsl.callbacks.WhenShutdown;
+import one.core.dsl.callbacks.WhenUserLoggedIn;
+import one.core.dsl.callbacks.results.WithChallengedContext;
 import one.core.dsl.callbacks.results.WithCommittedResult;
 import one.core.dsl.callbacks.results.WithMessagePostedResult;
 import one.core.dsl.callbacks.results.WithQuotaExceededContext;
@@ -40,8 +45,11 @@ import one.core.dsl.callbacks.results.WithRealmCreatedResult;
 import one.core.dsl.callbacks.results.WithSeedResult;
 import one.core.dsl.callbacks.results.WithTargetNodeDoesNotExistContext;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
+import one.core.dsl.callbacks.results.WithUserRegisteredResult;
+import one.core.dsl.grammars.LoginWithUserDetailsParameters;
 
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.internal.LoginResultImpl;
 import com.ononedb.nextweb.internal.OnedbFactory;
 
 public class OnedbSession implements Session {
@@ -526,6 +534,176 @@ public class OnedbSession implements Session {
 				});
 
 		return getAllResult;
+	}
+
+	@Override
+	public LoginResult login(final String email, final String password) {
+
+		return null;
+	}
+
+	@Override
+	public LoginResult login(final String email, final String password,
+			final Link application) {
+
+		final LoginResultImpl loginResult = new LoginResultImpl();
+
+		final AsyncResult<User> userResult = new AsyncResult<User>() {
+
+			@Override
+			public void get(final Callback<User> callback) {
+				client.one().loginUser(new LoginWithUserDetailsParameters() {
+
+					@Override
+					public String getPassword() {
+						return password;
+					}
+
+					@Override
+					public String getEmail() {
+						return email;
+					}
+
+					@Override
+					public OneClient getClient() {
+						return client;
+					}
+
+					@Override
+					public String getApplicationNodeUri() {
+						return application.uri();
+					}
+
+					@Override
+					public String getApplicationNodeSecret() {
+						return application.getSecret();
+					}
+
+					@Override
+					public WhenUserLoggedIn getCallback() {
+						return new WhenUserLoggedIn() {
+
+							@Override
+							public void thenDo(
+									final WithUserRegisteredResult result) {
+								callback.onSuccess(new User() {
+
+									@Override
+									public Link userNode() {
+										return OnedbSession.this.node(
+												result.userNodeUri(),
+												result.userNodeSecret());
+									}
+
+									@Override
+									public String sessionToken() {
+
+										return result.sessionToken();
+									}
+
+									@Override
+									public String email() {
+
+										return result.email();
+									}
+								});
+							}
+
+							@Override
+							public void onFailure(final Throwable t) {
+								callback.onFailure(Fn.exception(this, t));
+							}
+
+							@Override
+							public void onNotRegisteredForApplication() {
+								if (loginResult.getLoginFailuresListener() == null) {
+									onFailure(new Exception(
+											"User is not registered for application.\n"
+													+ "To intercept this exception, define .catchLoginFailures."));
+									return;
+								}
+
+								loginResult.getLoginFailuresListener()
+										.onNotRegisteredForApplication();
+							}
+
+							@Override
+							public void onInvalidDetails() {
+								if (loginResult.getLoginFailuresListener() == null) {
+									onFailure(new Exception(
+											"Invalid user details.\n"
+													+ "To intercept this exception, define .catchLoginFailures."));
+									return;
+								}
+
+								loginResult.getLoginFailuresListener()
+										.onInvalidDetails();
+							}
+
+							@Override
+							public void onChallenge(
+									final WithChallengedContext context) {
+								if (loginResult.getLoginFailuresListener() == null) {
+									onFailure(new Exception(
+											"Challenge for login received at: ["
+													+ context
+															.challengeNodeUri()
+													+ ":"
+													+ context
+															.challengeNodeSecret()
+													+ "].\n"
+													+ "To intercept this exception, define .catchLoginFailures."));
+									return;
+								}
+
+								loginResult.getLoginFailuresListener()
+										.onChallenged(new ChallengedResult() {
+
+											@Override
+											public Link challengeLink() {
+												return OnedbSession.this.node(
+														context.challengeNodeUri(),
+														context.challengeNodeSecret());
+											}
+										});
+							}
+						};
+					}
+				});
+			}
+		};
+
+		final Result<User> userResultImpl = this.getEngine().createResult(
+				exceptionManager, this, userResult);
+
+		loginResult.setUserResult(userResultImpl);
+
+		return loginResult;
+	}
+
+	@Override
+	public LoginResult login(final String sessionId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LoginResult login(final String sessionId, final Link application) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LoginResult register(final String email, final String password,
+			final Link application) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LoginResult register(final String email, final String password) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

@@ -12,6 +12,8 @@ public interface Link extends Entity, EntityRequestOperations<Link>,
 
 	public String getSecret();
 
+	public String secret();
+
 	// public <PluginType extends Plugin<?>> PluginType pluginTest(
 	// PluginFactory<?, ? extends PluginType> factory);
 

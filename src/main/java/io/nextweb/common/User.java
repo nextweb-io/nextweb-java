@@ -2,7 +2,14 @@ package io.nextweb.common;
 
 import io.nextweb.Link;
 
-public interface User extends LoginResponse {
+/**
+ * A {@link User} is returned after a successfully registration or login
+ * operation.
+ * 
+ * @author <a href="http://www.mxro.de/">Max Rohde</a>
+ * 
+ */
+public interface User {
 
 	/**
 	 * 

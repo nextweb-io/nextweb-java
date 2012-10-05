@@ -71,6 +71,11 @@ public class OnedbLink implements Link, OnedbEntity {
 	}
 
 	@Override
+	public String secret() {
+		return getSecret();
+	}
+
+	@Override
 	public String uri() {
 		return getUri();
 	}

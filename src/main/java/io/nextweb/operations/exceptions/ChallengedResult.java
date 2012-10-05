@@ -1,5 +1,7 @@
 package io.nextweb.operations.exceptions;
 
+import io.nextweb.Link;
+
 /**
  * Returned when a user needs to confirm an additional challenge (e.g. verify
  * human) to finalize registration/login.
@@ -9,6 +11,10 @@ package io.nextweb.operations.exceptions;
  */
 public interface ChallengedResult {
 
+	/**
+	 * 
+	 * @return The node where details of the challenge can be found.
+	 */
 	public Link challengeLink();
 
 }
