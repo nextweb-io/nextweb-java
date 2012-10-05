@@ -20,4 +20,14 @@ public class Fn {
 		};
 	}
 
+	public static <G> Closure<G> doNothing(final Class<G> inputType) {
+		return new Closure<G>() {
+
+			@Override
+			public void apply(final G o) {
+				// nada
+			}
+		};
+	}
+
 }
