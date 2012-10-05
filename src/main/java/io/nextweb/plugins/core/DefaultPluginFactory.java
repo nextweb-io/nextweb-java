@@ -7,9 +7,17 @@ import io.nextweb.plugins.PluginFactory;
 
 public interface DefaultPluginFactory {
 
-	public <GEntity extends Entity, GPlugin extends Plugin_Entity_Select<GEntity>> PluginFactory<GEntity, GPlugin> select();
+	/*
+	 * For Session
+	 */
 
-	public <GEntity extends EntityList, GPlugin extends Plugin_EntityList_Select<GEntity>> PluginFactory<GEntity, GPlugin> selectForLists();
+	public <GSession extends Session, GPlugin extends Plugin_Session_Core<GSession>> PluginFactory<GSession, GPlugin> session();
+
+	/*
+	 * For Entity
+	 */
+
+	public <GEntity extends Entity, GPlugin extends Plugin_Entity_Select<GEntity>> PluginFactory<GEntity, GPlugin> select();
 
 	public <GEntity extends Entity, GPlugin extends Plugin_Entity_Append<GEntity>> PluginFactory<GEntity, GPlugin> append();
 
@@ -21,6 +29,12 @@ public interface DefaultPluginFactory {
 
 	public <GEntity extends Entity, GPlugin extends Plugin_Entity_Monitor<GEntity>> PluginFactory<GEntity, GPlugin> monitor();
 
-	public <GSession extends Session, GPlugin extends Plugin_Session_Core<GSession>> PluginFactory<GSession, GPlugin> session();
+	/*
+	 * For Entity List
+	 */
+
+	public <GEntity extends EntityList, GPlugin extends Plugin_EntityList_Select<GEntity>> PluginFactory<GEntity, GPlugin> selectForLists();
+
+	public <GEntity extends EntityList, GPlugin extends Plugin_EntityList_SetValue<GEntity>> PluginFactory<GEntity, GPlugin> setValueForLists();
 
 }
