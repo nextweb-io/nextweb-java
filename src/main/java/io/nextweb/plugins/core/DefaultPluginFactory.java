@@ -2,6 +2,7 @@ package io.nextweb.plugins.core;
 
 import io.nextweb.Entity;
 import io.nextweb.EntityList;
+import io.nextweb.Session;
 import io.nextweb.plugins.PluginFactory;
 
 public interface DefaultPluginFactory {
@@ -19,5 +20,7 @@ public interface DefaultPluginFactory {
 	public <GEntity extends Entity, GPlugin extends Plugin_Entity_SetValue<GEntity>> PluginFactory<GEntity, GPlugin> setValue();
 
 	public <GEntity extends Entity, GPlugin extends Plugin_Entity_Monitor<GEntity>> PluginFactory<GEntity, GPlugin> monitor();
+
+	public <GSession extends Session, GPlugin extends Plugin_Session_Core<GSession>> PluginFactory<GSession, GPlugin> session();
 
 }

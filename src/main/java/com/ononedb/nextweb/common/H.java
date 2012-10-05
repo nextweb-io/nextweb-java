@@ -18,6 +18,7 @@ import io.nextweb.plugins.core.Plugin_Entity_Monitor;
 import io.nextweb.plugins.core.Plugin_Entity_Remove;
 import io.nextweb.plugins.core.Plugin_Entity_Select;
 import io.nextweb.plugins.core.Plugin_Entity_SetValue;
+import io.nextweb.plugins.core.Plugin_Session_Core;
 import one.core.domain.OneClient;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.results.WithImpossibleContext;
@@ -36,6 +37,7 @@ import com.ononedb.nextweb.plugins.P_Entity_Monitor_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Remove_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Select_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_SetValue_Factory;
+import com.ononedb.nextweb.plugins.P_Session_Core_Factory;
 
 /**
  * Helper methods.
@@ -185,6 +187,12 @@ public class H {
 			public <GEntity extends Entity, GPlugin extends Plugin_Entity_Monitor<GEntity>> PluginFactory<GEntity, GPlugin> monitor() {
 				final Object object = P_Entity_Monitor_Factory.FACTORY;
 				return (PluginFactory<GEntity, GPlugin>) object;
+			}
+
+			@Override
+			public <GSession extends Session, GPlugin extends Plugin_Session_Core<GSession>> PluginFactory<GSession, GPlugin> session() {
+				final Object object = P_Session_Core_Factory.FACTORY;
+				return (PluginFactory<GSession, GPlugin>) object;
 			}
 
 		};

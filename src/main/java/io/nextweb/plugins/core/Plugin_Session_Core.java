@@ -10,6 +10,7 @@ import io.nextweb.plugins.Plugin;
  * @author <a href="http://www.mxro.de/">Max Rohde</a>
  * 
  */
-public interface Plugin_Session_Core extends Plugin<Session>, SessionOperations {
+public interface Plugin_Session_Core<SessionType extends Session> extends
+		Plugin<SessionType>, SessionOperations {
 
 }
