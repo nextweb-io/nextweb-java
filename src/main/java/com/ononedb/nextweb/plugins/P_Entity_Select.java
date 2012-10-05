@@ -399,8 +399,8 @@ public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 			}
 		};
 
-		return new BooleanResult(entity.getExceptionManager(),
-				entity.getSession(), hasResult);
+		return H.factory(entity).createBooleanResult(
+				entity.getExceptionManager(), entity.getSession(), hasResult);
 
 	}
 }

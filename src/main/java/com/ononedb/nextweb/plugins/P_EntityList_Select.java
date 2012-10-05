@@ -1,6 +1,7 @@
 package com.ononedb.nextweb.plugins;
 
 import io.nextweb.Link;
+import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
 import io.nextweb.Node;
@@ -46,88 +47,6 @@ public class P_EntityList_Select implements
 	@Override
 	public void injectObject(final OnedbEntityList obj) {
 		this.entity = obj;
-	}
-
-	@Override
-	public ListQuery select(final Link propertyType) {
-
-		final Calculation<Node, Query> queryOperation = new Calculation<Node, Query>() {
-
-			@Override
-			public Query apply(final Node input) {
-				return input.select(propertyType);
-			}
-		};
-
-		return joinNodeResults(queryOperation);
-	}
-
-	/**
-	 * Will apply the specified query for all items in the list and join the
-	 * results.
-	 * 
-	 * @param operation
-	 * @return
-	 */
-	private ListQuery joinNodeResults(final Calculation<Node, Query> operation) {
-
-		return joinGeneric(operation,
-				new Calculation<List<Maybe<Node>>, NodeList>() {
-
-					@Override
-					public NodeList apply(final List<Maybe<Node>> input) {
-						return H.factory(entity).createNodeList(
-								H.session(entity),
-								entity.getExceptionManager(),
-								Maybe.allValues(input));
-					}
-				}, new Calculation<AsyncResult<NodeList>, ListQuery>() {
-
-					@Override
-					public ListQuery apply(final AsyncResult<NodeList> input) {
-						return H.factory(entity).createNodeListQuery(
-								H.session(entity),
-								entity.getExceptionManager(), input);
-					}
-				});
-	}
-
-	/**
-	 * Will apply the specified query for all items in the list and join the
-	 * results.
-	 * 
-	 * @param operation
-	 * @return
-	 */
-	private ListQuery joinListResults(
-			final Calculation<Node, ListQuery> operation) {
-
-		return joinGeneric(operation,
-				new Calculation<List<Maybe<NodeList>>, NodeList>() {
-
-					@Override
-					public NodeList apply(final List<Maybe<NodeList>> input) {
-						final List<NodeList> lists = Maybe.allValues(input);
-
-						final List<Node> nodes = new ArrayList<Node>();
-
-						for (final NodeList list : lists) {
-							nodes.addAll(list.asList());
-						}
-
-						return H.factory(entity).createNodeList(
-								H.session(entity),
-								entity.getExceptionManager(), nodes);
-					}
-				}, new Calculation<AsyncResult<NodeList>, ListQuery>() {
-
-					@Override
-					public ListQuery apply(final AsyncResult<NodeList> input) {
-						return H.factory(entity).createNodeListQuery(
-								H.session(entity),
-								entity.getExceptionManager(), input);
-					}
-				});
 	}
 
 	private <QueryResultType extends BasicResult<JoinType>, JoinType, JoinedType, ResultType> ResultType joinGeneric(
@@ -237,6 +156,88 @@ public class P_EntityList_Select implements
 	}
 
 	@Override
+	public ListQuery select(final Link propertyType) {
+
+		final Calculation<Node, Query> queryOperation = new Calculation<Node, Query>() {
+
+			@Override
+			public Query apply(final Node input) {
+				return input.select(propertyType);
+			}
+		};
+
+		return joinNodeResults(queryOperation);
+	}
+
+	/**
+	 * Will apply the specified query for all items in the list and join the
+	 * results.
+	 * 
+	 * @param operation
+	 * @return
+	 */
+	private ListQuery joinNodeResults(final Calculation<Node, Query> operation) {
+
+		return joinGeneric(operation,
+				new Calculation<List<Maybe<Node>>, NodeList>() {
+
+					@Override
+					public NodeList apply(final List<Maybe<Node>> input) {
+						return H.factory(entity).createNodeList(
+								H.session(entity),
+								entity.getExceptionManager(),
+								Maybe.allValues(input));
+					}
+				}, new Calculation<AsyncResult<NodeList>, ListQuery>() {
+
+					@Override
+					public ListQuery apply(final AsyncResult<NodeList> input) {
+						return H.factory(entity).createNodeListQuery(
+								H.session(entity),
+								entity.getExceptionManager(), input);
+					}
+				});
+	}
+
+	/**
+	 * Will apply the specified query for all items in the list and join the
+	 * results.
+	 * 
+	 * @param operation
+	 * @return
+	 */
+	private ListQuery joinListResults(
+			final Calculation<Node, ListQuery> operation) {
+
+		return joinGeneric(operation,
+				new Calculation<List<Maybe<NodeList>>, NodeList>() {
+
+					@Override
+					public NodeList apply(final List<Maybe<NodeList>> input) {
+						final List<NodeList> lists = Maybe.allValues(input);
+
+						final List<Node> nodes = new ArrayList<Node>();
+
+						for (final NodeList list : lists) {
+							nodes.addAll(list.asList());
+						}
+
+						return H.factory(entity).createNodeList(
+								H.session(entity),
+								entity.getExceptionManager(), nodes);
+					}
+				}, new Calculation<AsyncResult<NodeList>, ListQuery>() {
+
+					@Override
+					public ListQuery apply(final AsyncResult<NodeList> input) {
+						return H.factory(entity).createNodeListQuery(
+								H.session(entity),
+								entity.getExceptionManager(), input);
+					}
+				});
+	}
+
+	@Override
 	public ListQuery selectAll(final Link propertyType) {
 		final Calculation<Node, ListQuery> queryOperation = new Calculation<Node, ListQuery>() {
 
@@ -251,8 +252,35 @@ public class P_EntityList_Select implements
 
 	@Override
 	public LinkListQuery selectAllLinks() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return joinGeneric(new Calculation<Node, LinkListQuery>() {
+
+			@Override
+			public LinkListQuery apply(final Node input) {
+				return input.selectAllLinks();
+			}
+		}, new Calculation<List<Maybe<LinkList>>, LinkList>() {
+
+			@Override
+			public LinkList apply(final List<Maybe<LinkList>> input) {
+				final List<LinkList> lists = Maybe.allValues(input);
+				final List<Link> links = new ArrayList<Link>(0);
+
+				for (final LinkList list : lists) {
+					links.addAll(list.asList());
+				}
+
+				return H.factory(entity).createLinkList(H.session(entity),
+						entity.getExceptionManager(), links);
+			}
+		}, new Calculation<AsyncResult<LinkList>, LinkListQuery>() {
+
+			@Override
+			public LinkListQuery apply(final AsyncResult<LinkList> input) {
+				return H.factory(entity).createLinkListQuery(H.session(entity),
+						entity.getExceptionManager(), input);
+			}
+		});
 	}
 
 	@Override
@@ -270,8 +298,43 @@ public class P_EntityList_Select implements
 
 	@Override
 	public BooleanResult has(final Link propertyType) {
-		// TODO Auto-generated method stub
-		return null;
+
+		final Calculation<Node, BooleanResult> operation = new Calculation<Node, BooleanResult>() {
+
+			@Override
+			public BooleanResult apply(final Node input) {
+
+				return input.has(propertyType);
+			}
+		};
+		final Calculation<List<Maybe<Boolean>>, Boolean> joinOperation = new Calculation<List<Maybe<Boolean>>, Boolean>() {
+
+			@Override
+			public Boolean apply(final List<Maybe<Boolean>> input) {
+
+				final List<Boolean> list = Maybe.allValues(input);
+
+				for (final Boolean result : list) {
+					if (result.booleanValue() == true) {
+						return true;
+					}
+				}
+
+				return false;
+			}
+		};
+		final Calculation<AsyncResult<Boolean>, BooleanResult> createResultOperation = new Calculation<AsyncResult<Boolean>, BooleanResult>() {
+
+			@Override
+			public BooleanResult apply(final AsyncResult<Boolean> input) {
+
+				return H.factory(entity).createBooleanResult(
+						entity.getExceptionManager(), entity.getSession(),
+						input);
+
+			}
+		};
+		return joinGeneric(operation, joinOperation, createResultOperation);
 	}
 
 }

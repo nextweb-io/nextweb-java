@@ -4,7 +4,9 @@ import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
+import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.BooleanResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 
 import java.util.List;
@@ -46,6 +48,12 @@ public class OnedbFactory {
 		return new OnedbNodeListQuery(session, fallbackExceptionManager,
 				session.getEngine().createResult(fallbackExceptionManager,
 						session, result));
+	}
+
+	public final BooleanResult createBooleanResult(
+			final ExceptionManager exceptionManager, final Session session,
+			final AsyncResult<Boolean> result) {
+		return new BooleanResult(exceptionManager, session, result);
 	}
 
 	public final OnedbNodeList createNodeList(final OnedbSession session,
