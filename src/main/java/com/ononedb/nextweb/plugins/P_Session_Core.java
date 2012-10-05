@@ -33,6 +33,7 @@ import one.core.dsl.callbacks.WhenRealmCreated;
 import one.core.dsl.callbacks.WhenSeeded;
 import one.core.dsl.callbacks.WhenShutdown;
 import one.core.dsl.callbacks.WhenUserLoggedIn;
+import one.core.dsl.callbacks.WhenUserRegistered;
 import one.core.dsl.callbacks.results.WithChallengedContext;
 import one.core.dsl.callbacks.results.WithCommittedResult;
 import one.core.dsl.callbacks.results.WithMessagePostedResult;
@@ -42,7 +43,9 @@ import one.core.dsl.callbacks.results.WithSeedResult;
 import one.core.dsl.callbacks.results.WithTargetNodeDoesNotExistContext;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
 import one.core.dsl.callbacks.results.WithUserRegisteredResult;
+import one.core.dsl.grammars.LoginWithSessionIdParameters;
 import one.core.dsl.grammars.LoginWithUserDetailsParameters;
+import one.core.dsl.grammars.RegisterUserParameters;
 
 import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.common.H;
@@ -565,19 +568,23 @@ public class P_Session_Core implements Plugin_Session_Core<OnedbSession> {
 	@Override
 	public LoginResult login(final String email, final String password) {
 
-		return null;
+		return login(email, password,
+				session.node("https://u1.linnk.it/0fs7dr/Apps1/appjangle"));
+	}
+
+	private interface AsyncLoginResult {
+		public void get(final Callback<User> callback, LoginResult result);
 	}
 
 	@Override
 	public LoginResult login(final String email, final String password,
 			final Link application) {
 
-		final LoginResultImpl loginResult = new LoginResultImpl();
-
-		final AsyncResult<User> userResult = new AsyncResult<User>() {
+		final AsyncLoginResult loginResult = new AsyncLoginResult() {
 
 			@Override
-			public void get(final Callback<User> callback) {
+			public void get(final Callback<User> callback,
+					final LoginResult loginResult) {
 				session.getClient().one()
 						.loginUser(new LoginWithUserDetailsParameters() {
 
@@ -608,67 +615,143 @@ public class P_Session_Core implements Plugin_Session_Core<OnedbSession> {
 
 							@Override
 							public WhenUserLoggedIn getCallback() {
-								return new WhenUserLoggedIn() {
+								return createWhenUserLoggedInCallback(
+										loginResult, callback);
+							}
+						});
+			}
+		};
+
+		return createLoginResult(loginResult);
+
+	}
+
+	@Override
+	public LoginResult login(final String sessionId) {
+		return login(sessionId,
+				session.node("https://u1.linnk.it/0fs7dr/Apps1/appjangle"));
+	}
+
+	@Override
+	public LoginResult login(final String sessionId, final Link application) {
+		final AsyncLoginResult loginResult = new AsyncLoginResult() {
+
+			@Override
+			public void get(final Callback<User> callback,
+					final LoginResult loginResult) {
+				session.getClient().one()
+						.loginUser(new LoginWithSessionIdParameters() {
+
+							@Override
+							public String getSessionToken() {
+								return sessionId;
+							}
+
+							@Override
+							public OneClient getClient() {
+								return session.getClient();
+							}
+
+							@Override
+							public String getApplicationNodeUri() {
+								return application.uri();
+							}
+
+							@Override
+							public String getApplicationNodeSecret() {
+								return application.getSecret();
+							}
+
+							@Override
+							public WhenUserLoggedIn getCallback() {
+								return createWhenUserLoggedInCallback(
+										loginResult, callback);
+							}
+
+						});
+			}
+		};
+
+		return createLoginResult(loginResult);
+	}
+
+	@Override
+	public LoginResult register(final String email, final String password) {
+
+		return register(email, password,
+				session.node("https://u1.linnk.it/0fs7dr/Apps1/appjangle"));
+	}
+
+	@Override
+	public LoginResult register(final String email, final String password,
+			final Link application) {
+		final AsyncLoginResult loginResult = new AsyncLoginResult() {
+
+			@Override
+			public void get(final Callback<User> callback,
+					final LoginResult loginResult) {
+				session.getClient().one()
+						.registerUser(new RegisterUserParameters() {
+
+							@Override
+							public String getEmail() {
+								return email;
+							}
+
+							@Override
+							public String getPassword() {
+								return password;
+							}
+
+							@Override
+							public WhenUserRegistered getCallback() {
+								return new WhenUserRegistered() {
 
 									@Override
-									public void thenDo(
-											final WithUserRegisteredResult result) {
+									public void onUserRegistered(
+											final WithUserRegisteredResult urr) {
 										callback.onSuccess(new User() {
 
 											@Override
 											public Link userNode() {
+
 												return session.node(
-														result.userNodeUri(),
-														result.userNodeSecret());
+														urr.userNodeUri(),
+														urr.userNodeSecret());
 											}
 
 											@Override
 											public String sessionToken() {
 
-												return result.sessionToken();
+												return urr.sessionToken();
 											}
 
 											@Override
 											public String email() {
 
-												return result.email();
+												return urr.email();
 											}
 										});
 									}
 
 									@Override
 									public void onFailure(final Throwable t) {
-										callback.onFailure(Fn.exception(
-												session, t));
+										callback.onFailure(Fn
+												.exception(this, t));
 									}
 
 									@Override
-									public void onNotRegisteredForApplication() {
+									public void onUserAlreadyRegistered() {
 										if (loginResult
 												.getLoginFailuresListener() == null) {
 											onFailure(new Exception(
-													"User is not registered for application.\n"
-															+ "To intercept session exception, define .catchLoginFailures."));
-											return;
-										}
-
-										loginResult
-												.getLoginFailuresListener()
-												.onNotRegisteredForApplication();
-									}
-
-									@Override
-									public void onInvalidDetails() {
-										if (loginResult
-												.getLoginFailuresListener() == null) {
-											onFailure(new Exception(
-													"Invalid user details.\n"
+													"User cannot be registered because a user with the same e-mail address is already registered.\n"
 															+ "To intercept session exception, define .catchLoginFailures."));
 											return;
 										}
 
 										loginResult.getLoginFailuresListener()
-												.onInvalidDetails();
+												.onUserAlreadyRegistered();
 									}
 
 									@Override
@@ -703,7 +786,38 @@ public class P_Session_Core implements Plugin_Session_Core<OnedbSession> {
 									}
 								};
 							}
+
+							@Override
+							public OneClient getClient() {
+								return session.getClient();
+							}
+
+							@Override
+							public String getApplicationNodeUri() {
+								return application.uri();
+							}
+
+							@Override
+							public String getApplicationNodeSecret() {
+								return application.getSecret();
+							}
+
 						});
+			}
+		};
+
+		return createLoginResult(loginResult);
+	}
+
+	private final LoginResult createLoginResult(
+			final AsyncLoginResult asyncUserResult) {
+		final LoginResultImpl loginResult = new LoginResultImpl();
+
+		final AsyncResult<User> userResult = new AsyncResult<User>() {
+
+			@Override
+			public void get(final Callback<User> callback) {
+				asyncUserResult.get(callback, loginResult);
 			}
 		};
 
@@ -715,29 +829,88 @@ public class P_Session_Core implements Plugin_Session_Core<OnedbSession> {
 		return loginResult;
 	}
 
-	@Override
-	public LoginResult login(final String sessionId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private final WhenUserLoggedIn createWhenUserLoggedInCallback(
+			final LoginResult loginResult, final Callback<User> callback) {
+		return new WhenUserLoggedIn() {
 
-	@Override
-	public LoginResult login(final String sessionId, final Link application) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			@Override
+			public void thenDo(final WithUserRegisteredResult result) {
+				callback.onSuccess(new User() {
 
-	@Override
-	public LoginResult register(final String email, final String password,
-			final Link application) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+					@Override
+					public Link userNode() {
+						return session.node(result.userNodeUri(),
+								result.userNodeSecret());
+					}
 
-	@Override
-	public LoginResult register(final String email, final String password) {
-		// TODO Auto-generated method stub
-		return null;
+					@Override
+					public String sessionToken() {
+
+						return result.sessionToken();
+					}
+
+					@Override
+					public String email() {
+
+						return result.email();
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(final Throwable t) {
+				callback.onFailure(Fn.exception(session, t));
+			}
+
+			@Override
+			public void onNotRegisteredForApplication() {
+				if (loginResult.getLoginFailuresListener() == null) {
+					onFailure(new Exception(
+							"User is not registered for application.\n"
+									+ "To intercept session exception, define .catchLoginFailures."));
+					return;
+				}
+
+				loginResult.getLoginFailuresListener()
+						.onNotRegisteredForApplication();
+			}
+
+			@Override
+			public void onInvalidDetails() {
+				if (loginResult.getLoginFailuresListener() == null) {
+					onFailure(new Exception(
+							"Invalid user details.\n"
+									+ "To intercept session exception, define .catchLoginFailures."));
+					return;
+				}
+
+				loginResult.getLoginFailuresListener().onInvalidDetails();
+			}
+
+			@Override
+			public void onChallenge(final WithChallengedContext context) {
+				if (loginResult.getLoginFailuresListener() == null) {
+					onFailure(new Exception(
+							"Challenge for login received at: ["
+									+ context.challengeNodeUri()
+									+ ":"
+									+ context.challengeNodeSecret()
+									+ "].\n"
+									+ "To intercept session exception, define .catchLoginFailures."));
+					return;
+				}
+
+				loginResult.getLoginFailuresListener().onChallenged(
+						new ChallengedResult() {
+
+							@Override
+							public Link challengeLink() {
+								return session.node(context.challengeNodeUri(),
+										context.challengeNodeSecret());
+							}
+						});
+			}
+		};
 	}
 
 }
