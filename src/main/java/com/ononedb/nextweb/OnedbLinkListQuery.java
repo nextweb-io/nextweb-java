@@ -5,6 +5,7 @@ import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
 import io.nextweb.Session;
+import io.nextweb.fn.BooleanResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Result;
@@ -60,6 +61,21 @@ public class OnedbLinkListQuery implements LinkListQuery, OnedbObject {
 
 	@Override
 	public ListQuery selectAll() {
+		throw new RuntimeException("Not supported yet.");
+	}
+
+	@Override
+	public ListQuery setValue(final Object newValue) {
+		throw new RuntimeException("Not supported yet.");
+	}
+
+	@Override
+	public ListQuery setValueSafe(final Object newValue) {
+		throw new RuntimeException("Not supported yet.");
+	}
+
+	@Override
+	public BooleanResult has(final Link propertyType) {
 		throw new RuntimeException("Not supported yet.");
 	}
 

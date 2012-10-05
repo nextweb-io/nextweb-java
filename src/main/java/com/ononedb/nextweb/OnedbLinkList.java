@@ -1,5 +1,6 @@
 package com.ononedb.nextweb;
 
+import io.nextweb.EntityList;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
@@ -8,6 +9,7 @@ import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.BooleanResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.Fn;
@@ -21,6 +23,7 @@ import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
 import io.nextweb.plugins.core.Plugin_EntityList_Select;
+import io.nextweb.plugins.core.Plugin_EntityList_SetValue;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -197,32 +200,52 @@ public class OnedbLinkList implements LinkList, OnedbEntityList {
 	 * Plugins
 	 */
 
+	private final Plugin_EntityList_SetValue<EntityList> setValuePlugin() {
+		final PluginFactory<EntityList, Plugin_EntityList_SetValue<EntityList>> setValueForLists = H
+				.plugins(session).setValueForLists();
+		return plugin(setValueForLists);
+	}
+
+	private final Plugin_EntityList_Select<EntityList> selectPlugin() {
+		final PluginFactory<EntityList, Plugin_EntityList_Select<EntityList>> selectForLists = H
+				.plugins(session).selectForLists();
+		return plugin(selectForLists);
+	}
+
 	@Override
 	public ListQuery select(final Link propertyType) {
-		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
-				.plugins(getSession()).selectForLists();
-		return plugin(selectForLists).select(propertyType);
+		return selectPlugin().select(propertyType);
 	}
 
 	@Override
 	public ListQuery selectAll(final Link propertyType) {
-		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
-				.plugins(getSession()).selectForLists();
-		return plugin(selectForLists).selectAll(propertyType);
+
+		return selectPlugin().selectAll(propertyType);
 	}
 
 	@Override
 	public LinkListQuery selectAllLinks() {
-		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
-				.plugins(getSession()).selectForLists();
-		return plugin(selectForLists).selectAllLinks();
+		return selectPlugin().selectAllLinks();
 	}
 
 	@Override
 	public ListQuery selectAll() {
-		final PluginFactory<OnedbEntityList, Plugin_EntityList_Select<OnedbEntityList>> selectForLists = H
-				.plugins(getSession()).selectForLists();
-		return plugin(selectForLists).selectAll();
+		return selectPlugin().selectAll();
+	}
+
+	@Override
+	public BooleanResult has(final Link propertyType) {
+		return selectPlugin().has(propertyType);
+	}
+
+	@Override
+	public ListQuery setValue(final Object newValue) {
+		return setValuePlugin().setValue(newValue);
+	}
+
+	@Override
+	public ListQuery setValueSafe(final Object newValue) {
+		return setValuePlugin().setValueSafe(newValue);
 	}
 
 }
