@@ -34,7 +34,7 @@ import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
-import com.ononedb.nextweb.local.OnedbLocalNode;
+import com.ononedb.nextweb.local.OnedbLocalDb;
 
 @ExportPackage("")
 @Export
@@ -217,7 +217,7 @@ public class OnedbLocal implements Exportable {
 		};
 		OneGwt.getSettings().addConnectionDecorator(localServerDecorator);
 
-		return OnedbLocalNodeJs.wrap(new OnedbLocalNode() {
+		return OnedbLocalNodeJs.wrap(new OnedbLocalDb() {
 
 			@Override
 			public Result<Success> shutdown() {

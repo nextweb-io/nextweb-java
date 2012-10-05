@@ -11,12 +11,12 @@ import java.util.concurrent.CountDownLatch;
 
 import org.junit.Test;
 
-import com.ononedb.nextweb.jre.OnedbJre;
+import com.ononedb.nextweb.jre.Onedb;
 
 public class TestMonitor {
 
 	public Session getSession() {
-		final NextwebEngine engine = OnedbJre.init();
+		final NextwebEngine engine = Onedb.init();
 
 		final Session session = engine.createSession();
 

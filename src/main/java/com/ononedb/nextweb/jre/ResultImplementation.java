@@ -51,8 +51,12 @@ public final class ResultImplementation<ResultType> implements
 		super();
 		this.asyncResult = asyncResult;
 		this.session = session;
-		this.exceptionManager = ((OnedbSession) session).getFactory()
-				.createExceptionManager(exceptionManager);
+		if (session != null) {
+			this.exceptionManager = ((OnedbSession) session).getFactory()
+					.createExceptionManager(exceptionManager);
+		} else {
+			this.exceptionManager = new ExceptionManager(exceptionManager);
+		}
 		this.deferredCalls = new LinkedList<Callback<ResultType>>();
 		requesting = new AtomicBoolean();
 	}

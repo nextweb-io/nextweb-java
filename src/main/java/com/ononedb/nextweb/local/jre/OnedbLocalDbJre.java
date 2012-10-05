@@ -41,11 +41,11 @@ import one.utils.OneUtilsCollections.Predicate;
 import one.utils.jre.OneUtilsJre;
 import one.utils.server.ShutdownCallback;
 
-import com.ononedb.nextweb.local.OnedbLocalNode;
+import com.ononedb.nextweb.local.OnedbLocalDb;
 
-public class OnedbLocalJre {
+public class OnedbLocalDbJre {
 
-	public static OnedbLocalNode init(final int port) {
+	public static OnedbLocalDb init(final int port) {
 
 		StoppableRemoteConnection server;
 
@@ -222,7 +222,7 @@ public class OnedbLocalJre {
 		};
 		OneJre.getJreSettings().addConnectionDecorator(localServerDecorator);
 
-		return new OnedbLocalNode() {
+		return new OnedbLocalDb() {
 
 			@Override
 			public Result<Success> shutdown() {
