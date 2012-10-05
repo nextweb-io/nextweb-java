@@ -1,6 +1,7 @@
 package io.nextweb.js;
 
 import io.nextweb.Session;
+import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.BasicResult;
@@ -10,6 +11,7 @@ import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Fn;
 import io.nextweb.fn.SuccessFail;
 import io.nextweb.js.common.JH;
+import io.nextweb.js.common.JsLoginResult;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.engine.JsNextwebEngine;
 import io.nextweb.js.engine.NextwebEngineJs;
@@ -35,6 +37,30 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 		JsExceptionListeners<JsSession> {
 
 	private Session session;
+
+	@Override
+	@NoExport
+	public Session getOriginal() {
+		return session;
+	}
+
+	@Override
+	@NoExport
+	public void setOriginal(final Session session) {
+		this.session = session;
+	}
+
+	@NoExport
+	public static JsSession wrap(final Session session) {
+		final JsSession jsSession = new JsSession();
+		jsSession.setOriginal(session);
+		return jsSession;
+	}
+
+	public JsSession() {
+		super();
+
+	}
 
 	@Export
 	public JsNextwebEngine getEngine() {
@@ -172,8 +198,6 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 	@SuppressWarnings({ "rawtypes" })
 	@Export
 	public void getAll(final Object... params) {
-		// com.google.gwt.core.client.JsArray<JavaScriptObject> jsAr = params
-		// .cast();
 
 		final Object[] jsAr = params;
 
@@ -285,28 +309,16 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 
 	}
 
-	@Override
-	@NoExport
-	public Session getOriginal() {
-		return session;
-	}
+	@Export
+	public JsLoginResult login(final String email, final String password) {
+		final JsLoginResult result = new JsLoginResult();
 
-	@Override
-	@NoExport
-	public void setOriginal(final Session session) {
-		this.session = session;
-	}
+		final LoginResult loginResult = session.login(email, password);
 
-	@NoExport
-	public static JsSession wrap(final Session session) {
-		final JsSession jsSession = new JsSession();
-		jsSession.setOriginal(session);
-		return jsSession;
-	}
+		result.setLoginResult(loginResult);
+		result.setJsResult(JH.jsFactory(session).createResult(loginResult));
 
-	public JsSession() {
-		super();
+		return result;
 
 	}
-
 }

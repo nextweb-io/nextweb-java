@@ -4,7 +4,6 @@ import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
-import io.nextweb.js.operations.JsExceptionListeners;
 import io.nextweb.js.utils.WrapperCollection;
 
 import org.timepedia.exporter.client.Export;
@@ -15,11 +14,12 @@ import org.timepedia.exporter.client.NoExport;
 import com.google.gwt.core.client.JavaScriptObject;
 
 @Export
-public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
+public class JsResult implements Exportable, JsBaseResult<JsResult> {
 
 	BasicResult<Object> result;
 	WrapperCollection wrappers;
 
+	@Override
 	@Export
 	public Object get(final Object... params) {
 
@@ -75,7 +75,7 @@ public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 		Object node = result.get();
 
 		if (node != null) {
-			node = wrappers.createJsEngineWrapper(node);
+			node = wrappers.createJsEngineWrapperIfPossible(node);
 			node = wrappers.convertValueObjectForJs(node);
 		}
 
@@ -95,7 +95,7 @@ public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 				}
 
 				final Object wrappedEngineNode = wrappers
-						.createJsEngineWrapper(o);
+						.createJsEngineWrapperIfPossible(o);
 
 				onSuccess.apply(wrappers
 						.convertValueObjectForJs((wrappedEngineNode)));
@@ -106,13 +106,15 @@ public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 	}
 
 	@NoExport
-	public BasicResult<?> getResult() {
+	@Override
+	public BasicResult<Object> getOriginal() {
 		return result;
 	}
 
 	@NoExport
-	public void setResult(final BasicResult<Object> result) {
-		this.result = result;
+	@Override
+	public void setOriginal(final BasicResult<Object> original) {
+		this.result = original;
 	}
 
 	@NoExport
@@ -134,7 +136,7 @@ public class JsResult implements Exportable, JsExceptionListeners<JsResult> {
 	public static JsResult wrap(final BasicResult<?> result,
 			final WrapperCollection wrappers) {
 		final JsResult jsResult = new JsResult();
-		jsResult.setResult((BasicResult<Object>) result);
+		jsResult.setOriginal((BasicResult<Object>) result);
 		jsResult.setWrappers(wrappers);
 		return jsResult;
 	}

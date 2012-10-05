@@ -265,7 +265,7 @@ public class JH {
 		final JavaScriptObject[] result = new JavaScriptObject[array.length];
 		for (int i = 0; i <= array.length - 1; i++) {
 			final Object rawWrapped = wrappers.convertValueObjectForJs(wrappers
-					.createJsEngineWrapper(array[i]));
+					.createJsEngineWrapperIfPossible(array[i]));
 			if (rawWrapped instanceof JavaScriptObject) {
 				result[i] = (JavaScriptObject) rawWrapped;
 			} else {

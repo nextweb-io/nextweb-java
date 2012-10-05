@@ -34,7 +34,7 @@ public class WrapperCollection {
 		registeredWrappers.add(wrapper);
 	}
 
-	public Object createJsEngineWrapper(Object engineNode) {
+	public Object createJsEngineWrapperIfPossible(Object engineNode) {
 
 		if (engineNode instanceof Query) {
 			return factory.createQuery((Query) engineNode);
