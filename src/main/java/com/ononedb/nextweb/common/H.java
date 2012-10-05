@@ -12,6 +12,7 @@ import io.nextweb.operations.exceptions.UndefinedResult;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.core.DefaultPluginFactory;
 import io.nextweb.plugins.core.Plugin_EntityList_Select;
+import io.nextweb.plugins.core.Plugin_EntityList_SetValue;
 import io.nextweb.plugins.core.Plugin_Entity_Append;
 import io.nextweb.plugins.core.Plugin_Entity_ClearVersions;
 import io.nextweb.plugins.core.Plugin_Entity_Monitor;
@@ -31,6 +32,7 @@ import com.ononedb.nextweb.OnedbObject;
 import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.internal.OnedbFactory;
 import com.ononedb.nextweb.plugins.P_EntityList_Select_Factory;
+import com.ononedb.nextweb.plugins.P_EntityList_SetValue_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Append_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_ClearVersions_Factory;
 import com.ononedb.nextweb.plugins.P_Entity_Monitor_Factory;
@@ -193,6 +195,12 @@ public class H {
 			public <GSession extends Session, GPlugin extends Plugin_Session_Core<GSession>> PluginFactory<GSession, GPlugin> session() {
 				final Object object = P_Session_Core_Factory.FACTORY;
 				return (PluginFactory<GSession, GPlugin>) object;
+			}
+
+			@Override
+			public <GEntity extends EntityList, GPlugin extends Plugin_EntityList_SetValue<GEntity>> PluginFactory<GEntity, GPlugin> setValueForLists() {
+				final Object object = P_EntityList_SetValue_Factory.FACTORY;
+				return (PluginFactory<GEntity, GPlugin>) object;
 			}
 
 		};
