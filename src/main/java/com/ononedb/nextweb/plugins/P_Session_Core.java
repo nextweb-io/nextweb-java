@@ -731,6 +731,11 @@ public class P_Session_Core implements Plugin_Session_Core<OnedbSession> {
 
 												return urr.email();
 											}
+
+											@Override
+											public Session session() {
+												return session;
+											}
 										});
 									}
 
@@ -853,6 +858,11 @@ public class P_Session_Core implements Plugin_Session_Core<OnedbSession> {
 					public String email() {
 
 						return result.email();
+					}
+
+					@Override
+					public Session session() {
+						return session;
 					}
 				});
 			}

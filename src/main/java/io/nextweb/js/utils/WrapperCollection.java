@@ -3,11 +3,12 @@ package io.nextweb.js.utils;
 import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.LinkListQuery;
+import io.nextweb.ListQuery;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.ListQuery;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.User;
 import io.nextweb.fn.Success;
 import io.nextweb.js.common.JsAtomicTypeWrapper;
 import io.nextweb.js.engine.JsFactory;
@@ -30,11 +31,11 @@ public class WrapperCollection {
 	private final List<Wrapper> registeredWrappers;
 	private final JsFactory factory;
 
-	public void addWrapper(Wrapper wrapper) {
+	public void addWrapper(final Wrapper wrapper) {
 		registeredWrappers.add(wrapper);
 	}
 
-	public Object createJsEngineWrapperIfPossible(Object engineNode) {
+	public Object createJsEngineWrapperIfPossible(final Object engineNode) {
 
 		if (engineNode instanceof Query) {
 			return factory.createQuery((Query) engineNode);
@@ -72,10 +73,14 @@ public class WrapperCollection {
 			return new JsSuccess();
 		}
 
+		if (engineNode instanceof User) {
+			return factory.createUser((User) engineNode);
+		}
+
 		return engineNode;
 	}
 
-	public Object wrapValueObjectForJava(Object jsNode) {
+	public Object wrapValueObjectForJava(final Object jsNode) {
 
 		if (jsNode instanceof String) {
 			return jsNode;
@@ -154,13 +159,13 @@ public class WrapperCollection {
 	}
 
 	public final native static JavaScriptObject getJsObj(Object o)/*-{
-		return o;
-	}-*/;
+																	return o;
+																	}-*/;
 
 	public final native static boolean isDate(final JavaScriptObject d)/*-{
-		return (d && d.getTime && typeof d.getTime == 'function') ? true
-				: false;
-	}-*/;
+																		return (d && d.getTime && typeof d.getTime == 'function') ? true
+																		: false;
+																		}-*/;
 
 	public final static Date dateFromJsDate(final JavaScriptObject d) {
 		final String dateStr = timeFromJsDate(d);
@@ -171,10 +176,10 @@ public class WrapperCollection {
 	}
 
 	public final native static String timeFromJsDate(final JavaScriptObject d)/*-{
-		return "t" + d.getTime();
-	}-*/;
+																				return "t" + d.getTime();
+																				}-*/;
 
-	public Object convertValueObjectForJs(Object gwtNode) {
+	public Object convertValueObjectForJs(final Object gwtNode) {
 
 		if (gwtNode instanceof String) {
 			return gwtNode;
@@ -217,7 +222,7 @@ public class WrapperCollection {
 			return gwtNode;
 		}
 
-		for (Wrapper wrapper : registeredWrappers) {
+		for (final Wrapper wrapper : registeredWrappers) {
 			if (wrapper.accepts(gwtNode)) {
 				Object wrapped = wrapper.wrap(gwtNode);
 				if (!(wrapped instanceof JavaScriptObject)) {
@@ -230,7 +235,7 @@ public class WrapperCollection {
 		return ExporterUtil.wrap(gwtNode);
 	}
 
-	public WrapperCollection(JsFactory factory) {
+	public WrapperCollection(final JsFactory factory) {
 		super();
 		this.registeredWrappers = new LinkedList<Wrapper>();
 		this.factory = factory;

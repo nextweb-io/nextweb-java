@@ -1,6 +1,7 @@
 package io.nextweb.common;
 
 import io.nextweb.Link;
+import io.nextweb.Session;
 
 /**
  * A {@link User} is returned after a successfully registration or login
@@ -31,4 +32,5 @@ public interface User {
 	 */
 	public String sessionToken();
 
+	public Session session();
 }

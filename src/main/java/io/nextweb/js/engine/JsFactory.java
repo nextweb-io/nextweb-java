@@ -9,6 +9,7 @@ import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.User;
 import io.nextweb.fn.BasicResult;
 import io.nextweb.js.JsLink;
 import io.nextweb.js.JsLinkList;
@@ -18,6 +19,7 @@ import io.nextweb.js.JsNodeList;
 import io.nextweb.js.JsNodeListQuery;
 import io.nextweb.js.JsQuery;
 import io.nextweb.js.JsSession;
+import io.nextweb.js.common.JsUser;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsResult;
 import io.nextweb.js.operations.JsDefaultOperations;
@@ -129,6 +131,11 @@ public class JsFactory implements Exportable {
 		final JsNodeListQuery jsListQuery = JsNodeListQuery.wrap(listQuery);
 
 		return jsListQuery;
+	}
+
+	@NoExport
+	public JsUser createUser(final User user) {
+		return JsUser.wrap(user);
 	}
 
 	@NoExport
