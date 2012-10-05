@@ -311,14 +311,54 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 
 	@Export
 	public JsLoginResult login(final String email, final String password) {
-		final JsLoginResult result = new JsLoginResult();
-
 		final LoginResult loginResult = session.login(email, password);
+
+		return createJsLoginResult(loginResult);
+
+	}
+
+	@Export
+	public JsLoginResult login(final String sessionId) {
+		final LoginResult loginResult = session.login(sessionId);
+
+		return createJsLoginResult(loginResult);
+	}
+
+	@Export
+	public JsLoginResult loginForApp(final String email, final String password,
+			final JsLink application) {
+		final LoginResult loginResult = session.login(email, password,
+				application.getOriginal());
+
+		return createJsLoginResult(loginResult);
+	}
+
+	@Export
+	public JsLoginResult loginForApp(final String sessionId,
+			final JsLink application) {
+		return createJsLoginResult(session.login(sessionId,
+				application.getOriginal()));
+	}
+
+	@Export
+	public JsLoginResult register(final String email, final String password) {
+		return createJsLoginResult(session.register(email, password));
+	}
+
+	@Export
+	public JsLoginResult result(final String email, final String password,
+			final JsLink application) {
+		return createJsLoginResult(session.register(email, password,
+				application.getOriginal()));
+	}
+
+	@NoExport
+	private JsLoginResult createJsLoginResult(final LoginResult loginResult) {
+		final JsLoginResult result = new JsLoginResult();
 
 		result.setLoginResult(loginResult);
 		result.setJsResult(JH.jsFactory(session).createResult(loginResult));
-
 		return result;
-
 	}
+
 }
