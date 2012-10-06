@@ -7,12 +7,12 @@ import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
-import com.ononedb.nextweb.local.OnedbLocalDb;
+import com.ononedb.nextweb.local.OnedbLocalServer;
 
 @Export
-public class OnedbLocalNodeJs implements Exportable {
+public class OnedbLocalServerJs implements Exportable {
 
-	OnedbLocalDb original;
+	OnedbLocalServer original;
 
 	@Export
 	public JsResult shutdown() {
@@ -21,25 +21,25 @@ public class OnedbLocalNodeJs implements Exportable {
 	}
 
 	@NoExport
-	public OnedbLocalDb getOriginal() {
+	public OnedbLocalServer getOriginal() {
 		return original;
 	}
 
 	@NoExport
-	public void setOriginal(final OnedbLocalDb original) {
+	public void setOriginal(final OnedbLocalServer original) {
 		this.original = original;
 	}
 
 	@NoExport
-	public static OnedbLocalNodeJs wrap(final OnedbLocalDb node) {
-		final OnedbLocalNodeJs jsNode = new OnedbLocalNodeJs();
+	public static OnedbLocalServerJs wrap(final OnedbLocalServer node) {
+		final OnedbLocalServerJs jsNode = new OnedbLocalServerJs();
 
 		jsNode.setOriginal(node);
 
 		return jsNode;
 	}
 
-	public OnedbLocalNodeJs() {
+	public OnedbLocalServerJs() {
 		super();
 
 	}

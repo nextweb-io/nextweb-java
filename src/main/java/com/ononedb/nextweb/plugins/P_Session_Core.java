@@ -463,6 +463,16 @@ public class P_Session_Core implements Plugin_Session_Core<OnedbSession> {
 	}
 
 	@Override
+	public Link node(final Link link) {
+		return node(link.uri(), link.secret());
+	}
+
+	@Override
+	public Link node(final Node node) {
+		return node(node.uri(), node.secret());
+	}
+
+	@Override
 	public Link node(final String uri, final String secret) {
 
 		return session.getOnedbEngine().getFactory()

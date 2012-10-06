@@ -23,6 +23,8 @@ public interface Node extends Entity, EntityRequestOperations<Node> {
 
 	public String getSecret();
 
+	public String secret();
+
 	public Object value();
 
 	public Object getValue();
@@ -39,5 +41,7 @@ public interface Node extends Entity, EntityRequestOperations<Node> {
 	public boolean exists();
 
 	public <ValueType> ValueType value(Class<ValueType> type);
+
+	public <Type> Type as(final Class<Type> type);
 
 }

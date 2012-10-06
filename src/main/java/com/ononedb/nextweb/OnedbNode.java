@@ -66,6 +66,11 @@ public class OnedbNode implements Node, OnedbEntity {
 	}
 
 	@Override
+	public String secret() {
+		return getSecret();
+	}
+
+	@Override
 	public Object value() {
 
 		return getValue();
@@ -106,6 +111,11 @@ public class OnedbNode implements Node, OnedbEntity {
 		}
 
 		return (ValueType) value;
+	}
+
+	@Override
+	public <Type> Type as(final Class<Type> type) {
+		return value(type);
 	}
 
 	@Override

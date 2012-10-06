@@ -35,6 +35,15 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 		return engine;
 	}
 
+	public static OnedbNextwebJsEngineImpl assertInitialized() {
+		if (NextwebJs.getEngine() == null
+				|| (!(NextwebJs.getEngine() instanceof JsNextwebEngine))) {
+			return init();
+		}
+
+		return (OnedbNextwebJsEngineImpl) NextwebJs.getEngine().getEngine();
+	}
+
 	private CoreDsl assertDsl() {
 		if (dsl != null) {
 			return dsl;

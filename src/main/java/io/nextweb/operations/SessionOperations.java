@@ -1,6 +1,7 @@
 package io.nextweb.operations;
 
 import io.nextweb.Link;
+import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.common.LoginResult;
@@ -25,6 +26,22 @@ public interface SessionOperations {
 	 * @return
 	 */
 	public Result<Success> commit();
+
+	/**
+	 * To use links origination in other sessions.
+	 * 
+	 * @param link
+	 * @return
+	 */
+	public Link node(Link link);
+
+	/**
+	 * To use nodes originating in other sessions.
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public Link node(Node node);
 
 	public Link node(String uri);
 

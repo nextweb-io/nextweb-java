@@ -152,6 +152,33 @@ public class OnedbNodeList implements OnedbEntityList, NodeList {
 		return Collections.unmodifiableList(list);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <Type> Type as(final Class<Type> type) {
+		if (type.equals(List.class)) {
+			return (Type) asList();
+		}
+
+		if (type.equals(String.class)) {
+			final StringBuilder sb = new StringBuilder();
+			for (final Node n : this) {
+				sb.append(n.as(type));
+			}
+			return (Type) sb.toString();
+		}
+
+		if (type.equals(Integer.class)) {
+			int sum = 0;
+			for (final Node n : this) {
+				sum = sum + n.as(Integer.class);
+			}
+			return (Type) Integer.valueOf(sum);
+		}
+
+		throw new IllegalArgumentException("The type [" + type
+				+ "] is not supported for this list.");
+	}
+
 	/**
 	 * Plugins
 	 */

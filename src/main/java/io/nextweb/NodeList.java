@@ -11,6 +11,15 @@ public interface NodeList extends EntityList, ReadOnlyList<Node>,
 
 	public NodeList each(Closure<Node> f);
 
+	/**
+	 * {@link String}: The concatenated node.as(String.class) of all children.
+	 * {@link Integer}: The sum of all node.as(Integer.class).
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public <Type> Type as(Class<Type> type);
+
 	public List<Object> values();
 
 }

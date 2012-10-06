@@ -28,6 +28,14 @@ public class Onedb implements OnedbNextwebEngine {
 		return engine;
 	}
 
+	public static Onedb assertInitialized() {
+		if (Nextweb.getEngine() == null
+				|| (!(Nextweb.getEngine() instanceof Onedb))) {
+			return init();
+		}
+		return (Onedb) Nextweb.getEngine();
+	}
+
 	@Override
 	public Session createSession() {
 

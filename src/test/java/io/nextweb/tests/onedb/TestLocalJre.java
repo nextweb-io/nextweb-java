@@ -10,8 +10,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.ononedb.nextweb.jre.Onedb;
-import com.ononedb.nextweb.local.OnedbLocalDb;
-import com.ononedb.nextweb.local.jre.OnedbLocalDbJre;
+import com.ononedb.nextweb.local.OnedbLocalServer;
+import com.ononedb.nextweb.local.jre.OnedbLocal;
 
 public class TestLocalJre {
 
@@ -22,7 +22,7 @@ public class TestLocalJre {
 
 		final Session session = engine.createSession();
 
-		OnedbLocalDbJre.init(10021);
+		OnedbLocal.newInstance(10021);
 
 		final Node root = session.seed("local").get();
 
@@ -47,7 +47,7 @@ public class TestLocalJre {
 
 		final Session session = engine.createSession();
 
-		OnedbLocalDbJre.init(10022);
+		OnedbLocal.newInstance(10022);
 
 		final Node root = session.seed("local").get();
 
@@ -64,7 +64,7 @@ public class TestLocalJre {
 	public void testLocalCreateRealm() {
 		final NextwebEngine engine = Onedb.init();
 
-		final OnedbLocalDb localServer = OnedbLocalDbJre.init(10023);
+		final OnedbLocalServer localServer = OnedbLocal.newInstance(10023);
 
 		final Session session = engine.createSession();
 

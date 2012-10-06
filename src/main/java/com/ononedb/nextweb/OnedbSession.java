@@ -1,6 +1,7 @@
 package com.ononedb.nextweb;
 
 import io.nextweb.Link;
+import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.common.LoginResult;
@@ -91,6 +92,16 @@ public class OnedbSession implements Session {
 	@Override
 	public Link node(final String uri, final String secret) {
 		return core().node(uri, secret);
+	}
+
+	@Override
+	public Link node(final Link link) {
+		return core().node(link);
+	}
+
+	@Override
+	public Link node(final Node node) {
+		return core().node(node);
 	}
 
 	@Override

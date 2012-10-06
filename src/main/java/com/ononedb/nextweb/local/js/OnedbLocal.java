@@ -1,6 +1,6 @@
 package com.ononedb.nextweb.local.js;
 
-import io.nextweb.Nextweb;
+import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;
@@ -34,16 +34,21 @@ import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.ExportPackage;
 import org.timepedia.exporter.client.Exportable;
 
-import com.ononedb.nextweb.local.OnedbLocalDb;
+import com.ononedb.nextweb.OnedbNextwebEngine;
+import com.ononedb.nextweb.js.OnedbNextwebJsEngineImpl;
+import com.ononedb.nextweb.local.OnedbLocalServer;
 
 @ExportPackage("")
 @Export
 public class OnedbLocal implements Exportable {
 
 	@Export
-	public static OnedbLocalNodeJs init(final int port) {
+	public static OnedbLocalServerJs init(final int port) {
 
 		StoppableRemoteConnection server;
+
+		final OnedbNextwebJsEngineImpl engine = OnedbNextwebJsEngineImpl
+				.assertInitialized();
 
 		final VersionedNetwork serverNetwork = NxVersions.newVersionedNetwork();
 
@@ -217,7 +222,7 @@ public class OnedbLocal implements Exportable {
 		};
 		OneGwt.getSettings().addConnectionDecorator(localServerDecorator);
 
-		return OnedbLocalNodeJs.wrap(new OnedbLocalDb() {
+		return OnedbLocalServerJs.wrap(new OnedbLocalServer() {
 
 			@Override
 			public Result<Success> shutdown() {
@@ -244,13 +249,11 @@ public class OnedbLocal implements Exportable {
 					}
 				};
 
-				assert Nextweb.getEngine() != null : "Engine not initialized";
-				assert Nextweb.getEngine().getExceptionManager() != null : "Exception manager not defined.";
+				assert engine != null : "Engine not initialized";
+				assert engine.getExceptionManager() != null : "Exception manager not defined.";
 
-				final Result<Success> shutdownResult = Nextweb.getEngine()
-						.createResult(
-								Nextweb.getEngine().getExceptionManager(),
-								null, asyncResult);
+				final Result<Success> shutdownResult = engine.createResult(
+						engine.getExceptionManager(), null, asyncResult);
 
 				shutdownResult.get(new Closure<Success>() {
 
@@ -261,6 +264,17 @@ public class OnedbLocal implements Exportable {
 				});
 
 				return shutdownResult;
+			}
+
+			@Override
+			public Session createSession() {
+				return engine.createSession();
+			}
+
+			@Override
+			public OnedbNextwebEngine getEngine() {
+
+				return engine;
 			}
 		});
 

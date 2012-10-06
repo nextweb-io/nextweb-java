@@ -1,8 +1,7 @@
 package com.ononedb.nextweb.local.jre;
 
-import io.nextweb.Nextweb;
+import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
-import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
@@ -41,11 +40,15 @@ import one.utils.OneUtilsCollections.Predicate;
 import one.utils.jre.OneUtilsJre;
 import one.utils.server.ShutdownCallback;
 
-import com.ononedb.nextweb.local.OnedbLocalDb;
+import com.ononedb.nextweb.OnedbNextwebEngine;
+import com.ononedb.nextweb.jre.Onedb;
+import com.ononedb.nextweb.local.OnedbLocalServer;
 
-public class OnedbLocalDbJre {
+public class OnedbLocal {
 
-	public static OnedbLocalDb init(final int port) {
+	public static OnedbLocalServer newInstance(final int port) {
+
+		final Onedb engine = Onedb.assertInitialized();
 
 		StoppableRemoteConnection server;
 
@@ -222,7 +225,7 @@ public class OnedbLocalDbJre {
 		};
 		OneJre.getJreSettings().addConnectionDecorator(localServerDecorator);
 
-		return new OnedbLocalDb() {
+		return new OnedbLocalServer() {
 
 			@Override
 			public Result<Success> shutdown() {
@@ -249,20 +252,22 @@ public class OnedbLocalDbJre {
 					}
 				};
 
-				final Result<Success> shutdownResult = Nextweb.getEngine()
-						.createResult(
-								Nextweb.getEngine().getExceptionManager(),
-								null, asyncResult);
+				final Result<Success> shutdownResult = engine.createResult(
+						engine.getExceptionManager(), null, asyncResult);
 
-				shutdownResult.get(new Closure<Success>() {
-
-					@Override
-					public void apply(final Success o) {
-						// nothing
-					}
-				});
+				shutdownResult.get(Fn.doNothing(Success.class));
 
 				return shutdownResult;
+			}
+
+			@Override
+			public Session createSession() {
+				return engine.createSession();
+			}
+
+			@Override
+			public OnedbNextwebEngine getEngine() {
+				return engine;
 			}
 		};
 	}
