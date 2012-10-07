@@ -2,11 +2,11 @@ package io.nextweb.js;
 
 import io.nextweb.Node;
 import io.nextweb.NodeList;
-import io.nextweb.fn.Closure;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.JsArray;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
+import io.nextweb.js.utils.WrapperCollection;
 
 import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
@@ -15,11 +15,10 @@ import org.timepedia.exporter.client.NoExport;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONArray;
-import com.ononedb.nextweb.common.H;
 
 @Export
 public class JsNodeList implements Exportable, JsWrapper<NodeList>,
-		JsEntityList<NodeList> {
+		JsEntityList<NodeList, JsNodeList> {
 
 	private NodeList list;
 
@@ -92,16 +91,14 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 
 	}
 
+	@Override
 	@Export
-	public void each(final JsClosure closure) {
-		H.each(this.list, list, new Closure<Node>() {
+	public JsNodeList each(final JsClosure closure) {
 
-			@Override
-			public void apply(final Node o) {
-				closure.apply(ExporterUtil.wrap(JH.jsFactory(list)
-						.createNode(o)));
-			}
-		});
+		final WrapperCollection wrappers = JH.jsFactory(list).getWrappers();
+		this.list.each(JH.wrapJsClosure(closure, wrappers));
+
+		return this;
 	}
 
 	@NoExport

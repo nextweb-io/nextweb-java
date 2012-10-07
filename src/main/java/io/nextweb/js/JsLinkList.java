@@ -4,6 +4,8 @@ import io.nextweb.Link;
 import io.nextweb.LinkList;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.operations.JsExceptionManager;
+import io.nextweb.js.fn.JsClosure;
+import io.nextweb.js.utils.WrapperCollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +16,9 @@ import org.timepedia.exporter.client.NoExport;
 
 @Export
 public class JsLinkList implements Exportable, JsWrapper<LinkList>,
-		JsEntityList<LinkList> {
+		JsEntityList<LinkList, JsLinkList> {
 
 	private LinkList list;
-
-	@Override
-	@Export
-	public Object get(final Object... params) {
-		return JH.get(this, params);
-	}
 
 	@NoExport
 	@Override
@@ -37,6 +33,21 @@ public class JsLinkList implements Exportable, JsWrapper<LinkList>,
 		this.list = original;
 	}
 
+	public static JsLinkList wrap(final LinkList list) {
+		final JsLinkList jslist = new JsLinkList();
+		jslist.setOriginal(list);
+		return jslist;
+	}
+
+	public JsLinkList() {
+		super();
+
+	}
+
+	/*
+	 * specific operations
+	 */
+
 	@Export
 	public String[] uris() {
 		final List<String> uris = new ArrayList<String>(list.size());
@@ -48,16 +59,9 @@ public class JsLinkList implements Exportable, JsWrapper<LinkList>,
 		return uris.toArray(new String[] {});
 	}
 
-	public static JsLinkList wrap(final LinkList list) {
-		final JsLinkList jslist = new JsLinkList();
-		jslist.setOriginal(list);
-		return jslist;
-	}
-
-	public JsLinkList() {
-		super();
-
-	}
+	/*
+	 * common getters
+	 */
 
 	@Export
 	@Override
@@ -72,6 +76,25 @@ public class JsLinkList implements Exportable, JsWrapper<LinkList>,
 
 		return JH.jsFactory(list).createExceptionManager(
 				list.getExceptionManager());
+	}
+
+	/*
+	 * List operations
+	 */
+
+	@Override
+	@Export
+	public Object get(final Object... params) {
+		return JH.get(this, params);
+	}
+
+	@Export
+	@Override
+	public JsLinkList each(final JsClosure closure) {
+		final WrapperCollection wrappers = JH.jsFactory(list).getWrappers();
+		this.list.each(JH.wrapJsClosure(closure, wrappers));
+
+		return this;
 	}
 
 }

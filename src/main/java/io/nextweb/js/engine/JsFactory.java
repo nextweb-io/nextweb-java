@@ -22,7 +22,7 @@ import io.nextweb.js.JsSession;
 import io.nextweb.js.common.JsUser;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsResult;
-import io.nextweb.js.operations.JsDefaultOperations;
+import io.nextweb.js.operations.JsDefaultEntityOperations;
 import io.nextweb.js.plugins.JsPluginUtils;
 import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.exceptions.ExceptionManager;
@@ -49,8 +49,8 @@ public class JsFactory implements Exportable {
 	}
 
 	@NoExport
-	public JsDefaultOperations op(final Entity entity) {
-		return new JsDefaultOperations(entity);
+	public JsDefaultEntityOperations op(final Entity entity) {
+		return new JsDefaultEntityOperations(entity);
 	}
 
 	@NoExport

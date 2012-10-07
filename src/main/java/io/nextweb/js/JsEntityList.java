@@ -4,8 +4,8 @@ import io.nextweb.EntityList;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.operations.JsEntityListOperations;
 
-public interface JsEntityList<EntityListType extends EntityList> extends
-		JsEntityListOperations, JsWrapper<EntityListType> {
+public interface JsEntityList<EntityListType extends EntityList, JsListType extends JsEntityList<EntityListType, ?>>
+		extends JsEntityListOperations<JsListType>, JsWrapper<EntityListType> {
 
 	public JsSession getSession();
 

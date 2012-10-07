@@ -17,7 +17,7 @@ import io.nextweb.js.JsNode;
 import io.nextweb.js.engine.JsFactory;
 import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
-import io.nextweb.js.operations.JsDefaultOperations;
+import io.nextweb.js.operations.JsDefaultEntityOperations;
 import io.nextweb.js.utils.WrapperCollection;
 import io.nextweb.operations.callbacks.CallbackFactory;
 
@@ -76,7 +76,7 @@ public class JH {
 	}
 
 	public static final <E extends EntityList> Object get(
-			final JsEntityList<E> forEntity, final Object... params) {
+			final JsEntityList<E, ?> forEntity, final Object... params) {
 
 		final E list = forEntity.getOriginal();
 
@@ -307,7 +307,7 @@ public class JH {
 		return jsFactory(entity.getSession());
 	}
 
-	public static final JsDefaultOperations op(final Entity entity) {
+	public static final JsDefaultEntityOperations op(final Entity entity) {
 		return jsFactory(entity).op(entity);
 	}
 
@@ -317,6 +317,18 @@ public class JH {
 
 	public static final JsFactory jsFactory(final EntityList entityList) {
 		return jsFactory(entityList.getSession());
+	}
+
+	public static <Type extends Node> Closure<Type> wrapJsClosure(
+			final JsClosure closure, final WrapperCollection wrappers) {
+		return new Closure<Type>() {
+
+			@Override
+			public void apply(final Type o) {
+				closure.apply(wrappers.convertValueObjectForJs(wrappers
+						.createJsEngineWrapperIfPossible(o)));
+			}
+		};
 	}
 
 }

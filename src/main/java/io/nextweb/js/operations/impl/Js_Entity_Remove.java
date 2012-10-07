@@ -10,7 +10,7 @@ import io.nextweb.js.operations.JsEntityRemoveOperations;
 
 import org.timepedia.exporter.client.ExporterUtil;
 
-public class Js_EntityRemove implements JsEntityRemoveOperations {
+public class Js_Entity_Remove implements JsEntityRemoveOperations {
 
 	private final Entity node;
 
@@ -39,7 +39,7 @@ public class Js_EntityRemove implements JsEntityRemoveOperations {
 						+ entity + ":" + entity.getClass() + "]");
 	}
 
-	public Js_EntityRemove(Entity node) {
+	public Js_Entity_Remove(Entity node) {
 		super();
 		this.node = node;
 	}

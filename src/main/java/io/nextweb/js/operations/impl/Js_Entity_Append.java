@@ -14,7 +14,7 @@ import org.timepedia.exporter.client.ExporterUtil;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class Js_EntityAppend implements JsEntityAppendOperations {
+public class Js_Entity_Append implements JsEntityAppendOperations {
 
 	private final Entity node;
 
@@ -34,7 +34,7 @@ public class Js_EntityAppend implements JsEntityAppendOperations {
 		return ExporterUtil.wrap(JH.jsFactory(node).createQuery(query));
 	}
 
-	public Js_EntityAppend(final Entity node) {
+	public Js_Entity_Append(final Entity node) {
 		super();
 		this.node = node;
 	}
