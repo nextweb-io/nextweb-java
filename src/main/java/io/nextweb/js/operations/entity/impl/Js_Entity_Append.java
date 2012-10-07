@@ -1,4 +1,4 @@
-package io.nextweb.js.operations.impl;
+package io.nextweb.js.operations.entity.impl;
 
 import io.nextweb.Entity;
 import io.nextweb.Link;
@@ -8,7 +8,7 @@ import io.nextweb.js.JsLink;
 import io.nextweb.js.JsNode;
 import io.nextweb.js.JsQuery;
 import io.nextweb.js.common.JH;
-import io.nextweb.js.operations.JsEntityAppendOperations;
+import io.nextweb.js.operations.entity.JsEntityAppendOperations;
 
 import org.timepedia.exporter.client.ExporterUtil;
 

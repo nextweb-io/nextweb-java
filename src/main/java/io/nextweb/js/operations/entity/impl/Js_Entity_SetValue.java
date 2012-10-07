@@ -1,10 +1,10 @@
-package io.nextweb.js.operations.impl;
+package io.nextweb.js.operations.entity.impl;
 
 import io.nextweb.Entity;
 import io.nextweb.Query;
 import io.nextweb.js.JsQuery;
 import io.nextweb.js.common.JH;
-import io.nextweb.js.operations.JsEntitySetValueOperations;
+import io.nextweb.js.operations.entity.JsEntitySetValueOperations;
 
 public class Js_Entity_SetValue implements JsEntitySetValueOperations {
 

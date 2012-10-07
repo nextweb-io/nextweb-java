@@ -11,12 +11,12 @@ import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
 @Export
-public class JsNodeListQuery implements JsWrapper<ListQuery>, Exportable,
-		JsEntityList<ListQuery, JsNodeListQuery> {
+public class JsListQuery implements JsWrapper<ListQuery>, Exportable,
+		JsEntityList<ListQuery, JsListQuery> {
 
 	private ListQuery list;
 
-	public JsNodeListQuery() {
+	public JsListQuery() {
 		super();
 	}
 
@@ -34,8 +34,8 @@ public class JsNodeListQuery implements JsWrapper<ListQuery>, Exportable,
 	}
 
 	@NoExport
-	public static JsNodeListQuery wrap(final ListQuery query) {
-		final JsNodeListQuery jsQuery = new JsNodeListQuery();
+	public static JsListQuery wrap(final ListQuery query) {
+		final JsListQuery jsQuery = new JsListQuery();
 		jsQuery.setOriginal(query);
 		return jsQuery;
 	}
@@ -65,7 +65,7 @@ public class JsNodeListQuery implements JsWrapper<ListQuery>, Exportable,
 	}
 
 	@Override
-	public JsNodeListQuery each(final JsClosure closure) {
+	public JsListQuery each(final JsClosure closure) {
 		final WrapperCollection wrappers = JH.jsFactory(list).getWrappers();
 		this.list.each(JH.wrapJsClosure(closure, wrappers));
 

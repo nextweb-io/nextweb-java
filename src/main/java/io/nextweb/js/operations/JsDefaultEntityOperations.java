@@ -1,9 +1,12 @@
 package io.nextweb.js.operations;
 
 import io.nextweb.Entity;
-import io.nextweb.js.operations.impl.Js_Entity_Append;
-import io.nextweb.js.operations.impl.Js_Entity_Remove;
-import io.nextweb.js.operations.impl.Js_Entity_SetValue;
+import io.nextweb.js.operations.entity.JsEntityAppendOperations;
+import io.nextweb.js.operations.entity.JsEntityRemoveOperations;
+import io.nextweb.js.operations.entity.JsEntitySetValueOperations;
+import io.nextweb.js.operations.entity.impl.Js_Entity_Append;
+import io.nextweb.js.operations.entity.impl.Js_Entity_Remove;
+import io.nextweb.js.operations.entity.impl.Js_Entity_SetValue;
 
 public class JsDefaultEntityOperations {
 

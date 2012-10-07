@@ -18,7 +18,7 @@ import io.nextweb.js.engine.NextwebEngineJs;
 import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.fn.JsResult;
 import io.nextweb.js.operations.JsExceptionListeners;
-import io.nextweb.js.operations.impl.JsOpCommon;
+import io.nextweb.js.operations.entity.impl.JsOpCommon;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 

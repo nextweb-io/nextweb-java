@@ -16,7 +16,7 @@ import io.nextweb.js.JsLinkList;
 import io.nextweb.js.JsLinkListQuery;
 import io.nextweb.js.JsNode;
 import io.nextweb.js.JsNodeList;
-import io.nextweb.js.JsNodeListQuery;
+import io.nextweb.js.JsListQuery;
 import io.nextweb.js.JsQuery;
 import io.nextweb.js.JsSession;
 import io.nextweb.js.common.JsUser;
@@ -127,8 +127,8 @@ public class JsFactory implements Exportable {
 	}
 
 	@NoExport
-	public JsNodeListQuery createNodeListQuery(final ListQuery listQuery) {
-		final JsNodeListQuery jsListQuery = JsNodeListQuery.wrap(listQuery);
+	public JsListQuery createNodeListQuery(final ListQuery listQuery) {
+		final JsListQuery jsListQuery = JsListQuery.wrap(listQuery);
 
 		return jsListQuery;
 	}

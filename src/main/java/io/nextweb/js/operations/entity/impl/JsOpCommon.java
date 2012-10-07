@@ -1,4 +1,4 @@
-package io.nextweb.js.operations.impl;
+package io.nextweb.js.operations.entity.impl;
 
 import io.nextweb.Entity;
 import io.nextweb.Session;

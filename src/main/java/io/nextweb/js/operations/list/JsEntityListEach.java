@@ -1,4 +1,4 @@
-package io.nextweb.js.operations;
+package io.nextweb.js.operations.list;
 
 import io.nextweb.js.JsEntityList;
 import io.nextweb.js.fn.JsClosure;

@@ -1,4 +1,4 @@
-package io.nextweb.js.operations;
+package io.nextweb.js.operations.entity;
 
 public interface JsEntityAppendOperations {
 
