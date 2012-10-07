@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.plugins.PluginFactory;
 

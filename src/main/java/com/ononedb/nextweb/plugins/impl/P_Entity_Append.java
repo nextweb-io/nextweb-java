@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.Entity;
 import io.nextweb.Link;
@@ -9,7 +9,6 @@ import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.plugins.core.Plugin_Entity_Append;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.WhenResponseFromServerReceived;
 import one.core.dsl.callbacks.results.WithImpossibleContext;
@@ -22,6 +21,7 @@ import one.utils.OneUtilsStrings;
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.OnedbQuery;
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Append;
 
 public class P_Entity_Append implements Plugin_Entity_Append<OnedbEntity> {
 

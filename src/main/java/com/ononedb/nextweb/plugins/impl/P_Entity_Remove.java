@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.Entity;
 import io.nextweb.Link;
@@ -10,12 +10,12 @@ import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.plugins.core.Plugin_Entity_Remove;
 import one.core.dsl.CoreDsl;
 import one.core.nodes.OneTypedReference;
 
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Remove;
 
 public class P_Entity_Remove implements Plugin_Entity_Remove<OnedbEntity> {
 

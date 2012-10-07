@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.Node;
 import io.nextweb.common.Interval;
@@ -10,7 +10,6 @@ import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.plugins.core.Plugin_Entity_Monitor;
 import one.core.domain.OneMonitor;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.WhenNodeChanged;
@@ -19,6 +18,7 @@ import one.core.dsl.callbacks.results.WithNodeChangedContext;
 
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Monitor;
 
 public class P_Entity_Monitor implements Plugin_Entity_Monitor<OnedbEntity> {
 

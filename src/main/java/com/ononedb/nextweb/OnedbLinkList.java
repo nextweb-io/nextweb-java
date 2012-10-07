@@ -22,8 +22,6 @@ import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
-import io.nextweb.plugins.core.Plugin_EntityList_Select;
-import io.nextweb.plugins.core.Plugin_EntityList_SetValue;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -34,6 +32,8 @@ import one.async.joiner.ListCallbackJoiner;
 import one.async.joiner.LocalCallback;
 
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_EntityList_Select;
+import com.ononedb.nextweb.plugins.Plugin_EntityList_SetValue;
 
 public class OnedbLinkList implements LinkList, OnedbEntityList {
 

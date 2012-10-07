@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.Link;
 import io.nextweb.Node;
@@ -21,7 +21,6 @@ import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.callbacks.EagerCallback;
 import io.nextweb.operations.exceptions.ChallengedResult;
 import io.nextweb.operations.exceptions.UndefinedResult;
-import io.nextweb.plugins.core.Plugin_Session_Core;
 
 import java.io.Serializable;
 
@@ -50,6 +49,7 @@ import one.core.dsl.grammars.RegisterUserParameters;
 import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.LoginResultImpl;
+import com.ononedb.nextweb.plugins.Plugin_Session_Core;
 
 public class P_Session_Core implements Plugin_Session_Core<OnedbSession> {
 

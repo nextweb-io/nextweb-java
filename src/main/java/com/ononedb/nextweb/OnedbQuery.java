@@ -23,14 +23,14 @@ import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
-import io.nextweb.plugins.core.Plugin_Entity_Append;
-import io.nextweb.plugins.core.Plugin_Entity_ClearVersions;
-import io.nextweb.plugins.core.Plugin_Entity_Monitor;
-import io.nextweb.plugins.core.Plugin_Entity_Remove;
-import io.nextweb.plugins.core.Plugin_Entity_Select;
-import io.nextweb.plugins.core.Plugin_Entity_SetValue;
 
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Append;
+import com.ononedb.nextweb.plugins.Plugin_Entity_ClearVersions;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Monitor;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Remove;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Select;
+import com.ononedb.nextweb.plugins.Plugin_Entity_SetValue;
 
 public class OnedbQuery implements Query, OnedbEntity {
 

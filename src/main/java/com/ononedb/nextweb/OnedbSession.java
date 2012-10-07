@@ -15,11 +15,11 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
-import io.nextweb.plugins.core.Plugin_Session_Core;
 import one.core.domain.OneClient;
 
 import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.OnedbFactory;
+import com.ononedb.nextweb.plugins.Plugin_Session_Core;
 
 public class OnedbSession implements Session {
 

@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.Link;
 import io.nextweb.LinkList;
@@ -10,13 +10,13 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.BooleanResult;
 import io.nextweb.fn.Calculation;
 import io.nextweb.fn.Maybe;
-import io.nextweb.plugins.core.Plugin_EntityList_Select;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ononedb.nextweb.OnedbEntityList;
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_EntityList_Select;
 
 public class P_EntityList_Select implements
 		Plugin_EntityList_Select<OnedbEntityList> {

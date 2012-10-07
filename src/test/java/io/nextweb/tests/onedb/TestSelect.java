@@ -9,13 +9,13 @@ import io.nextweb.Session;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.fn.Closure;
 import io.nextweb.plugins.PluginFactory;
-import io.nextweb.plugins.core.Plugin_Entity_Select;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.ononedb.nextweb.jre.Onedb;
-import com.ononedb.nextweb.plugins.P_Entity_Select_Factory;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Select;
+import com.ononedb.nextweb.plugins.impl.P_Entity_Select_Factory;
 
 public class TestSelect {
 

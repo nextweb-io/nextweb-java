@@ -1,4 +1,4 @@
-package io.nextweb.plugins.core;
+package com.ononedb.nextweb.plugins;
 
 import io.nextweb.Session;
 import io.nextweb.operations.SessionOperations;

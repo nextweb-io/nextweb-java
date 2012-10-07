@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.Node;
 import io.nextweb.fn.AsyncResult;
@@ -8,7 +8,6 @@ import io.nextweb.fn.IntegerResult;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.plugins.core.Plugin_Entity_ClearVersions;
 import one.core.dsl.CoreDsl;
 import one.core.dsl.callbacks.WhenVersionsCleared;
 import one.core.dsl.callbacks.results.WithUnauthorizedContext;
@@ -16,6 +15,7 @@ import one.core.dsl.callbacks.results.WithVersionsClearedResult;
 
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_Entity_ClearVersions;
 
 public class P_Entity_ClearVersions implements
 		Plugin_Entity_ClearVersions<OnedbEntity> {

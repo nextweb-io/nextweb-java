@@ -1,4 +1,4 @@
-package io.nextweb.plugins.core;
+package com.ononedb.nextweb.plugins;
 
 import io.nextweb.Entity;
 import io.nextweb.operations.entity.EntityClearVersionsOperations;

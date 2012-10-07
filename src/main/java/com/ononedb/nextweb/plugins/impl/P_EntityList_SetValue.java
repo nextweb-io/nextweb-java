@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.ListQuery;
 import io.nextweb.Node;
@@ -6,9 +6,9 @@ import io.nextweb.NodeList;
 import io.nextweb.Query;
 import io.nextweb.fn.Calculation;
 import io.nextweb.fn.Fn;
-import io.nextweb.plugins.core.Plugin_EntityList_SetValue;
 
 import com.ononedb.nextweb.OnedbEntityList;
+import com.ononedb.nextweb.plugins.Plugin_EntityList_SetValue;
 
 public class P_EntityList_SetValue implements
 		Plugin_EntityList_SetValue<OnedbEntityList> {

@@ -7,7 +7,6 @@ import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.plugins.core.DefaultPluginFactory;
 import one.client.jre.OneJre;
 import one.core.dsl.CoreDsl;
 
@@ -15,6 +14,7 @@ import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.OnedbSession;
 import com.ononedb.nextweb.common.H;
 import com.ononedb.nextweb.internal.OnedbFactory;
+import com.ononedb.nextweb.plugins.DefaultPluginFactory;
 
 public class Onedb implements OnedbNextwebEngine {
 

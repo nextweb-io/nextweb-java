@@ -1,9 +1,9 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.plugins.PluginFactory;
-import io.nextweb.plugins.core.Plugin_Session_Core;
 
 import com.ononedb.nextweb.OnedbSession;
+import com.ononedb.nextweb.plugins.Plugin_Session_Core;
 
 public class P_Session_Core_Factory implements
 		PluginFactory<OnedbSession, Plugin_Session_Core<OnedbSession>> {

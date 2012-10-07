@@ -1,4 +1,4 @@
-package com.ononedb.nextweb.plugins;
+package com.ononedb.nextweb.plugins.impl;
 
 import io.nextweb.Link;
 import io.nextweb.LinkList;
@@ -15,7 +15,6 @@ import io.nextweb.operations.callbacks.Callback;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.UndefinedResult;
-import io.nextweb.plugins.core.Plugin_Entity_Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,7 @@ import one.core.nodes.OneTypedReference;
 
 import com.ononedb.nextweb.OnedbEntity;
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_Entity_Select;
 
 public class P_Entity_Select implements Plugin_Entity_Select<OnedbEntity> {
 

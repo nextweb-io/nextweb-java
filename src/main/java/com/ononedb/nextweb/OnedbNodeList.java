@@ -17,8 +17,6 @@ import io.nextweb.operations.exceptions.UndefinedListener;
 import io.nextweb.plugins.Plugin;
 import io.nextweb.plugins.PluginFactory;
 import io.nextweb.plugins.Plugins;
-import io.nextweb.plugins.core.Plugin_EntityList_Select;
-import io.nextweb.plugins.core.Plugin_EntityList_SetValue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.ononedb.nextweb.common.H;
+import com.ononedb.nextweb.plugins.Plugin_EntityList_Select;
+import com.ononedb.nextweb.plugins.Plugin_EntityList_SetValue;
 
 public class OnedbNodeList implements OnedbEntityList, NodeList {
 
