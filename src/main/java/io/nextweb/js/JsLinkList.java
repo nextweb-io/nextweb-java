@@ -6,6 +6,7 @@ import io.nextweb.js.common.JH;
 import io.nextweb.js.common.JsBooleanResult;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
+import io.nextweb.js.operations.entity.impl.JsOpCommon;
 import io.nextweb.js.utils.WrapperCollection;
 
 import java.util.ArrayList;
@@ -129,4 +130,19 @@ public class JsLinkList implements Exportable, JsWrapper<LinkList>,
 	public JsBooleanResult has(final Link propertyType) {
 		return JsBooleanResult.wrap(list.has(propertyType), list.getSession());
 	}
+
+	@Export
+	@Override
+	public JsListQuery setValue(final Object newValue) {
+		return JH.jsFactory(list).createListQuery(
+				list.setValue(JsOpCommon.getJavaValue(list, newValue)));
+	}
+
+	@Export
+	@Override
+	public JsListQuery setValueSafe(final Object newValue) {
+		return JH.jsFactory(list).createListQuery(
+				list.setValueSafe(JsOpCommon.getJavaValue(list, newValue)));
+	}
+
 }
