@@ -123,7 +123,7 @@ public class JsQuery implements Exportable, JsEntity<Query>,
 	@Export
 	@Override
 	public JsListQuery selectAll(final JsLink propertyType) {
-		return JH.jsFactory(original).createNodeListQuery(
+		return JH.jsFactory(original).createListQuery(
 				original.selectAll(propertyType.getOriginal()));
 	}
 
@@ -137,7 +137,7 @@ public class JsQuery implements Exportable, JsEntity<Query>,
 	@Export
 	@Override
 	public JsListQuery selectAll() {
-		return JH.jsFactory(original).createNodeListQuery(original.selectAll());
+		return JH.jsFactory(original).createListQuery(original.selectAll());
 	}
 
 	@Export

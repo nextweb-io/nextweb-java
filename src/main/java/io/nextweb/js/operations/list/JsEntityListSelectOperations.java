@@ -1,11 +1,10 @@
 package io.nextweb.js.operations.list;
 
 import io.nextweb.Link;
-import io.nextweb.LinkListQuery;
-import io.nextweb.ListQuery;
-import io.nextweb.fn.BooleanResult;
 import io.nextweb.js.JsLink;
+import io.nextweb.js.JsLinkListQuery;
 import io.nextweb.js.JsListQuery;
+import io.nextweb.js.common.JsBooleanResult;
 
 public interface JsEntityListSelectOperations {
 
@@ -13,10 +12,10 @@ public interface JsEntityListSelectOperations {
 
 	public JsListQuery selectAll(JsLink propertyType);
 
-	public LinkListQuery selectAllLinks();
+	public JsLinkListQuery selectAllLinks();
 
-	public ListQuery selectAll();
+	public JsListQuery selectAll();
 
-	public BooleanResult has(Link propertyType);
+	public JsBooleanResult has(Link propertyType);
 
 }

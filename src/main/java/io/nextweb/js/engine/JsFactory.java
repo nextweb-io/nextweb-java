@@ -127,7 +127,7 @@ public class JsFactory implements Exportable {
 	}
 
 	@NoExport
-	public JsListQuery createNodeListQuery(final ListQuery listQuery) {
+	public JsListQuery createListQuery(final ListQuery listQuery) {
 		final JsListQuery jsListQuery = JsListQuery.wrap(listQuery);
 
 		return jsListQuery;

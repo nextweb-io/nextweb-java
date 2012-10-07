@@ -1,5 +1,6 @@
 package io.nextweb.js.common;
 
+import io.nextweb.Session;
 import io.nextweb.common.LoginResult;
 import io.nextweb.fn.BasicResult;
 import io.nextweb.js.fn.JsBaseResult;
@@ -41,6 +42,21 @@ public class JsLoginResult implements JsBaseResult<JsLoginResult>, Exportable {
 		jsResult.setOriginal(original);
 	}
 
+	@NoExport
+	public static JsLoginResult wrap(final LoginResult loginResult,
+			final Session session) {
+		final JsLoginResult jsResult = new JsLoginResult();
+
+		jsResult.setLoginResult(loginResult);
+		jsResult.setJsResult(JH.jsFactory(session).createResult(loginResult));
+
+		return jsResult;
+	}
+
+	public JsLoginResult() {
+		super();
+	}
+
 	@Export
 	public JsLoginResult catchLoginFailures(final JavaScriptObject params) {
 
@@ -76,6 +92,10 @@ public class JsLoginResult implements JsBaseResult<JsLoginResult>, Exportable {
 
 	}
 
+	/*
+	 * Base result operations
+	 */
+
 	@Export
 	@Override
 	public JsLoginResult catchExceptions(final JsClosure exceptionListener) {
@@ -108,10 +128,6 @@ public class JsLoginResult implements JsBaseResult<JsLoginResult>, Exportable {
 	@Override
 	public Object get(final Object... params) {
 		return jsResult.get(params);
-	}
-
-	public JsLoginResult() {
-		super();
 	}
 
 }

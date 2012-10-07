@@ -354,11 +354,7 @@ public class JsSession implements Exportable, JsWrapper<Session>,
 
 	@NoExport
 	private JsLoginResult createJsLoginResult(final LoginResult loginResult) {
-		final JsLoginResult result = new JsLoginResult();
-
-		result.setLoginResult(loginResult);
-		result.setJsResult(JH.jsFactory(session).createResult(loginResult));
-		return result;
+		return JsLoginResult.wrap(loginResult, session);
 	}
 
 }

@@ -1,9 +1,11 @@
 package io.nextweb.js;
 
+import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.NodeList;
 import io.nextweb.js.common.JH;
 import io.nextweb.js.common.JsArray;
+import io.nextweb.js.common.JsBooleanResult;
 import io.nextweb.js.common.operations.JsExceptionManager;
 import io.nextweb.js.fn.JsClosure;
 import io.nextweb.js.utils.WrapperCollection;
@@ -21,38 +23,6 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 		JsEntityList<NodeList, JsNodeList> {
 
 	private NodeList list;
-
-	@Override
-	@Export
-	public Object get(final Object... params) {
-		return JH.get(this, params);
-	}
-
-	@Export
-	public JavaScriptObject[] nodes() {
-		final JavaScriptObject[] result = new JavaScriptObject[list.size()];
-		final int count = 0;
-		for (final Node n : list) {
-			result[count] = ExporterUtil.wrap(JH.jsFactory(list).createNode(n));
-		}
-		return result;
-	}
-
-	@Export
-	public JavaScriptObject values() {
-		final JavaScriptObject[] result = new JavaScriptObject[list.size()];
-		int count = 0;
-		for (final Node n : list) {
-			result[count] = JH.forceWrapIntoJavaScriptObject((JH
-					.jsFactory(list).wrapValueObjectForJs(n.getValue())));
-			count++;
-		}
-
-		final JSONArray ar = new JSONArray(
-				unwrapBasicTypes(ExporterUtil.wrap(JsArray.wrap(result))));
-
-		return ar.getJavaScriptObject();
-	}
 
 	private final native JavaScriptObject unwrapBasicTypes(
 			JavaScriptObject jsArray)/*-{
@@ -85,22 +55,6 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 										return values;
 										}-*/;
 
-	@Export
-	public int size() {
-		return list.size();
-
-	}
-
-	@Override
-	@Export
-	public JsNodeList each(final JsClosure closure) {
-
-		final WrapperCollection wrappers = JH.jsFactory(list).getWrappers();
-		this.list.each(JH.wrapJsClosure(closure, wrappers));
-
-		return this;
-	}
-
 	@NoExport
 	@Override
 	public NodeList getOriginal() {
@@ -125,6 +79,48 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 
 	}
 
+	/*
+	 * Js interface
+	 */
+
+	@Export
+	public JavaScriptObject[] nodes() {
+		final JavaScriptObject[] result = new JavaScriptObject[list.size()];
+		final int count = 0;
+		for (final Node n : list) {
+			result[count] = ExporterUtil.wrap(JH.jsFactory(list).createNode(n));
+		}
+		return result;
+	}
+
+	@Export
+	public JavaScriptObject values() {
+		final JavaScriptObject[] result = new JavaScriptObject[list.size()];
+		int count = 0;
+		for (final Node n : list) {
+			result[count] = JH.forceWrapIntoJavaScriptObject((JH
+					.jsFactory(list).wrapValueObjectForJs(n.getValue())));
+			count++;
+		}
+
+		final JSONArray ar = new JSONArray(
+				unwrapBasicTypes(ExporterUtil.wrap(JsArray.wrap(result))));
+
+		return ar.getJavaScriptObject();
+	}
+
+	@Export
+	public int size() {
+		return list.size();
+
+	}
+
+	@Override
+	@Export
+	public Object get(final Object... params) {
+		return JH.get(this, params);
+	}
+
 	@Export
 	@Override
 	public JsSession getSession() {
@@ -138,6 +134,48 @@ public class JsNodeList implements Exportable, JsWrapper<NodeList>,
 
 		return JH.jsFactory(list).createExceptionManager(
 				list.getExceptionManager());
+	}
+
+	@Override
+	@Export
+	public JsNodeList each(final JsClosure closure) {
+
+		final WrapperCollection wrappers = JH.jsFactory(list).getWrappers();
+		this.list.each(JH.wrapJsClosure(closure, wrappers));
+
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsListQuery select(final JsLink propertyType) {
+		return JH.jsFactory(list).createListQuery(
+				list.select(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsListQuery selectAll(final JsLink propertyType) {
+		return JH.jsFactory(list).createListQuery(
+				list.selectAll(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsLinkListQuery selectAllLinks() {
+		return JH.jsFactory(list).createLinkListQuery(list.selectAllLinks());
+	}
+
+	@Export
+	@Override
+	public JsListQuery selectAll() {
+		return JH.jsFactory(list).createListQuery(list.selectAll());
+	}
+
+	@Export
+	@Override
+	public JsBooleanResult has(final Link propertyType) {
+		return JsBooleanResult.wrap(list.has(propertyType), list.getSession());
 	}
 
 }

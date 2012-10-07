@@ -54,7 +54,7 @@ public class WrapperCollection {
 		}
 
 		if (engineNode instanceof ListQuery) {
-			return factory.createNodeListQuery((ListQuery) engineNode);
+			return factory.createListQuery((ListQuery) engineNode);
 		}
 
 		if (engineNode instanceof NodeList) {
