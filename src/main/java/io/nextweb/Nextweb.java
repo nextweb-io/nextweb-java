@@ -1,5 +1,6 @@
 package io.nextweb;
 
+import io.nextweb.common.LocalServer;
 import io.nextweb.engine.NextwebEngine;
 
 public class Nextweb {
@@ -10,12 +11,20 @@ public class Nextweb {
 		definedEngine = engine;
 	}
 
+	private static NextwebEngine assertEngine() {
+		return definedEngine;
+	}
+
 	public static Session createSession() {
-		return definedEngine.createSession();
+		return assertEngine().createSession();
+	}
+
+	public static LocalServer startServer(final int port) {
+		return assertEngine().startServer(port);
 	}
 
 	public static NextwebEngine getEngine() {
-		return definedEngine;
+		return assertEngine();
 	}
 
 	public static void main(final String[] args) {
