@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<title>LoginResultImpl xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../apidocs/com/ononedb/nextweb/internal/LoginResultImpl.html">View Javadoc</a></div><pre>
+
+<a name="1" href="#1">1</a>   <strong class="jxr_keyword">package</strong> com.ononedb.nextweb.internal;
+<a name="2" href="#2">2</a>   
+<a name="3" href="#3">3</a>   <strong class="jxr_keyword">import</strong> io.nextweb.common.LoginResult;
+<a name="4" href="#4">4</a>   <strong class="jxr_keyword">import</strong> io.nextweb.common.User;
+<a name="5" href="#5">5</a>   <strong class="jxr_keyword">import</strong> io.nextweb.fn.Closure;
+<a name="6" href="#6">6</a>   <strong class="jxr_keyword">import</strong> io.nextweb.fn.ExceptionListener;
+<a name="7" href="#7">7</a>   <strong class="jxr_keyword">import</strong> io.nextweb.fn.Result;
+<a name="8" href="#8">8</a>   <strong class="jxr_keyword">import</strong> io.nextweb.operations.callbacks.Callback;
+<a name="9" href="#9">9</a>   <strong class="jxr_keyword">import</strong> io.nextweb.operations.exceptions.ExceptionManager;
+<a name="10" href="#10">10</a>  <strong class="jxr_keyword">import</strong> io.nextweb.operations.exceptions.ImpossibleListener;
+<a name="11" href="#11">11</a>  <strong class="jxr_keyword">import</strong> io.nextweb.operations.exceptions.LoginFailuresListener;
+<a name="12" href="#12">12</a>  <strong class="jxr_keyword">import</strong> io.nextweb.operations.exceptions.UnauthorizedListener;
+<a name="13" href="#13">13</a>  <strong class="jxr_keyword">import</strong> io.nextweb.operations.exceptions.UndefinedListener;
+<a name="14" href="#14">14</a>  
+<a name="15" href="#15">15</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/ononedb/nextweb/internal/LoginResultImpl.html">LoginResultImpl</a> implements <a href="../../../../io/nextweb/common/LoginResult.html">LoginResult</a> {
+<a name="16" href="#16">16</a>  
+<a name="17" href="#17">17</a>  	<strong class="jxr_keyword">private</strong> Result&lt;User&gt; userResult;
+<a name="18" href="#18">18</a>  	<strong class="jxr_keyword">private</strong> <a href="../../../../io/nextweb/operations/exceptions/LoginFailuresListener.html">LoginFailuresListener</a> failureListener;
+<a name="19" href="#19">19</a>  
+<a name="20" href="#20">20</a>  	@Override
+<a name="21" href="#21">21</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../io/nextweb/common/User.html">User</a> get() {
+<a name="22" href="#22">22</a>  		<strong class="jxr_keyword">return</strong> userResult.get();
+<a name="23" href="#23">23</a>  	}
+<a name="24" href="#24">24</a>  
+<a name="25" href="#25">25</a>  	@Override
+<a name="26" href="#26">26</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> get(<strong class="jxr_keyword">final</strong> Closure&lt;User&gt; callback) {
+<a name="27" href="#27">27</a>  		userResult.get(callback);
+<a name="28" href="#28">28</a>  	}
+<a name="29" href="#29">29</a>  
+<a name="30" href="#30">30</a>  	@Override
+<a name="31" href="#31">31</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../io/nextweb/operations/exceptions/ExceptionManager.html">ExceptionManager</a> getExceptionManager() {
+<a name="32" href="#32">32</a>  		<strong class="jxr_keyword">return</strong> userResult.getExceptionManager();
+<a name="33" href="#33">33</a>  	}
+<a name="34" href="#34">34</a>  
+<a name="35" href="#35">35</a>  	@Override
+<a name="36" href="#36">36</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> get(<strong class="jxr_keyword">final</strong> Callback&lt;User&gt; callback) {
+<a name="37" href="#37">37</a>  		userResult.get(callback);
+<a name="38" href="#38">38</a>  	}
+<a name="39" href="#39">39</a>  
+<a name="40" href="#40">40</a>  	@Override
+<a name="41" href="#41">41</a>  	<strong class="jxr_keyword">public</strong> Result&lt;User&gt; catchExceptions(<strong class="jxr_keyword">final</strong> <a href="../../../../io/nextweb/fn/ExceptionListener.html">ExceptionListener</a> listener) {
+<a name="42" href="#42">42</a>  		userResult.catchExceptions(listener);
+<a name="43" href="#43">43</a>  		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a name="44" href="#44">44</a>  	}
+<a name="45" href="#45">45</a>  
+<a name="46" href="#46">46</a>  	@Override
+<a name="47" href="#47">47</a>  	<strong class="jxr_keyword">public</strong> Result&lt;User&gt; catchUnauthorized(<strong class="jxr_keyword">final</strong> <a href="../../../../io/nextweb/operations/exceptions/UnauthorizedListener.html">UnauthorizedListener</a> listener) {
+<a name="48" href="#48">48</a>  		userResult.catchUnauthorized(listener);
+<a name="49" href="#49">49</a>  		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a name="50" href="#50">50</a>  	}
+<a name="51" href="#51">51</a>  
+<a name="52" href="#52">52</a>  	@Override
+<a name="53" href="#53">53</a>  	<strong class="jxr_keyword">public</strong> Result&lt;User&gt; catchUndefined(<strong class="jxr_keyword">final</strong> <a href="../../../../io/nextweb/operations/exceptions/UndefinedListener.html">UndefinedListener</a> listener) {
+<a name="54" href="#54">54</a>  		userResult.catchUndefined(listener);
+<a name="55" href="#55">55</a>  		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a name="56" href="#56">56</a>  	}
+<a name="57" href="#57">57</a>  
+<a name="58" href="#58">58</a>  	@Override
+<a name="59" href="#59">59</a>  	<strong class="jxr_keyword">public</strong> Result&lt;User&gt; catchImpossible(<strong class="jxr_keyword">final</strong> <a href="../../../../io/nextweb/operations/exceptions/ImpossibleListener.html">ImpossibleListener</a> listener) {
+<a name="60" href="#60">60</a>  		userResult.catchImpossible(listener);
+<a name="61" href="#61">61</a>  		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a name="62" href="#62">62</a>  	}
+<a name="63" href="#63">63</a>  
+<a name="64" href="#64">64</a>  	@Override
+<a name="65" href="#65">65</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../io/nextweb/common/LoginResult.html">LoginResult</a> catchLoginFailures(<strong class="jxr_keyword">final</strong> <a href="../../../../io/nextweb/operations/exceptions/LoginFailuresListener.html">LoginFailuresListener</a> listener) {
+<a name="66" href="#66">66</a>  		failureListener = listener;
+<a name="67" href="#67">67</a>  		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>;
+<a name="68" href="#68">68</a>  	}
+<a name="69" href="#69">69</a>  
+<a name="70" href="#70">70</a>  	@Override
+<a name="71" href="#71">71</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../io/nextweb/operations/exceptions/LoginFailuresListener.html">LoginFailuresListener</a> getLoginFailuresListener() {
+<a name="72" href="#72">72</a>  		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.failureListener;
+<a name="73" href="#73">73</a>  	}
+<a name="74" href="#74">74</a>  
+<a name="75" href="#75">75</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUserResult(<strong class="jxr_keyword">final</strong> Result&lt;User&gt; userResult) {
+<a name="76" href="#76">76</a>  		<strong class="jxr_keyword">this</strong>.userResult = userResult;
+<a name="77" href="#77">77</a>  	}
+<a name="78" href="#78">78</a>  
+<a name="79" href="#79">79</a>  }
+</pre>
+<hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
+</html>
+

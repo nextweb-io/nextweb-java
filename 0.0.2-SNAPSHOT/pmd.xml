@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.5" timestamp="2012-10-08T15:49:09.697">
+<file name="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\local\js\OnedbLocal.java">
+<violation beginline="59" endline="59" begincolumn="49" endcolumn="58" rule="UnusedLocalVariable" ruleset="Unused Code Rules" package="com.ononedb.nextweb.local.js" class="OnedbLocal" method="init" variable="connClosed" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedLocalVariable" priority="3">
+Avoid unused local variables such as 'connClosed'.
+</violation>
+</file>
+<file name="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\plugins\impl\P_Entity_Append.java">
+<violation beginline="245" endline="274" begincolumn="17" endcolumn="9" rule="UnusedFormalParameter" ruleset="Unused Code Rules" package="com.ononedb.nextweb.plugins.impl" class="P_Entity_Append" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedFormalParameter" priority="3">
+Avoid unused method parameters such as 'type'.
+</violation>
+</file>
+<file name="M:\Git\nextweb-core\src\main\java\io\nextweb\operations\exceptions\ExceptionManager.java">
+<violation beginline="77" endline="80" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="io.nextweb.operations.exceptions" class="ExceptionManager" method="onFailure" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="102" endline="105" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="io.nextweb.operations.exceptions" class="ExceptionManager" method="onUnauthorized" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="129" endline="132" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="io.nextweb.operations.exceptions" class="ExceptionManager" method="onImpossible" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="169" endline="172" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="io.nextweb.operations.exceptions" class="ExceptionManager" method="onUndefined" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+</file>
+</pmd>

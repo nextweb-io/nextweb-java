@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="200" tokens="1270">
+<file line="206" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\OnedbLink.java"/>
+<file line="251" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\OnedbNode.java"/>
+<file line="112" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\OnedbQuery.java"/>
+<codefragment>
+<![CDATA[
+		return Plugins.plugin(this, factory);
+	}
+
+	/**
+	 * Plugins
+	 */
+
+	@Override
+	public Query select(final Link propertyType) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Select<OnedbEntity>> select = H
+				.plugins(session).select();
+		return plugin(select).select(propertyType);
+	}
+
+	@Override
+	public Query ifHas(final Link propertyType) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Select<OnedbEntity>> select = H
+				.plugins(session).select();
+		return plugin(select).ifHas(propertyType);
+	}
+
+	@Override
+	public ListQuery selectAll(final Link propertyType) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Select<OnedbEntity>> select = H
+				.plugins(session).select();
+		return plugin(select).selectAll(propertyType);
+	}
+
+	@Override
+	public LinkListQuery selectAllLinks() {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Select<OnedbEntity>> select = H
+				.plugins(session).select();
+		return plugin(select).selectAllLinks();
+	}
+
+	@Override
+	public ListQuery selectAll() {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Select<OnedbEntity>> select = H
+				.plugins(session).select();
+		return plugin(select).selectAll();
+	}
+
+	@Override
+	public BooleanResult has(final Link propertyType) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Select<OnedbEntity>> select = H
+				.plugins(session).select();
+		return plugin(select).has(propertyType);
+	}
+
+	@Override
+	public Result<Success> remove(final Entity entity) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Remove<OnedbEntity>> remove = H
+				.plugins(session).remove();
+		return plugin(remove).remove(entity);
+	}
+
+	@Override
+	public Query append(final Object value) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).append(value);
+	}
+
+	@Override
+	public Query append(final Object value, final String atAddress) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).append(value, atAddress);
+	}
+
+	@Override
+	public Query appendValue(final Object value) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).appendValue(value);
+	}
+
+	@Override
+	public Query append(final Entity entity) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).append(entity);
+	}
+
+	@Override
+	public Query appendSafe(final Object value) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).appendSafe(value);
+	}
+
+	@Override
+	public Query appendSafe(final Object value, final String atAddress) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).appendSafe(value, atAddress);
+	}
+
+	@Override
+	public Query appendValueSafe(final Object value) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).appendValueSafe(value);
+	}
+
+	@Override
+	public Query appendSafe(final Entity entity) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).appendSafe(entity);
+	}
+
+	@Override
+	public Query insert(final Object value, final int atIndex) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).insert(value, atIndex);
+	}
+
+	@Override
+	public Query insert(final Object value, final String atAddress,
+			final int atIndex) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).insert(value, atAddress, atIndex);
+	}
+
+	@Override
+	public Query insertValue(final Object value, final int atIndex) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).insertValue(value, atIndex);
+	}
+
+	@Override
+	public Query insert(final Entity entity, final int atIndex) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).insertValue(entity, atIndex);
+	}
+
+	@Override
+	public Query insertSafe(final Object value, final int atIndex) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).insertSafe(value, atIndex);
+	}
+
+	@Override
+	public Query insertSafe(final Object value, final String atAddress,
+			final int atIndex) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).insertSafe(value, atAddress, atIndex);
+	}
+
+	@Override
+	public Query insertValueSafe(final Object value, final int atIndex) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).insertValueSafe(value, atIndex);
+	}
+
+	@Override
+	public Query insertSafe(final Entity entity, final int atIndex) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Append<OnedbEntity>> append = H
+				.plugins(session).append();
+		return plugin(append).insertSafe(entity, atIndex);
+	}
+
+	@Override
+	public Query setValue(final Object newValue) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_SetValue<OnedbEntity>> setValue = H
+				.plugins(session).setValue();
+		return plugin(setValue).setValue(newValue);
+	}
+
+	@Override
+	public Query setValueSafe(final Object newValue) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_SetValue<OnedbEntity>> setValue = H
+				.plugins(session).setValue();
+		return plugin(setValue).setValueSafe(newValue);
+	}
+
+	@Override
+	public IntegerResult clearVersions(final int keepVersions) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_ClearVersions<OnedbEntity>> clearVersions = H
+				.plugins(session).clearVersions();
+		return plugin(clearVersions).clearVersions(keepVersions);
+	}
+
+	@Override
+	public Result<Monitor> monitor(final Interval interval,
+			final Closure<Node> whenChanged) {
+		final PluginFactory<OnedbEntity, Plugin_Entity_Monitor<OnedbEntity>> monitor = H
+				.plugins(session).monitor();
+		return plugin(monitor).monitor(interval, whenChanged);
+	}
+
+}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="73" tokens="417">
+<file line="204" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsNode.java"/>
+<file line="158" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsQuery.java"/>
+<codefragment>
+<![CDATA[
+	public Object append(final Object value) {
+		return JH.op(original).append().append(value);
+	}
+
+	@Export
+	@Override
+	public Object append(final Object value, final String atAddress) {
+		return JH.op(original).append().append(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValue(final Object value) {
+		return JH.op(original).append().appendValue(value);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value) {
+		return JH.op(original).append().appendSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value, final String atAddress) {
+		return JH.op(original).append().appendSafe(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValueSafe(final Object value) {
+		return JH.op(original).append().appendValueSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final int atIndex) {
+		return JH.op(original).append().insert(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insert(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValue(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValue(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValueSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValueSafe(value, atIndex);
+	}
+
+}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="60" tokens="327">
+<file line="193" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsLink.java"/>
+<file line="217" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsNode.java"/>
+<codefragment>
+<![CDATA[
+		return JH.op(original).append().appendValue(value);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value) {
+		return JH.op(original).append().appendSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object appendSafe(final Object value, final String atAddress) {
+		return JH.op(original).append().appendSafe(value, atAddress);
+	}
+
+	@Export
+	@Override
+	public Object appendValueSafe(final Object value) {
+		return JH.op(original).append().appendValueSafe(value);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final int atIndex) {
+		return JH.op(original).append().insert(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insert(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insert(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValue(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValue(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertSafe(final Object value, final String atAddress,
+			final int atIndex) {
+		return JH.op(original).append().insertSafe(value, atAddress, atIndex);
+	}
+
+	@Export
+	@Override
+	public Object insertValueSafe(final Object value, final int atIndex) {
+		return JH.op(original).append().insertValueSafe(value, atIndex);
+	}
+
+}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="55" tokens="272">
+<file line="95" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsLinkList.java"/>
+<file line="71" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsListQuery.java"/>
+<file line="142" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsNodeList.java"/>
+<codefragment>
+<![CDATA[
+	public JsNodeList each(final JsClosure closure) {
+
+		final WrapperCollection wrappers = JH.jsFactory(list).getWrappers();
+		this.list.each(JH.wrapJsClosure(closure, wrappers));
+
+		return this;
+	}
+
+	@Export
+	@Override
+	public JsListQuery select(final JsLink propertyType) {
+		return JH.jsFactory(list).createListQuery(
+				list.select(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsListQuery selectAll(final JsLink propertyType) {
+		return JH.jsFactory(list).createListQuery(
+				list.selectAll(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsLinkListQuery selectAllLinks() {
+		return JH.jsFactory(list).createLinkListQuery(list.selectAllLinks());
+	}
+
+	@Export
+	@Override
+	public JsListQuery selectAll() {
+		return JH.jsFactory(list).createListQuery(list.selectAll());
+	}
+
+	@Export
+	@Override
+	public JsBooleanResult has(final Link propertyType) {
+		return JsBooleanResult.wrap(list.has(propertyType), list.getSession());
+	}
+
+	@Export
+	@Override
+	public JsListQuery setValue(final Object newValue) {
+		return JH.jsFactory(list).createListQuery(
+				list.setValue(JsOpCommon.getJavaValue(list, newValue)));
+	}
+
+	@Export
+	@Override
+	public JsListQuery setValueSafe(final Object newValue) {
+		return JH.jsFactory(list).createListQuery(
+				list.setValueSafe(JsOpCommon.getJavaValue(list, newValue)));
+	}
+
+}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="63" tokens="222">
+<file line="64" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\plugins\impl\P_Entity_Select.java"/>
+<file line="310" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\plugins\impl\P_Entity_Select.java"/>
+<codefragment>
+<![CDATA[
+												})
+										.in(H.client(entity))
+										.and(new WhenChildrenSelected<OneTypedReference<Object>>() {
+
+											@Override
+											public void thenDo(
+													final WithChildrenSelectedResult<OneTypedReference<Object>> sr) {
+
+												final List<Node> nodes = new ArrayList<Node>(
+														sr.children().size());
+
+												for (final OneTypedReference<?> child : sr
+														.children()) {
+
+													nodes.add(H
+															.factory(entity)
+															.createNode(
+																	H.session(entity),
+																	exceptionManager,
+																	child,
+																	result.getSecret()));
+
+												}
+
+												callback.onSuccess(H
+														.factory(entity)
+														.createNodeList(
+																H.session(entity),
+																exceptionManager,
+																nodes));
+											}
+
+											@Override
+											public void onUnauthorized(
+													final WithUnauthorizedContext context) {
+												callback.onUnauthorized(H
+														.fromUnauthorizedContext(
+																this, context));
+											}
+
+											@Override
+											public void onFailure(
+													final Throwable t) {
+												callback.onFailure(Fn
+														.exception(this, t));
+											}
+
+										});
+
+							}
+
+						}));
+
+			}
+
+		};
+
+		return H.factory(entity).createNodeListQuery(H.session(entity),
+				exceptionManager, selectAllResult);
+	}
+
+	@Override
+	public void injectObject(final OnedbEntity obj) {
+]]>
+</codefragment>
+</duplication>
+<duplication lines="57" tokens="218">
+<file line="196" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\OnedbLinkList.java"/>
+<file line="179" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\OnedbNodeList.java"/>
+<file line="111" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\OnedbNodeListQuery.java"/>
+<codefragment>
+<![CDATA[
+		result.get(callback);
+
+	}
+
+	/**
+	 * Plugins
+	 */
+
+	private final Plugin_EntityList_SetValue<EntityList> setValuePlugin() {
+		final PluginFactory<EntityList, Plugin_EntityList_SetValue<EntityList>> setValueForLists = H
+				.plugins(session).setValueForLists();
+		return plugin(setValueForLists);
+	}
+
+	private final Plugin_EntityList_Select<EntityList> selectPlugin() {
+		final PluginFactory<EntityList, Plugin_EntityList_Select<EntityList>> selectForLists = H
+				.plugins(session).selectForLists();
+		return plugin(selectForLists);
+	}
+
+	@Override
+	public ListQuery select(final Link propertyType) {
+		return selectPlugin().select(propertyType);
+	}
+
+	@Override
+	public ListQuery selectAll(final Link propertyType) {
+
+		return selectPlugin().selectAll(propertyType);
+	}
+
+	@Override
+	public LinkListQuery selectAllLinks() {
+		return selectPlugin().selectAllLinks();
+	}
+
+	@Override
+	public ListQuery selectAll() {
+		return selectPlugin().selectAll();
+	}
+
+	@Override
+	public BooleanResult has(final Link propertyType) {
+		return selectPlugin().has(propertyType);
+	}
+
+	@Override
+	public ListQuery setValue(final Object newValue) {
+		return setValuePlugin().setValue(newValue);
+	}
+
+	@Override
+	public ListQuery setValueSafe(final Object newValue) {
+		return setValuePlugin().setValueSafe(newValue);
+	}
+
+}
+]]>
+</codefragment>
+</duplication>
+<duplication lines="58" tokens="194">
+<file line="169" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\local\jre\OnedbLocal.java"/>
+<file line="165" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\local\js\OnedbLocal.java"/>
+<codefragment>
+<![CDATA[
+		server = NxServerSeed.newSeedHandlingConnection(new GwtConcurrency(),
+				handler, server);
+
+		final StoppableRemoteConnection serverClosed = server;
+
+		final StoppableRemoteConnection unblockedServer = server;
+		// ... so shutting down client will not shut down server
+		server = NxRemote.createBlockShutdownsConnection(serverConnection);
+
+		final RemoteConnectionDecorator localServerDecorator = new RemoteConnectionDecorator() {
+
+			@Override
+			public StoppableRemoteConnection decorate(
+					final StoppableRemoteConnection connection) {
+				return NxServer.forkConnection(connection, NxRemote
+						.ignorePullCachingConnection(NxRemote
+								.createBlockShutdownsConnection(serverClosed)),
+
+				new Predicate<RemoteMessage>() {
+
+					@Override
+					public boolean testElement(final RemoteMessage message) {
+
+						if (NxRemoteUtils.isNetworkMessage(message)) {
+							final RemoteNetworkMessage networkMessage = NxRemoteUtils
+									.asNetworkMessage(message);
+
+							return networkMessage
+									.getNode()
+									.getURI()
+									.startsWith(
+											"http://localhost:" + port + "/");
+						}
+
+						if (NxRemoteUtils.isRequestRealmMessage(message)) {
+
+							final RequestRealmMessage requestRealmMessage = NxRemoteUtils
+									.asRequestRealmMessage(message);
+							// System.out.println("Testing: "
+							// + requestRealmMessage.getRealmKind());
+							return requestRealmMessage.getRealmKind().equals(
+									"local");
+
+						}
+
+						if (NxRemoteUtils.isRequestSeedMessage(message)) {
+							final SeedMessage seedMessage = NxRemoteUtils
+									.asRequestSeedMessage(message);
+
+							return seedMessage.getSeedType().equals("local");
+						}
+
+						return false;
+
+					}
+				});
+			}
+		};
+]]>
+</codefragment>
+</duplication>
+<duplication lines="34" tokens="146">
+<file line="135" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\local\jre\OnedbLocal.java"/>
+<file line="132" path="M:\Git\nextweb-core\src\main\java\com\ononedb\nextweb\local\js\OnedbLocal.java"/>
+<codefragment>
+<![CDATA[
+		server = NxRemote.pullCachingConnection(200, serverConnection);
+
+		final SeedHandler handler = new SeedHandler() {
+
+			private volatile int counter;
+
+			@Override
+			public void stop(final ShutdownCallback callback) {
+				callback.onShutdownComplete();
+			}
+
+			@Override
+			public void persistCounterValue(
+					final WhenCounterValuePersisted callback) {
+				callback.onSuccess();
+			}
+
+			@Override
+			public void handle(final SeedCallback callback) {
+				counter++;
+				final String seedNodeUri = "http://localhost:" + port
+						+ "/seeds/s" + counter;
+				final Object seedNode = Nodes.define("s" + counter).at(
+						seedNodeUri);
+
+				Nx.put(seedNode).in(serverNetwork);
+				final String secret = NxAuth.newRandomToken();
+				Nx.append(NxAuth.readWriteToken(secret)).to(seedNode)
+						.in(serverNetwork);
+
+				callback.onSuccess(seedNodeUri, secret);
+			}
+		};
+		server = NxServerSeed.newSeedHandlingConnection(new GwtConcurrency(),
+]]>
+</codefragment>
+</duplication>
+<duplication lines="30" tokens="126">
+<file line="173" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsNode.java"/>
+<file line="114" path="M:\Git\nextweb-core\src\main\java\io\nextweb\js\JsQuery.java"/>
+<codefragment>
+<![CDATA[
+	}
+
+	@Export
+	@Override
+	public JsLinkListQuery selectAllLinks() {
+		return JH.jsFactory(original).createLinkListQuery(
+				original.selectAllLinks());
+	}
+
+	@Export
+	@Override
+	public JsListQuery selectAll(final JsLink propertyType) {
+		return JH.jsFactory(original).createListQuery(
+				original.selectAll(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsQuery select(final JsLink propertyType) {
+		return JH.jsFactory(original).createQuery(
+				original.select(propertyType.getOriginal()));
+	}
+
+	@Export
+	@Override
+	public JsListQuery selectAll() {
+		return JH.jsFactory(original).createListQuery(original.selectAll());
+	}
+
+	@Export
+]]>
+</codefragment>
+</duplication>
+<duplication lines="25" tokens="103">
+<file line="19" path="M:\Git\nextweb-core\src\main\java\io\nextweb\fn\IntegerResult.java"/>
+<file line="54" path="M:\Git\nextweb-core\src\main\java\io\nextweb\fn\IntegerResult.java"/>
+<codefragment>
+<![CDATA[
+	public IntegerResult minus(final IntegerResult otherResult) {
+		return new IntegerResult(exceptionManager, session,
+				new AsyncResult<Integer>() {
+
+					@Override
+					public void get(final Callback<Integer> callback) {
+
+						result.get(CallbackFactory.embeddedCallback(
+								exceptionManager, callback,
+								new Closure<Integer>() {
+
+									@Override
+									public void apply(
+											final Integer thisResultValue) {
+
+										otherResult.get(CallbackFactory
+												.embeddedCallback(
+														exceptionManager,
+														callback,
+														new Closure<Integer>() {
+
+															@Override
+															public void apply(
+																	final Integer otherResultValue) {
+																callback.onSuccess(thisResultValue
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>
