@@ -311,7 +311,7 @@
 				<version>3.1</version>
 				<configuration>
 					<skipDeploy>true</skipDeploy>
-					
+
 					<reportPlugins>
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
@@ -386,7 +386,10 @@
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
-				<version>0.5</version>
+				<version>0.6</version>
+				<configuration>
+					<message>Building site for ${project.version}</message>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -479,6 +482,24 @@
 		</pluginRepository>
 
 	</pluginRepositories>
+
+
+	<developers>
+		<developer>
+			<id>mxro</id>
+			<name>Max Rohde</name>
+			<email>noemail@mxro.de</email>
+			<url>http://www.mxro.de/</url>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+12</timezone>
+			<!-- <properties>
+				<picUrl>http://tinyurl.com/prv4t</picUrl>
+			</properties> -->
+		</developer>
+	</developers>
 
 	<scm>
 		<connection>scm:git:git@github.com:mxro/nextweb-core.git</connection>
