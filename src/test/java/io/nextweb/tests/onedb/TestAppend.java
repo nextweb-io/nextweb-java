@@ -12,12 +12,12 @@ import io.nextweb.fn.Success;
 
 import org.junit.Test;
 
-import com.ononedb.nextweb.jre.Onedb;
+import com.ononedb.nextweb.jre.OnedbNextwebEngineJre;
 
 public class TestAppend {
 
 	public Session getSession() {
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 

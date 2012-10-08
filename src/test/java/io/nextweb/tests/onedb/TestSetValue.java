@@ -8,12 +8,12 @@ import io.nextweb.fn.Closure;
 
 import org.junit.Test;
 
-import com.ononedb.nextweb.jre.Onedb;
+import com.ononedb.nextweb.jre.OnedbNextwebEngineJre;
 
 public class TestSetValue {
 
 	public Session getSession() {
-		NextwebEngine engine = Onedb.init();
+		NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		Session session = engine.createSession();
 

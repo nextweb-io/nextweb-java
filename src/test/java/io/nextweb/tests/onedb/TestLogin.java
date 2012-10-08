@@ -8,12 +8,12 @@ import io.nextweb.engine.NextwebEngine;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.ononedb.nextweb.jre.Onedb;
+import com.ononedb.nextweb.jre.OnedbNextwebEngineJre;
 
 public class TestLogin {
 
 	public Session createSession() {
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 

@@ -1,8 +1,5 @@
 package io.nextweb.engine;
 
-import io.nextweb.Session;
-import io.nextweb.common.LocalServer;
-
 public class NextwebGlobal {
 
 	private static NextwebEngine definedEngine;
@@ -12,15 +9,15 @@ public class NextwebGlobal {
 	}
 
 	private static NextwebEngine assertEngine() {
+		if (definedEngine == null) {
+			throw new IllegalStateException(
+					"Please initialize at least one Nextweb engine first.");
+		}
 		return definedEngine;
 	}
 
-	public static Session createSession() {
-		return assertEngine().createSession();
-	}
-
-	public static LocalServer startServer(final int port) {
-		return assertEngine().startServer(port);
+	public static boolean isEngineInitialized() {
+		return definedEngine != null;
 	}
 
 	public static NextwebEngine getEngine() {

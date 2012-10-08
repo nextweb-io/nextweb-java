@@ -13,7 +13,7 @@ import io.nextweb.plugins.PluginFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.ononedb.nextweb.jre.Onedb;
+import com.ononedb.nextweb.jre.OnedbNextwebEngineJre;
 import com.ononedb.nextweb.plugins.Plugin_Entity_Select;
 import com.ononedb.nextweb.plugins.impl.P_Entity_Select_Factory;
 
@@ -22,7 +22,7 @@ public class TestSelect {
 	@Test
 	public void testSelect() {
 
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 
@@ -46,7 +46,7 @@ public class TestSelect {
 	@Test
 	public void testParallelSelect() {
 
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 
@@ -77,7 +77,7 @@ public class TestSelect {
 
 	@Test
 	public void testSelectPlugin() {
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 
@@ -103,7 +103,7 @@ public class TestSelect {
 
 	@Test
 	public void testSelectAll() {
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 
@@ -128,7 +128,7 @@ public class TestSelect {
 
 	@Test
 	public void testSelectNested() {
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 
@@ -152,7 +152,7 @@ public class TestSelect {
 
 	@Test
 	public void testHas() {
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 

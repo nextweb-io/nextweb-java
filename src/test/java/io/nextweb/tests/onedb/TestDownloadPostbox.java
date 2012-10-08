@@ -6,12 +6,12 @@ import io.nextweb.engine.NextwebEngine;
 
 import org.junit.Test;
 
-import com.ononedb.nextweb.jre.Onedb;
+import com.ononedb.nextweb.jre.OnedbNextwebEngineJre;
 
 public class TestDownloadPostbox {
 
 	public Session getSession() {
-		final NextwebEngine engine = Onedb.init();
+		final NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		final Session session = engine.createSession();
 

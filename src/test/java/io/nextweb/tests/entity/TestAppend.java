@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ononedb.nextweb.local.OnedbLocalServer;
-import com.ononedb.nextweb.local.jre.OnedbStartServerJre;
+import com.ononedb.nextweb.local.jre.OnedbStartServerCapabilityJre;
 
 /**
  * In this test case a new seed node is requested and a node with the text
@@ -49,7 +49,7 @@ public class TestAppend {
 
 	@Before
 	public void setUp() {
-		localDb = OnedbStartServerJre.newInstance(21332);
+		localDb = OnedbStartServerCapabilityJre.newInstance(21332);
 		session = localDb.createSession();
 		session2 = localDb.createSession();
 

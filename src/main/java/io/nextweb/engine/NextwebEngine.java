@@ -19,6 +19,8 @@ public interface NextwebEngine extends StartServerCapability {
 
 	public DefaultPluginFactory plugin();
 
+	public boolean hasStartServerCapability();
+
 	/**
 	 * Install the selected capability for this engine.
 	 * 

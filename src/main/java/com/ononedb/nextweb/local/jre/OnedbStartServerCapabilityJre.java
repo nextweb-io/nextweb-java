@@ -43,15 +43,15 @@ import one.utils.jre.OneUtilsJre;
 import one.utils.server.ShutdownCallback;
 
 import com.ononedb.nextweb.OnedbNextwebEngine;
-import com.ononedb.nextweb.jre.Onedb;
+import com.ononedb.nextweb.jre.OnedbNextwebEngineJre;
 import com.ononedb.nextweb.local.OnedbLocalServer;
 
-public class OnedbStartServerJre implements StartServerCapability {
+public class OnedbStartServerCapabilityJre implements StartServerCapability {
 
 	@Override
 	public LocalServer startServer(final int port) {
 
-		final Onedb engine = Onedb.assertInitialized();
+		final OnedbNextwebEngineJre engine = OnedbNextwebEngineJre.assertInitialized();
 
 		StoppableRemoteConnection server;
 

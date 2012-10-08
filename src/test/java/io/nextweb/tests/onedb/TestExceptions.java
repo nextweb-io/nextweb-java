@@ -14,12 +14,12 @@ import io.nextweb.operations.exceptions.UndefinedResult;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.ononedb.nextweb.jre.Onedb;
+import com.ononedb.nextweb.jre.OnedbNextwebEngineJre;
 
 public class TestExceptions {
 
 	public Session getSession() {
-		NextwebEngine engine = Onedb.init();
+		NextwebEngine engine = OnedbNextwebEngineJre.init();
 
 		Session session = engine.createSession();
 
