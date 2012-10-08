@@ -8,8 +8,6 @@ import org.timepedia.exporter.client.Export;
 import org.timepedia.exporter.client.Exportable;
 import org.timepedia.exporter.client.NoExport;
 
-import com.ononedb.nextweb.local.OnedbLocalServer;
-
 @Export
 public class JsLocalServer implements Exportable {
 
@@ -27,12 +25,12 @@ public class JsLocalServer implements Exportable {
 	}
 
 	@NoExport
-	public void setOriginal(final OnedbLocalServer original) {
+	public void setOriginal(final LocalServer original) {
 		this.original = original;
 	}
 
 	@NoExport
-	public static JsLocalServer wrap(final OnedbLocalServer node) {
+	public static JsLocalServer wrap(final LocalServer node) {
 		final JsLocalServer jsNode = new JsLocalServer();
 
 		jsNode.setOriginal(node);

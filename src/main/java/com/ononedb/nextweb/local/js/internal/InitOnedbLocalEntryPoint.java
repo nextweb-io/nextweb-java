@@ -10,9 +10,12 @@ public class InitOnedbLocalEntryPoint {
 
 	public void onModuleLoad() {
 		ExporterUtil.exportAll();
-		OnedbNextwebJsEngineImpl.init();
+		final OnedbNextwebJsEngineImpl engineImpl = OnedbNextwebJsEngineImpl
+				.init();
 
 		GWT.create(OnedbLocal.class);
+
+		OnedbLocal.injectStartServerCapability(engineImpl);
 
 		onLoadImpl();
 
