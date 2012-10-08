@@ -4,25 +4,23 @@ import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.LocalServer;
 import io.nextweb.engine.NextwebEngine;
+import io.nextweb.jre.Nextweb;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.ononedb.nextweb.jre.OnedbNextwebEngineJre;
-import com.ononedb.nextweb.local.OnedbLocalServer;
-import com.ononedb.nextweb.local.jre.OnedbStartServerCapabilityJre;
 
 public class TestLocalJre {
 
 	@Test
 	public void testLocalSeed() {
 
-		final NextwebEngine engine = OnedbNextwebEngineJre.init();
+		final NextwebEngine engine = Nextweb.getEngine();
 
 		final Session session = engine.createSession();
 
-		OnedbStartServerCapabilityJre.newInstance(10021);
+		Nextweb.startServer(10021);
 
 		final Node root = session.seed("local").get();
 
@@ -43,11 +41,11 @@ public class TestLocalJre {
 	@Test
 	public void testLocalSeed2() {
 
-		final NextwebEngine engine = OnedbNextwebEngineJre.init();
+		final NextwebEngine engine = Nextweb.getEngine();
 
 		final Session session = engine.createSession();
 
-		OnedbStartServerCapabilityJre.newInstance(10022);
+		Nextweb.startServer(10022);
 
 		final Node root = session.seed("local").get();
 
@@ -62,9 +60,9 @@ public class TestLocalJre {
 
 	@Test
 	public void testLocalCreateRealm() {
-		final NextwebEngine engine = OnedbNextwebEngineJre.init();
+		final NextwebEngine engine = Nextweb.getEngine();
 
-		final OnedbLocalServer localServer = OnedbStartServerCapabilityJre.newInstance(10023);
+		final LocalServer localServer = Nextweb.startServer(10023);
 
 		final Session session = engine.createSession();
 

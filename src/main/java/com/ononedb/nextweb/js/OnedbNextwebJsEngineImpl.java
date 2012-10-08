@@ -1,6 +1,9 @@
 package com.ononedb.nextweb.js;
 
 import io.nextweb.Session;
+import io.nextweb.common.LocalServer;
+import io.nextweb.engine.Capability;
+import io.nextweb.engine.StartServerCapability;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
@@ -28,6 +31,7 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 	private CoreDsl dsl;
 	private final ExceptionManager exceptionManager;
 	private final JsFactory jsFactory;
+	private StartServerCapability startServerCapability;
 
 	public static OnedbNextwebJsEngineImpl init() {
 		final OnedbNextwebJsEngineImpl engine = new OnedbNextwebJsEngineImpl();
@@ -129,6 +133,32 @@ public class OnedbNextwebJsEngineImpl implements OnedbNextwebEngineJs {
 	@Override
 	public void runSafe(final Session forSession, final Runnable task) {
 		task.run(); // no multi-threading in JS assured.
+	}
+
+	@Override
+	public boolean hasStartServerCapability() {
+		return startServerCapability != null;
+	}
+
+	@Override
+	public void injectCapability(final Capability capability) {
+		if (capability instanceof StartServerCapability) {
+			startServerCapability = (StartServerCapability) capability;
+		}
+
+		throw new IllegalArgumentException(
+				"This engine cannot recognize the capability: ["
+						+ capability.getClass() + "]");
+	}
+
+	@Override
+	public LocalServer startServer(final int port) {
+		if (startServerCapability == null) {
+			throw new IllegalStateException(
+					"Please inject a StartServerCapability first.");
+		}
+
+		return startServerCapability.startServer(port);
 	}
 
 }

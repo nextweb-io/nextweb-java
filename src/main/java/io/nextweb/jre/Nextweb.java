@@ -1,5 +1,6 @@
 package io.nextweb.jre;
 
+import io.nextweb.Session;
 import io.nextweb.common.LocalServer;
 import io.nextweb.engine.Capability;
 import io.nextweb.engine.NextwebEngine;
@@ -13,12 +14,10 @@ public class Nextweb {
 		}
 
 		// if not engine is initialized, try to fall back to reference engine
-		// implementation
+		// implementations
 
 		try {
-			final Class<?> referenceEngine = Class
-					.forName("com.ononedb.nextweb.jre.OnedbNextwebEngineJre");
-
+			final Class<?> referenceEngine = scanClasspath(knownEngineImplementations);
 			NextwebGlobal.injectEngine((NextwebEngine) referenceEngine
 					.newInstance());
 		} catch (final Throwable e) {
@@ -37,9 +36,8 @@ public class Nextweb {
 			}
 
 			// if no capability is initialized, try to fall back to reference
-			// capability
-			final Class<?> referenceCapability = Class
-					.forName("com.ononedb.nextweb.local.jre.OnedbStartServerCapabilityJre");
+			// capabilities
+			final Class<?> referenceCapability = scanClasspath(knownStartServerCapabilityImplementations);
 
 			NextwebGlobal.getEngine().injectCapability(
 					(Capability) referenceCapability.newInstance());
@@ -56,8 +54,39 @@ public class Nextweb {
 		return NextwebGlobal.getEngine().startServer(port);
 	}
 
+	public static Session createSession() {
+		assertEngine();
+
+		return NextwebGlobal.getEngine().createSession();
+	}
+
+	public static NextwebEngine getEngine() {
+		assertEngine();
+
+		return NextwebGlobal.getEngine();
+	}
+
 	public static void main(final String[] args) {
 		System.out.println("Please see http://nextweb.io/ for more infos.");
+	}
+
+	public static String[] knownEngineImplementations = new String[] { "com.ononedb.nextweb.jre.OnedbNextwebEngineJre" };
+
+	public static String[] knownStartServerCapabilityImplementations = new String[] { "com.ononedb.nextweb.local.jre.OnedbStartServerCapabilityJre" };
+
+	public static Class<?> scanClasspath(final String[] knownImplementations) {
+
+		for (final String className : knownImplementations) {
+			try {
+				final Class<?> referenceEngine = Class.forName(className);
+				return referenceEngine;
+			} catch (final ClassNotFoundException e) {
+				// nothing
+			}
+		}
+
+		throw new RuntimeException(new ClassNotFoundException(
+				"Cannot find any known Nextweb implementation on classpath."));
 	}
 
 }

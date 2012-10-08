@@ -4,14 +4,13 @@ import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.LocalServer;
+import io.nextweb.jre.Nextweb;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.ononedb.nextweb.local.OnedbLocalServer;
-import com.ononedb.nextweb.local.jre.OnedbStartServerCapabilityJre;
 
 /**
  * In this test case a new seed node is requested and a node with the text
@@ -22,7 +21,7 @@ import com.ononedb.nextweb.local.jre.OnedbStartServerCapabilityJre;
  */
 public class TestAppend {
 
-	OnedbLocalServer localDb;
+	LocalServer localDb;
 	/**
 	 * Session to perform operation.
 	 */
@@ -49,9 +48,9 @@ public class TestAppend {
 
 	@Before
 	public void setUp() {
-		localDb = OnedbStartServerCapabilityJre.newInstance(21332);
-		session = localDb.createSession();
-		session2 = localDb.createSession();
+		localDb = Nextweb.startServer(21332);
+		session = Nextweb.createSession();
+		session2 = Nextweb.createSession();
 
 		query = session.seed("local");
 		node = query.get();
