@@ -100,6 +100,7 @@
 		</dependency>
 
 
+
 	</dependencies>
 
 
@@ -303,6 +304,103 @@
 				</executions>
 			</plugin>
 
+			<!-- FOR DOCUMENTATION -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<skipDeploy>true</skipDeploy>
+					
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.2</version>
+							<reports>
+								<report>index</report>
+								<report>project-team</report>
+								<report>license</report>
+								<report>mailing-list</report>
+								<report>dependencies</report>
+								<report>dependency-convergence</report>
+								<report>plugin-management</report>
+								<report>cim</report>
+								<report>issue-tracking</report>
+								<report>scm</report>
+								<report>summary</report>
+							</reports>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-report-plugin</artifactId>
+							<version>2.6</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-javadoc-plugin</artifactId>
+							<version>2.7</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-checkstyle-plugin</artifactId>
+							<version>2.6</version>
+
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>jdepend-maven-plugin</artifactId>
+							<version>2.0-beta-2</version>
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>cobertura-maven-plugin</artifactId>
+							<version>2.4</version>
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>taglist-maven-plugin</artifactId>
+							<version>2.4</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-jxr-plugin</artifactId>
+							<version>2.1</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-pmd-plugin</artifactId>
+							<version>2.5</version>
+							<configuration>
+								<linkXref>true</linkXref>
+								<minimumTokens>100</minimumTokens>
+								<minimumPriority>3</minimumPriority>
+								<!-- Change minimum priority to see more or less messages -->
+								<targetJdk>1.6</targetJdk>
+							</configuration>
+						</plugin>
+					</reportPlugins>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>site-deploy</phase>
+						<configuration>
+							<path>${project.version}</path>
+							<merge>true</merge>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 
 		<!-- RESOURCES -->
@@ -382,43 +480,13 @@
 
 	</pluginRepositories>
 
+	<scm>
+		<connection>scm:git:git@github.com:mxro/nextweb-core.git</connection>
+		<url>https://github.com/mxro/nextweb-core</url>
+		<developerConnection>scm:git:git@github.com:mxro/nextweb-core.git
+		</developerConnection>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<show>private</show>
-					<nohelp>true</nohelp>
-					<links>
-						<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-					</links>
-				</configuration>
-			</plugin>
+	</scm>
 
-			<!-- for rendering UML graphs into the JavaDoc -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
 
-					<!-- <docletPath>/path/to/UmlGraph.jar</docletPath> -->
-					<docletArtifact>
-						<groupId>org.umlgraph</groupId>
-						<artifactId>doclet</artifactId>
-						<version>5.1</version>
-					</docletArtifact>
-					<additionalparam>-views</additionalparam>
-					<useStandardDocletOptions>true</useStandardDocletOptions>
-				</configuration>
-			</plugin>
-		</plugins>
-
-		
-
-	</reporting>
 </project>
