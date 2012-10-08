@@ -1,7 +1,7 @@
 package io.nextweb.operations.callbacks;
 
-import io.nextweb.Nextweb;
 import io.nextweb.Session;
+import io.nextweb.engine.NextwebGlobal;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
 import io.nextweb.fn.Fn;
@@ -71,7 +71,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onFailure(r);
+		NextwebGlobal.getEngine().getExceptionManager().onFailure(r);
 
 	}
 
@@ -100,7 +100,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onUnauthorized(r);
+		NextwebGlobal.getEngine().getExceptionManager().onUnauthorized(r);
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onImpossible(ir);
+		NextwebGlobal.getEngine().getExceptionManager().onImpossible(ir);
 
 	}
 
@@ -160,7 +160,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onUndefined(r);
+		NextwebGlobal.getEngine().getExceptionManager().onUndefined(r);
 	}
 
 	@Override

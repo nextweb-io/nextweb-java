@@ -1,6 +1,6 @@
 package io.nextweb.operations.exceptions;
 
-import io.nextweb.Nextweb;
+import io.nextweb.engine.NextwebGlobal;
 import io.nextweb.fn.ExceptionInterceptor;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
@@ -80,7 +80,7 @@ public class ExceptionManager implements
 			}
 		}
 
-		Nextweb.getEngine().getExceptionManager().onFailure(r);
+		NextwebGlobal.getEngine().getExceptionManager().onFailure(r);
 	}
 
 	@Override

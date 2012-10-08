@@ -1,9 +1,9 @@
-package io.nextweb;
+package io.nextweb.engine;
 
+import io.nextweb.Session;
 import io.nextweb.common.LocalServer;
-import io.nextweb.engine.NextwebEngine;
 
-public class Nextweb {
+public class NextwebGlobal {
 
 	private static NextwebEngine definedEngine;
 
@@ -25,10 +25,6 @@ public class Nextweb {
 
 	public static NextwebEngine getEngine() {
 		return assertEngine();
-	}
-
-	public static void main(final String[] args) {
-		System.out.println("Please see http://nextweb.io/ for more infos.");
 	}
 
 }

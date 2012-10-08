@@ -1,7 +1,7 @@
 package io.nextweb.operations.callbacks;
 
-import io.nextweb.Nextweb;
 import io.nextweb.Session;
+import io.nextweb.engine.NextwebGlobal;
 import io.nextweb.fn.ExceptionResult;
 import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.operations.exceptions.ImpossibleResult;
@@ -33,7 +33,7 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onFailure(r);
+		NextwebGlobal.getEngine().getExceptionManager().onFailure(r);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onUnauthorized(r);
+		NextwebGlobal.getEngine().getExceptionManager().onUnauthorized(r);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onImpossible(ir);
+		NextwebGlobal.getEngine().getExceptionManager().onImpossible(ir);
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 			return;
 		}
 
-		Nextweb.getEngine().getExceptionManager().onUndefined(r);
+		NextwebGlobal.getEngine().getExceptionManager().onUndefined(r);
 	}
 
 	@Override

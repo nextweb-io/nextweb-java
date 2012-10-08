@@ -1,5 +1,6 @@
-package com.ononedb.nextweb.local.js;
+package io.nextweb.js.common;
 
+import io.nextweb.common.LocalServer;
 import io.nextweb.js.NextwebJs;
 import io.nextweb.js.fn.JsResult;
 
@@ -10,9 +11,9 @@ import org.timepedia.exporter.client.NoExport;
 import com.ononedb.nextweb.local.OnedbLocalServer;
 
 @Export
-public class OnedbLocalServerJs implements Exportable {
+public class JsLocalServer implements Exportable {
 
-	OnedbLocalServer original;
+	LocalServer original;
 
 	@Export
 	public JsResult shutdown() {
@@ -21,7 +22,7 @@ public class OnedbLocalServerJs implements Exportable {
 	}
 
 	@NoExport
-	public OnedbLocalServer getOriginal() {
+	public LocalServer getOriginal() {
 		return original;
 	}
 
@@ -31,15 +32,15 @@ public class OnedbLocalServerJs implements Exportable {
 	}
 
 	@NoExport
-	public static OnedbLocalServerJs wrap(final OnedbLocalServer node) {
-		final OnedbLocalServerJs jsNode = new OnedbLocalServerJs();
+	public static JsLocalServer wrap(final OnedbLocalServer node) {
+		final JsLocalServer jsNode = new JsLocalServer();
 
 		jsNode.setOriginal(node);
 
 		return jsNode;
 	}
 
-	public OnedbLocalServerJs() {
+	public JsLocalServer() {
 		super();
 
 	}

@@ -6,6 +6,7 @@ import io.nextweb.fn.Closure;
 import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.Success;
+import io.nextweb.js.common.JsLocalServer;
 import io.nextweb.operations.callbacks.Callback;
 import nx.auth.NxAuth;
 import nx.client.gwt.GwtConcurrency;
@@ -43,7 +44,7 @@ import com.ononedb.nextweb.local.OnedbLocalServer;
 public class OnedbLocal implements Exportable {
 
 	@Export
-	public static OnedbLocalServerJs init(final int port) {
+	public static JsLocalServer init(final int port) {
 
 		StoppableRemoteConnection server;
 
@@ -222,7 +223,7 @@ public class OnedbLocal implements Exportable {
 		};
 		OneGwt.getSettings().addConnectionDecorator(localServerDecorator);
 
-		return OnedbLocalServerJs.wrap(new OnedbLocalServer() {
+		return JsLocalServer.wrap(new OnedbLocalServer() {
 
 			@Override
 			public Result<Success> shutdown() {

@@ -1,7 +1,7 @@
 package com.ononedb.nextweb.jre;
 
-import io.nextweb.Nextweb;
 import io.nextweb.Session;
+import io.nextweb.engine.NextwebGlobal;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.ExceptionListener;
 import io.nextweb.fn.ExceptionResult;
@@ -24,16 +24,16 @@ public class Onedb implements OnedbNextwebEngine {
 
 	public static Onedb init() {
 		final Onedb engine = new Onedb();
-		Nextweb.injectEngine(engine);
+		NextwebGlobal.injectEngine(engine);
 		return engine;
 	}
 
 	public static Onedb assertInitialized() {
-		if (Nextweb.getEngine() == null
-				|| (!(Nextweb.getEngine() instanceof Onedb))) {
+		if (NextwebGlobal.getEngine() == null
+				|| (!(NextwebGlobal.getEngine() instanceof Onedb))) {
 			return init();
 		}
-		return (Onedb) Nextweb.getEngine();
+		return (Onedb) NextwebGlobal.getEngine();
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package com.ononedb.nextweb.local.jre;
 
 import io.nextweb.Session;
+import io.nextweb.common.LocalServer;
+import io.nextweb.engine.StartServerCapability;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Fn;
 import io.nextweb.fn.Result;
@@ -44,9 +46,10 @@ import com.ononedb.nextweb.OnedbNextwebEngine;
 import com.ononedb.nextweb.jre.Onedb;
 import com.ononedb.nextweb.local.OnedbLocalServer;
 
-public class OnedbLocal {
+public class OnedbStartServerJre implements StartServerCapability {
 
-	public static OnedbLocalServer newInstance(final int port) {
+	@Override
+	public LocalServer startServer(final int port) {
 
 		final Onedb engine = Onedb.assertInitialized();
 
