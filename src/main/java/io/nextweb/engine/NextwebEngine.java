@@ -5,8 +5,6 @@ import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.ExceptionManager;
 
-import com.ononedb.nextweb.plugins.DefaultPluginFactory;
-
 public interface NextwebEngine extends StartServerCapability {
 
 	public Session createSession();
@@ -17,7 +15,7 @@ public interface NextwebEngine extends StartServerCapability {
 
 	public ExceptionManager getExceptionManager();
 
-	public DefaultPluginFactory plugin();
+	// public DefaultPluginFactory plugin();
 
 	public boolean hasStartServerCapability();
 
