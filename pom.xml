@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<groupId>io.nextweb.core</groupId>
-	<artifactId>NextwebCore</artifactId>
+	<artifactId>nextweb-java</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
 	<description>Core module for Nextweb API.</description>
+	<url>http://nextweb.io</url>
 	<properties>
 
 		<gwtVersion>2.4.0</gwtVersion>
