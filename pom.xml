@@ -17,7 +17,7 @@
 			nx.remote.messages,
 			*
 		</module.importedPackages>
-		<module.exportedPackages>com.ononedb*, io.nextweb*
+		<module.exportedPackages>io.nextweb*
 		</module.exportedPackages>
 		<module.serviceDefinitions>
 		</module.serviceDefinitions>
@@ -25,58 +25,6 @@
 
 	<!-- Dependent Modules -->
 	<dependencies>
-
-
-		<!-- Maven bug that this module is sometimes not included in dependencies 
-			... -->
-		<dependency>
-			<groupId>de.linnk.nx.versions</groupId>
-			<artifactId>nxVersions</artifactId>
-			<version>[0.0.1,)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>nx.servergwt</groupId>
-			<artifactId>nxServerGwt</artifactId>
-			<version>[0.0.1,)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>one.client.gwt</groupId>
-			<artifactId>oneClientGwt</artifactId>
-			<version>[0.0.1,)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>one.renderer</groupId>
-			<artifactId>oneRenderer</artifactId>
-			<version>[0.0.1,)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>de.mxro.thrd.gwtexporter24</groupId>
-			<artifactId>thrdGwtExporter24</artifactId>
-			<version>[0.0.1,)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>one.client.jre</groupId>
-			<artifactId>oneClientJre</artifactId>
-			<version>[0.0.1,)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>nx.server.seed</groupId>
-			<artifactId>nxServerSeed</artifactId>
-			<version>[0.0.1,)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>nx.server.realm</groupId>
-			<artifactId>nxServerRealm</artifactId>
-			<version>[0.0.1,)</version>
-		</dependency>
-
 
 		<!-- only for gwt maven plugin!!! -->
 		<dependency>
