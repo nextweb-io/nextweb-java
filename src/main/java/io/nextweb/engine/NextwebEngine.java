@@ -15,8 +15,6 @@ public interface NextwebEngine extends StartServerCapability {
 
 	public ExceptionManager getExceptionManager();
 
-	// public DefaultPluginFactory plugin();
-
 	public boolean hasStartServerCapability();
 
 	/**
