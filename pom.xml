@@ -8,7 +8,7 @@
 	<properties>
 
 		<gwtVersion>2.4.0</gwtVersion>
-		<module.draftCompile>false</module.draftCompile>
+		<module.draftCompile>true</module.draftCompile>
 		<module.importedPackages>
 			org.junit,
 			de.mxro.thrd.hamcrest,
@@ -158,7 +158,8 @@
 					<runTarget>onedbtest.html</runTarget>
 					<draftCompile>${module.draftCompile}</draftCompile>
 					<logLevel>INFO</logLevel>
-
+					<validateOnly>true</validateOnly>
+					
 					<gwtVersion>${gwtVersion}</gwtVersion>
 
 					<hostedWebapp>${basedir}/src/main/webapp</hostedWebapp>
