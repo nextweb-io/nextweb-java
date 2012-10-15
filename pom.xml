@@ -2,7 +2,7 @@
 <project>
 	<groupId>io.nextweb.core</groupId>
 	<artifactId>nextweb-java</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<description>Core module for Nextweb API.</description>
 	<url>http://nextweb.io</url>
 	<properties>
@@ -461,9 +461,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git@github.com:mxro/nextweb-core.git</connection>
-		<url>https://github.com/mxro/nextweb-core</url>
-		<developerConnection>scm:git:git@github.com:mxro/nextweb-core.git
+		<connection>scm:git:git@github.com:nextweb-io/nextweb-core.git</connection>
+		<url>https://github.com/nextweb-io/nextweb-core</url>
+		<developerConnection>scm:git:git@github.com:nextweb-io/nextweb-core.git
 		</developerConnection>
 	</scm>
 
