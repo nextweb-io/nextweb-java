@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./NextwebGlobal.html" title="io.nextweb.engine.NextwebGlobal" alt="" coords="15,19,123,45"/>
+<area shape="rect" id="node2_1" href="./Capability.html" title="io.nextweb.engine.Capability" alt="" coords="169,11,253,53"/>
+<area shape="rect" id="node3_2" href="./StartServerCapability.html" title="io.nextweb.engine.StartServerCapability" alt="" coords="140,113,281,154"/>
+<area shape="rect" id="node4_3" href="./NextwebEngine.html" title="io.nextweb.engine.NextwebEngine" alt="" coords="155,214,266,255"/>
+</map>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.5" timestamp="2012-10-16T12:57:56.804">
+<file name="M:\Git\nextweb-java\src\main\java\io\nextweb\jre\Nextweb.java">
+<violation beginline="83" endline="85" begincolumn="27" endcolumn="25" rule="EmptyCatchBlock" ruleset="Basic Rules" package="io.nextweb.jre" class="Nextweb" method="scanClasspath" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="M:\Git\nextweb-java\src\main\java\io\nextweb\operations\exceptions\ExceptionManager.java">
+<violation beginline="77" endline="80" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="io.nextweb.operations.exceptions" class="ExceptionManager" method="onFailure" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="102" endline="105" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="io.nextweb.operations.exceptions" class="ExceptionManager" method="onUnauthorized" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="129" endline="132" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="io.nextweb.operations.exceptions" class="ExceptionManager" method="onImpossible" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+<violation beginline="169" endline="172" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="io.nextweb.operations.exceptions" class="ExceptionManager" method="onUndefined" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
+These nested if statements could be combined
+</violation>
+</file>
+</pmd>

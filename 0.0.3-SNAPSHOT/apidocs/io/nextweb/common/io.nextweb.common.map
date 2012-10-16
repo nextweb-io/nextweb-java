@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./NextwebUtils.html" title="io.nextweb.common.NextwebUtils" alt="" coords="15,19,113,45"/>
+<area shape="rect" id="node2_1" href="./LocalServer.html" title="io.nextweb.common.LocalServer" alt="" coords="159,11,247,53"/>
+<area shape="rect" id="node3_2" href="./User.html" title="io.nextweb.common.User" alt="" coords="293,11,377,53"/>
+<area shape="rect" id="node4_3" href="./LoginResult.html" title="io.nextweb.common.LoginResult" alt="" coords="422,11,511,53"/>
+<area shape="rect" id="node5_4" href="./Postbox.html" title="io.nextweb.common.Postbox" alt="" coords="557,11,641,53"/>
+<area shape="rect" id="node6_5" href="./Monitor.html" title="io.nextweb.common.Monitor" alt="" coords="686,11,770,53"/>
+<area shape="rect" id="node7_6" href="./Interval.html" title="io.nextweb.common.Interval" alt="" coords="815,11,921,53"/>
+</map>

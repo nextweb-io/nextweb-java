@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./EntityRequestOperations.html" title="io.nextweb.operations.entity.EntityRequestOperations" alt="" coords="15,11,347,53"/>
+<area shape="rect" id="node2_1" href="./EntitySetValueOperations.html" title="io.nextweb.operations.entity.EntitySetValueOperations" alt="" coords="393,11,564,53"/>
+<area shape="rect" id="node3_2" href="./EntityAppendOperations.html" title="io.nextweb.operations.entity.EntityAppendOperations" alt="" coords="610,11,771,53"/>
+<area shape="rect" id="node4_3" href="./EntityClearVersionsOperations.html" title="io.nextweb.operations.entity.EntityClearVersionsOperations" alt="" coords="817,11,1015,53"/>
+<area shape="rect" id="node5_4" href="./EntityRemoveOperations.html" title="io.nextweb.operations.entity.EntityRemoveOperations" alt="" coords="1061,11,1225,53"/>
+<area shape="rect" id="node6_5" href="./EntitySelectOperations.html" title="io.nextweb.operations.entity.EntitySelectOperations" alt="" coords="1271,11,1425,53"/>
+</map>

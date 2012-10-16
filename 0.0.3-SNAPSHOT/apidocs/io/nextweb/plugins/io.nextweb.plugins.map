@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Plugins.html" title="io.nextweb.plugins.Plugins" alt="" coords="141,19,205,45"/>
+<area shape="rect" id="node2_1" href="./EntityPlugin.html" title="io.nextweb.plugins.EntityPlugin" alt="" coords="15,113,273,154"/>
+<area shape="rect" id="node3_2" href="./PluginFactory.html" title="io.nextweb.plugins.PluginFactory" alt="" coords="416,11,805,53"/>
+<area shape="rect" id="node4_3" href="./HasPlugins.html" title="io.nextweb.plugins.HasPlugins" alt="" coords="851,11,1000,53"/>
+<area shape="rect" id="node5_4" href="./Plugin.html" title="io.nextweb.plugins.Plugin" alt="" coords="251,11,371,53"/>
+<area shape="rect" id="node6_5" href="./EntityListPlugin.html" title="io.nextweb.plugins.EntityListPlugin" alt="" coords="319,113,639,154"/>
+</map>
