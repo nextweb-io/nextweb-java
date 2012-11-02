@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./AllInterceptor.html" title="io.nextweb.operations.exceptions.AllInterceptor" alt="" coords="310,113,485,154"/>
+<area shape="rect" id="node2_1" href="./ChallengedResult.html" title="io.nextweb.operations.exceptions.ChallengedResult" alt="" coords="1333,11,1454,53"/>
+<area shape="rect" id="node3_2" href="./ExceptionManager.html" title="io.nextweb.operations.exceptions.ExceptionManager" alt="" coords="695,121,825,146"/>
+<area shape="rect" id="node4_3" href="./ImpossibleInterceptor.html" title="io.nextweb.operations.exceptions.ImpossibleInterceptor" alt="" coords="15,11,241,53"/>
+<area shape="rect" id="node5_4" href="./ImpossibleListener.html" title="io.nextweb.operations.exceptions.ImpossibleListener" alt="" coords="801,11,930,53"/>
+<area shape="rect" id="node6_5" href="./ImpossibleResult.html" title="io.nextweb.operations.exceptions.ImpossibleResult" alt="" coords="1500,11,1620,53"/>
+<area shape="rect" id="node7_6" href="./LoginFailuresInterceptor.html" title="io.nextweb.operations.exceptions.LoginFailuresInterceptor" alt="" coords="1666,11,1907,53"/>
+<area shape="rect" id="node8_7" href="./LoginFailuresListener.html" title="io.nextweb.operations.exceptions.LoginFailuresListener" alt="" coords="1953,11,2097,53"/>
+<area shape="rect" id="node9_8" href="./UnauthorizedInterceptor.html" title="io.nextweb.operations.exceptions.UnauthorizedInterceptor" alt="" coords="287,11,508,53"/>
+<area shape="rect" id="node10_9" href="./UnauthorizedListener.html" title="io.nextweb.operations.exceptions.UnauthorizedListener" alt="" coords="975,11,1118,53"/>
+<area shape="rect" id="node11_10" href="./UnauthorizedResult.html" title="io.nextweb.operations.exceptions.UnauthorizedResult" alt="" coords="2143,11,2276,53"/>
+<area shape="rect" id="node12_11" href="./UndefinedInterceptor.html" title="io.nextweb.operations.exceptions.UndefinedInterceptor" alt="" coords="554,11,755,53"/>
+<area shape="rect" id="node13_12" href="./UndefinedListener.html" title="io.nextweb.operations.exceptions.UndefinedListener" alt="" coords="1163,11,1287,53"/>
+<area shape="rect" id="node14_13" href="./UndefinedResult.html" title="io.nextweb.operations.exceptions.UndefinedResult" alt="" coords="2321,11,2436,53"/>
+</map>

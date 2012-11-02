@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./AsyncResult.html" title="io.nextweb.fn.AsyncResult" alt="" coords="369,11,545,53"/>
+<area shape="rect" id="node2_1" href="./BasicResult.html" title="io.nextweb.fn.BasicResult" alt="" coords="371,113,543,154"/>
+<area shape="rect" id="node3_2" href="./BooleanResult.html" title="io.nextweb.fn.BooleanResult" alt="" coords="15,222,121,247"/>
+<area shape="rect" id="node4_3" href="./IntegerResult.html" title="io.nextweb.fn.IntegerResult" alt="" coords="166,222,263,247"/>
+<area shape="rect" id="node5_4" href="./Result.html" title="io.nextweb.fn.Result" alt="" coords="309,214,449,255"/>
+<area shape="rect" id="node6_5" href="../Entity.html" title="io.nextweb.Entity" alt="" coords="494,214,578,255"/>
+<area shape="rect" id="node7_6" href="../EntityList.html" title="io.nextweb.EntityList" alt="" coords="623,214,707,255"/>
+<area shape="rect" id="node8_7" href="../LinkListQuery.html" title="io.nextweb.LinkListQuery" alt="" coords="753,214,855,255"/>
+</map>
