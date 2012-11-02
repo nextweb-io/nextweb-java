@@ -2,7 +2,7 @@
 <project>
 	<groupId>io.nextweb.core</groupId>
 	<artifactId>nextweb-java</artifactId>
-	<version>0.0.12</version>
+	<version>0.0.13-SNAPSHOT</version>
 	<description>Core module for Nextweb API.</description>
 	<url>http://nextweb.io</url>
 	<properties>
