@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./operations/EntityListOperations.html" title="io.nextweb.operations.EntityListOperations" alt="" coords="16,11,155,53"/>
+<area shape="rect" id="node4_1" href="./LinkListQuery.html" title="io.nextweb.LinkListQuery" alt="" coords="429,113,531,154"/>
+<area shape="rect" id="node2_2" href="./operations/EntityListRequestOperations.html" title="io.nextweb.operations.EntityListRequestOperations" alt="" coords="200,11,485,53"/>
+<area shape="rect" id="node3_3" href="./fn/BasicResult.html" title="io.nextweb.fn.BasicResult" alt="" coords="531,11,703,53"/>
+<area shape="rect" id="node5_4" href="./plugins/HasPlugins.html" title="io.nextweb.plugins.HasPlugins" alt="" coords="749,11,899,53"/>
+</map>

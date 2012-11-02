@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Callback.html" title="io.nextweb.operations.callbacks.Callback" alt="" coords="273,11,425,53"/>
+<area shape="rect" id="node3_1" href="./EagerCallback.html" title="io.nextweb.operations.callbacks.EagerCallback" alt="" coords="16,118,197,143"/>
+<area shape="rect" id="node4_2" href="./EmbeddedCallback.html" title="io.nextweb.operations.callbacks.EmbeddedCallback" alt="" coords="243,118,456,143"/>
+<area shape="rect" id="node5_3" href="./LazyCallback.html" title="io.nextweb.operations.callbacks.LazyCallback" alt="" coords="501,118,675,143"/>
+<area shape="rect" id="node2_4" href="./CallbackFactory.html" title="io.nextweb.operations.callbacks.CallbackFactory" alt="" coords="471,19,585,45"/>
+</map>

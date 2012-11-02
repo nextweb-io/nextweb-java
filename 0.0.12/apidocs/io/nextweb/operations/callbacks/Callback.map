@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../exceptions/ImpossibleListener.html" title="io.nextweb.operations.exceptions.ImpossibleListener" alt="" coords="133,11,262,53"/>
+<area shape="rect" id="node4_1" href="./Callback.html" title="io.nextweb.operations.callbacks.Callback" alt="" coords="392,113,544,154"/>
+<area shape="rect" id="node2_2" href="../exceptions/UnauthorizedListener.html" title="io.nextweb.operations.exceptions.UnauthorizedListener" alt="" coords="307,11,450,53"/>
+<area shape="rect" id="node3_3" href="../exceptions/UndefinedListener.html" title="io.nextweb.operations.exceptions.UndefinedListener" alt="" coords="495,11,619,53"/>
+<area shape="rect" id="node5_4" href="./EagerCallback.html" title="io.nextweb.operations.callbacks.EagerCallback" alt="" coords="16,222,197,247"/>
+<area shape="rect" id="node6_5" href="./EmbeddedCallback.html" title="io.nextweb.operations.callbacks.EmbeddedCallback" alt="" coords="243,222,456,247"/>
+<area shape="rect" id="node7_6" href="./LazyCallback.html" title="io.nextweb.operations.callbacks.LazyCallback" alt="" coords="501,222,675,247"/>
+<area shape="rect" id="node9_7" href="../../fn/RequestCallback.html" title="io.nextweb.fn.RequestCallback" alt="" coords="720,214,920,255"/>
+<area shape="rect" id="node8_8" href="../../fn/ExceptionListener.html" title="io.nextweb.fn.ExceptionListener" alt="" coords="665,11,791,53"/>
+</map>
