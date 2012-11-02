@@ -2,7 +2,7 @@
 <project>
 	<groupId>io.nextweb.core</groupId>
 	<artifactId>nextweb-java</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.12</version>
 	<description>Core module for Nextweb API.</description>
 	<url>http://nextweb.io</url>
 	<properties>
@@ -292,7 +292,7 @@
 							<version>2.9</version>
 							<configuration>
 								<doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-								<!-- <docletPath>/path/to/UmlGraph.jar</docletPath> -->
+
 								<docletArtifact>
 									<groupId>org.umlgraph</groupId>
 									<artifactId>doclet</artifactId>
@@ -461,9 +461,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git@github.com:nextweb-io/nextweb-core.git</connection>
-		<url>https://github.com/nextweb-io/nextweb-core</url>
-		<developerConnection>scm:git:git@github.com:nextweb-io/nextweb-core.git
+		<connection>scm:git:git@github.com:nextweb-io/nextweb-java.git</connection>
+		<url>https://github.com/nextweb-io/nextweb-java</url>
+		<developerConnection>scm:git:git@github.com:nextweb-io/nextweb-java.git
 		</developerConnection>
 	</scm>
 
