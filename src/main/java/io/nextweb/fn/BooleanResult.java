@@ -139,8 +139,8 @@ public class BooleanResult implements BasicResult<Boolean>,
 		super();
 		this.exceptionManager = new ExceptionManager(eM);
 		this.session = session;
-		this.result = session.getEngine().createResult(this.exceptionManager,
-				session, result);
+		this.result = session.getEngine().getFactory()
+				.createResult(this.exceptionManager, session, result);
 
 	}
 }

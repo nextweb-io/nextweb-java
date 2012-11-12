@@ -135,8 +135,8 @@ public class IntegerResult implements BasicResult<Integer>,
 		super();
 		this.exceptionManager = new ExceptionManager(parentExceptionManager);
 		this.session = session;
-		this.result = session.getEngine().createResult(this.exceptionManager,
-				session, result);
+		this.result = session.getEngine().getFactory()
+				.createResult(this.exceptionManager, session, result);
 	}
 
 }
