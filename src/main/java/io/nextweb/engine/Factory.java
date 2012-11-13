@@ -14,11 +14,11 @@ public interface Factory {
 			ExceptionManager exceptionManager, Session session,
 			AsyncResult<ResultType> asyncResult);
 
-	public Bytes createBytes(byte[] data, String mimetype);
+	public Bytes createBytes(Session session, byte[] data, String mimetype);
 
-	public Port createPort(String uri, String secret);
+	public Port createPort(Session session, String uri, String secret);
 
-	public Token createToken(String secret, String grantedAuthorization,
-			String identification);
+	public Token createToken(Session session, String secret,
+			String grantedAuthorization, String identification);
 
 }
