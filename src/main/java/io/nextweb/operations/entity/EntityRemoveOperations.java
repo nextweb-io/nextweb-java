@@ -14,4 +14,6 @@ public interface EntityRemoveOperations {
 	 */
 	public Result<Success> remove(Entity entity);
 
+	public Result<Success> removeSafe(Entity entity);
+
 }
