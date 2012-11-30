@@ -27,34 +27,35 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	private ImpossibleListener impossibleListener;
 
 	public EagerCallback<ResultType> catchExceptions(
-			ExceptionListener exceptionListener) {
+			final ExceptionListener exceptionListener) {
 		hasEagerFailureListener = true;
 		this.exceptionListener = exceptionListener;
 		return this;
 	}
 
 	public EagerCallback<ResultType> catchUnauthorized(
-			UnauthorizedListener exceptionListener) {
+			final UnauthorizedListener exceptionListener) {
 		hasEagerUnauthorizedListener = true;
 		this.authExceptionListener = exceptionListener;
 		return this;
 	}
 
 	public EagerCallback<ResultType> catchUndefined(
-			UndefinedListener listener) {
+			final UndefinedListener listener) {
 		hasEagerUndefinedListener = true;
 		this.undefinedExceptionListenr = listener;
 		return this;
 	}
 
-	public EagerCallback<ResultType> catchImpossible(ImpossibleListener listener) {
+	public EagerCallback<ResultType> catchImpossible(
+			final ImpossibleListener listener) {
 		hasEagerImpossibleListener = true;
 		this.impossibleListener = listener;
 		return this;
 	}
 
 	@Override
-	public final void onFailure(ExceptionResult r) {
+	public final void onFailure(final ExceptionResult r) {
 		if (hasEagerFailureListener) {
 			this.exceptionListener.onFailure(r);
 			return;
@@ -76,7 +77,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	}
 
 	@Override
-	public final void onUnauthorized(UnauthorizedResult r) {
+	public final void onUnauthorized(final UnauthorizedResult r) {
 		if (hasEagerUnauthorizedListener) {
 			this.authExceptionListener.onUnauthorized(r);
 			return;
@@ -104,7 +105,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	}
 
 	@Override
-	public void onImpossible(ImpossibleResult ir) {
+	public void onImpossible(final ImpossibleResult ir) {
 		if (hasEagerImpossibleListener) {
 			this.impossibleListener.onImpossible(ir);
 			return;
@@ -114,6 +115,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 			this.exceptionListener.onFailure(Fn.exception(ir.origin(),
 					new Exception("Operation impossible: [" + ir.message()
 							+ "]")));
+			return;
 		}
 
 		if (exceptionManager.canCatchImpossibe()) {
@@ -137,7 +139,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 	}
 
 	@Override
-	public final void onUndefined(UndefinedResult r) {
+	public final void onUndefined(final UndefinedResult r) {
 		if (hasEagerUndefinedListener) {
 			this.undefinedExceptionListenr.onUndefined(r);
 			return;
@@ -180,7 +182,8 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
 		return hasEagerUnauthorizedListener || hasEagerFailureListener;
 	}
 
-	public EagerCallback(Session session, ExceptionManager exceptionManager) {
+	public EagerCallback(final Session session,
+			final ExceptionManager exceptionManager) {
 		super();
 		this.session = session;
 		this.exceptionManager = exceptionManager;
