@@ -14,7 +14,9 @@ public interface EntityClearVersionsOperations {
 	 * successful.
 	 * </p>
 	 * <p>
-	 * Executed eagerly.
+	 * This operation is executed eagerly (see <a
+	 * href="http://nextweb.io/docs/nextweb-eager-operations.value.html">Lazy
+	 * and Eager operations</a>).
 	 * </p>
 	 * 
 	 * @return

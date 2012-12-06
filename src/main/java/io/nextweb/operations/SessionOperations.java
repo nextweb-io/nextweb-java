@@ -14,14 +14,29 @@ import io.nextweb.fn.SuccessFail;
 public interface SessionOperations {
 
 	/**
-	 * Will be executed eagerly.
+	 * <p>
+	 * Close the session and release all associated resources.
+	 * </p>
+	 * <p>
+	 * All pending synchronizations will be completed before the closing is
+	 * finalized.
+	 * </p>
+	 * <p>
+	 * This operation is executed eagerly (see <a
+	 * href="http://nextweb.io/docs/nextweb-eager-operations.value.html">Lazy
+	 * and Eager operations</a>).
+	 * </p>
 	 * 
 	 * @return
 	 */
 	public Result<Success> close();
 
 	/**
-	 * Will be executed eagerly.
+	 * <p>
+	 * This operation is executed eagerly (see <a
+	 * href="http://nextweb.io/docs/nextweb-eager-operations.value.html">Lazy
+	 * and Eager operations</a>).
+	 * </p>
 	 * 
 	 * @return
 	 */
@@ -61,6 +76,21 @@ public interface SessionOperations {
 	public Result<Postbox> createPostbox(String realmTitle, String postboxType,
 			String apiKey);
 
+	/**
+	 * <p>
+	 * Append a value to a node. Only requires write rights.
+	 * </p>
+	 * <p>
+	 * This operation is executed eagerly (see <a
+	 * href="http://nextweb.io/docs/nextweb-eager-operations.value.html">Lazy
+	 * and Eager operations</a>).
+	 * </p>
+	 * 
+	 * @param value
+	 * @param toUri
+	 * @param secret
+	 * @return
+	 */
 	public Result<Success> post(Object value, String toUri, String secret);
 
 	/**
