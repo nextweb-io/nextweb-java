@@ -37,7 +37,7 @@ public interface EntitySelectOperations {
 	 * @param defaultValue
 	 * @return
 	 */
-	// public Query select(Link propertyType, Object defaultValue);
+	public Query select(Link propertyType, Object defaultValue);
 
 	/**
 	 * <p>
@@ -47,7 +47,7 @@ public interface EntitySelectOperations {
 	 * @param path
 	 * @return
 	 */
-	// public Query select(String path);
+	public Query select(String path);
 
 	/**
 	 * <p>
@@ -62,7 +62,7 @@ public interface EntitySelectOperations {
 	 * @param defaultValue
 	 * @return
 	 */
-	// public Query select(String path, Object defaultValue);
+	public Query select(String path, Object defaultValue);
 
 	public ListQuery selectAll(Link propertyType);
 
