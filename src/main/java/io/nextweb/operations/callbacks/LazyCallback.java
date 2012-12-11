@@ -13,14 +13,15 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 	private final ExceptionManager exceptionManager;
 	private final Session session;
 
-	public LazyCallback(ExceptionManager exceptionManager, Session session) {
+	public LazyCallback(final ExceptionManager exceptionManager,
+			final Session session) {
 		super();
 		this.exceptionManager = exceptionManager;
 		this.session = session;
 	}
 
 	@Override
-	public void onFailure(ExceptionResult r) {
+	public void onFailure(final ExceptionResult r) {
 
 		if (exceptionManager.canCatchExceptions()) {
 			exceptionManager.onFailure(r);
@@ -37,7 +38,7 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 	}
 
 	@Override
-	public void onUnauthorized(UnauthorizedResult r) {
+	public void onUnauthorized(final UnauthorizedResult r) {
 
 		if (exceptionManager.canCatchAuthorizationExceptions()) {
 			exceptionManager.onUnauthorized(r);
@@ -55,7 +56,7 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 	}
 
 	@Override
-	public void onImpossible(ImpossibleResult ir) {
+	public void onImpossible(final ImpossibleResult ir) {
 
 		if (exceptionManager.canCatchImpossibe()) {
 			exceptionManager.onImpossible(ir);
@@ -72,7 +73,7 @@ public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 	}
 
 	@Override
-	public void onUndefined(UndefinedResult r) {
+	public void onUndefined(final UndefinedResult r) {
 
 		if (exceptionManager.canCatchUndefinedExceptions()) {
 			exceptionManager.onUndefined(r);

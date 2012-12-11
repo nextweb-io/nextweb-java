@@ -139,4 +139,9 @@ public class IntegerResult implements BasicResult<Integer>,
 				.createResult(this.exceptionManager, session, result);
 	}
 
+	@Override
+	public AsyncResult<Integer> getDecoratedResult() {
+		return this.result;
+	}
+
 }

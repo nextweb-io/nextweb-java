@@ -134,6 +134,11 @@ public class BooleanResult implements BasicResult<Boolean>,
 		return this;
 	}
 
+	@Override
+	public AsyncResult<Boolean> getDecoratedResult() {
+		return this.result;
+	}
+
 	public BooleanResult(final ExceptionManager eM, final Session session,
 			final AsyncResult<Boolean> result) {
 		super();

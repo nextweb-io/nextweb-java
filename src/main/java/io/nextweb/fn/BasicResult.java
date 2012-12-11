@@ -30,4 +30,6 @@ public interface BasicResult<ResultType> extends AsyncResult<ResultType> {
 	@Override
 	public void get(Callback<ResultType> callback);
 
+	public AsyncResult<ResultType> getDecoratedResult();
+
 }
