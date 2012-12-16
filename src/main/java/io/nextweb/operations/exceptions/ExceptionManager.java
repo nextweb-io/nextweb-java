@@ -66,7 +66,7 @@ public class ExceptionManager implements
 
 	@Override
 	public void onFailure(final ExceptionResult r) {
-		assert canCatchExceptions();
+		// assert canCatchExceptions();
 
 		if (this.exceptionListener != null) {
 			this.exceptionListener.onFailure(r);
