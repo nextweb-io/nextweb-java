@@ -6,10 +6,11 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.HasPlugins;
 
 public interface Entity extends EntityOperations, BasicResult<Node>,
-		HasPlugins<Entity> {
+        HasPlugins<Entity> {
 
-	public Session getSession();
+    public Session getSession();
 
-	public ExceptionManager getExceptionManager();
+    @Override
+    public ExceptionManager getExceptionManager();
 
 }
