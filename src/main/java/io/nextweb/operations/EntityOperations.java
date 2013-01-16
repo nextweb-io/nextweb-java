@@ -12,6 +12,6 @@ public interface EntityOperations extends EntitySelectOperations,
         EntityRemoveOperations, EntityClearVersionsOperations,
         EntityAppendOperations, EntitySetValueOperations,
         EntityMonitorOperations, EntityReloadOperations,
-        EntityGetSafeOperations {
+        EntityShieldOperations {
 
 }
