@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./AllInterceptor.html" title="io.nextweb.operations.exceptions.AllInterceptor" alt="" coords="15,113,190,154"/>
-<area shape="rect" id="node2_1" href="./ExceptionManager.html" title="io.nextweb.operations.exceptions.ExceptionManager" alt="" coords="235,121,365,146"/>
-<area shape="rect" id="node3_2" href="./ImpossibleInterceptor.html" title="io.nextweb.operations.exceptions.ImpossibleInterceptor" alt="" coords="89,11,314,53"/>
-</map>

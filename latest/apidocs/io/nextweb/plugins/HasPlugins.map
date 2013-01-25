@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../Entity.html" title="io.nextweb.Entity" alt="" coords="15,113,99,154"/>
-<area shape="rect" id="node2_1" href="../EntityList.html" title="io.nextweb.EntityList" alt="" coords="145,113,229,154"/>
-<area shape="rect" id="node3_2" href="../LinkListQuery.html" title="io.nextweb.LinkListQuery" alt="" coords="275,113,376,154"/>
-<area shape="rect" id="node4_3" href="../Session.html" title="io.nextweb.Session" alt="" coords="422,113,506,154"/>
-<area shape="rect" id="node5_4" href="./HasPlugins.html" title="io.nextweb.plugins.HasPlugins" alt="" coords="181,11,331,53"/>
-</map>
