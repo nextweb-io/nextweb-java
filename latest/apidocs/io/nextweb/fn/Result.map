@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../operations/exceptions/AllInterceptor.html" title="io.nextweb.operations.exceptions.AllInterceptor" alt="" coords="15,11,190,53"/>
+<area shape="rect" id="node2_1" href="./Result.html" title="io.nextweb.fn.Result" alt="" coords="142,113,282,154"/>
+<area shape="rect" id="node4_2" href="../common/LoginResult.html" title="io.nextweb.common.LoginResult" alt="" coords="97,214,186,255"/>
+<area shape="rect" id="node5_3" href="../common/MonitorResult.html" title="io.nextweb.common.MonitorResult" alt="" coords="232,214,333,255"/>
+<area shape="rect" id="node3_4" href="./BasicResult.html" title="io.nextweb.fn.BasicResult" alt="" coords="235,11,407,53"/>
+</map>

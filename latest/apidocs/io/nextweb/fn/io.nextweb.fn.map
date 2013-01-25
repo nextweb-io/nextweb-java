@@ -1,0 +1,20 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Maybe.html" title="io.nextweb.fn.Maybe" alt="" coords="15,19,99,45"/>
+<area shape="rect" id="node2_1" href="./FnUtils.html" title="io.nextweb.fn.FnUtils" alt="" coords="145,19,207,45"/>
+<area shape="rect" id="node3_2" href="./ResultFactory.html" title="io.nextweb.fn.ResultFactory" alt="" coords="253,11,435,53"/>
+<area shape="rect" id="node4_3" href="./Calculation.html" title="io.nextweb.fn.Calculation" alt="" coords="481,11,657,53"/>
+<area shape="rect" id="node5_4" href="./RequestCallback.html" title="io.nextweb.fn.RequestCallback" alt="" coords="703,11,903,53"/>
+<area shape="rect" id="node6_5" href="./Fn.html" title="io.nextweb.fn.Fn" alt="" coords="955,19,991,45"/>
+<area shape="rect" id="node7_6" href="./ExceptionResult.html" title="io.nextweb.fn.ExceptionResult" alt="" coords="1045,11,1161,53"/>
+<area shape="rect" id="node8_7" href="./SuccessFail.html" title="io.nextweb.fn.SuccessFail" alt="" coords="1206,19,1271,45"/>
+<area shape="rect" id="node9_8" href="./IntegerResult.html" title="io.nextweb.fn.IntegerResult" alt="" coords="1193,222,1290,247"/>
+<area shape="rect" id="node10_9" href="./Success.html" title="io.nextweb.fn.Success" alt="" coords="1539,19,1611,45"/>
+<area shape="rect" id="node11_10" href="./Result.html" title="io.nextweb.fn.Result" alt="" coords="1335,214,1475,255"/>
+<area shape="rect" id="node12_11" href="./Closure.html" title="io.nextweb.fn.Closure" alt="" coords="1656,11,1792,53"/>
+<area shape="rect" id="node13_12" href="./BooleanResult.html" title="io.nextweb.fn.BooleanResult" alt="" coords="1521,222,1626,247"/>
+<area shape="rect" id="node14_13" href="./ExceptionListener.html" title="io.nextweb.fn.ExceptionListener" alt="" coords="1837,11,1963,53"/>
+<area shape="rect" id="node15_14" href="./ExceptionInterceptor.html" title="io.nextweb.fn.ExceptionInterceptor" alt="" coords="2008,11,2211,53"/>
+<area shape="rect" id="node16_15" href="./ReadOnlyList.html" title="io.nextweb.fn.ReadOnlyList" alt="" coords="2257,11,2381,53"/>
+<area shape="rect" id="node17_16" href="./AsyncResult.html" title="io.nextweb.fn.AsyncResult" alt="" coords="1317,11,1493,53"/>
+<area shape="rect" id="node18_17" href="./BasicResult.html" title="io.nextweb.fn.BasicResult" alt="" coords="1319,113,1491,154"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./NextwebUtils.html" title="io.nextweb.common.NextwebUtils" alt="" coords="15,19,113,45"/>
+<area shape="rect" id="node2_1" href="./MonitorContext.html" title="io.nextweb.common.MonitorContext" alt="" coords="159,11,268,53"/>
+<area shape="rect" id="node3_2" href="./LocalServer.html" title="io.nextweb.common.LocalServer" alt="" coords="313,11,401,53"/>
+<area shape="rect" id="node4_3" href="./Interval.html" title="io.nextweb.common.Interval" alt="" coords="447,11,553,53"/>
+<area shape="rect" id="node5_4" href="./User.html" title="io.nextweb.common.User" alt="" coords="598,11,682,53"/>
+<area shape="rect" id="node6_5" href="./LoginResult.html" title="io.nextweb.common.LoginResult" alt="" coords="727,11,817,53"/>
+<area shape="rect" id="node7_6" href="./Postbox.html" title="io.nextweb.common.Postbox" alt="" coords="862,11,946,53"/>
+<area shape="rect" id="node8_7" href="./Monitor.html" title="io.nextweb.common.Monitor" alt="" coords="991,11,1075,53"/>
+<area shape="rect" id="node9_8" href="./MonitorResult.html" title="io.nextweb.common.MonitorResult" alt="" coords="1121,11,1223,53"/>
+</map>
