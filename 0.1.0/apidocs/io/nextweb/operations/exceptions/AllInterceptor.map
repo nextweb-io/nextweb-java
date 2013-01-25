@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../entity/EntityRequestOperations.html" title="io.nextweb.operations.entity.EntityRequestOperations" alt="" coords="15,214,347,255"/>
+<area shape="rect" id="node2_1" href="./ImpossibleInterceptor.html" title="io.nextweb.operations.exceptions.ImpossibleInterceptor" alt="" coords="23,11,249,53"/>
+<area shape="rect" id="node5_2" href="./AllInterceptor.html" title="io.nextweb.operations.exceptions.AllInterceptor" alt="" coords="435,113,610,154"/>
+<area shape="rect" id="node3_3" href="./UndefinedInterceptor.html" title="io.nextweb.operations.exceptions.UndefinedInterceptor" alt="" coords="294,11,495,53"/>
+<area shape="rect" id="node4_4" href="./UnauthorizedInterceptor.html" title="io.nextweb.operations.exceptions.UnauthorizedInterceptor" alt="" coords="541,11,763,53"/>
+<area shape="rect" id="node6_5" href="../../fn/IntegerResult.html" title="io.nextweb.fn.IntegerResult" alt="" coords="393,222,490,247"/>
+<area shape="rect" id="node7_6" href="../../fn/Result.html" title="io.nextweb.fn.Result" alt="" coords="535,214,675,255"/>
+<area shape="rect" id="node8_7" href="../../fn/BooleanResult.html" title="io.nextweb.fn.BooleanResult" alt="" coords="721,222,826,247"/>
+<area shape="rect" id="node9_8" href="../../fn/ExceptionInterceptor.html" title="io.nextweb.fn.ExceptionInterceptor" alt="" coords="808,11,1011,53"/>
+</map>

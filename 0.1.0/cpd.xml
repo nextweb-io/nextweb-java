@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="25" tokens="103">
+<file line="19" path="M:\Git\nextweb-java\src\main\java\io\nextweb\fn\IntegerResult.java"/>
+<file line="54" path="M:\Git\nextweb-java\src\main\java\io\nextweb\fn\IntegerResult.java"/>
+<codefragment>
+<![CDATA[
+	public IntegerResult minus(final IntegerResult otherResult) {
+		return new IntegerResult(exceptionManager, session,
+				new AsyncResult<Integer>() {
+
+					@Override
+					public void get(final Callback<Integer> callback) {
+
+						result.get(CallbackFactory.embeddedCallback(
+								exceptionManager, callback,
+								new Closure<Integer>() {
+
+									@Override
+									public void apply(
+											final Integer thisResultValue) {
+
+										otherResult.get(CallbackFactory
+												.embeddedCallback(
+														exceptionManager,
+														callback,
+														new Closure<Integer>() {
+
+															@Override
+															public void apply(
+																	final Integer otherResultValue) {
+																callback.onSuccess(thisResultValue
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>
