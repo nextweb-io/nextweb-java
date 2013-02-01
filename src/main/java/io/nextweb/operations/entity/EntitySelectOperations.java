@@ -32,6 +32,10 @@ public interface EntitySelectOperations {
      * If no child is available, a node will be appended with the given
      * defaultValue.
      * </p>
+     * <p>
+     * WARNING: This operation might trigger an implicit commit if the node to
+     * be selected must be created.
+     * </p>
      * 
      * @param propertyType
      * @param defaultValue
@@ -56,6 +60,10 @@ public interface EntitySelectOperations {
      * <p>
      * If no node exists, insert a new node at the specified location with the
      * given defaultValue.
+     * </p>
+     * <p>
+     * WARNING: This operation might trigger an implicit commit if the node in
+     * question must be created.
      * </p>
      * 
      * @param path
