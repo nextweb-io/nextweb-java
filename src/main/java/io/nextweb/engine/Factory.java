@@ -11,17 +11,26 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 
 public interface Factory {
 
-	public <ResultType> Result<ResultType> createResult(
-			ExceptionManager exceptionManager, Session session,
-			AsyncResult<ResultType> asyncResult);
+    public <ResultType> Result<ResultType> createResult(
+            ExceptionManager exceptionManager, Session session,
+            AsyncResult<ResultType> asyncResult);
 
-	public Bytes createBytes(Session session, byte[] data, String mimetype);
+    public Bytes createBytes(Session session, byte[] data, String mimetype);
 
-	public Port createPort(Session session, String uri, String secret);
+    public Port createPort(Session session, String uri, String secret);
 
-	public Token createToken(Session session, String secret,
-			String grantedAuthorization, String identification);
+    /**
+     * Valid authorizations: "write", "read", "readwrite"
+     * 
+     * @param session
+     * @param secret
+     * @param grantedAuthorization
+     * @param identification
+     * @return
+     */
+    public Token createToken(Session session, String secret,
+            String grantedAuthorization, String identification);
 
-	public Json createJson(Session session, String json);
+    public Json createJson(Session session, String json);
 
 }
