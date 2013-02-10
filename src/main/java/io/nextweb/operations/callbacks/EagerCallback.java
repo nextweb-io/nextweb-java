@@ -15,178 +15,201 @@ import io.nextweb.operations.exceptions.UndefinedResult;
 
 public abstract class EagerCallback<ResultType> implements Callback<ResultType> {
 
-	private boolean hasEagerFailureListener;
-	private boolean hasEagerUndefinedListener;
-	private boolean hasEagerUnauthorizedListener;
-	private boolean hasEagerImpossibleListener;
-	private ExceptionListener exceptionListener;
-	private final Session session;
-	private final ExceptionManager exceptionManager;
-	private UnauthorizedListener authExceptionListener;
-	private UndefinedListener undefinedExceptionListenr;
-	private ImpossibleListener impossibleListener;
+    private boolean hasEagerFailureListener;
+    private boolean hasEagerUndefinedListener;
+    private boolean hasEagerUnauthorizedListener;
+    private boolean hasEagerImpossibleListener;
+    private ExceptionListener exceptionListener;
+    private final Session session;
+    private final ExceptionManager exceptionManager;
+    private UnauthorizedListener authExceptionListener;
+    private UndefinedListener undefinedExceptionListenr;
+    private ImpossibleListener impossibleListener;
+    private final Callback<?> fallbackCallback;
 
-	public EagerCallback<ResultType> catchExceptions(
-			final ExceptionListener exceptionListener) {
-		hasEagerFailureListener = true;
-		this.exceptionListener = exceptionListener;
-		return this;
-	}
+    public EagerCallback<ResultType> catchExceptions(
+            final ExceptionListener exceptionListener) {
+        hasEagerFailureListener = true;
+        this.exceptionListener = exceptionListener;
+        return this;
+    }
 
-	public EagerCallback<ResultType> catchUnauthorized(
-			final UnauthorizedListener exceptionListener) {
-		hasEagerUnauthorizedListener = true;
-		this.authExceptionListener = exceptionListener;
-		return this;
-	}
+    public EagerCallback<ResultType> catchUnauthorized(
+            final UnauthorizedListener exceptionListener) {
+        hasEagerUnauthorizedListener = true;
+        this.authExceptionListener = exceptionListener;
+        return this;
+    }
 
-	public EagerCallback<ResultType> catchUndefined(
-			final UndefinedListener listener) {
-		hasEagerUndefinedListener = true;
-		this.undefinedExceptionListenr = listener;
-		return this;
-	}
+    public EagerCallback<ResultType> catchUndefined(
+            final UndefinedListener listener) {
+        hasEagerUndefinedListener = true;
+        this.undefinedExceptionListenr = listener;
+        return this;
+    }
 
-	public EagerCallback<ResultType> catchImpossible(
-			final ImpossibleListener listener) {
-		hasEagerImpossibleListener = true;
-		this.impossibleListener = listener;
-		return this;
-	}
+    public EagerCallback<ResultType> catchImpossible(
+            final ImpossibleListener listener) {
+        hasEagerImpossibleListener = true;
+        this.impossibleListener = listener;
+        return this;
+    }
 
-	@Override
-	public final void onFailure(final ExceptionResult r) {
-		if (hasEagerFailureListener) {
-			this.exceptionListener.onFailure(r);
-			return;
-		}
+    @Override
+    public final void onFailure(final ExceptionResult r) {
+        if (hasEagerFailureListener) {
+            this.exceptionListener.onFailure(r);
+            return;
+        }
 
-		if (exceptionManager.canCatchExceptions()) {
-			exceptionManager.onFailure(r);
-			return;
-		}
+        if (fallbackCallback != null) {
+            fallbackCallback.onFailure(r);
+            return;
+        }
 
-		if (session != null
-				&& session.getExceptionManager().canCatchExceptions()) {
-			session.getExceptionManager().onFailure(r);
-			return;
-		}
+        if (exceptionManager.canCatchExceptions()) {
+            exceptionManager.onFailure(r);
+            return;
+        }
 
-		NextwebGlobal.getEngine().getExceptionManager().onFailure(r);
+        if (session != null
+                && session.getExceptionManager().canCatchExceptions()) {
+            session.getExceptionManager().onFailure(r);
+            return;
+        }
 
-	}
+        NextwebGlobal.getEngine().getExceptionManager().onFailure(r);
 
-	@Override
-	public final void onUnauthorized(final UnauthorizedResult r) {
-		if (hasEagerUnauthorizedListener) {
-			this.authExceptionListener.onUnauthorized(r);
-			return;
-		}
+    }
 
-		if (hasEagerFailureListener) {
-			this.exceptionListener.onFailure(Fn.exception(r.origin(),
-					new Exception("Unauthorized: " + r.getMessage())));
-			return;
-		}
+    @Override
+    public final void onUnauthorized(final UnauthorizedResult r) {
+        if (hasEagerUnauthorizedListener) {
+            this.authExceptionListener.onUnauthorized(r);
+            return;
+        }
 
-		if (exceptionManager.canCatchAuthorizationExceptions()) {
-			exceptionManager.onUnauthorized(r);
-			return;
-		}
+        if (hasEagerFailureListener) {
+            this.exceptionListener.onFailure(Fn.exception(r.origin(),
+                    new Exception("Unauthorized: " + r.getMessage())));
+            return;
+        }
 
-		if (session != null
-				&& session.getExceptionManager()
-						.canCatchAuthorizationExceptions()) {
-			session.getExceptionManager().onUnauthorized(r);
-			return;
-		}
+        if (fallbackCallback != null) {
+            fallbackCallback.onUnauthorized(r);
+            return;
+        }
 
-		NextwebGlobal.getEngine().getExceptionManager().onUnauthorized(r);
-	}
+        if (exceptionManager.canCatchAuthorizationExceptions()) {
+            exceptionManager.onUnauthorized(r);
+            return;
+        }
 
-	@Override
-	public void onImpossible(final ImpossibleResult ir) {
-		if (hasEagerImpossibleListener) {
-			this.impossibleListener.onImpossible(ir);
-			return;
-		}
+        if (session != null
+                && session.getExceptionManager()
+                        .canCatchAuthorizationExceptions()) {
+            session.getExceptionManager().onUnauthorized(r);
+            return;
+        }
 
-		if (hasEagerFailureListener) {
-			this.exceptionListener.onFailure(Fn.exception(ir.origin(),
-					new Exception("Operation impossible: [" + ir.message()
-							+ "]")));
-			return;
-		}
+        NextwebGlobal.getEngine().getExceptionManager().onUnauthorized(r);
+    }
 
-		if (exceptionManager.canCatchImpossibe()) {
-			exceptionManager.onImpossible(ir);
-			return;
-		}
+    @Override
+    public void onImpossible(final ImpossibleResult ir) {
+        if (hasEagerImpossibleListener) {
+            this.impossibleListener.onImpossible(ir);
+            return;
+        }
 
-		if (session != null
-				&& session.getExceptionManager().canCatchImpossibe()) {
-			session.getExceptionManager().onImpossible(ir);
-			return;
-		}
+        if (hasEagerFailureListener) {
+            this.exceptionListener.onFailure(Fn.exception(ir.origin(),
+                    new Exception("Operation impossible: [" + ir.message()
+                            + "]")));
+            return;
+        }
 
-		NextwebGlobal.getEngine().getExceptionManager().onImpossible(ir);
+        if (fallbackCallback != null) {
+            fallbackCallback.onImpossible(ir);
+            return;
+        }
 
-	}
+        if (exceptionManager.canCatchImpossibe()) {
+            exceptionManager.onImpossible(ir);
+            return;
+        }
 
-	@Override
-	public boolean hasEagerImpossibleListener() {
-		return hasEagerImpossibleListener || hasEagerFailureListener;
-	}
+        if (session != null
+                && session.getExceptionManager().canCatchImpossibe()) {
+            session.getExceptionManager().onImpossible(ir);
+            return;
+        }
 
-	@Override
-	public final void onUndefined(final UndefinedResult r) {
-		if (hasEagerUndefinedListener) {
-			this.undefinedExceptionListenr.onUndefined(r);
-			return;
-		}
+        NextwebGlobal.getEngine().getExceptionManager().onImpossible(ir);
 
-		if (hasEagerFailureListener) {
-			this.exceptionListener.onFailure(Fn.exception(r.origin(),
-					new Exception("Undefined: " + r.message())));
-			return;
-		}
+    }
 
-		if (exceptionManager.canCatchUndefinedExceptions()) {
-			exceptionManager.onUndefined(r);
-			return;
-		}
+    @Override
+    public boolean hasEagerImpossibleListener() {
+        return hasEagerImpossibleListener || hasEagerFailureListener;
+    }
 
-		if (session != null
-				&& session.getExceptionManager().canCatchUndefinedExceptions()) {
-			session.getExceptionManager().onUndefined(r);
-			return;
-		}
+    @Override
+    public final void onUndefined(final UndefinedResult r) {
+        if (hasEagerUndefinedListener) {
+            this.undefinedExceptionListenr.onUndefined(r);
+            return;
+        }
 
-		NextwebGlobal.getEngine().getExceptionManager().onUndefined(r);
-	}
+        if (hasEagerFailureListener) {
+            this.exceptionListener.onFailure(Fn.exception(r.origin(),
+                    new Exception("Undefined: " + r.message())));
+            return;
+        }
 
-	@Override
-	public boolean hasEagerFailureListener() {
-		return hasEagerFailureListener;
-	}
+        if (fallbackCallback != null) {
+            fallbackCallback.onUndefined(r);
+            return;
+        }
 
-	@Override
-	public boolean hasEagerUndefinedListener() {
+        if (exceptionManager.canCatchUndefinedExceptions()) {
+            exceptionManager.onUndefined(r);
+            return;
+        }
 
-		return hasEagerUndefinedListener || hasEagerFailureListener;
-	}
+        if (session != null
+                && session.getExceptionManager().canCatchUndefinedExceptions()) {
+            session.getExceptionManager().onUndefined(r);
+            return;
+        }
 
-	@Override
-	public boolean hasEagerUnauthorizedListener() {
+        NextwebGlobal.getEngine().getExceptionManager().onUndefined(r);
+    }
 
-		return hasEagerUnauthorizedListener || hasEagerFailureListener;
-	}
+    @Override
+    public boolean hasEagerFailureListener() {
+        return hasEagerFailureListener;
+    }
 
-	public EagerCallback(final Session session,
-			final ExceptionManager exceptionManager) {
-		super();
-		this.session = session;
-		this.exceptionManager = exceptionManager;
-	}
+    @Override
+    public boolean hasEagerUndefinedListener() {
+
+        return hasEagerUndefinedListener || hasEagerFailureListener;
+    }
+
+    @Override
+    public boolean hasEagerUnauthorizedListener() {
+
+        return hasEagerUnauthorizedListener || hasEagerFailureListener;
+    }
+
+    public EagerCallback(final Session session,
+            final ExceptionManager exceptionManager,
+            final Callback<?> fallbackCallback) {
+        super();
+        this.session = session;
+        this.exceptionManager = exceptionManager;
+        this.fallbackCallback = fallbackCallback;
+    }
 
 }

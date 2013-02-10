@@ -4,7 +4,6 @@ import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
 import io.nextweb.Query;
-import io.nextweb.fn.BooleanResult;
 
 public interface EntitySelectOperations {
 
@@ -77,15 +76,5 @@ public interface EntitySelectOperations {
     public LinkListQuery selectAllLinks();
 
     public ListQuery selectAll();
-
-    public BooleanResult has(Link propertyType);
-
-    /**
-     * Not supported yet.
-     * 
-     * @param propertyType
-     * @return
-     */
-    public Query ifHas(Link propertyType);
 
 }
