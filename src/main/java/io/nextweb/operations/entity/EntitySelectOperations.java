@@ -1,6 +1,6 @@
 package io.nextweb.operations.entity;
 
-import io.nextweb.Link;
+import io.nextweb.Entity;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
 import io.nextweb.Query;
@@ -21,7 +21,7 @@ public interface EntitySelectOperations {
      * @param propertyType
      * @return
      */
-    public Query select(Link propertyType);
+    public Query select(Entity propertyType);
 
     /**
      * <p>
@@ -40,7 +40,7 @@ public interface EntitySelectOperations {
      * @param defaultValue
      * @return
      */
-    public Query select(Link propertyType, Object defaultValue);
+    public Query select(Entity propertyType, Object defaultValue);
 
     /**
      * <p>
@@ -71,7 +71,7 @@ public interface EntitySelectOperations {
      */
     public Query select(String path, Object defaultValue);
 
-    public ListQuery selectAll(Link propertyType);
+    public ListQuery selectAll(Entity propertyType);
 
     public LinkListQuery selectAllLinks();
 
