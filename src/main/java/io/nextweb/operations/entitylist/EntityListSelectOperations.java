@@ -1,5 +1,6 @@
 package io.nextweb.operations.entitylist;
 
+import io.nextweb.Entity;
 import io.nextweb.Link;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
@@ -7,14 +8,14 @@ import io.nextweb.fn.BooleanResult;
 
 public interface EntityListSelectOperations {
 
-	public ListQuery select(Link propertyType);
+    public ListQuery select(Entity propertyType);
 
-	public ListQuery selectAll(Link propertyType);
+    public ListQuery selectAll(Entity propertyType);
 
-	public LinkListQuery selectAllLinks();
+    public LinkListQuery selectAllLinks();
 
-	public ListQuery selectAll();
+    public ListQuery selectAll();
 
-	public BooleanResult has(Link propertyType);
+    public BooleanResult has(Link propertyType);
 
 }
