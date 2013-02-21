@@ -1,16 +1,16 @@
 package io.nextweb.operations.entity;
 
-import io.nextweb.Link;
+import io.nextweb.Entity;
 import io.nextweb.Query;
 import io.nextweb.fn.BooleanResult;
 
 public interface EntityHasOperations {
 
-    public BooleanResult has(Link propertyType);
+    public BooleanResult has(Entity propertyType);
 
     public BooleanResult has(String path);
 
-    public BooleanResult has(Link propertyType, Class<?> type);
+    public BooleanResult has(Entity propertyType, Class<?> type);
 
     public BooleanResult has(String path, Class<?> type);
 
@@ -22,7 +22,7 @@ public interface EntityHasOperations {
      *            "integer", "data", "boolean" etc.
      * @return
      */
-    public BooleanResult has(Link propertyType, String xsdType);
+    public BooleanResult has(Entity propertyType, String xsdType);
 
     /**
      * 
@@ -40,6 +40,6 @@ public interface EntityHasOperations {
      * @param propertyType
      * @return
      */
-    public Query ifHas(Link propertyType);
+    public Query ifHas(Entity propertyType);
 
 }
