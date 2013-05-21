@@ -7,8 +7,8 @@ import io.nextweb.plugins.HasPlugins;
 
 public interface Session extends SessionOperations, HasPlugins<Session> {
 
-	public NextwebEngine getEngine();
+    public NextwebEngine getEngine();
 
-	public ExceptionManager getExceptionManager();
+    public ExceptionManager getExceptionManager();
 
 }
