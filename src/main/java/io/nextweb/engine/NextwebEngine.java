@@ -5,19 +5,24 @@ import io.nextweb.operations.exceptions.ExceptionManager;
 
 public interface NextwebEngine extends StartServerCapability {
 
-	public Session createSession();
+    public Session createSession();
 
-	public Factory getFactory();
+    public Factory getFactory();
 
-	public ExceptionManager getExceptionManager();
+    public ExceptionManager getExceptionManager();
 
-	public boolean hasStartServerCapability();
+    /**
+     * Returns true if this engine supports starting an embedded server.
+     * 
+     * @return
+     */
+    public boolean hasStartServerCapability();
 
-	/**
-	 * Install the selected capability for this engine.
-	 * 
-	 * @param capability
-	 */
-	public void injectCapability(Capability capability);
+    /**
+     * Install the selected capability for this engine.
+     * 
+     * @param capability
+     */
+    public void injectCapability(Capability capability);
 
 }

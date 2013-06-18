@@ -16,7 +16,12 @@ import io.nextweb.engine.persistence.v01.PersistedNode;
 public interface PersistenceConnection {
 
     /**
+     * <p>
      * Adds or updates a node on the storage medium.
+     * <p>
+     * This operation should be <b>non-blocking</b>. That is, it should not wait
+     * for the write to be performed on the storage medium but collect pending
+     * write opertations in a cache, which are performed asynchronously.
      * 
      * @param uri
      * @param node
@@ -24,7 +29,11 @@ public interface PersistenceConnection {
     public void putNode(String uri, PersistedNode node);
 
     /**
+     * <p>
      * Retrieves a node from the storage medium.
+     * <p>
+     * This operation must be <b>blocking</b>. That is, it should only return
+     * after the respective node is retrieved from the storage medium.
      * 
      * @param uri
      * @return
