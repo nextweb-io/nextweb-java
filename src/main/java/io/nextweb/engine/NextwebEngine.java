@@ -3,7 +3,8 @@ package io.nextweb.engine;
 import io.nextweb.Session;
 import io.nextweb.operations.exceptions.ExceptionManager;
 
-public interface NextwebEngine extends StartServerCapability {
+public interface NextwebEngine extends StartServerCapability,
+        PersistedReplicationCapability {
 
     public Session createSession();
 
@@ -17,6 +18,14 @@ public interface NextwebEngine extends StartServerCapability {
      * @return
      */
     public boolean hasStartServerCapability();
+
+    /**
+     * Returns true of this engine supports storing data replicated on a server
+     * on the local machine.
+     * 
+     * @return
+     */
+    public boolean hasPersistedReplicationCapability();
 
     /**
      * Install the selected capability for this engine.
