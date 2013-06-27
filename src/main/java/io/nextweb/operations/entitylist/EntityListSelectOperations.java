@@ -9,6 +9,8 @@ public interface EntityListSelectOperations {
 
     public ListQuery select(Entity propertyType);
 
+    public ListQuery select(String path);
+
     public ListQuery selectAll(Entity propertyType);
 
     public LinkListQuery selectAllLinks();
