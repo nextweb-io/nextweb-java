@@ -62,6 +62,12 @@ public interface SessionOperations {
 
     public Link node(String uri, String secret);
 
+    public Link link(Node node);
+
+    public Link link(String uri);
+
+    public Link link(String uri, String secret);
+
     public Session getAll(BasicResult<?>... results);
 
     public Result<SuccessFail> getAll(boolean asynchronous,
