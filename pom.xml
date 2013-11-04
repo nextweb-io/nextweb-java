@@ -455,19 +455,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<developers>
 		<developer>
 			<id>mxro</id>
-			<na<execution>
-						<id>copy-dependencies</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>me>Max Rohde</name>
+			<name>Max Rohde</name>
 			<email>noemail@mxro.de</email>
 			<url>http://www.mxro.de/</url>
 			<roles>
