@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<groupId>io.nextweb.core</groupId>
 	<artifactId>nextweb-java</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
@@ -200,19 +201,7 @@
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
+					
 				</executions>
 			</plugin>
 
@@ -417,13 +406,31 @@
 		</resources>
 
 
+	<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh-external</artifactId>
+				<version>2.5</version>
+			</extension>
+
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.5</version>
+			</extension>
+		</extensions>
 	</build>
 
-	<!-- <distributionManagement> <repository> <id>releases</id> <name>Internal 
-		Releases</name> <url>http://internal1.nxweb.de:8080/nexus/content/repositories/releases 
-		</url> </repository> <snapshotRepository> <id>snapshots</id> <name>Internal 
-		Snapshots</name> <url>http://internal1.nxweb.de:8080/nexus/content/repositories/snapshots 
-		</url> </snapshotRepository> </distributionManagement> -->
+	<distributionManagement>
+		<repository>
+			<id>appjangle-releases</id>
+			<url>${repos.appjangle-releases}</url>
+		</repository>
+		<snapshotRepository>
+			<id>appjangle-snapshots</id>
+			<url>${repos.appjangle-snapshots}</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 
 
@@ -448,7 +455,19 @@
 	<developers>
 		<developer>
 			<id>mxro</id>
-			<name>Max Rohde</name>
+			<na<execution>
+						<id>copy-dependencies</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>me>Max Rohde</name>
 			<email>noemail@mxro.de</email>
 			<url>http://www.mxro.de/</url>
 			<roles>
