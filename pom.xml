@@ -35,12 +35,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.gwt</groupId>
-			<artifactId>gwt-dev</artifactId>
-			<version>${gwtVersion}</version>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -61,29 +55,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<packaging>bundle</packaging>
 	<build>
 
-		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+		<!-- <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory> -->
 
 		<plugins>
 
 
-			<!-- <plugin> <groupId>org.jwallez.plugin</groupId> <artifactId>maven-google-plugin</artifactId> 
-				<version>0.1-SNAPSHOT</version> </plugin> -->
-
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<configuration>
-
-
-					<!-- <webApp>${basedir}\target\oneAppWww-0.0.2-SNAPSHOT.war</webApp> -->
-					<webAppConfig>
-						<contextPath>/</contextPath>
-						<descriptor>${basedir}/src/main/webapp/WEB-INF/web.xml
-						</descriptor>
-					</webAppConfig>
-				</configuration>
-
-			</plugin>
+			
 
 			<!-- to attach JavaDoc to Jars -->
 			<plugin>
@@ -163,9 +140,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					
 					<gwtVersion>${gwtVersion}</gwtVersion>
 
-					<hostedWebapp>${basedir}/src/main/webapp</hostedWebapp>
+					<!-- <hostedWebapp>${basedir}/src/main/webapp</hostedWebapp>
 
-					<webappDirectory>${basedir}/src/main/webapp</webappDirectory>
+					<webappDirectory>${basedir}/src/main/webapp</webappDirectory> -->
 
 					<htmlunit>IE7</htmlunit> <!-- or IE6 or FF3, ... -->
 
@@ -235,8 +212,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 						<configuration>
 							<tasks>
 								<delete file="${basedir}/META-INF/MANIFEST.MF" />
-								<copy file="src/main/webapp/WEB-INF/classes/META-INF/MANIFEST.MF"
-									tofile="${basedir}/META-INF/MANIFEST.MF" />
+								<copy file="target/classes/META-INF/MANIFEST.MF" tofile="${basedir}/META-INF/MANIFEST.MF" />
 							</tasks>
 						</configuration>
 					</execution>
