@@ -21,7 +21,7 @@ public interface PersistenceConnection {
      * <p>
      * This operation should be <b>non-blocking</b>. That is, it should not wait
      * for the write to be performed on the storage medium but collect pending
-     * write opertations in a cache, which are performed asynchronously.
+     * write operations in a cache, which are performed asynchronously.
      * 
      * @param uri
      * @param node
