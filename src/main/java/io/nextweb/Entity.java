@@ -1,8 +1,8 @@
 package io.nextweb;
 
 import io.nextweb.fn.BasicResult;
+import io.nextweb.fn.exceptions.ExceptionManager;
 import io.nextweb.operations.EntityOperations;
-import io.nextweb.operations.exceptions.ExceptionManager;
 import io.nextweb.plugins.HasPlugins;
 
 public interface Entity extends EntityOperations, BasicResult<Node>,

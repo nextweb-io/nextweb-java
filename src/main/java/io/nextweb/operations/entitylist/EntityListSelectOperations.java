@@ -3,7 +3,7 @@ package io.nextweb.operations.entitylist;
 import io.nextweb.Entity;
 import io.nextweb.LinkListQuery;
 import io.nextweb.ListQuery;
-import io.nextweb.fn.BooleanResult;
+import io.nextweb.engine.fn.BooleanResult;
 
 public interface EntityListSelectOperations {
 

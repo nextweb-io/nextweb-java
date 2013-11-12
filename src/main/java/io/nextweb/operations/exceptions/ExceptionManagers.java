@@ -1,6 +1,7 @@
 package io.nextweb.operations.exceptions;
 
-import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.fn.callbacks.Callback;
+import io.nextweb.fn.exceptions.ExceptionManager;
 
 public class ExceptionManagers {
 

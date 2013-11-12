@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<groupId>io.nextweb.core</groupId>
 	<artifactId>nextweb-java</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
@@ -26,6 +26,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 	<!-- Dependent Modules -->
 	<dependencies>
+
+		<dependency>
+			<groupId>io.nextweb.fn</groupId>
+			<artifactId>nextweb-fn</artifactId>
+			<version>[0.0.1,)</version>
+		</dependency>
 
 		<!-- only for gwt maven plugin!!! -->
 		<dependency>
@@ -60,7 +66,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<plugins>
 
 
-			
+
 
 			<!-- to attach JavaDoc to Jars -->
 			<plugin>
@@ -137,12 +143,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					<draftCompile>${module.draftCompile}</draftCompile>
 					<logLevel>INFO</logLevel>
 					<validateOnly>true</validateOnly>
-					
+
 					<gwtVersion>${gwtVersion}</gwtVersion>
 
-					<!-- <hostedWebapp>${basedir}/src/main/webapp</hostedWebapp>
-
-					<webappDirectory>${basedir}/src/main/webapp</webappDirectory> -->
+					<!-- <hostedWebapp>${basedir}/src/main/webapp</hostedWebapp> <webappDirectory>${basedir}/src/main/webapp</webappDirectory> -->
 
 					<htmlunit>IE7</htmlunit> <!-- or IE6 or FF3, ... -->
 
@@ -178,7 +182,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
-					
+
 				</executions>
 			</plugin>
 
@@ -382,7 +386,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		</resources>
 
 
-	<extensions>
+		<extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ssh-external</artifactId>

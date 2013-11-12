@@ -2,11 +2,12 @@ package io.nextweb.operations.callbacks;
 
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebGlobal;
-import io.nextweb.fn.ExceptionResult;
-import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.operations.exceptions.ImpossibleResult;
-import io.nextweb.operations.exceptions.UnauthorizedResult;
-import io.nextweb.operations.exceptions.UndefinedResult;
+import io.nextweb.fn.callbacks.Callback;
+import io.nextweb.fn.exceptions.ExceptionManager;
+import io.nextweb.fn.exceptions.ExceptionResult;
+import io.nextweb.fn.exceptions.ImpossibleResult;
+import io.nextweb.fn.exceptions.UnauthorizedResult;
+import io.nextweb.fn.exceptions.UndefinedResult;
 
 public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
 

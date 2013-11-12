@@ -2,7 +2,7 @@ package io.nextweb.operations.entity;
 
 import io.nextweb.Entity;
 import io.nextweb.Query;
-import io.nextweb.fn.BooleanResult;
+import io.nextweb.engine.fn.BooleanResult;
 
 public interface EntityHasOperations {
 

@@ -1,11 +1,15 @@
 package io.nextweb.engine;
 
+import io.nextweb.fn.exceptions.ExceptionManager;
+
 public class NextwebGlobal {
 
 	private static NextwebEngine definedEngine;
 
 	public static void injectEngine(final NextwebEngine engine) {
 		definedEngine = engine;
+		ExceptionManager.fallbackExceptionManager = engine.getExceptionManager();
+	
 	}
 
 	private static NextwebEngine assertEngine() {

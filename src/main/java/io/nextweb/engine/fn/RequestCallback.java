@@ -1,6 +1,6 @@
-package io.nextweb.fn;
+package io.nextweb.engine.fn;
 
-import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.fn.callbacks.Callback;
 
 public interface RequestCallback<ResultType> extends Callback<ResultType> {
 

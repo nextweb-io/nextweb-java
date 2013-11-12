@@ -5,7 +5,9 @@ import io.nextweb.EntityList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Session;
 import io.nextweb.fn.Closure;
-import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.fn.callbacks.Callback;
+import io.nextweb.fn.callbacks.EmbeddedCallback;
+import io.nextweb.fn.exceptions.ExceptionManager;
 
 public class CallbackFactory {
 

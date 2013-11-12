@@ -1,13 +1,18 @@
-package io.nextweb.fn;
+package io.nextweb.engine.fn;
 
 import io.nextweb.Session;
-import io.nextweb.operations.callbacks.Callback;
+import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.BasicResult;
+import io.nextweb.fn.Closure;
+import io.nextweb.fn.Result;
+import io.nextweb.fn.callbacks.Callback;
+import io.nextweb.fn.exceptions.AllInterceptor;
+import io.nextweb.fn.exceptions.ExceptionListener;
+import io.nextweb.fn.exceptions.ExceptionManager;
+import io.nextweb.fn.exceptions.ImpossibleListener;
+import io.nextweb.fn.exceptions.UnauthorizedListener;
+import io.nextweb.fn.exceptions.UndefinedListener;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.operations.exceptions.AllInterceptor;
-import io.nextweb.operations.exceptions.ExceptionManager;
-import io.nextweb.operations.exceptions.ImpossibleListener;
-import io.nextweb.operations.exceptions.UnauthorizedListener;
-import io.nextweb.operations.exceptions.UndefinedListener;
 
 public class BooleanResult implements BasicResult<Boolean>,
 		AllInterceptor<BooleanResult> {

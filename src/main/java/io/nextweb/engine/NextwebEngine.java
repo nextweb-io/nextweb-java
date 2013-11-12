@@ -1,7 +1,7 @@
 package io.nextweb.engine;
 
 import io.nextweb.Session;
-import io.nextweb.operations.exceptions.ExceptionManager;
+import io.nextweb.fn.exceptions.ExceptionManager;
 
 public interface NextwebEngine extends StartServerCapability,
         PersistedReplicationCapability {
