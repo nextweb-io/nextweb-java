@@ -4,8 +4,7 @@ import io.nextweb.Session;
 import io.nextweb.common.SessionConfiguration;
 import io.nextweb.fn.exceptions.ExceptionManager;
 
-public interface NextwebEngine extends StartServerCapability,
-        PersistedReplicationCapability {
+public interface NextwebEngine extends StartServerCapability {
 
     public Session createSession();
 
