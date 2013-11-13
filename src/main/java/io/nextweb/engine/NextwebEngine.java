@@ -1,6 +1,7 @@
 package io.nextweb.engine;
 
 import io.nextweb.Session;
+import io.nextweb.common.SessionConfiguration;
 import io.nextweb.fn.exceptions.ExceptionManager;
 
 public interface NextwebEngine extends StartServerCapability,
@@ -8,6 +9,14 @@ public interface NextwebEngine extends StartServerCapability,
 
     public Session createSession();
 
+    /**
+     * Creates a new session with specific configuration options.
+     * 
+     * @param connection
+     * @return
+     */
+    public Session createSession(SessionConfiguration configuration);
+    
     public Factory getFactory();
 
     public ExceptionManager getExceptionManager();
