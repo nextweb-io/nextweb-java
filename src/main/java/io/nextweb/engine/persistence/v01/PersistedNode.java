@@ -20,12 +20,12 @@ public class PersistedNode implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Object node;
+    public Serializable node;
     public List<String> connections;
 
     public PersistedNode(final Object node, final List<String> connections) {
         super();
-        this.node = node;
+        this.node = (Serializable) node;
         setConnections(connections);
     }
 
