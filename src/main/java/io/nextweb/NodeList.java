@@ -23,5 +23,7 @@ public interface NodeList extends EntityList, ReadOnlyList<Node>,
 	public List<Object> values();
 
 	public List<Node> nodes();
+	
+	public List<String> uris();
 
 }
