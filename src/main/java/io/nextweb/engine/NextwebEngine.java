@@ -3,6 +3,8 @@ package io.nextweb.engine;
 import io.nextweb.Session;
 import io.nextweb.common.SessionConfiguration;
 import io.nextweb.fn.exceptions.ExceptionManager;
+import de.mxro.factories.FactoryCollection;
+import de.mxro.service.ServiceRegistry;
 
 public interface NextwebEngine extends StartServerCapability {
 
@@ -16,8 +18,33 @@ public interface NextwebEngine extends StartServerCapability {
      */
     public Session createSession(SessionConfiguration configuration);
     
+    /**
+     * Factory to build nodes.
+     * @return
+     */
     public Factory getFactory();
 
+    
+    /**
+     * Registry of factories to build dependencies.
+     * 
+     * @return
+     */
+    public FactoryCollection factories();
+    
+    
+    /**
+     * Registry of simple services.
+     * 
+     * @return
+     */
+    public ServiceRegistry services();
+    
+    
+    /**
+     * Manager to catch exceptions globally.
+     * @return
+     */
     public ExceptionManager getExceptionManager();
 
     /**
