@@ -39,6 +39,13 @@
 			<version>[0.0.1,)</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>de.mxro.service</groupId>
+			<artifactId>service-api</artifactId>
+			<version>[0.0.1,)</version>
+		</dependency>
+
 		<!-- only for gwt maven plugin!!! -->
 		<dependency>
 			<groupId>de.mxro.thrd.gwtuser24</groupId>
