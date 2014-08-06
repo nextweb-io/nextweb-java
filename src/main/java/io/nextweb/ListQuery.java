@@ -1,6 +1,6 @@
 package io.nextweb;
 
-import io.nextweb.fn.Closure;
+import de.mxro.fn.Closure;
 import io.nextweb.operations.EntityListRequestOperations;
 
 public interface ListQuery extends EntityList,

@@ -1,10 +1,10 @@
 package io.nextweb.operations.callbacks;
 
+import de.mxro.fn.Closure;
 import io.nextweb.Entity;
 import io.nextweb.EntityList;
 import io.nextweb.LinkListQuery;
 import io.nextweb.Session;
-import io.nextweb.fn.Closure;
 import io.nextweb.fn.callbacks.Callback;
 import io.nextweb.fn.callbacks.EmbeddedCallback;
 import io.nextweb.fn.exceptions.ExceptionManager;

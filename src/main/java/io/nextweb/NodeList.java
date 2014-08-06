@@ -1,10 +1,11 @@
 package io.nextweb;
 
-import io.nextweb.fn.Closure;
 import io.nextweb.fn.ReadOnlyList;
 import io.nextweb.operations.EntityListRequestOperations;
 
 import java.util.List;
+
+import de.mxro.fn.Closure;
 
 public interface NodeList extends EntityList, ReadOnlyList<Node>,
 		EntityListRequestOperations<NodeList> {

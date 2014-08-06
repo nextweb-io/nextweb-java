@@ -1,9 +1,9 @@
 package io.nextweb.engine.fn;
 
+import de.mxro.fn.Closure;
 import io.nextweb.Session;
 import io.nextweb.fn.AsyncResult;
 import io.nextweb.fn.BasicResult;
-import io.nextweb.fn.Closure;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.callbacks.Callback;
 import io.nextweb.fn.exceptions.AllInterceptor;
