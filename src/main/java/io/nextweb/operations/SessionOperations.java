@@ -1,5 +1,7 @@
 package io.nextweb.operations;
 
+import de.mxro.fn.Success;
+import de.mxro.fn.SuccessFail;
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
@@ -8,8 +10,6 @@ import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
 import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Result;
-import io.nextweb.fn.Success;
-import io.nextweb.fn.SuccessFail;
 
 public interface SessionOperations {
 
