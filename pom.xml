@@ -399,6 +399,8 @@
 				<role>developer</role>
 			</roles>
 			<timezone>+10</timezone>
+			<organization>pureleap</organization>
+			<organizationUrl>http://pureleap.com</organizationUrl>
 		</developer>
 	</developers>
 
