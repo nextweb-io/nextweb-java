@@ -227,7 +227,7 @@
 								<report>project-team</report>
 								<report>license</report>
 								<report>mailing-list</report>
-								<report>dependencies</report>
+								<!--  <report>dependencies</report> -->
 								<report>dependency-convergence</report>
 								<report>plugin-management</report>
 								<report>cim</report>
