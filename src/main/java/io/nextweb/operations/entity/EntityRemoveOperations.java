@@ -2,7 +2,7 @@ package io.nextweb.operations.entity;
 
 import de.mxro.fn.Success;
 import io.nextweb.Entity;
-import io.nextweb.fn.Result;
+import io.nextweb.promise.Result;
 
 public interface EntityRemoveOperations {
 

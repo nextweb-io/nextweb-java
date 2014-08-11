@@ -2,7 +2,7 @@ package io.nextweb.engine;
 
 import io.nextweb.Session;
 import io.nextweb.common.SessionConfiguration;
-import io.nextweb.fn.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.ExceptionManager;
 import de.mxro.factories.FactoryCollection;
 import de.mxro.service.ServiceRegistry;
 

@@ -8,8 +8,8 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
-import io.nextweb.fn.BasicResult;
-import io.nextweb.fn.Result;
+import io.nextweb.promise.BasicResult;
+import io.nextweb.promise.Result;
 
 public interface SessionOperations {
 

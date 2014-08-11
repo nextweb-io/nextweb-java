@@ -1,6 +1,6 @@
 package io.nextweb.engine;
 
-import io.nextweb.fn.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.ExceptionManager;
 
 public class NextwebGlobal {
 

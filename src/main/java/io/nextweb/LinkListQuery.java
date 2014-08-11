@@ -1,10 +1,10 @@
 package io.nextweb;
 
-import io.nextweb.fn.BasicResult;
-import io.nextweb.fn.exceptions.ExceptionManager;
 import io.nextweb.operations.EntityListOperations;
 import io.nextweb.operations.EntityListRequestOperations;
 import io.nextweb.plugins.HasPlugins;
+import io.nextweb.promise.BasicResult;
+import io.nextweb.promise.exceptions.ExceptionManager;
 
 public interface LinkListQuery extends BasicResult<LinkList>,
 		EntityListOperations, EntityListRequestOperations<LinkListQuery>,

@@ -1,8 +1,8 @@
 package io.nextweb.common;
 
-import io.nextweb.fn.Result;
 import io.nextweb.operations.exceptions.LoginFailuresInterceptor;
 import io.nextweb.operations.exceptions.LoginFailuresListener;
+import io.nextweb.promise.Result;
 
 /**
  * <p>

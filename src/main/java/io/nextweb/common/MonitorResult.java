@@ -1,7 +1,7 @@
 package io.nextweb.common;
 
-import io.nextweb.fn.Result;
 import io.nextweb.operations.callbacks.NodeListener;
+import io.nextweb.promise.Result;
 
 public interface MonitorResult extends Result<Monitor> {
 

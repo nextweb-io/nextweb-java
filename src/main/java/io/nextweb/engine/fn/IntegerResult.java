@@ -2,17 +2,17 @@ package io.nextweb.engine.fn;
 
 import de.mxro.fn.Closure;
 import io.nextweb.Session;
-import io.nextweb.fn.Deferred;
-import io.nextweb.fn.BasicResult;
-import io.nextweb.fn.Result;
-import io.nextweb.fn.callbacks.Callback;
-import io.nextweb.fn.exceptions.AllInterceptor;
-import io.nextweb.fn.exceptions.ExceptionListener;
-import io.nextweb.fn.exceptions.ExceptionManager;
-import io.nextweb.fn.exceptions.ImpossibleListener;
-import io.nextweb.fn.exceptions.UnauthorizedListener;
-import io.nextweb.fn.exceptions.UndefinedListener;
 import io.nextweb.operations.callbacks.CallbackFactory;
+import io.nextweb.promise.BasicResult;
+import io.nextweb.promise.Deferred;
+import io.nextweb.promise.Result;
+import io.nextweb.promise.callbacks.Callback;
+import io.nextweb.promise.exceptions.AllInterceptor;
+import io.nextweb.promise.exceptions.ExceptionListener;
+import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.ImpossibleListener;
+import io.nextweb.promise.exceptions.UnauthorizedListener;
+import io.nextweb.promise.exceptions.UndefinedListener;
 
 public class IntegerResult implements BasicResult<Integer>,
 		AllInterceptor<IntegerResult> {
