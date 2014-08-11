@@ -8,8 +8,8 @@ import io.nextweb.Query;
 import io.nextweb.Session;
 import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
-import io.nextweb.promise.BasicResult;
-import io.nextweb.promise.Result;
+import io.nextweb.promise.BasicPromise;
+import io.nextweb.promise.NextwebPromise;
 
 public interface SessionOperations {
 
@@ -29,7 +29,7 @@ public interface SessionOperations {
      * 
      * @return
      */
-    public Result<Success> close();
+    public NextwebPromise<Success> close();
 
     /**
      * <p>
@@ -40,7 +40,7 @@ public interface SessionOperations {
      * 
      * @return
      */
-    public Result<Success> commit();
+    public NextwebPromise<Success> commit();
 
     /**
      * To use links origination in other sessions.
@@ -68,10 +68,10 @@ public interface SessionOperations {
 
     public Link link(String uri, String secret);
 
-    public Session getAll(BasicResult<?>... results);
+    public Session getAll(BasicPromise<?>... results);
 
-    public Result<SuccessFail> getAll(boolean asynchronous,
-            BasicResult<?>... results);
+    public NextwebPromise<SuccessFail> getAll(boolean asynchronous,
+            BasicPromise<?>... results);
 
     public Query seed();
 
@@ -79,7 +79,7 @@ public interface SessionOperations {
 
     public Query createRealm(String realmTitle, String realmType, String apiKey);
 
-    public Result<Postbox> createPostbox(String realmTitle, String postboxType,
+    public NextwebPromise<Postbox> createPostbox(String realmTitle, String postboxType,
             String apiKey);
 
     /**
@@ -97,7 +97,7 @@ public interface SessionOperations {
      * @param secret
      * @return
      */
-    public Result<Success> post(Object value, String toUri, String secret);
+    public NextwebPromise<Success> post(Object value, String toUri, String secret);
 
     /**
      * <p>

@@ -1,7 +1,7 @@
 package io.nextweb.common;
 
 import de.mxro.fn.Success;
-import io.nextweb.promise.Result;
+import io.nextweb.promise.NextwebPromise;
 
 public interface Monitor {
 
@@ -14,6 +14,6 @@ public interface Monitor {
      * 
      * @return this monitor
      */
-    public Result<Success> stop();
+    public NextwebPromise<Success> stop();
 
 }

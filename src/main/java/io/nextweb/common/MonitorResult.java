@@ -1,9 +1,9 @@
 package io.nextweb.common;
 
 import io.nextweb.operations.callbacks.NodeListener;
-import io.nextweb.promise.Result;
+import io.nextweb.promise.NextwebPromise;
 
-public interface MonitorResult extends Result<Monitor> {
+public interface MonitorResult extends NextwebPromise<Monitor> {
 
     /**
      * Set the speed at which messages are sent to the remote server to check

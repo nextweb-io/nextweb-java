@@ -3,9 +3,9 @@ package io.nextweb.engine.fn;
 import de.mxro.fn.Closure;
 import io.nextweb.Session;
 import io.nextweb.operations.callbacks.CallbackFactory;
-import io.nextweb.promise.BasicResult;
+import io.nextweb.promise.BasicPromise;
 import io.nextweb.promise.Deferred;
-import io.nextweb.promise.Result;
+import io.nextweb.promise.NextwebPromise;
 import io.nextweb.promise.callbacks.Callback;
 import io.nextweb.promise.exceptions.AllInterceptor;
 import io.nextweb.promise.exceptions.ExceptionListener;
@@ -14,10 +14,10 @@ import io.nextweb.promise.exceptions.ImpossibleListener;
 import io.nextweb.promise.exceptions.UnauthorizedListener;
 import io.nextweb.promise.exceptions.UndefinedListener;
 
-public class IntegerResult implements BasicResult<Integer>,
+public class IntegerResult implements BasicPromise<Integer>,
 		AllInterceptor<IntegerResult> {
 
-	private final Result<Integer> result;
+	private final NextwebPromise<Integer> result;
 	private final ExceptionManager exceptionManager;
 	private final Session session;
 

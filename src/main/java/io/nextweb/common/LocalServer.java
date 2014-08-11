@@ -1,10 +1,10 @@
 package io.nextweb.common;
 
 import de.mxro.fn.Success;
-import io.nextweb.promise.Result;
+import io.nextweb.promise.NextwebPromise;
 
 public interface LocalServer {
 
-	public Result<Success> shutdown();
+	public NextwebPromise<Success> shutdown();
 
 }

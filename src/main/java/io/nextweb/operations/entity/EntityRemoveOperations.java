@@ -2,7 +2,7 @@ package io.nextweb.operations.entity;
 
 import de.mxro.fn.Success;
 import io.nextweb.Entity;
-import io.nextweb.promise.Result;
+import io.nextweb.promise.NextwebPromise;
 
 public interface EntityRemoveOperations {
 
@@ -20,7 +20,7 @@ public interface EntityRemoveOperations {
 	 * @param entity
 	 * @return
 	 */
-	public Result<Success> remove(Entity entity);
+	public NextwebPromise<Success> remove(Entity entity);
 
 	/**
 	 * <p>
@@ -36,6 +36,6 @@ public interface EntityRemoveOperations {
 	 * @param entity
 	 * @return
 	 */
-	public Result<Success> removeSafe(Entity entity);
+	public NextwebPromise<Success> removeSafe(Entity entity);
 
 }
