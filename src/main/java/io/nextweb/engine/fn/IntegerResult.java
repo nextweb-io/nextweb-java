@@ -2,7 +2,7 @@ package io.nextweb.engine.fn;
 
 import de.mxro.fn.Closure;
 import io.nextweb.Session;
-import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Deferred;
 import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.callbacks.Callback;
@@ -23,7 +23,7 @@ public class IntegerResult implements BasicResult<Integer>,
 
 	public IntegerResult plus(final IntegerResult otherResult) {
 		return new IntegerResult(exceptionManager, session,
-				new AsyncResult<Integer>() {
+				new Deferred<Integer>() {
 
 					@Override
 					public void get(final Callback<Integer> callback) {
@@ -58,7 +58,7 @@ public class IntegerResult implements BasicResult<Integer>,
 
 	public IntegerResult minus(final IntegerResult otherResult) {
 		return new IntegerResult(exceptionManager, session,
-				new AsyncResult<Integer>() {
+				new Deferred<Integer>() {
 
 					@Override
 					public void get(final Callback<Integer> callback) {
@@ -136,7 +136,7 @@ public class IntegerResult implements BasicResult<Integer>,
 	}
 
 	public IntegerResult(final ExceptionManager parentExceptionManager,
-			final Session session, final AsyncResult<Integer> result) {
+			final Session session, final Deferred<Integer> result) {
 		super();
 		this.exceptionManager = new ExceptionManager(parentExceptionManager);
 		this.session = session;
@@ -145,7 +145,7 @@ public class IntegerResult implements BasicResult<Integer>,
 	}
 
 	@Override
-	public AsyncResult<Integer> getDecoratedResult() {
+	public Deferred<Integer> getDecoratedResult() {
 		return this.result;
 	}
 

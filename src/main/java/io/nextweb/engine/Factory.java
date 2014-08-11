@@ -1,7 +1,7 @@
 package io.nextweb.engine;
 
 import io.nextweb.Session;
-import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Deferred;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.exceptions.ExceptionManager;
 import io.nextweb.nodes.Bytes;
@@ -13,7 +13,7 @@ public interface Factory {
 
     public <ResultType> Result<ResultType> createResult(
             ExceptionManager exceptionManager, Session session,
-            AsyncResult<ResultType> asyncResult);
+            Deferred<ResultType> asyncResult);
 
     public Bytes createBytes(Session session, byte[] data, String mimetype);
 

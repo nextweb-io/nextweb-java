@@ -2,7 +2,7 @@ package io.nextweb.engine.fn;
 
 import de.mxro.fn.Closure;
 import io.nextweb.Session;
-import io.nextweb.fn.AsyncResult;
+import io.nextweb.fn.Deferred;
 import io.nextweb.fn.BasicResult;
 import io.nextweb.fn.Result;
 import io.nextweb.fn.callbacks.Callback;
@@ -28,7 +28,7 @@ public class BooleanResult implements BasicResult<Boolean>,
 
 	public BooleanResult and(final BooleanResult otherResult) {
 		return new BooleanResult(exceptionManager, session,
-				new AsyncResult<Boolean>() {
+				new Deferred<Boolean>() {
 
 					@Override
 					public void get(final Callback<Boolean> callback) {
@@ -65,7 +65,7 @@ public class BooleanResult implements BasicResult<Boolean>,
 
 	public BooleanResult or(final BooleanResult otherResult) {
 		return new BooleanResult(exceptionManager, session,
-				new AsyncResult<Boolean>() {
+				new Deferred<Boolean>() {
 
 					@Override
 					public void get(final Callback<Boolean> callback) {
@@ -140,12 +140,12 @@ public class BooleanResult implements BasicResult<Boolean>,
 	}
 
 	@Override
-	public AsyncResult<Boolean> getDecoratedResult() {
+	public Deferred<Boolean> getDecoratedResult() {
 		return this.result;
 	}
 
 	public BooleanResult(final ExceptionManager eM, final Session session,
-			final AsyncResult<Boolean> result) {
+			final Deferred<Boolean> result) {
 		super();
 		this.exceptionManager = new ExceptionManager(eM);
 		this.session = session;
