@@ -3,7 +3,7 @@
 <module rename-to="nextweb">
 	<inherits name="com.google.gwt.user.User" />
 	
-	<inherits name='io.nextweb.fn.NextwebFn'/>
+	<inherits name='io.nextweb.promise.NextwebPromise'/>
 
   	
   	<entry-point class='io.nextweb.internal.DummyEntryPoint'/>
