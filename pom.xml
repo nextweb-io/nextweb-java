@@ -249,6 +249,8 @@
 									<link>http://modules.appjangle.com/async-api/latest/apidocs/</link>
 									<link>http://modules.appjangle.com/factories/latest/apidocs/</link>
 									<link>http://modules.appjangle.com/service-api/latest/apidocs/</link>
+									<link>http://modules.appjangle.com/nextweb-promise/latest/apidocs/</link>
+									<link>http://modules.appjangle.com/nextweb-promise-js/latest/apidocs/</link>
 								</links>
 							</configuration>
 						</plugin>
