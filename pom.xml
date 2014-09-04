@@ -244,7 +244,12 @@
 							<artifactId>maven-javadoc-plugin</artifactId>
 							<version>2.9.1</version>
 							<configuration>
-
+								<links>
+									<link>http://modules.appjangle.com/fn-api/latest/apidocs/</link>
+									<link>http://modules.appjangle.com/async-api/latest/apidocs/</link>
+									<link>http://modules.appjangle.com/factories/latest/apidocs/</link>
+									<link>http://modules.appjangle.com/service-api/latest/apidocs/</link>
+								</links>
 							</configuration>
 						</plugin>
 						<plugin>
@@ -370,22 +375,7 @@
 
 
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Codehaus Snapshots</id>
-			<url>https://nexus.codehaus.org/content/groups/snapshots-group/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>maven-google-plugin-repository</id>
-			<name>Maven-Google-Plugin's Maven 2 Repository</name>
-			<url>http://maven-google-plugin.googlecode.com/svn/maven2</url>
-		</pluginRepository>
-
-	</pluginRepositories>
+	
 
 
 	<developers>
