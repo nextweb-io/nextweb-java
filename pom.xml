@@ -373,11 +373,6 @@
 		</snapshotRepository>
 	</distributionManagement>
 
-
-
-	
-
-
 	<developers>
 		<developer>
 			<id>mxro</id>
