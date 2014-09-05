@@ -53,14 +53,12 @@ public interface PersistenceConnection {
     /**
      * Writes all changes to he persistence medium and closes the connection.
      * 
-     * @param whenClosed
      */
     public void close(WhenClosed whenClosed);
 
     /**
      * Writes all changes to the persistence medium.
      * 
-     * @param whenCommitted
      */
     public void commit(WhenCommitted whenCommitted);
 
