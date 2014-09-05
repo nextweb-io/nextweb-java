@@ -19,35 +19,30 @@ public interface NextwebEngine extends StartServerCapability {
     /**
      * Factory to build nodes.
      * 
-     * @return
      */
     public Factory getFactory();
 
     /**
      * Registry of factories to build dependencies.
      * 
-     * @return
      */
     public FactoryCollection factories();
 
     /**
      * Registry of simple services.
      * 
-     * @return
      */
     public ServiceRegistry services();
 
     /**
      * Manager to catch exceptions globally.
      * 
-     * @return
      */
     public ExceptionManager getExceptionManager();
 
     /**
      * Returns true if this engine supports starting an embedded server.
      * 
-     * @return
      */
     public boolean hasStartServerCapability();
 
@@ -55,7 +50,6 @@ public interface NextwebEngine extends StartServerCapability {
      * Returns true of this engine supports storing data replicated on a server
      * on the local machine.
      * 
-     * @return
      */
     public boolean hasPersistedReplicationCapability();
 
@@ -63,6 +57,7 @@ public interface NextwebEngine extends StartServerCapability {
      * Install the selected capability for this engine.
      * 
      * @param capability
+     *            The capability to be injected.
      */
     public void injectCapability(Capability capability);
 

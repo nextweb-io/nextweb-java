@@ -24,7 +24,9 @@ public interface PersistenceConnection {
      * write operations in a cache, which are performed asynchronously.
      * 
      * @param uri
+     *            The uri of the node to be stored
      * @param node
+     *            The node to be stored
      */
     public void putNode(String uri, PersistedNode node);
 
@@ -36,7 +38,8 @@ public interface PersistenceConnection {
      * after the respective node is retrieved from the storage medium.
      * 
      * @param uri
-     * @return
+     *            The uri of the node to be retrieved.
+     * @return The node if it was found, otherwise null.
      */
     public PersistedNode getNode(String uri);
 
