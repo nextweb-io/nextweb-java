@@ -11,8 +11,7 @@ import io.nextweb.promise.exceptions.ExceptionManager;
 
 public interface Factory {
 
-    public <ResultType> NextwebPromise<ResultType> createResult(
-            ExceptionManager exceptionManager, Session session,
+    public <ResultType> NextwebPromise<ResultType> createResult(ExceptionManager exceptionManager, Session session,
             Deferred<ResultType> asyncResult);
 
     public Bytes createBytes(Session session, byte[] data, String mimetype);
@@ -23,13 +22,18 @@ public interface Factory {
      * Valid authorizations: "write", "read", "readwrite"
      * 
      * @param session
+     *            A reference to a session. This is required to create this
+     *            object.
      * @param secret
+     *            The secret for this token.
      * @param grantedAuthorization
+     *            The type of authorization granted for this token.
      * @param identification
-     * @return
+     *            The identification (uri) that this token referes too.
+     *            Optional, can be "".
+     * @return The newly created token.
      */
-    public Token createToken(Session session, String secret,
-            String grantedAuthorization, String identification);
+    public Token createToken(Session session, String secret, String grantedAuthorization, String identification);
 
     public Json createJson(Session session, String json);
 

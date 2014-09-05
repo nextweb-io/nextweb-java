@@ -13,36 +13,33 @@ public interface NextwebEngine extends StartServerCapability {
     /**
      * Creates a new session with specific configuration options.
      * 
-     * @param connection
-     * @return
      */
     public Session createSession(SessionConfiguration configuration);
-    
+
     /**
      * Factory to build nodes.
+     * 
      * @return
      */
     public Factory getFactory();
 
-    
     /**
      * Registry of factories to build dependencies.
      * 
      * @return
      */
     public FactoryCollection factories();
-    
-    
+
     /**
      * Registry of simple services.
      * 
      * @return
      */
     public ServiceRegistry services();
-    
-    
+
     /**
      * Manager to catch exceptions globally.
+     * 
      * @return
      */
     public ExceptionManager getExceptionManager();
