@@ -29,8 +29,8 @@ public interface Factory {
      * @param grantedAuthorization
      *            The type of authorization granted for this token.
      * @param identification
-     *            The identification (uri) that this token referes too.
-     *            Optional, can be "".
+     *            The identification (uri) that this token refers too. Optional,
+     *            can be "".
      * @return The newly created token.
      */
     public Token createToken(Session session, String secret, String grantedAuthorization, String identification);
