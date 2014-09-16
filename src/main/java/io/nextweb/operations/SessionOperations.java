@@ -1,7 +1,5 @@
 package io.nextweb.operations;
 
-import de.mxro.fn.Success;
-import de.mxro.fn.SuccessFail;
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
@@ -10,6 +8,8 @@ import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
 import io.nextweb.promise.BasicPromise;
 import io.nextweb.promise.NextwebPromise;
+import de.mxro.fn.Success;
+import de.mxro.fn.SuccessFail;
 
 public interface SessionOperations {
 
@@ -70,17 +70,22 @@ public interface SessionOperations {
 
     public Session getAll(BasicPromise<?>... results);
 
-    public NextwebPromise<SuccessFail> getAll(boolean asynchronous,
-            BasicPromise<?>... results);
+    public NextwebPromise<SuccessFail> getAll(boolean asynchronous, BasicPromise<?>... results);
 
+    /**
+     * <p>
+     * Creates a new node on the remote partner which does not have a direct
+     * parent.
+     * 
+     * @return A {@link Query}
+     */
     public Query seed();
 
     public Query seed(String seedType);
 
     public Query createRealm(String realmTitle, String realmType, String apiKey);
 
-    public NextwebPromise<Postbox> createPostbox(String realmTitle, String postboxType,
-            String apiKey);
+    public NextwebPromise<Postbox> createPostbox(String realmTitle, String postboxType, String apiKey);
 
     /**
      * <p>
