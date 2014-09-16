@@ -77,6 +77,8 @@ public interface SessionOperations {
      * Creates a new node on the remote partner which does not have a direct
      * parent.
      * 
+     * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">Seed
+     *      Operation (Nextweb API Documentation)</a>
      * @return A {@link Query}
      */
     public Query seed();
