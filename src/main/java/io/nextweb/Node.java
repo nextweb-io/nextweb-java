@@ -2,6 +2,15 @@ package io.nextweb;
 
 import io.nextweb.operations.entity.EntityRequestOperations;
 
+/**
+ * <p>
+ * A resolved node in a Nextweb graph.
+ * 
+ * @see <a href="http://nextweb.io/docs/nextweb-entity.value.html">Entities
+ *      (Nextweb API Documentation)</a>
+ * @author <a href="http://www.mxro.de">Max Rohde</a>
+ *
+ */
 public interface Node extends Entity, EntityRequestOperations<Node> {
 
     public String getUri();
