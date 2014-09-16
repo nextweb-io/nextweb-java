@@ -67,6 +67,20 @@ public interface SessionOperations {
 
     public Link link(Node node);
 
+    /**
+     * <p>
+     * Allows to define a {@link Link} to a node by supplying an address to this
+     * node.
+     * 
+     * @param uri
+     *            A URI to a Nextweb node.
+     * @return A new {@link Link} object pointing to the node with the specified
+     *         address.
+     * @see <a
+     *      href="http://nextweb.io/docs/nextweb-node-operation.value.html">Link
+     *      Operation (Nextweb API Documentation)</a>
+     */
+
     public Link link(String uri);
 
     /**
