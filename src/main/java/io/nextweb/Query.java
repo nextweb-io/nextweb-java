@@ -4,6 +4,7 @@ import io.nextweb.operations.entity.EntityRequestOperations;
 
 /**
  * <p>
+ * A Query is the possibility of a {@link Node}
  * 
  * @author <a href="http://www.mxro.de">Max Rohde</a>
  *
