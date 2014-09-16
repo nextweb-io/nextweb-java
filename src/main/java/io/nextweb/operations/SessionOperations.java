@@ -79,7 +79,7 @@ public interface SessionOperations {
      * 
      * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">Seed
      *      Operation (Nextweb API Documentation)</a>
-     * @return A {@link Query}
+     * @return A {@link Query} which resolves to a new seed node if successful.
      */
     public Query seed();
 
