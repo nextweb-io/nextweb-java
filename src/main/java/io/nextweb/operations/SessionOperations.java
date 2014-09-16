@@ -56,16 +56,34 @@ public interface SessionOperations {
      * @param node
      * @return
      */
+    @Deprecated
     public Link node(Node node);
 
+    @Deprecated
     public Link node(String uri);
 
+    @Deprecated
     public Link node(String uri, String secret);
 
     public Link link(Node node);
 
     public Link link(String uri);
 
+    /**
+     * <p>
+     * Allows to define a link to a node which is protected by a secret.
+     * <p>
+     * The specified secret will be used for both read and write operations.
+     * 
+     * @param uri
+     *            A URI to a Nextweb node.
+     * @param secret
+     *            The access secret to be used to interact with the node.
+     * @return
+     * @see <a
+     *      href="http://nextweb.io/docs/nextweb-node-operation.value.html">Link
+     *      Operation (Nextweb API Documentation)</a>
+     */
     public Link link(String uri, String secret);
 
     public Session getAll(BasicPromise<?>... results);
