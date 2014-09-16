@@ -93,7 +93,8 @@ public interface SessionOperations {
      *            A URI to a Nextweb node.
      * @param secret
      *            The access secret to be used to interact with the node.
-     * @return
+     * @return A new {@link Link} object pointing to the node with the specified
+     *         address.
      * @see <a
      *      href="http://nextweb.io/docs/nextweb-node-operation.value.html">Link
      *      Operation (Nextweb API Documentation)</a>
