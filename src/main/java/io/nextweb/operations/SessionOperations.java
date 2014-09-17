@@ -48,6 +48,7 @@ public interface SessionOperations {
      * @param link
      * @return
      */
+    @Deprecated
     public Link node(Link link);
 
     /**
@@ -64,6 +65,8 @@ public interface SessionOperations {
 
     @Deprecated
     public Link node(String uri, String secret);
+
+    public Link link(Link link);
 
     public Link link(Node node);
 
