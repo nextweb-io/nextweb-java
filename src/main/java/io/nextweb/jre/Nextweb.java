@@ -19,12 +19,14 @@ public class Nextweb {
         try {
             final Class<?> referenceEngine = scanClasspath(knownEngineImplementations);
 
-            final NextwebEngine engine = (NextwebEngine) referenceEngine.newInstance();
-
-            NextwebGlobal.injectEngine(engine);
+            referenceEngine.newInstance();
 
         } catch (final Throwable e) {
             throw new IllegalStateException("Engine could not be initialized.", e);
+        }
+
+        if (!NextwebGlobal.isEngineInitialized()) {
+            throw new RuntimeException("Selected engine did not set the default engine. ");
         }
 
         // throw new RuntimeException("init");
