@@ -19,7 +19,8 @@ public class Nextweb {
         try {
             final Class<?> referenceEngine = scanClasspath(knownEngineImplementations);
 
-            NextwebGlobal.injectEngine((NextwebEngine) referenceEngine.newInstance());
+            NextwebEngine newInstance = (NextwebEngine) referenceEngine.newInstance();
+            NextwebGlobal.injectEngine(newInstance);
 
         } catch (final Throwable e) {
             throw new IllegalStateException("Engine could not be initialized.", e);
