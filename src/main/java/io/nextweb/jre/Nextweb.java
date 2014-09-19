@@ -72,7 +72,7 @@ public class Nextweb {
         System.out.println("Please see http://nextweb.io/ for more infos.");
     }
 
-    public static String[] knownEngineImplementations = new String[] { "com.ononedb.nextweb.jre.OnedbNextwebEngineJre" };
+    public static String[] knownEngineImplementations = new String[] { "com.ononedb.nextweb.jre.OnedbNextwebEngineJreBootstrap" };
 
     public static String[] knownStartServerCapabilityImplementations = new String[] { "com.ononedb.nextweb.local.jre.OnedbStartServerCapabilityJre" };
 
