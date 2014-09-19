@@ -25,7 +25,7 @@ public class Nextweb {
             throw new IllegalStateException("Engine could not be initialized.", e);
         }
 
-        throw new RuntimeException("init");
+        // throw new RuntimeException("init");
 
     }
 
