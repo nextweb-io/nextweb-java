@@ -135,9 +135,14 @@ public interface SessionOperations {
     /**
      * <p>
      * Creates a new seed by trying to connect to the supplied HTTP service.
+     * <p>
+     * Note: When <code>"local"</code> is given as value for
+     * <code>seedRpc</code>, then it is attempted to create a new seed on the
+     * most recently created local server.
      * 
      * @param seedRpc
-     * @return
+     *            The URI of a HTTP service which allows to create seed nodes.
+     * @return A query which can be resolved to a new seed node.
      */
     public Query seed(String seedRpc);
 
