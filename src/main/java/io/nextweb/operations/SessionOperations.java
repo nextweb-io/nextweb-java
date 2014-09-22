@@ -4,6 +4,7 @@ import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
 import io.nextweb.Session;
+import io.nextweb.common.LocalServer;
 import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
 import io.nextweb.promise.BasicPromise;
@@ -119,6 +120,16 @@ public interface SessionOperations {
      * @return A {@link Query} which resolves to a new seed node if successful.
      */
     public Query seed();
+
+    /**
+     * <p>
+     * Creates a new node without a direct parent on the {@link LocalServer}
+     * specified.
+     * 
+     * @param server
+     * @return
+     */
+    public Query seed(LocalServer server);
 
     public Query seed(String seedType);
 
