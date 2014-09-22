@@ -127,11 +127,12 @@ public interface SessionOperations {
      * specified.
      * 
      * @param server
-     * @return
+     *            A local server instance.
+     * @return A query which can be resolved to new node on the server.
      */
     public Query seed(LocalServer server);
 
-    public Query seed(String seedType);
+    public Query seed(String seedRpc);
 
     public Query createRealm(String realmTitle, String realmType, String apiKey);
 
