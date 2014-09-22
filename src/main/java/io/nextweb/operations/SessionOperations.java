@@ -114,7 +114,7 @@ public interface SessionOperations {
      * Creates a new node on the remote partner which does not have a direct
      * parent.
      * 
-     * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">Seed
+     * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">seed
      *      Operation (Nextweb API Documentation)</a>
      * 
      * @return A {@link Query} which resolves to a new seed node if successful.
@@ -130,7 +130,7 @@ public interface SessionOperations {
      * @param server
      *            A local server instance.
      * @return A query which can be resolved to new node on the server.
-     * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">Seed
+     * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">seed
      *      Operation (Nextweb API Documentation)</a>
      */
     public Query seed(LocalServer server);
@@ -139,15 +139,18 @@ public interface SessionOperations {
      * <p>
      * Creates a new seed by trying to connect to the supplied HTTP service.
      * <p>
-     * Note: When <code>"local"</code> is given as value for
+     * <b>Note</b>: When <code>"local"</code> is given as value for
      * <code>seedRpc</code>, then it is attempted to create a new seed on the
      * most recently created local server.
      * 
      * @param seedRpc
      *            The URI of a HTTP service which allows to create seed nodes.
      * @return A query which can be resolved to a new seed node.
-     * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">Seed
+     * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">seed
      *      Operation (Nextweb API Documentation)</a>
+     * @see <a
+     *      href="http://nextweb.io/docs/nextweb-seed-local.value.html">seed('loca
+     *      l ) Operation (Nextweb API Documentation)</a>
      */
     public Query seed(String seedRpc);
 
