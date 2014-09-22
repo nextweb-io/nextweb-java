@@ -132,6 +132,13 @@ public interface SessionOperations {
      */
     public Query seed(LocalServer server);
 
+    /**
+     * <p>
+     * Creates a new seed by trying to connect to the supplied HTTP service.
+     * 
+     * @param seedRpc
+     * @return
+     */
     public Query seed(String seedRpc);
 
     public Query createRealm(String realmTitle, String realmType, String apiKey);
