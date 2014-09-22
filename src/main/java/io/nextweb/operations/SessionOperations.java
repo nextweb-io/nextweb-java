@@ -130,6 +130,8 @@ public interface SessionOperations {
      * @param server
      *            A local server instance.
      * @return A query which can be resolved to new node on the server.
+     * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">Seed
+     *      Operation (Nextweb API Documentation)</a>
      */
     public Query seed(LocalServer server);
 
