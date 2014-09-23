@@ -5,6 +5,7 @@ import io.nextweb.common.LocalServer;
 import io.nextweb.engine.Capability;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.engine.NextwebGlobal;
+import io.nextweb.engine.StartServerCapability;
 
 public class Nextweb {
 
@@ -41,11 +42,19 @@ public class Nextweb {
                 return;
             }
 
+            if (NextwebGlobal.getStartServerCapability() != null) {
+                return NextwebGlobal.getStartServerCapability();
+            }
+
             // if no capability is initialized, try to fall back to reference
             // capabilities
             final Class<?> referenceCapability = scanClasspath(knownStartServerCapabilityImplementations);
 
-            NextwebGlobal.getEngine().injectCapability((Capability) referenceCapability.newInstance());
+            final Capability capability = (Capability) referenceCapability.newInstance();
+
+            NextwebGlobal.injectStartServerCapability((StartServerCapability) capability);
+
+            NextwebGlobal.getEngine().injectCapability(capability);
 
         } catch (final Throwable t) {
             throw new IllegalStateException("Start server capability could not be instantiated.", t);
