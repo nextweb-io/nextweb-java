@@ -54,20 +54,21 @@ public class Nextweb {
 
     @Deprecated
     public static LocalServer startServer(final int port) {
-        assertStartServerCapability();
-
-        return NextwebGlobal.getEngine().startServer("localhost:" + port);
+        return startServer("localhost:" + port);
     }
 
     private static volatile int serverCount = 0;
-    private final static int startPort;
 
     public static LocalServer startServer() {
-
+        final int serverNo = serverCount;
         serverCount++;
+        return startServer("server" + serverNo + ".local");
 
-        return NextwebGlobal.getEngine().startServer("server" + (serverCount - 1) + ".local");
+    }
 
+    public static LocalServer startServer(final String domain) {
+        assertStartServerCapability();
+        return NextwebGlobal.getEngine().startServer(domain);
     }
 
     public static Session createSession() {
