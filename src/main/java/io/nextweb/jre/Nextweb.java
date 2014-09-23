@@ -52,10 +52,11 @@ public class Nextweb {
         }
     }
 
+    @Deprecated
     public static LocalServer startServer(final int port) {
         assertStartServerCapability();
 
-        return NextwebGlobal.getEngine().startServer(port);
+        return NextwebGlobal.getEngine().startServer("localhost:" + port);
     }
 
     public static Session createSession() {
