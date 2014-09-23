@@ -59,6 +59,17 @@ public class Nextweb {
         return NextwebGlobal.getEngine().startServer("localhost:" + port);
     }
 
+    private static volatile int serverCount = 0;
+    private final static int startPort;
+
+    public static LocalServer startServer() {
+
+        serverCount++;
+
+        return NextwebGlobal.getEngine().startServer("server" + (serverCount - 1) + ".local");
+
+    }
+
     public static Session createSession() {
         assertEngine();
 
