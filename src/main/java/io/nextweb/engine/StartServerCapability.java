@@ -4,6 +4,6 @@ import io.nextweb.common.LocalServer;
 
 public interface StartServerCapability extends Capability {
 
-    public LocalServer startServer(int port);
+    public LocalServer startServer(String domain);
 
 }
