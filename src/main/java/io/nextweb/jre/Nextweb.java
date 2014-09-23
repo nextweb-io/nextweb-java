@@ -60,7 +60,7 @@ public class Nextweb {
     private static volatile int serverCount = 0;
 
     public static LocalServer startServer() {
-        final int serverNo = serverCount;
+        final int serverNo = serverCount + 1;
         serverCount++;
         return startServer("server" + serverNo + ".local");
 
