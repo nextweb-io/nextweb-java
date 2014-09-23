@@ -43,7 +43,9 @@ public class Nextweb {
             }
 
             if (NextwebGlobal.getStartServerCapability() != null) {
-                return NextwebGlobal.getStartServerCapability();
+
+                NextwebGlobal.getEngine().injectCapability(NextwebGlobal.getStartServerCapability());
+                return;
             }
 
             // if no capability is initialized, try to fall back to reference
