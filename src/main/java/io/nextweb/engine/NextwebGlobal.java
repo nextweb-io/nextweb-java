@@ -2,6 +2,16 @@ package io.nextweb.engine;
 
 import io.nextweb.promise.exceptions.ExceptionManager;
 
+/**
+ * <p>
+ * Global defaults for the Nextweb API.
+ * <p>
+ * Central point used to inject implementing engines and make them available to
+ * the API.
+ * 
+ * @author <a href="http://www.mxro.de">Max Rohde</a>
+ *
+ */
 public class NextwebGlobal {
 
     private static NextwebEngine definedEngine;
