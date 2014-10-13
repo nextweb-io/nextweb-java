@@ -4,6 +4,12 @@ import io.nextweb.engine.NextwebEngine;
 import io.nextweb.promise.NextwebPromise;
 import de.mxro.fn.Success;
 
+/**
+ * A local server holding nodes and other data.
+ * 
+ * @author <a href="http://www.mxro.de">Max Rohde</a>
+ *
+ */
 public interface LocalServer {
 
     /**
