@@ -1,16 +1,5 @@
 package io.nextweb.jre;
 
-import java.util.Arrays;
-import java.util.List;
-
-import mx.gwtutils.GwtIncompatible;
-import nx.client.internal.InternalClient;
-import nx.remote.RemoteConnection;
-import nx.rpcclienturlconnection.UrlRemoteConnection;
-import one.engine.nx.internal.ClientWrapper;
-
-import com.ononedb.nextweb.OnedbSession;
-
 import io.nextweb.Session;
 import io.nextweb.common.LocalServer;
 import io.nextweb.engine.Capability;
@@ -129,32 +118,6 @@ public class Nextweb {
 
         throw new RuntimeException(new ClassNotFoundException(
                 "Cannot find any known Nextweb implementation on classpath."));
-    }
-
-    /**
-     * Set that all requests to the specified URI are sent to the specified RPC
-     * endpoint.
-     * 
-     * @param nodeRootUri
-     * @param httpServiceUri
-     * @return
-     */
-    @GwtIncompatible("Links to UrlRemoteConnection")
-    public static void addRpcService(final OnedbSession session, final String nodeRootUri, final String httpServiceUri) {
-        final ClientWrapper clientWrapper = (ClientWrapper) session.getClient();
-    
-        final InternalClient internalClient = (InternalClient) clientWrapper.getClientImplementation();
-    
-        final RemoteConnection connection = internalClient.getSettings().getConnection();
-    
-        if (!(connection instanceof UrlRemoteConnection)) {
-            throw new RuntimeException("Rpc targets can only be set for UrlRemoteConnection and not for "
-                    + connection.getClass());
-        }
-        final UrlRemoteConnection urlConnection = (UrlRemoteConnection) connection;
-    
-        final List<String> services = Arrays.asList(new String[] { httpServiceUri });
-        urlConnection.putRPCMapping(nodeRootUri, services);
     }
 
 }
