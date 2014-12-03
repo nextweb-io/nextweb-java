@@ -49,6 +49,11 @@ public interface SessionOperations {
     /**
      * <p>
      * Assures that all deferred operations are fulfilled.
+     * <p>
+     * This operation is executed eagerly (see <a
+     * href="http://nextweb.io/docs/nextweb-eager-operations.value.html">Lazy
+     * and Eager operations</a>).
+     * </p>
      * 
      * @return
      */
