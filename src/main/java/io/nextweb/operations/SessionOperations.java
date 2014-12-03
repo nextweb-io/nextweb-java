@@ -34,6 +34,9 @@ public interface SessionOperations {
 
     /**
      * <p>
+     * Assures that all data changed locally is sent to the synchronization
+     * partner.
+     * <p>
      * This operation is executed eagerly (see <a
      * href="http://nextweb.io/docs/nextweb-eager-operations.value.html">Lazy
      * and Eager operations</a>).
@@ -42,6 +45,14 @@ public interface SessionOperations {
      * @return
      */
     public NextwebPromise<Success> commit();
+
+    /**
+     * <p>
+     * Assures that all deferred operations are fulfilled.
+     * 
+     * @return
+     */
+    public NextwebPromise<Success> commitLocal();
 
     /**
      * To use links origination in other sessions.
@@ -149,8 +160,8 @@ public interface SessionOperations {
      * @see <a href="http://nextweb.io/docs/nextweb-seed.value.html">seed
      *      Operation (Nextweb API Documentation)</a>
      * @see <a
-     *      href="http://nextweb.io/docs/nextweb-seed-local.value.html">seed('loca
-     *      l ) Operation (Nextweb API Documentation)</a>
+     *      href="http://nextweb.io/docs/nextweb-seed-local.value.html">seed('lo
+     *      c a l ) Operation (Nextweb API Documentation)</a>
      */
     public Query seed(String seedRpc);
 
