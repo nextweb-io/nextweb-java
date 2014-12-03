@@ -48,7 +48,9 @@ public interface SessionOperations {
 
     /**
      * <p>
-     * Assures that all deferred operations are fulfilled.
+     * Assures that all deferred operations (eager operations on which .get()
+     * was not called yet) and that all changes are written to the local
+     * persistence medium.
      * <p>
      * This operation is executed eagerly (see <a
      * href="http://nextweb.io/docs/nextweb-eager-operations.value.html">Lazy
