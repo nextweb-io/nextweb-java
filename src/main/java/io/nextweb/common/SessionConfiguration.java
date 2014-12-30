@@ -1,6 +1,7 @@
 package io.nextweb.common;
 
 import io.nextweb.engine.persistence.PersistenceConnection;
+import de.mxro.async.map.AsyncMap;
 
 public abstract class SessionConfiguration {
 
@@ -29,7 +30,7 @@ public abstract class SessionConfiguration {
      * @return
      */
     public AsyncMap<String, Object> sharedCache() {
-
+        return null;
     }
 
 }
