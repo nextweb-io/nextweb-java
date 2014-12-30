@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>de.mxro.async.map</groupId>
 			<artifactId>async-map</artifactId>
-			<version>0.0.9</version>
+			<version>0.0.11</version>
 		</dependency>
 
 		<!-- only for gwt maven plugin!!! -->
