@@ -8,7 +8,7 @@ import io.nextweb.nodes.Token;
 import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
-import de.mxro.promise.helper.Promise;
+import de.mxro.promise.Promise;
 
 public interface Factory {
 
