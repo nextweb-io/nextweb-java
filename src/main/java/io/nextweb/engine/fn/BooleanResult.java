@@ -140,7 +140,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 	}
 
 	@Override
-	public NextwebOperation<Boolean> getDecoratedResult() {
+	public NextwebOperation<Boolean> getOriginalOperation() {
 		return this.result;
 	}
 

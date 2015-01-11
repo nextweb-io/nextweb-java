@@ -145,7 +145,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 	}
 
 	@Override
-	public NextwebOperation<Integer> getDecoratedResult() {
+	public NextwebOperation<Integer> getOriginalOperation() {
 		return this.result;
 	}
 
