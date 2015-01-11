@@ -24,7 +24,9 @@
 
 	<!-- Dependent Modules -->
 	<dependencies>
-
+		
+		
+		
 		<dependency>
 			<groupId>io.nextweb.promise</groupId>
 			<artifactId>nextweb-promise</artifactId>
