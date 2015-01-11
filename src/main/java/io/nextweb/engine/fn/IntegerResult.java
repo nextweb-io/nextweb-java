@@ -26,9 +26,9 @@ public class IntegerResult implements BasicPromise<Integer>,
 				new Deferred<Integer>() {
 
 					@Override
-					public void get(final Callback<Integer> callback) {
+					public void apply(final Callback<Integer> callback) {
 
-						result.get(CallbackFactory.embeddedCallback(
+						result.apply(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
 								new Closure<Integer>() {
 
@@ -36,7 +36,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 									public void apply(
 											final Integer thisResultValue) {
 
-										otherResult.get(CallbackFactory
+										otherResult.apply(CallbackFactory
 												.embeddedCallback(
 														exceptionManager,
 														callback,
@@ -61,9 +61,9 @@ public class IntegerResult implements BasicPromise<Integer>,
 				new Deferred<Integer>() {
 
 					@Override
-					public void get(final Callback<Integer> callback) {
+					public void apply(final Callback<Integer> callback) {
 
-						result.get(CallbackFactory.embeddedCallback(
+						result.apply(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
 								new Closure<Integer>() {
 
@@ -71,7 +71,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 									public void apply(
 											final Integer thisResultValue) {
 
-										otherResult.get(CallbackFactory
+										otherResult.apply(CallbackFactory
 												.embeddedCallback(
 														exceptionManager,
 														callback,
@@ -102,8 +102,8 @@ public class IntegerResult implements BasicPromise<Integer>,
 	}
 
 	@Override
-	public void get(final Callback<Integer> callback) {
-		result.get(callback);
+	public void apply(final Callback<Integer> callback) {
+		result.apply(callback);
 	}
 
 	@Override
