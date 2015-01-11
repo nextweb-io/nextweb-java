@@ -5,10 +5,10 @@ import io.nextweb.engine.NextwebGlobal;
 import io.nextweb.promise.Fn;
 import io.nextweb.promise.callbacks.NextwebCallback;
 import io.nextweb.promise.exceptions.ExceptionListener;
-import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.ExceptionResult;
 import io.nextweb.promise.exceptions.ImpossibleListener;
 import io.nextweb.promise.exceptions.ImpossibleResult;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.UnauthorizedListener;
 import io.nextweb.promise.exceptions.UnauthorizedResult;
 import io.nextweb.promise.exceptions.UndefinedListener;
@@ -28,29 +28,25 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
     private ImpossibleListener impossibleListener;
     private final NextwebCallback<?> fallbackCallback;
 
-    public EagerCallback<ResultType> catchExceptions(
-            final ExceptionListener exceptionListener) {
+    public EagerCallback<ResultType> catchExceptions(final ExceptionListener exceptionListener) {
         hasEagerFailureListener = true;
         this.exceptionListener = exceptionListener;
         return this;
     }
 
-    public EagerCallback<ResultType> catchUnauthorized(
-            final UnauthorizedListener exceptionListener) {
+    public EagerCallback<ResultType> catchUnauthorized(final UnauthorizedListener exceptionListener) {
         hasEagerUnauthorizedListener = true;
         this.authExceptionListener = exceptionListener;
         return this;
     }
 
-    public EagerCallback<ResultType> catchUndefined(
-            final UndefinedListener listener) {
+    public EagerCallback<ResultType> catchUndefined(final UndefinedListener listener) {
         hasEagerUndefinedListener = true;
         this.undefinedExceptionListenr = listener;
         return this;
     }
 
-    public EagerCallback<ResultType> catchImpossible(
-            final ImpossibleListener listener) {
+    public EagerCallback<ResultType> catchImpossible(final ImpossibleListener listener) {
         hasEagerImpossibleListener = true;
         this.impossibleListener = listener;
         return this;
@@ -73,8 +69,7 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
             return;
         }
 
-        if (session != null
-                && session.getExceptionManager().canCatchExceptions()) {
+        if (session != null && session.getExceptionManager().canCatchExceptions()) {
             session.getExceptionManager().onFailure(r);
             return;
         }
@@ -91,8 +86,8 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
         }
 
         if (hasEagerFailureListener) {
-            this.exceptionListener.onFailure(Fn.exception(r.origin(),
-                    new Exception("Unauthorized: " + r.getMessage())));
+            this.exceptionListener
+                    .onFailure(Fn.exception(r.origin(), new Exception("Unauthorized: " + r.getMessage())));
             return;
         }
 
@@ -106,9 +101,7 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
             return;
         }
 
-        if (session != null
-                && session.getExceptionManager()
-                        .canCatchAuthorizationExceptions()) {
+        if (session != null && session.getExceptionManager().canCatchAuthorizationExceptions()) {
             session.getExceptionManager().onUnauthorized(r);
             return;
         }
@@ -125,8 +118,7 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
 
         if (hasEagerFailureListener) {
             this.exceptionListener.onFailure(Fn.exception(ir.origin(),
-                    new Exception("Operation impossible: [" + ir.message()
-                            + "]")));
+                    new Exception("Operation impossible: [" + ir.message() + "]")));
             return;
         }
 
@@ -140,8 +132,7 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
             return;
         }
 
-        if (session != null
-                && session.getExceptionManager().canCatchImpossibe()) {
+        if (session != null && session.getExceptionManager().canCatchImpossibe()) {
             session.getExceptionManager().onImpossible(ir);
             return;
         }
@@ -163,8 +154,7 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
         }
 
         if (hasEagerFailureListener) {
-            this.exceptionListener.onFailure(Fn.exception(r.origin(),
-                    new Exception("Undefined: " + r.message())));
+            this.exceptionListener.onFailure(Fn.exception(r.origin(), new Exception("Undefined: " + r.message())));
             return;
         }
 
@@ -178,8 +168,7 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
             return;
         }
 
-        if (session != null
-                && session.getExceptionManager().canCatchUndefinedExceptions()) {
+        if (session != null && session.getExceptionManager().canCatchUndefinedExceptions()) {
             session.getExceptionManager().onUndefined(r);
             return;
         }
@@ -204,8 +193,14 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
         return hasEagerUnauthorizedListener || hasEagerFailureListener;
     }
 
-    public EagerCallback(final Session session,
-            final NextwebExceptionManager exceptionManager,
+    @Override
+    public boolean hasEagerListeners() {
+
+        return hasEagerFailureListener() || hasEagerImpossibleListener() || hasEagerUnauthorizedListener()
+                || hasEagerUndefinedListener();
+    }
+
+    public EagerCallback(final Session session, final NextwebExceptionManager exceptionManager,
             final NextwebCallback<?> fallbackCallback) {
         super();
         this.session = session;
