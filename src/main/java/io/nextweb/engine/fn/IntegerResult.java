@@ -4,7 +4,7 @@ import de.mxro.fn.Closure;
 import io.nextweb.Session;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.promise.BasicPromise;
-import io.nextweb.promise.Deferred;
+import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
 import io.nextweb.promise.callbacks.Callback;
 import io.nextweb.promise.exceptions.AllInterceptor;
@@ -23,7 +23,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 
 	public IntegerResult plus(final IntegerResult otherResult) {
 		return new IntegerResult(exceptionManager, session,
-				new Deferred<Integer>() {
+				new NextwebOperation<Integer>() {
 
 					@Override
 					public void apply(final Callback<Integer> callback) {
@@ -58,7 +58,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 
 	public IntegerResult minus(final IntegerResult otherResult) {
 		return new IntegerResult(exceptionManager, session,
-				new Deferred<Integer>() {
+				new NextwebOperation<Integer>() {
 
 					@Override
 					public void apply(final Callback<Integer> callback) {
@@ -136,7 +136,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 	}
 
 	public IntegerResult(final ExceptionManager parentExceptionManager,
-			final Session session, final Deferred<Integer> result) {
+			final Session session, final NextwebOperation<Integer> result) {
 		super();
 		this.exceptionManager = new ExceptionManager(parentExceptionManager);
 		this.session = session;
@@ -145,7 +145,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 	}
 
 	@Override
-	public Deferred<Integer> getDecoratedResult() {
+	public NextwebOperation<Integer> getDecoratedResult() {
 		return this.result;
 	}
 

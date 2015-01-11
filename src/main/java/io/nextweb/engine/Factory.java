@@ -5,14 +5,14 @@ import io.nextweb.nodes.Bytes;
 import io.nextweb.nodes.Json;
 import io.nextweb.nodes.Port;
 import io.nextweb.nodes.Token;
-import io.nextweb.promise.Deferred;
+import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
 import io.nextweb.promise.exceptions.ExceptionManager;
 
 public interface Factory {
 
     public <ResultType> NextwebPromise<ResultType> createResult(ExceptionManager exceptionManager, Session session,
-            Deferred<ResultType> asyncResult);
+            NextwebOperation<ResultType> asyncResult);
 
     public Bytes createBytes(Session session, byte[] data, String mimetype);
 

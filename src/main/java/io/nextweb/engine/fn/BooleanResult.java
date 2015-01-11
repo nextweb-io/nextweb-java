@@ -4,7 +4,7 @@ import de.mxro.fn.Closure;
 import io.nextweb.Session;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.promise.BasicPromise;
-import io.nextweb.promise.Deferred;
+import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
 import io.nextweb.promise.callbacks.Callback;
 import io.nextweb.promise.exceptions.AllInterceptor;
@@ -28,7 +28,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 
 	public BooleanResult and(final BooleanResult otherResult) {
 		return new BooleanResult(exceptionManager, session,
-				new Deferred<Boolean>() {
+				new NextwebOperation<Boolean>() {
 
 					@Override
 					public void apply(final Callback<Boolean> callback) {
@@ -65,7 +65,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 
 	public BooleanResult or(final BooleanResult otherResult) {
 		return new BooleanResult(exceptionManager, session,
-				new Deferred<Boolean>() {
+				new NextwebOperation<Boolean>() {
 
 					@Override
 					public void apply(final Callback<Boolean> callback) {
@@ -140,12 +140,12 @@ public class BooleanResult implements BasicPromise<Boolean>,
 	}
 
 	@Override
-	public Deferred<Boolean> getDecoratedResult() {
+	public NextwebOperation<Boolean> getDecoratedResult() {
 		return this.result;
 	}
 
 	public BooleanResult(final ExceptionManager eM, final Session session,
-			final Deferred<Boolean> result) {
+			final NextwebOperation<Boolean> result) {
 		super();
 		this.exceptionManager = new ExceptionManager(eM);
 		this.session = session;
