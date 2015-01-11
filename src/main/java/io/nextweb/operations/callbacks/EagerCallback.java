@@ -11,6 +11,7 @@ import io.nextweb.promise.exceptions.ImpossibleResult;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.UnauthorizedListener;
 import io.nextweb.promise.exceptions.UnauthorizedResult;
+import io.nextweb.promise.exceptions.UndefinedException;
 import io.nextweb.promise.exceptions.UndefinedListener;
 import io.nextweb.promise.exceptions.UndefinedResult;
 
@@ -54,6 +55,14 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
 
     @Override
     public final void onFailure(final ExceptionResult r) {
+
+        if (r.exception() instanceof UndefinedException) {
+
+            final UndefinedException ue = (UndefinedException) r.exception();
+            onUndefined(ue.getResult());
+            return;
+        }
+
         if (hasEagerFailureListener) {
             this.exceptionListener.onFailure(r);
             return;
@@ -87,7 +96,7 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
 
         if (hasEagerFailureListener) {
             this.exceptionListener
-                    .onFailure(Fn.exception(r.origin(), new Exception("Unauthorized: " + r.getMessage())));
+            .onFailure(Fn.exception(r.origin(), new Exception("Unauthorized: " + r.getMessage())));
             return;
         }
 
