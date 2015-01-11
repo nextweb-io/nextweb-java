@@ -2,14 +2,14 @@ package io.nextweb.operations.callbacks;
 
 import io.nextweb.Session;
 import io.nextweb.engine.NextwebGlobal;
-import io.nextweb.promise.callbacks.Callback;
+import io.nextweb.promise.callbacks.NextwebCallback;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.ExceptionResult;
 import io.nextweb.promise.exceptions.ImpossibleResult;
 import io.nextweb.promise.exceptions.UnauthorizedResult;
 import io.nextweb.promise.exceptions.UndefinedResult;
 
-public abstract class LazyCallback<ResultType> implements Callback<ResultType> {
+public abstract class LazyCallback<ResultType> implements NextwebCallback<ResultType> {
 
 	private final NextwebExceptionManager exceptionManager;
 	private final Session session;

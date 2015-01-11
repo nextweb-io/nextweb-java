@@ -1,7 +1,7 @@
 package io.nextweb.engine.fn;
 
-import io.nextweb.promise.callbacks.Callback;
+import io.nextweb.promise.callbacks.NextwebCallback;
 
-public interface RequestCallback<ResultType> extends Callback<ResultType> {
+public interface RequestCallback<ResultType> extends NextwebCallback<ResultType> {
 
 }

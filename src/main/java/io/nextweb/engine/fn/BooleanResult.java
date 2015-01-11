@@ -6,7 +6,7 @@ import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.promise.BasicPromise;
 import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
-import io.nextweb.promise.callbacks.Callback;
+import io.nextweb.promise.callbacks.NextwebCallback;
 import io.nextweb.promise.exceptions.AllInterceptor;
 import io.nextweb.promise.exceptions.ExceptionListener;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
@@ -31,7 +31,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 				new NextwebOperation<Boolean>() {
 
 					@Override
-					public void apply(final Callback<Boolean> callback) {
+					public void apply(final NextwebCallback<Boolean> callback) {
 						result.apply(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
 								new Closure<Boolean>() {
@@ -68,7 +68,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 				new NextwebOperation<Boolean>() {
 
 					@Override
-					public void apply(final Callback<Boolean> callback) {
+					public void apply(final NextwebCallback<Boolean> callback) {
 						result.apply(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
 								new Closure<Boolean>() {
@@ -111,7 +111,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 	}
 
 	@Override
-	public void apply(final Callback<Boolean> callback) {
+	public void apply(final NextwebCallback<Boolean> callback) {
 		result.apply(callback);
 	}
 

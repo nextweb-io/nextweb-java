@@ -6,7 +6,7 @@ import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.promise.BasicPromise;
 import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
-import io.nextweb.promise.callbacks.Callback;
+import io.nextweb.promise.callbacks.NextwebCallback;
 import io.nextweb.promise.exceptions.AllInterceptor;
 import io.nextweb.promise.exceptions.ExceptionListener;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
@@ -26,7 +26,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 				new NextwebOperation<Integer>() {
 
 					@Override
-					public void apply(final Callback<Integer> callback) {
+					public void apply(final NextwebCallback<Integer> callback) {
 
 						result.apply(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
@@ -61,7 +61,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 				new NextwebOperation<Integer>() {
 
 					@Override
-					public void apply(final Callback<Integer> callback) {
+					public void apply(final NextwebCallback<Integer> callback) {
 
 						result.apply(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
@@ -102,7 +102,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 	}
 
 	@Override
-	public void apply(final Callback<Integer> callback) {
+	public void apply(final NextwebCallback<Integer> callback) {
 		result.apply(callback);
 	}
 
