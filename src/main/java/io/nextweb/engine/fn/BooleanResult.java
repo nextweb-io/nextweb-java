@@ -31,8 +31,8 @@ public class BooleanResult implements BasicPromise<Boolean>,
 				new NextwebOperation<Boolean>() {
 
 					@Override
-					public void apply(final Callback<Boolean> callback) {
-						result.apply(CallbackFactory.embeddedCallback(
+					public void get(final Callback<Boolean> callback) {
+						result.get(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
 								new Closure<Boolean>() {
 
@@ -43,7 +43,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 											return;
 										}
 
-										otherResult.apply(CallbackFactory
+										otherResult.get(CallbackFactory
 												.embeddedCallback(
 														exceptionManager,
 														callback,
@@ -68,8 +68,8 @@ public class BooleanResult implements BasicPromise<Boolean>,
 				new NextwebOperation<Boolean>() {
 
 					@Override
-					public void apply(final Callback<Boolean> callback) {
-						result.apply(CallbackFactory.embeddedCallback(
+					public void get(final Callback<Boolean> callback) {
+						result.get(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
 								new Closure<Boolean>() {
 
@@ -80,7 +80,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 											return;
 										}
 
-										otherResult.apply(CallbackFactory
+										otherResult.get(CallbackFactory
 												.embeddedCallback(
 														exceptionManager,
 														callback,
@@ -111,8 +111,8 @@ public class BooleanResult implements BasicPromise<Boolean>,
 	}
 
 	@Override
-	public void apply(final Callback<Boolean> callback) {
-		result.apply(callback);
+	public void get(final Callback<Boolean> callback) {
+		result.get(callback);
 	}
 
 	@Override

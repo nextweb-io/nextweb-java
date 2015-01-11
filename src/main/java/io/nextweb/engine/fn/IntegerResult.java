@@ -26,9 +26,9 @@ public class IntegerResult implements BasicPromise<Integer>,
 				new NextwebOperation<Integer>() {
 
 					@Override
-					public void apply(final Callback<Integer> callback) {
+					public void get(final Callback<Integer> callback) {
 
-						result.apply(CallbackFactory.embeddedCallback(
+						result.get(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
 								new Closure<Integer>() {
 
@@ -36,7 +36,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 									public void apply(
 											final Integer thisResultValue) {
 
-										otherResult.apply(CallbackFactory
+										otherResult.get(CallbackFactory
 												.embeddedCallback(
 														exceptionManager,
 														callback,
@@ -61,9 +61,9 @@ public class IntegerResult implements BasicPromise<Integer>,
 				new NextwebOperation<Integer>() {
 
 					@Override
-					public void apply(final Callback<Integer> callback) {
+					public void get(final Callback<Integer> callback) {
 
-						result.apply(CallbackFactory.embeddedCallback(
+						result.get(CallbackFactory.embeddedCallback(
 								exceptionManager, callback,
 								new Closure<Integer>() {
 
@@ -71,7 +71,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 									public void apply(
 											final Integer thisResultValue) {
 
-										otherResult.apply(CallbackFactory
+										otherResult.get(CallbackFactory
 												.embeddedCallback(
 														exceptionManager,
 														callback,
@@ -102,8 +102,8 @@ public class IntegerResult implements BasicPromise<Integer>,
 	}
 
 	@Override
-	public void apply(final Callback<Integer> callback) {
-		result.apply(callback);
+	public void get(final Callback<Integer> callback) {
+		result.get(callback);
 	}
 
 	@Override
