@@ -9,7 +9,7 @@ import io.nextweb.promise.NextwebPromise;
 import io.nextweb.promise.callbacks.Callback;
 import io.nextweb.promise.exceptions.AllInterceptor;
 import io.nextweb.promise.exceptions.ExceptionListener;
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.ImpossibleListener;
 import io.nextweb.promise.exceptions.UnauthorizedListener;
 import io.nextweb.promise.exceptions.UndefinedListener;
@@ -18,7 +18,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 		AllInterceptor<IntegerResult> {
 
 	private final NextwebPromise<Integer> result;
-	private final ExceptionManager exceptionManager;
+	private final NextwebExceptionManager exceptionManager;
 	private final Session session;
 
 	public IntegerResult plus(final IntegerResult otherResult) {
@@ -107,7 +107,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 	}
 
 	@Override
-	public ExceptionManager getExceptionManager() {
+	public NextwebExceptionManager getExceptionManager() {
 		return exceptionManager;
 	}
 
@@ -135,10 +135,10 @@ public class IntegerResult implements BasicPromise<Integer>,
 		return this;
 	}
 
-	public IntegerResult(final ExceptionManager parentExceptionManager,
+	public IntegerResult(final NextwebExceptionManager parentExceptionManager,
 			final Session session, final NextwebOperation<Integer> result) {
 		super();
-		this.exceptionManager = new ExceptionManager(parentExceptionManager);
+		this.exceptionManager = new NextwebExceptionManager(parentExceptionManager);
 		this.session = session;
 		this.result = session.getEngine().getFactory()
 				.createResult(this.exceptionManager, session, result);

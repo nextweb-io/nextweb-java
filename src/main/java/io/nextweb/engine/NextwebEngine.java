@@ -2,7 +2,7 @@ package io.nextweb.engine;
 
 import io.nextweb.Session;
 import io.nextweb.common.SessionConfiguration;
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import de.mxro.factories.FactoryCollection;
 import de.mxro.service.ServiceRegistry;
 
@@ -38,7 +38,7 @@ public interface NextwebEngine extends StartServerCapability {
      * Manager to catch exceptions globally.
      * 
      */
-    public ExceptionManager getExceptionManager();
+    public NextwebExceptionManager getExceptionManager();
 
     /**
      * Returns true if this engine supports starting an embedded server.

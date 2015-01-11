@@ -7,11 +7,11 @@ import io.nextweb.nodes.Port;
 import io.nextweb.nodes.Token;
 import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 
 public interface Factory {
 
-    public <ResultType> NextwebPromise<ResultType> createResult(ExceptionManager exceptionManager, Session session,
+    public <ResultType> NextwebPromise<ResultType> createResult(NextwebExceptionManager exceptionManager, Session session,
             NextwebOperation<ResultType> asyncResult);
 
     public Bytes createBytes(Session session, byte[] data, String mimetype);

@@ -1,6 +1,6 @@
 package io.nextweb.engine;
 
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 
 /**
  * <p>
@@ -28,7 +28,7 @@ public class NextwebGlobal {
 
     public static void injectEngine(final NextwebEngine engine) {
         definedEngine = engine;
-        ExceptionManager.fallbackExceptionManager = engine.getExceptionManager();
+        NextwebExceptionManager.fallbackExceptionManager = engine.getExceptionManager();
 
     }
 

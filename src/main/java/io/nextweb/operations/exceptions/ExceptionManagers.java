@@ -1,14 +1,14 @@
 package io.nextweb.operations.exceptions;
 
 import io.nextweb.promise.callbacks.Callback;
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 
 public class ExceptionManagers {
 
-    public static ExceptionManager fromCallback(final Callback<?> callback,
-            final ExceptionManager parentExceptionManager) {
+    public static NextwebExceptionManager fromCallback(final Callback<?> callback,
+            final NextwebExceptionManager parentExceptionManager) {
 
-        final ExceptionManager em = new ExceptionManager(parentExceptionManager);
+        final NextwebExceptionManager em = new NextwebExceptionManager(parentExceptionManager);
 
         if (callback.hasEagerFailureListener()) {
             em.catchExceptions(callback);

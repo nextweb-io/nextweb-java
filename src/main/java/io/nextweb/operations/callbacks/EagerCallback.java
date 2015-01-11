@@ -5,7 +5,7 @@ import io.nextweb.engine.NextwebGlobal;
 import io.nextweb.promise.Fn;
 import io.nextweb.promise.callbacks.Callback;
 import io.nextweb.promise.exceptions.ExceptionListener;
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.ExceptionResult;
 import io.nextweb.promise.exceptions.ImpossibleListener;
 import io.nextweb.promise.exceptions.ImpossibleResult;
@@ -22,7 +22,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
     private boolean hasEagerImpossibleListener;
     private ExceptionListener exceptionListener;
     private final Session session;
-    private final ExceptionManager exceptionManager;
+    private final NextwebExceptionManager exceptionManager;
     private UnauthorizedListener authExceptionListener;
     private UndefinedListener undefinedExceptionListenr;
     private ImpossibleListener impossibleListener;
@@ -205,7 +205,7 @@ public abstract class EagerCallback<ResultType> implements Callback<ResultType> 
     }
 
     public EagerCallback(final Session session,
-            final ExceptionManager exceptionManager,
+            final NextwebExceptionManager exceptionManager,
             final Callback<?> fallbackCallback) {
         super();
         this.session = session;

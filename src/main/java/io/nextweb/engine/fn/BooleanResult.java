@@ -9,7 +9,7 @@ import io.nextweb.promise.NextwebPromise;
 import io.nextweb.promise.callbacks.Callback;
 import io.nextweb.promise.exceptions.AllInterceptor;
 import io.nextweb.promise.exceptions.ExceptionListener;
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.ImpossibleListener;
 import io.nextweb.promise.exceptions.UnauthorizedListener;
 import io.nextweb.promise.exceptions.UndefinedListener;
@@ -18,11 +18,11 @@ public class BooleanResult implements BasicPromise<Boolean>,
 		AllInterceptor<BooleanResult> {
 
 	private final NextwebPromise<Boolean> result;
-	private final ExceptionManager exceptionManager;
+	private final NextwebExceptionManager exceptionManager;
 	private final Session session;
 
 	@Override
-	public ExceptionManager getExceptionManager() {
+	public NextwebExceptionManager getExceptionManager() {
 		return exceptionManager;
 	}
 
@@ -144,10 +144,10 @@ public class BooleanResult implements BasicPromise<Boolean>,
 		return this.result;
 	}
 
-	public BooleanResult(final ExceptionManager eM, final Session session,
+	public BooleanResult(final NextwebExceptionManager eM, final Session session,
 			final NextwebOperation<Boolean> result) {
 		super();
-		this.exceptionManager = new ExceptionManager(eM);
+		this.exceptionManager = new NextwebExceptionManager(eM);
 		this.session = session;
 		this.result = session.getEngine().getFactory()
 				.createResult(this.exceptionManager, session, result);

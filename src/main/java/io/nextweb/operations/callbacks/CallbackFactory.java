@@ -7,13 +7,13 @@ import io.nextweb.LinkListQuery;
 import io.nextweb.Session;
 import io.nextweb.promise.callbacks.Callback;
 import io.nextweb.promise.callbacks.EmbeddedCallback;
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 
 public class CallbackFactory {
 
     @SuppressWarnings("unchecked")
     public static <ResultType> Callback<ResultType> embeddedCallback(
-            final ExceptionManager exceptionManager,
+            final NextwebExceptionManager exceptionManager,
             final Callback<ResultType> embeddedIn) {
         return new EmbeddedCallback<ResultType>((Callback<Object>) embeddedIn,
                 exceptionManager);
@@ -21,7 +21,7 @@ public class CallbackFactory {
 
     @SuppressWarnings("unchecked")
     public static <ResultType> Callback<ResultType> embeddedCallback(
-            final ExceptionManager exceptionManager,
+            final NextwebExceptionManager exceptionManager,
             final Callback<?> embeddedIn, final Closure<ResultType> p_onSuccess) {
         return new EmbeddedCallback<ResultType>((Callback<Object>) embeddedIn,
                 exceptionManager) {
@@ -55,7 +55,7 @@ public class CallbackFactory {
     }
 
     public static <ResultType> Callback<ResultType> lazyCallback(
-            final Session session, final ExceptionManager exceptionManager,
+            final Session session, final NextwebExceptionManager exceptionManager,
             final Closure<ResultType> closure) {
 
         return new LazyCallback<ResultType>(exceptionManager, session) {
@@ -69,7 +69,7 @@ public class CallbackFactory {
     }
 
     public static <ResultType> EagerCallback<ResultType> eagerCallback(
-            final Session session, final ExceptionManager exceptionManager,
+            final Session session, final NextwebExceptionManager exceptionManager,
             final Closure<ResultType> closure) {
         return new EagerCallback<ResultType>(session, exceptionManager, null) {
 
@@ -91,7 +91,7 @@ public class CallbackFactory {
      */
     public static <ResultType> EagerCallback<ResultType> eagerCallback(
             final Session session, final Callback<?> fallbackCallback,
-            final ExceptionManager exceptionManager,
+            final NextwebExceptionManager exceptionManager,
             final Closure<ResultType> closure) {
         return new EagerCallback<ResultType>(session, exceptionManager,
                 fallbackCallback) {

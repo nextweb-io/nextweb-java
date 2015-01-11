@@ -4,7 +4,7 @@ import io.nextweb.operations.EntityListOperations;
 import io.nextweb.operations.EntityListRequestOperations;
 import io.nextweb.plugins.HasPlugins;
 import io.nextweb.promise.BasicPromise;
-import io.nextweb.promise.exceptions.ExceptionManager;
+import io.nextweb.promise.exceptions.NextwebExceptionManager;
 
 public interface LinkListQuery extends BasicPromise<LinkList>,
 		EntityListOperations, EntityListRequestOperations<LinkListQuery>,
@@ -12,6 +12,6 @@ public interface LinkListQuery extends BasicPromise<LinkList>,
 
 	public Session getSession();
 
-	public ExceptionManager getExceptionManager();
+	public NextwebExceptionManager getExceptionManager();
 
 }
