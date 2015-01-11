@@ -141,7 +141,7 @@ public class IntegerResult implements BasicPromise<Integer>,
 		this.exceptionManager = new NextwebExceptionManager(parentExceptionManager);
 		this.session = session;
 		this.result = session.getEngine().getFactory()
-				.createResult(this.exceptionManager, session, result);
+				.createPromise(this.exceptionManager, session, result);
 	}
 
 	@Override

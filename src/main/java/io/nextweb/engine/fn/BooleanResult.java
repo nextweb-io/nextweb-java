@@ -150,7 +150,7 @@ public class BooleanResult implements BasicPromise<Boolean>,
 		this.exceptionManager = new NextwebExceptionManager(eM);
 		this.session = session;
 		this.result = session.getEngine().getFactory()
-				.createResult(this.exceptionManager, session, result);
+				.createPromise(this.exceptionManager, session, result);
 
 	}
 }

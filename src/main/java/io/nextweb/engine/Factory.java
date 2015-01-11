@@ -8,10 +8,14 @@ import io.nextweb.nodes.Token;
 import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
+import de.mxro.promise.helper.Promise;
 
 public interface Factory {
 
-    public <ResultType> NextwebPromise<ResultType> createResult(NextwebExceptionManager exceptionManager, Session session,
+    public <ResultType> NextwebPromise<ResultType> createPromise(NextwebExceptionManager exceptionManager,
+            Session session, NextwebOperation<ResultType> asyncResult);
+
+    public <ResultType> Promise<ResultType> createPromiseNew(NextwebExceptionManager exceptionManager, Session session,
             NextwebOperation<ResultType> asyncResult);
 
     public Bytes createBytes(Session session, byte[] data, String mimetype);
