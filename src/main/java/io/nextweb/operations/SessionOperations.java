@@ -3,15 +3,11 @@ package io.nextweb.operations;
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
-import io.nextweb.Session;
 import io.nextweb.common.LocalServer;
 import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
-import io.nextweb.promise.BasicPromise;
 import io.nextweb.promise.NextwebPromise;
 import de.mxro.fn.Success;
-import de.mxro.fn.SuccessFail;
-import de.mxro.promise.jre.Promises;
 
 public interface SessionOperations {
 
@@ -123,25 +119,6 @@ public interface SessionOperations {
      *      Operation (Nextweb API Documentation)</a>
      */
     public Link link(String uri, String secret);
-
-/**
-     * 
-     * <p>Use {@link Promises#parallel(de.mxro.promise.Promise...) instead
-     * 
-     * @param results
-     * @return
-     */
-    @Deprecated
-    public Session getAll(BasicPromise<?>... results);
-
-    /**
-     * 
-     * @param asynchronous
-     * @param results
-     * @return
-     */
-    @Deprecated
-    public NextwebPromise<SuccessFail> getAll(boolean asynchronous, BasicPromise<?>... results);
 
     /**
      * <p>
