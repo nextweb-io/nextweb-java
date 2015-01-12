@@ -124,7 +124,7 @@ public interface SessionOperations {
      */
     public Link link(String uri, String secret);
 
-    /**
+/**
      * 
      * <p>Use {@link Promises#parallel(de.mxro.promise.Promise...) instead
      * 
@@ -134,6 +134,13 @@ public interface SessionOperations {
     @Deprecated
     public Session getAll(BasicPromise<?>... results);
 
+    /**
+     * 
+     * @param asynchronous
+     * @param results
+     * @return
+     */
+    @Deprecated
     public NextwebPromise<SuccessFail> getAll(boolean asynchronous, BasicPromise<?>... results);
 
     /**
