@@ -258,6 +258,7 @@
 									<link>http://modules.appjangle.com/service-api/latest/apidocs/</link>
 									<link>http://modules.appjangle.com/nextweb-promise/latest/apidocs/</link>
 									<link>http://modules.appjangle.com/nextweb-promise-js/latest/apidocs/</link>
+									<link>http://modules.appjangle.com/java-promise/latest/apidocs/</link>
 								</links>
 							</configuration>
 						</plugin>
