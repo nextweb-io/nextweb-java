@@ -54,6 +54,7 @@ public class CallbackFactory {
 
             @Override
             public void onUndefined(final UndefinedResult r) {
+                // System.out.println("received " + r);
                 callback.onFailure(new UndefinedException(r));
             }
 
