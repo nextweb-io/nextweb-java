@@ -154,6 +154,8 @@ public abstract class EagerCallback<ResultType> implements NextwebCallback<Resul
 
     @Override
     public final void onUndefined(final UndefinedResult r) {
+
+        // System.out.println("Eager received " + r);
         if (hasEagerUndefinedListener) {
             this.undefinedExceptionListenr.onUndefined(r);
             return;
