@@ -29,7 +29,7 @@ public interface NextwebEngine extends StartServerCapability {
     public FactoryCollection factories();
 
     /**
-     * Registry of simple services.
+     * Registry of services.
      * 
      */
     public ServiceRegistry services();
