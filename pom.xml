@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<groupId>io.nextweb.core</groupId>
 	<artifactId>nextweb-java</artifactId>
 	<version>0.3.6-SNAPSHOT</version>
@@ -24,9 +26,12 @@
 
 	<!-- Dependent Modules -->
 	<dependencies>
-		
-		
-		
+		<dependency>
+			<groupId>de.mxro.client</groupId>
+			<artifactId>client-api</artifactId>
+			<version>[0.0.1,)</version>
+		</dependency>
+
 		<dependency>
 			<groupId>io.nextweb.promise</groupId>
 			<artifactId>nextweb-promise</artifactId>
@@ -207,8 +212,8 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<delete file="${basedir}/META-INF/MANIFEST.MF"/>
-								<copy file="target/classes/META-INF/MANIFEST.MF" tofile="${basedir}/META-INF/MANIFEST.MF"/>
+								<delete file="${basedir}/META-INF/MANIFEST.MF" />
+								<copy file="target/classes/META-INF/MANIFEST.MF" tofile="${basedir}/META-INF/MANIFEST.MF" />
 							</tasks>
 						</configuration>
 					</execution>
