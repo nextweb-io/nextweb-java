@@ -38,18 +38,7 @@
 			<version>[0.0.1,)</version>
 		</dependency>
 
-		<dependency>
-			<groupId>de.mxro.factories</groupId>
-			<artifactId>factories</artifactId>
-			<version>0.0.3</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>de.mxro.service</groupId>
-			<artifactId>service-api</artifactId>
-			<version>0.0.3</version>
-		</dependency>
+		
 
 		<dependency>
 			<groupId>de.mxro.async.map</groupId>
