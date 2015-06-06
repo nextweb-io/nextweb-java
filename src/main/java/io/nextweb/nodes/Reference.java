@@ -11,6 +11,6 @@ public interface Reference {
 
     public String uri();
 
-    public String getSecret();
+    public String secret();
 
 }
