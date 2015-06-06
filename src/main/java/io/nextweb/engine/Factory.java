@@ -16,6 +16,9 @@ public interface Factory {
 
     public Bytes createBytes(Session session, byte[] data, String mimetype);
 
+    public Reference createReference(final Session session, final String uri, final String secret);
+
+    @Deprecated
     public Reference createPort(Session session, String uri, String secret);
 
     /**
