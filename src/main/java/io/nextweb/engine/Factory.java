@@ -16,6 +16,14 @@ public interface Factory {
 
     public Bytes createBytes(Session session, byte[] data, String mimetype);
 
+    /**
+     * Create a {@link Reference} to a node.
+     * 
+     * @param session
+     * @param uri
+     * @param secret
+     * @return
+     */
     public Reference createReference(final Session session, final String uri, final String secret);
 
     @Deprecated
