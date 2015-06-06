@@ -3,7 +3,7 @@ package io.nextweb.engine;
 import io.nextweb.Session;
 import io.nextweb.nodes.Bytes;
 import io.nextweb.nodes.Json;
-import io.nextweb.nodes.Port;
+import io.nextweb.nodes.Identity;
 import io.nextweb.nodes.Token;
 import io.nextweb.promise.NextwebOperation;
 import io.nextweb.promise.NextwebPromise;
@@ -16,7 +16,7 @@ public interface Factory {
 
     public Bytes createBytes(Session session, byte[] data, String mimetype);
 
-    public Port createPort(Session session, String uri, String secret);
+    public Identity createPort(Session session, String uri, String secret);
 
     /**
      * Valid authorizations: "write", "read", "readwrite"
