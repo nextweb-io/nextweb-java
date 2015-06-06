@@ -9,7 +9,7 @@ package io.nextweb.nodes;
  */
 public interface Identity {
 
-    public String getUri();
+    public String uri();
 
     public String getSecret();
 
