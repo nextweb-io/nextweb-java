@@ -6,6 +6,7 @@ import io.nextweb.Query;
 import io.nextweb.common.LocalServer;
 import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
+import io.nextweb.nodes.Reference;
 import io.nextweb.promise.NextwebPromise;
 import de.mxro.fn.Success;
 
@@ -81,6 +82,14 @@ public interface SessionOperations {
 
     @Deprecated
     public Link node(String uri, String secret);
+
+    /**
+     * Creates a resolvable link from a reference.
+     * 
+     * @param reference
+     * @return
+     */
+    public Link link(Reference reference);
 
     public Link link(Link link);
 
