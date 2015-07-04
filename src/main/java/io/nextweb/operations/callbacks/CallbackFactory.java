@@ -14,8 +14,8 @@ import io.nextweb.promise.exceptions.UnauthorizedException;
 import io.nextweb.promise.exceptions.UnauthorizedResult;
 import io.nextweb.promise.exceptions.UndefinedException;
 import io.nextweb.promise.exceptions.UndefinedResult;
-import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.fn.Closure;
+import delight.async.callbacks.ValueCallback;
 
 public class CallbackFactory {
 

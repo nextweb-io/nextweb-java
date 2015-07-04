@@ -12,8 +12,8 @@ import io.nextweb.promise.exceptions.ImpossibleListener;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.UnauthorizedListener;
 import io.nextweb.promise.exceptions.UndefinedListener;
-import de.mxro.async.callbacks.ValueCallback;
 import de.mxro.fn.Closure;
+import delight.async.callbacks.ValueCallback;
 
 public class BooleanResult implements BasicPromise<Boolean>, AllInterceptor<BooleanResult> {
 
