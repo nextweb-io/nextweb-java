@@ -1,5 +1,7 @@
 package io.nextweb.engine.fn;
 
+import delight.async.callbacks.ValueCallback;
+import delight.functional.Closure;
 import io.nextweb.Session;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.promise.BasicPromise;
@@ -12,8 +14,6 @@ import io.nextweb.promise.exceptions.ImpossibleListener;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
 import io.nextweb.promise.exceptions.UnauthorizedListener;
 import io.nextweb.promise.exceptions.UndefinedListener;
-import de.mxro.fn.Closure;
-import delight.async.callbacks.ValueCallback;
 
 public class BooleanResult implements BasicPromise<Boolean>, AllInterceptor<BooleanResult> {
 

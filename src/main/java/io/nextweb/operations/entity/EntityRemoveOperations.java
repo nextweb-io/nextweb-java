@@ -1,8 +1,8 @@
 package io.nextweb.operations.entity;
 
+import delight.functional.Success;
 import io.nextweb.Entity;
 import io.nextweb.promise.NextwebPromise;
-import de.mxro.fn.Success;
 
 public interface EntityRemoveOperations {
 

@@ -1,5 +1,7 @@
 package io.nextweb.operations.callbacks;
 
+import delight.async.callbacks.ValueCallback;
+import delight.functional.Closure;
 import io.nextweb.Entity;
 import io.nextweb.EntityList;
 import io.nextweb.LinkListQuery;
@@ -14,8 +16,6 @@ import io.nextweb.promise.exceptions.UnauthorizedException;
 import io.nextweb.promise.exceptions.UnauthorizedResult;
 import io.nextweb.promise.exceptions.UndefinedException;
 import io.nextweb.promise.exceptions.UndefinedResult;
-import de.mxro.fn.Closure;
-import delight.async.callbacks.ValueCallback;
 
 public class CallbackFactory {
 

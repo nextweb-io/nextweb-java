@@ -1,9 +1,9 @@
 package io.nextweb.engine;
 
+import de.mxro.client.Client;
 import io.nextweb.Session;
 import io.nextweb.common.SessionConfiguration;
 import io.nextweb.promise.exceptions.NextwebExceptionManager;
-import de.mxro.client.Client;
 
 public interface NextwebEngine extends StartServerCapability {
 

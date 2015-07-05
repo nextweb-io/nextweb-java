@@ -1,11 +1,10 @@
 package io.nextweb;
 
-import io.nextweb.operations.EntityListRequestOperations;
-
 import java.util.List;
 
-import de.mxro.fn.Closure;
-import de.mxro.fn.collections.ReadOnlyList;
+import delight.functional.Closure;
+import delight.functional.collections.ReadOnlyList;
+import io.nextweb.operations.EntityListRequestOperations;
 
 public interface LinkList extends EntityList, ReadOnlyList<Link>,
 		EntityListRequestOperations<LinkList> {

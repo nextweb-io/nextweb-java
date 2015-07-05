@@ -1,6 +1,6 @@
 package io.nextweb.common;
 
-import de.mxro.fn.Success;
+import delight.functional.Success;
 import io.nextweb.promise.NextwebPromise;
 
 public interface Monitor {

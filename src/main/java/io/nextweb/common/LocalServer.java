@@ -1,8 +1,8 @@
 package io.nextweb.common;
 
+import delight.functional.Success;
 import io.nextweb.engine.NextwebEngine;
 import io.nextweb.promise.NextwebPromise;
-import de.mxro.fn.Success;
 
 /**
  * A local server holding nodes and other data.

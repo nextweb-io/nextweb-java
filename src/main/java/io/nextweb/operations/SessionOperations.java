@@ -1,5 +1,6 @@
 package io.nextweb.operations;
 
+import delight.functional.Success;
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
@@ -8,7 +9,6 @@ import io.nextweb.common.LoginResult;
 import io.nextweb.common.Postbox;
 import io.nextweb.nodes.Reference;
 import io.nextweb.promise.NextwebPromise;
-import de.mxro.fn.Success;
 
 public interface SessionOperations {
 

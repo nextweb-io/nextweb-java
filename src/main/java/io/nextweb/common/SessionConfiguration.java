@@ -1,7 +1,7 @@
 package io.nextweb.common;
 
-import io.nextweb.engine.persistence.PersistenceConnection;
 import de.mxro.async.map.AsyncMap;
+import io.nextweb.engine.persistence.PersistenceConnection;
 
 public abstract class SessionConfiguration {
 
