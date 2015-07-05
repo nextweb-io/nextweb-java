@@ -2,6 +2,7 @@ package io.nextweb.engine.fn;
 
 import delight.async.callbacks.ValueCallback;
 import delight.functional.Closure;
+
 import io.nextweb.Session;
 import io.nextweb.operations.callbacks.CallbackFactory;
 import io.nextweb.promise.BasicPromise;

@@ -1,9 +1,10 @@
 package io.nextweb;
 
-import java.util.List;
-
 import delight.functional.Closure;
 import delight.functional.collections.ReadOnlyList;
+
+import java.util.List;
+
 import io.nextweb.operations.EntityListRequestOperations;
 
 public interface NodeList extends EntityList, ReadOnlyList<Node>,

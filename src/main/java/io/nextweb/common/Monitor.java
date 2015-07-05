@@ -1,6 +1,7 @@
 package io.nextweb.common;
 
 import delight.functional.Success;
+
 import io.nextweb.promise.NextwebPromise;
 
 public interface Monitor {

@@ -1,6 +1,7 @@
 package io.nextweb.operations;
 
 import delight.functional.Success;
+
 import io.nextweb.Link;
 import io.nextweb.Node;
 import io.nextweb.Query;
